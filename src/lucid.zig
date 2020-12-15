@@ -19,7 +19,7 @@ var spritePaletteShader: zia.gfx.Shader = undefined;
 
 var position: zia.math.Vector2 = .{};
 
-var index: i32 = 0;
+var bodyIndex: i32 = 0;
 
 pub fn main() !void {
     try zia.run(.{
@@ -40,6 +40,8 @@ fn init() !void {
     atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, texture, "assets/textures/test.json") catch unreachable;
 
     spritePaletteShader = shaders.createSpritePaletteShader() catch unreachable;
+
+    
 }
 
 fn update() !void {
@@ -54,7 +56,7 @@ fn render() !void {
     zia.gfx.draw.line(position, position.add(m_direction.normalized().scale(100)), 2, Color.red);
     zia.gfx.draw.line(position, position.add(k_direction.normalized().scale(100)), 2, Color.blue);
 
-    index = switch (m_direction.get()) {
+    bodyIndex = switch (m_direction.get()) {
         .S => 0,
         .SE => 1,
         .E => 2,
@@ -66,9 +68,16 @@ fn render() !void {
         else => 0,
     };
 
+    
     zia.gfx.setShader(&spritePaletteShader);
+   
     zia.gfx.draw.bindTexture(paletteTexture, 1);
-    zia.gfx.draw.sprite(atlas, index, position, .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(1, 0, 1, 255) });
+    zia.gfx.draw.sprite(atlas, bodyIndex, position, .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(6, 0, 2, 255) });
+
+    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = 30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(2, 0, 0, 255) });
+
+    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = -30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(2, 0, 4, 255) });
+
 
     zia.gfx.endPass();
 }

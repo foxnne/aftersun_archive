@@ -66,8 +66,9 @@ vec2 paletteCoords (vec4 base, vec4 vert) {
 }
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	vec4 base_color = texture(tex, tex_coord);
+	vec4 new_color = texture(palette_tex, paletteCoords(base_color, (vert_color * 255) / (textureSize(palette_tex, 0).y - 1)));
 
-	return texture(palette_tex, paletteCoords(base_color, vert_color)) * base_color.a * vert_color.a;
+	return new_color * base_color.a * vert_color.a;
 }
 @end
 

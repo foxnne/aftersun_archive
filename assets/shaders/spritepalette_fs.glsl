@@ -23,7 +23,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
 {
     vec4 _110 = texture(tex, tex_coord);
     vec4 param = _110;
-    vec4 param_1 = vert_color;
+    vec4 param_1 = (vert_color * 255.0) / vec4(float(textureSize(palette_tex, 0).y - 1));
     return (texture(palette_tex, paletteCoords(param, param_1)) * _110.w) * vert_color.w;
 }
 

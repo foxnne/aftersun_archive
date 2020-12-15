@@ -44,9 +44,9 @@ float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, 
 {
 #line 35 ""
     float4 _110 = tex.sample(texSmplr, tex_coord);
-#line 37 ""
+#line 36 ""
     float4 param = _110;
-    float4 param_1 = vert_color;
+    float4 param_1 = (vert_color * 255.0) / float4(float(int2(palette_tex.get_width(), palette_tex.get_height()).y - 1));
     return (palette_tex.sample(palette_texSmplr, paletteCoords(param, param_1)) * _110.w) * vert_color.w;
 }
 
