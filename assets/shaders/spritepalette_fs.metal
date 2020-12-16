@@ -24,31 +24,31 @@ int max3(thread const float3& channels)
     return int(fast::max(channels.z, fast::max(channels.y, channels.x)));
 }
 
-#line 24 ""
-static inline __attribute__((always_inline))
-float2 paletteCoord(thread const float4& base, thread const float4& vert)
-{
-#line 24 ""
-#line 28 ""
 #line 25 ""
-#line 26 ""
+static inline __attribute__((always_inline))
+float2 paletteCoord(thread const float3& base, thread const float3& vert)
+{
+#line 25 ""
+#line 32 ""
 #line 27 ""
-    float3 param = float3(fast::clamp((base.x * vert.x) * 65025.0, 0.0, 1.0), fast::clamp((base.y * vert.y) * 65025.0, 0.0, 1.0) * 2.0, fast::clamp((base.z * vert.z) * 65025.0, 0.0, 1.0) * 3.0);
-    int _100 = clamp(max3(param) - 1, 0, 2);
-    return float2(base[_100], vert[_100]);
+#line 29 ""
+#line 31 ""
+    float3 param = float3(fast::clamp((base.x * vert.x) * 65025.0, 0.0, 1.0) * 3.0, fast::clamp((base.y * vert.y) * 65025.0, 0.0, 1.0) * 2.0, fast::clamp((base.z * vert.z) * 65025.0, 0.0, 1.0));
+    uint _104 = uint3(2u, 1u, 0u)[clamp(max3(param) - 1, 0, 2)];
+    return float2(base[_104], vert[_104]);
 }
 
-#line 35 ""
+#line 39 ""
 static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> palette_tex, thread const sampler palette_texSmplr)
 {
-#line 35 ""
-    float4 _113 = tex.sample(texSmplr, tex_coord);
-#line 36 ""
-#line 37 ""
-    float4 param = _113;
-    float4 param_1 = (vert_color * 255.0) / float4(float(int2(palette_tex.get_width(), palette_tex.get_height()).y - 1));
-    return (palette_tex.sample(palette_texSmplr, paletteCoord(param, param_1)) * _113.w) * vert_color.w;
+#line 39 ""
+    float4 _117 = tex.sample(texSmplr, tex_coord);
+#line 40 ""
+#line 42 ""
+    float3 param = _117.zxy;
+    float3 param_1 = (vert_color.zxy * 255.0) / float3(float(int2(palette_tex.get_width(), palette_tex.get_height()).y - 1));
+    return (palette_tex.sample(palette_texSmplr, paletteCoord(param, param_1)) * _117.w) * vert_color.w;
 }
 
 #line 15 ""
