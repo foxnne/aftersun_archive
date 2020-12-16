@@ -72,11 +72,11 @@ fn render() !void {
     zia.gfx.setShader(&spritePaletteShader);
    
     zia.gfx.draw.bindTexture(paletteTexture, 1);
-    zia.gfx.draw.sprite(atlas, bodyIndex, position, .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(6, 0, 2, 255) });
+    zia.gfx.draw.sprite(atlas, bodyIndex, position, .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(5, 0, 1, 255) });
 
-    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = 30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(2, 0, 0, 255) });
+    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = 30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(4, 0, 2, 255) });
 
-    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = -30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(2, 0, 4, 255) });
+    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = -30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(3, 0, 0, 255) });
 
 
     zia.gfx.endPass();
