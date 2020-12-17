@@ -40,8 +40,6 @@ fn init() !void {
     atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, texture, "assets/textures/test.json") catch unreachable;
 
     spritePaletteShader = shaders.createSpritePaletteShader() catch unreachable;
-
-    
 }
 
 fn update() !void {
@@ -51,8 +49,8 @@ fn update() !void {
 }
 
 fn render() !void {
-    zia.gfx.beginPass(.{ .color = Color.zia, .trans_mat = camera.transMat()});
-    
+    zia.gfx.beginPass(.{ .color = Color.zia, .trans_mat = camera.transMat() });
+
     zia.gfx.draw.line(position, position.add(m_direction.normalized().scale(100)), 2, Color.red);
     zia.gfx.draw.line(position, position.add(k_direction.normalized().scale(100)), 2, Color.blue);
 
@@ -68,16 +66,24 @@ fn render() !void {
         else => 0,
     };
 
-    
     zia.gfx.setShader(&spritePaletteShader);
-   
+
     zia.gfx.draw.bindTexture(paletteTexture, 1);
-    zia.gfx.draw.sprite(atlas, bodyIndex, position, .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(5, 0, 1, 255) });
 
-    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = 30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(4, 0, 2, 255) });
+    zia.gfx.draw.sprite(atlas, bodyIndex, position, .{
+        .flipHorizontally = m_direction.flippedHorizontally(),
+        .color = zia.math.Color.fromBytes(5, 3, 0, 255),
+    });
 
-    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{.x = -30, .y = 0}), .{ .flipHorizontally = m_direction.flippedHorizontally(), .color = zia.math.Color.fromBytes(3, 0, 0, 255) });
+    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{ .x = 30, .y = 0 }), .{
+        .flipHorizontally = m_direction.flippedHorizontally(),
+        .color = zia.math.Color.fromBytes(4, 6, 2, 255),
+    });
 
+    zia.gfx.draw.sprite(atlas, bodyIndex, position.add(.{ .x = -30, .y = 0 }), .{
+        .flipHorizontally = m_direction.flippedHorizontally(),
+        .color = zia.math.Color.fromBytes(9, 2, 1, 255),
+    });
 
     zia.gfx.endPass();
 }

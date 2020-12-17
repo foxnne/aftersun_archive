@@ -33,9 +33,9 @@ float2 paletteCoord(thread const float3& base, thread const float3& vert)
 #line 27 ""
 #line 29 ""
 #line 31 ""
-    float3 param = float3(fast::clamp((base.x * vert.x) * 65025.0, 0.0, 1.0) * 3.0, fast::clamp((base.y * vert.y) * 65025.0, 0.0, 1.0) * 2.0, fast::clamp((base.z * vert.z) * 65025.0, 0.0, 1.0));
-    uint _104 = uint3(2u, 1u, 0u)[clamp(max3(param) - 1, 0, 2)];
-    return float2(base[_104], vert[_104]);
+    float3 param = float3(fast::clamp((base.x * vert.x) * 65025.0, 0.0, 1.0), fast::clamp((base.y * vert.y) * 65025.0, 0.0, 1.0) * 2.0, fast::clamp((base.z * vert.z) * 65025.0, 0.0, 1.0) * 3.0);
+    uint _99 = uint4(2u, 0u, 1u, 2u)[max3(param)];
+    return float2(base[_99], vert[_99]);
 }
 
 #line 39 ""
@@ -43,12 +43,12 @@ static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> palette_tex, thread const sampler palette_texSmplr)
 {
 #line 39 ""
-    float4 _117 = tex.sample(texSmplr, tex_coord);
+    float4 _112 = tex.sample(texSmplr, tex_coord);
 #line 40 ""
-#line 42 ""
-    float3 param = _117.zxy;
-    float3 param_1 = (vert_color.zxy * 255.0) / float3(float(int2(palette_tex.get_width(), palette_tex.get_height()).y - 1));
-    return (palette_tex.sample(palette_texSmplr, paletteCoord(param, param_1)) * _117.w) * vert_color.w;
+#line 41 ""
+    float3 param = _112.xyz;
+    float3 param_1 = (vert_color.xyz * 255.0) / float3(float(int2(palette_tex.get_width(), palette_tex.get_height()).y - 1));
+    return (palette_tex.sample(palette_texSmplr, paletteCoord(param, param_1)) * _112.w) * vert_color.w;
 }
 
 #line 15 ""

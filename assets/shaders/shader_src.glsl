@@ -50,29 +50,28 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 uniform sampler2D palette_tex;
 
 int max3 (vec3 channels) {
-	return int(max(channels.b, max (channels.g, channels.r)));
+	return int(max(channels.z, max (channels.y, channels.x)));
 }
 vec2 paletteCoord (vec3 base, vec3 vert) {
 	// blue overwrites green which overwrites red
 	// arranged such that if all are 0, order is respected
 	vec3 channels = vec3(
-		//b
-		clamp(base.x * vert.x * 65025, 0.0, 1.0) * 3,
+		//r
+		clamp(base.x * vert.x * 65025, 0.0, 1.0),
 		//g
 		clamp(base.y * vert.y * 65025, 0.0, 1.0) * 2,
-		//r
-		clamp(base.z * vert.z * 65025, 0.0, 1.0)
+		//b
+		clamp(base.z * vert.z * 65025, 0.0, 1.0) * 3
 	);
 
-	int index = clamp(max3(channels) - 1, 0, 2);
+	int index = max3(channels);
 
-	return vec2(base.bgr[index], vert.bgr[index]);
+	return vec2(base.brgb[index], vert.brgb[index]);
 }
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	vec4 base_color = texture(tex, tex_coord);
 	ivec2 palette_size = textureSize(palette_tex, 0);
-	// swizzle channels such that 0 is blue for transparency overwriting
-	vec2 palette_coord = paletteCoord(base_color.brg, (vert_color.brg * 255) / (palette_size.y - 1));
+	vec2 palette_coord = paletteCoord(base_color.rgb, (vert_color.rgb * 255) / (palette_size.y - 1));
 	vec4 palette_color = texture(palette_tex, palette_coord);
 
 	return palette_color * base_color.a * vert_color.a;
