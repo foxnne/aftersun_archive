@@ -1,12 +1,77 @@
 {
     "sprites": [
         {
-            "name": "Female_Base_New_RotationClothed_3.png",
+            "name": "Body_RotationClothed_0.png",
             "source": {
                 "x": 58,
                 "y": 0,
                 "width": 14,
-                "height": 51
+                "height": 41
+            },
+            "origin": {
+                "x": 7,
+                "y": 35
+            }
+        },
+        {
+            "name": "Body_RotationClothed_1.png",
+            "source": {
+                "x": 44,
+                "y": 0,
+                "width": 14,
+                "height": 41
+            },
+            "origin": {
+                "x": 7,
+                "y": 35
+            }
+        },
+        {
+            "name": "Body_RotationClothed_2.png",
+            "source": {
+                "x": 30,
+                "y": 0,
+                "width": 14,
+                "height": 41
+            },
+            "origin": {
+                "x": 7,
+                "y": 35
+            }
+        },
+        {
+            "name": "Body_RotationClothed_3.png",
+            "source": {
+                "x": 0,
+                "y": 0,
+                "width": 15,
+                "height": 42
+            },
+            "origin": {
+                "x": 7,
+                "y": 36
+            }
+        },
+        {
+            "name": "Body_RotationClothed_4.png",
+            "source": {
+                "x": 15,
+                "y": 0,
+                "width": 15,
+                "height": 42
+            },
+            "origin": {
+                "x": 7,
+                "y": 36
+            }
+        },
+        {
+            "name": "Head_RotationClothed_0.png",
+            "source": {
+                "x": 105,
+                "y": 0,
+                "width": 12,
+                "height": 14
             },
             "origin": {
                 "x": 7,
@@ -14,54 +79,54 @@
             }
         },
         {
-            "name": "Female_Base_New_RotationClothed_4.png",
+            "name": "Head_RotationClothed_1.png",
             "source": {
-                "x": 44,
+                "x": 117,
                 "y": 0,
-                "width": 14,
-                "height": 51
+                "width": 11,
+                "height": 12
             },
             "origin": {
-                "x": 8,
+                "x": 5,
                 "y": 45
             }
         },
         {
-            "name": "Female_Base_New_RotationClothed_5.png",
+            "name": "Head_RotationClothed_2.png",
             "source": {
-                "x": 30,
+                "x": 83,
                 "y": 0,
-                "width": 14,
-                "height": 51
+                "width": 11,
+                "height": 17
             },
             "origin": {
-                "x": 8,
+                "x": 5,
                 "y": 45
             }
         },
         {
-            "name": "Female_Base_New_RotationClothed_6.png",
+            "name": "Head_RotationClothed_3.png",
             "source": {
-                "x": 0,
+                "x": 72,
                 "y": 0,
-                "width": 15,
-                "height": 51
+                "width": 11,
+                "height": 17
             },
             "origin": {
-                "x": 8,
+                "x": 6,
                 "y": 45
             }
         },
         {
-            "name": "Female_Base_New_RotationClothed_7.png",
+            "name": "Head_RotationClothed_4.png",
             "source": {
-                "x": 15,
+                "x": 94,
                 "y": 0,
-                "width": 15,
-                "height": 51
+                "width": 11,
+                "height": 16
             },
             "origin": {
-                "x": 8,
+                "x": 6,
                 "y": 45
             }
         }
