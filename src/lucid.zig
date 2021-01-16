@@ -50,7 +50,7 @@ fn init() !void {
 fn update() !void {
     keyboard_direction = Direction.write(zia.input.keyDown(.w), zia.input.keyDown(.s), zia.input.keyDown(.a), zia.input.keyDown(.d));
     body_direction = keyboard_direction;
-    position = position.add(keyboard_direction.normalized().scale(2 * zia.time.dt()));
+    position = position.add(keyboard_direction.normalized().scale(20 * zia.time.rawDeltaTime()));
 
     mouse_position = camera.screenToWorld(zia.input.mousePos());
     mouse_direction = Direction.find(8, mouse_position.x - position.x, mouse_position.y - position.y);
