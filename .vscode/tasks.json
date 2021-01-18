@@ -141,6 +141,18 @@
             }
         },
         {
+            "label": "Process Assets",
+            "type": "shell",
+            "command": "zig build process-assets",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
             "label": "apitrace run executable",
             "type": "shell",
             "command": "apitrace",

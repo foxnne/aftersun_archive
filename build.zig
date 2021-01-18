@@ -9,6 +9,8 @@ const zia_build = @import("src/deps/zia/build.zig");
 
 const ShaderCompileStep = @import("src/deps/zia/src/deps/renderkit/build.zig").ShaderCompileStep;
 
+const ProcessAssetsStep = @import("src/deps/zia/src/utils/process_assets.zig").ProcessAssetsStep;
+
 pub fn build(b: *Builder) !void {
     const target = b.standardTargetOptions(.{});
     const mode = b.standardReleaseOptions();
@@ -35,6 +37,12 @@ pub fn build(b: *Builder) !void {
     const comple_shaders_step = b.step("compile-shaders", "compiles all shaders");
     b.default_step.dependOn(comple_shaders_step);
     comple_shaders_step.dependOn(&res.step);
+
+    const assets = ProcessAssetsStep.init(b, "assets", "src/assets.zig");
+
+    const process_assets_step = b.step("process-assets", "generates struct for all assets");
+    b.default_step.dependOn(process_assets_step);
+    process_assets_step.dependOn(&assets.step);
 }
 
 fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []const u8) *std.build.LibExeObjStep {

@@ -3,6 +3,7 @@ const zia = @import("zia");
 const imgui = @import("imgui");
 const Color = zia.math.Color;
 const Direction = zia.math.Direction;
+const assets = @import("assets.zig");
 
 const shaders = @import("shaders.zig");
 
@@ -36,9 +37,9 @@ pub fn main() !void {
 }
 
 fn init() !void {
-    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, "assets/textures/palettes/character.png", .nearest) catch unreachable;
-    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, "assets/textures/test.png", .nearest) catch unreachable;
-    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, "assets/textures/test.json") catch unreachable;
+    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
+    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.test_png.path, .nearest) catch unreachable;
+    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.test_atlas.path) catch unreachable;
 
     camera = zia.utils.Camera.init();
     const size = zia.window.size();
@@ -68,27 +69,27 @@ fn render() !void {
     zia.gfx.setShader(&spritePaletteShader);
 
     bodyIndex = switch (body_direction) {
-        .S => atlas.indexOf("Body_RotationClothed_0.png") catch unreachable,
-        .SE => atlas.indexOf("Body_RotationClothed_1.png") catch unreachable,
-        .E => atlas.indexOf("Body_RotationClothed_2.png") catch unreachable,
-        .NE => atlas.indexOf("Body_RotationClothed_3.png") catch unreachable,
-        .N => atlas.indexOf("Body_RotationClothed_4.png") catch unreachable,
-        .NW => atlas.indexOf("Body_RotationClothed_3.png") catch unreachable,
-        .W => atlas.indexOf("Body_RotationClothed_2.png") catch unreachable,
-        .SW => atlas.indexOf("Body_RotationClothed_1.png") catch unreachable,
-        else => atlas.indexOf("Body_RotationClothed_0.png") catch unreachable,
+        .S => assets.test_atlas.Body_RotationClothed_0,
+        .SE => assets.test_atlas.Body_RotationClothed_1,
+        .E => assets.test_atlas.Body_RotationClothed_2,
+        .NE => assets.test_atlas.Body_RotationClothed_3,
+        .N => assets.test_atlas.Body_RotationClothed_4,
+        .NW => assets.test_atlas.Body_RotationClothed_3,
+        .W => assets.test_atlas.Body_RotationClothed_2,
+        .SW => assets.test_atlas.Body_RotationClothed_1,
+        else => assets.test_atlas.Body_RotationClothed_0,
     };
 
     headIndex = switch (head_direction) {
-        .S => atlas.indexOf("Head_RotationClothed_0.png") catch unreachable,
-        .SE => atlas.indexOf("Head_RotationClothed_1.png") catch unreachable,
-        .E => atlas.indexOf("Head_RotationClothed_2.png") catch unreachable,
-        .NE => atlas.indexOf("Head_RotationClothed_3.png") catch unreachable,
-        .N => atlas.indexOf("Head_RotationClothed_4.png") catch unreachable,
-        .NW => atlas.indexOf("Head_RotationClothed_3.png") catch unreachable,
-        .W => atlas.indexOf("Head_RotationClothed_2.png") catch unreachable,
-        .SW => atlas.indexOf("Head_RotationClothed_1.png") catch unreachable,
-        else => atlas.indexOf("Head_RotationClothed_0.png") catch unreachable,
+        .S => assets.test_atlas.Head_RotationClothed_0,
+        .SE => assets.test_atlas.Head_RotationClothed_1,
+        .E => assets.test_atlas.Head_RotationClothed_2,
+        .NE => assets.test_atlas.Head_RotationClothed_3,
+        .N => assets.test_atlas.Head_RotationClothed_4,
+        .NW => assets.test_atlas.Head_RotationClothed_3,
+        .W => assets.test_atlas.Head_RotationClothed_2,
+        .SW => assets.test_atlas.Head_RotationClothed_1,
+        else => assets.test_atlas.Head_RotationClothed_0,
     };
 
     zia.gfx.draw.sprite(atlas.sprites[bodyIndex], texture, position.add(.{ .x = -30, .y = 0 }), .{
