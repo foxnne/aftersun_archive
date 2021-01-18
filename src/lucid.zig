@@ -3,8 +3,9 @@ const zia = @import("zia");
 const imgui = @import("imgui");
 const Color = zia.math.Color;
 const Direction = zia.math.Direction;
-const assets = @import("assets.zig");
 
+// generated
+const assets = @import("assets.zig");
 const shaders = @import("shaders.zig");
 
 var camera: zia.utils.Camera = undefined;
@@ -37,9 +38,9 @@ pub fn main() !void {
 }
 
 fn init() !void {
-    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
-    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.test_png.path, .nearest) catch unreachable;
-    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.test_atlas.path) catch unreachable;
+    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.characterpalette_png.path, .nearest) catch unreachable;
+    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
+    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.character_atlas.path) catch unreachable;
 
     camera = zia.utils.Camera.init();
     const size = zia.window.size();
@@ -69,27 +70,27 @@ fn render() !void {
     zia.gfx.setShader(&spritePaletteShader);
 
     bodyIndex = switch (body_direction) {
-        .S => assets.test_atlas.Body_RotationClothed_0,
-        .SE => assets.test_atlas.Body_RotationClothed_1,
-        .E => assets.test_atlas.Body_RotationClothed_2,
-        .NE => assets.test_atlas.Body_RotationClothed_3,
-        .N => assets.test_atlas.Body_RotationClothed_4,
-        .NW => assets.test_atlas.Body_RotationClothed_3,
-        .W => assets.test_atlas.Body_RotationClothed_2,
-        .SW => assets.test_atlas.Body_RotationClothed_1,
-        else => assets.test_atlas.Body_RotationClothed_0,
+        .S => assets.character_atlas.Body_RotationClothed_0,
+        .SE => assets.character_atlas.Body_RotationClothed_1,
+        .E => assets.character_atlas.Body_RotationClothed_2,
+        .NE => assets.character_atlas.Body_RotationClothed_3,
+        .N => assets.character_atlas.Body_RotationClothed_4,
+        .NW => assets.character_atlas.Body_RotationClothed_3,
+        .W => assets.character_atlas.Body_RotationClothed_2,
+        .SW => assets.character_atlas.Body_RotationClothed_1,
+        else => assets.character_atlas.Body_RotationClothed_0,
     };
 
     headIndex = switch (head_direction) {
-        .S => assets.test_atlas.Head_RotationClothed_0,
-        .SE => assets.test_atlas.Head_RotationClothed_1,
-        .E => assets.test_atlas.Head_RotationClothed_2,
-        .NE => assets.test_atlas.Head_RotationClothed_3,
-        .N => assets.test_atlas.Head_RotationClothed_4,
-        .NW => assets.test_atlas.Head_RotationClothed_3,
-        .W => assets.test_atlas.Head_RotationClothed_2,
-        .SW => assets.test_atlas.Head_RotationClothed_1,
-        else => assets.test_atlas.Head_RotationClothed_0,
+        .S => assets.character_atlas.Head_RotationClothed_0,
+        .SE => assets.character_atlas.Head_RotationClothed_1,
+        .E => assets.character_atlas.Head_RotationClothed_2,
+        .NE => assets.character_atlas.Head_RotationClothed_3,
+        .N => assets.character_atlas.Head_RotationClothed_4,
+        .NW => assets.character_atlas.Head_RotationClothed_3,
+        .W => assets.character_atlas.Head_RotationClothed_2,
+        .SW => assets.character_atlas.Head_RotationClothed_1,
+        else => assets.character_atlas.Head_RotationClothed_0,
     };
 
     zia.gfx.draw.sprite(atlas.sprites[bodyIndex], texture, position.add(.{ .x = -30, .y = 0 }), .{

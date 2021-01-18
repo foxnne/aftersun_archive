@@ -1,7 +1,7 @@
 const std = @import("std");
 
-pub const test_atlas = struct {
-  pub const path = "assets/textures/test.atlas";
+pub const character_atlas = struct {
+  pub const path = "assets/textures/character.atlas";
   pub const Body_RotationClothed_0 = 0;
   pub const Body_RotationClothed_1 = 1;
   pub const Body_RotationClothed_2 = 2;
@@ -14,11 +14,11 @@ pub const test_atlas = struct {
   pub const Head_RotationClothed_4 = 9;
 };
 
-pub const test_png = struct {
-  pub const path = "assets/textures/test.png";
+pub const character_png = struct {
+  pub const path = "assets/textures/character.png";
 };
 
-pub const character_png = struct {
-  pub const path = "assets/textures/palettes/character.png";
+pub const characterpalette_png = struct {
+  pub const path = "assets/textures/palettes/characterpalette.png";
 };
 
