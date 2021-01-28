@@ -20,17 +20,6 @@ var character_texture: zia.gfx.Texture = undefined;
 var character_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 
-// generic components
-const Position = components.Position;
-const Velocity = components.Velocity;
-const SpriteRenderer = components.SpriteRenderer;
-const Color = components.Color;
-const Animator = components.Animator;
-
-// custom components
-const CharacterInput = components.CharacterInput;
-const BodyDirection = components.BodyDirection;
-
 var world: flecs.World = undefined;
 var player: flecs.Entity = undefined;
 
@@ -58,19 +47,21 @@ fn init() !void {
     world = flecs.World.init();
 
     // register components
-    const e_position = world.newComponent(Position);
-    const e_velocity = world.newComponent(Velocity);
-    const e_sprite_renderer = world.newComponent(SpriteRenderer);
-    const e_color = world.newComponent(Color);
-    const e_animator = world.newComponent(Animator);
+    const e_position = world.newComponent(components.Position);
+    const e_velocity = world.newComponent(components.Velocity);
+    const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
+    const e_color = world.newComponent(components.Color);
+    const e_animator = world.newComponent(components.SpriteAnimator);
 
-    const e_body_direction = world.newComponent(BodyDirection);
-    const e_movement_input = world.newComponent(CharacterInput);
+    const e_character_renderer = world.newComponent(components.CharacterRenderer);
+    const e_character_animator = world.newComponent(components.CharacterAnimator);
+    const e_body_direction = world.newComponent(components.BodyDirection);
+    const e_character_input = world.newComponent(components.CharacterInput);
 
     world.newSystem("CharacterInputSystem", flecs.Phase.on_update, "CharacterInput", @import("ecs/systems/characterinput.zig").process);
     world.newSystem("CharacterVelocitySystem", flecs.Phase.on_update, "Position, Velocity, CharacterInput", @import("ecs/systems/charactervelocity.zig").process);
-    world.newSystem("CharacterDirectionSystem", flecs.Phase.on_update, "Animator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characterdirection.zig").process);
-    world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "Animator, SpriteRenderer", @import("ecs/systems/characteranimation.zig").process);
+    world.newSystem("CharacterDirectionSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characterdirection.zig").process);
+    world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/characteranimation.zig").process);
 
     // collect renderers
     renderQuery = flecs.ecs_query_new(world.world, "Position, SpriteRenderer, ?Color");
@@ -82,28 +73,29 @@ fn init() !void {
 
     player = flecs.ecs_new_w_type(world.world, 0);
     world.setName(player, "Player");
-    world.set(player, &Position{ .x = 0, .y = 0 });
-    world.set(player, &Velocity{ .x = 0, .y = 0 });
-    world.set(player, &SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
-    world.set(player, &Color{ .color = zia.math.Color.white });
-    world.set(player, &Animator{ .animation = animations.walk_S, .state = .play });
-    world.set(player, &CharacterInput{});
-    world.set(player, &BodyDirection{});
+    world.set(player, &components.Position{ .x = 0, .y = 0 , .z = 0});
+    world.set(player, &components.Velocity{ .x = 0, .y = 0 });
+    world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+    world.set(player, &components.Color{ .color = zia.math.Color.white });
+    world.set(player, &components.SpriteAnimator{ .animation = animations.walk_S, .state = .play });
+    world.set(player, &components.CharacterInput{});
+    world.set(player, &components.BodyDirection{});
 
     var other = flecs.ecs_new_w_type(world.world, 0);
     world.setName(other, "Other");
-    world.set(other, &Position{ .x = 60, .y = 0 });
-    world.set(other, &SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+    world.set(other, &components.Position{ .x = 60, .y = 0 });
+    world.set(other, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
 
     var third = flecs.ecs_new_w_type(world.world, 0);
     world.setName(third, "Third");
-    world.set(third, &Position{ .x = -60, .y = 0 });
-    world.set(third, &SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_N_0 });
-    world.set(third, &Color{ .color = zia.math.Color.red });
+    world.set(third, &components.Position{ .x = -60, .y = 0 });
+    world.set(third, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_N_0 });
+    world.set(third, &components.Color{ .color = zia.math.Color.red });
 }
 
 fn update() !void {
     world.progress(zia.time.dt());
+    
 }
 
 fn postUpdate(it: *flecs.ecs_iter_t) callconv(.C) void {

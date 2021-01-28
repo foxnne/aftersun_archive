@@ -5,17 +5,11 @@ const components = @import("../components/components.zig");
 
 const animations = @import("../../animations.zig");
 
-const Animator = components.Animator;
-const SpriteRenderer = components.SpriteRenderer;
-const Velocity = components.Velocity;
-
-const BodyDirection = components.BodyDirection;
-
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var animators = it.column(Animator, 1);
-    var renderers = it.column(SpriteRenderer, 2);
-    var velocities = it.column(Velocity, 3);
-    var directions = it.column(BodyDirection, 4);
+    var animators = it.column(components.SpriteAnimator, 1);
+    var renderers = it.column(components.SpriteRenderer, 2);
+    var velocities = it.column(components.Velocity, 3);
+    var directions = it.column(components.BodyDirection, 4);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

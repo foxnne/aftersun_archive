@@ -3,14 +3,10 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const components = @import("../components/components.zig");
 
-const Position = components.Position;
-const Velocity = components.Velocity;
-const CharacterInput = components.CharacterInput;
-
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var positions = it.column(Position, 1);
-    var velocities = it.column(Velocity, 2);
-    var inputs = it.column(CharacterInput, 3);
+    var positions = it.column(components.Position, 1);
+    var velocities = it.column(components.Velocity, 2);
+    var inputs = it.column(components.CharacterInput, 3);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

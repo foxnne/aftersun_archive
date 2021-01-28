@@ -9,6 +9,6 @@ pub fn sortY(e1: flecs.ecs_entity_t, p1: ?*c_void, e2: flecs.ecs_entity_t, p2: ?
     if (pos1.z == pos2.z) {
         return @boolToInt(pos1.y > pos2.y);
     } else {
-        return @boolToInt(pos1.z < pos2.z);
+        return @boolToInt(pos1.z > pos2.z);
     }
 }

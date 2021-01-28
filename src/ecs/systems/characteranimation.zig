@@ -3,16 +3,13 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const components = @import("../components/components.zig");
 
-const Animator = components.Animator;
-const SpriteRenderer = components.SpriteRenderer;
-
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var animators = it.column(Animator, 1);
-    var renderers = it.column(SpriteRenderer, 2);
+    var animators = it.column(components.SpriteAnimator, 1);
+    var renderers = it.column(components.SpriteRenderer, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        if (animators[i].state == Animator.State.play) {
+        if (animators[i].state == components.SpriteAnimator.State.play) {
             animators[i].elapsed += zia.time.dt();
 
             if (animators[i].elapsed > (1 / @intToFloat(f32, animators[i].fps))) {
