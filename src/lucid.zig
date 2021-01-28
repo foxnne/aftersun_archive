@@ -1,131 +1,120 @@
 const std = @import("std");
 const zia = @import("zia");
-const imgui = @import("imgui");
-const Color = zia.math.Color;
-const Direction = zia.math.Direction;
+const flecs = @import("flecs");
 
 // generated
 const assets = @import("assets.zig");
 const shaders = @import("shaders.zig");
 
+// manual
+const animations = @import("animations.zig");
+
+const components = @import("ecs/components/components.zig");
+const sorters = @import("ecs/sorters/sorters.zig");
+const actions = @import("ecs/actions/actions.zig");
+
 var camera: zia.utils.Camera = undefined;
 
-var mouse_direction: Direction = .None;
-var keyboard_direction: Direction = .None;
+var character_palette: zia.gfx.Texture = undefined;
+var character_texture: zia.gfx.Texture = undefined;
+var character_atlas: zia.gfx.Atlas = undefined;
+var character_shader: zia.gfx.Shader = undefined;
 
-var body_direction: Direction = .S;
-var head_direction: Direction = .S;
+// generic components
+const Position = components.Position;
+const Velocity = components.Velocity;
+const SpriteRenderer = components.SpriteRenderer;
+const Color = components.Color;
+const Animator = components.Animator;
 
-var palette: zia.gfx.Texture = undefined;
-var texture: zia.gfx.Texture = undefined;
-var atlas: zia.gfx.Atlas = undefined;
+// custom components
+const CharacterInput = components.CharacterInput;
+const BodyDirection = components.BodyDirection;
 
-var spritePaletteShader: zia.gfx.Shader = undefined;
+var world: flecs.World = undefined;
+var player: flecs.Entity = undefined;
 
-var position: zia.math.Vector2 = .{};
-var mouse_position: zia.math.Vector2 = .{};
-
-var bodyIndex: usize = 0;
-var headIndex: usize = 0;
+var renderQuery: ?*flecs.ecs_query_t = undefined;
 
 pub fn main() !void {
     try zia.run(.{
         .init = init,
         .update = update,
-        .render = render,
+        //.render = render,
         .shutdown = shutdown,
     });
 }
 
 fn init() !void {
-    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.characterpalette_png.path, .nearest) catch unreachable;
-    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
-    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.character_atlas.path) catch unreachable;
+    // load textures, atlases and shaders
+    character_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.characterpalette_png.path, .nearest) catch unreachable;
+    character_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
+    character_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.character_atlas.path) catch unreachable;
+    character_shader = shaders.createSpritePaletteShader() catch unreachable;
 
     camera = zia.utils.Camera.init();
-    const size = zia.window.size();
     camera.zoom = 3;
 
-    spritePaletteShader = shaders.createSpritePaletteShader() catch unreachable;
+    world = flecs.World.init();
+
+    // register components
+    const e_position = world.newComponent(Position);
+    const e_velocity = world.newComponent(Velocity);
+    const e_sprite_renderer = world.newComponent(SpriteRenderer);
+    const e_color = world.newComponent(Color);
+    const e_animator = world.newComponent(Animator);
+
+    const e_body_direction = world.newComponent(BodyDirection);
+    const e_movement_input = world.newComponent(CharacterInput);
+
+    world.newSystem("CharacterInputSystem", flecs.Phase.on_update, "CharacterInput", @import("ecs/systems/characterinput.zig").process);
+    world.newSystem("CharacterVelocitySystem", flecs.Phase.on_update, "Position, Velocity, CharacterInput", @import("ecs/systems/charactervelocity.zig").process);
+    world.newSystem("CharacterDirectionSystem", flecs.Phase.on_update, "Animator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characterdirection.zig").process);
+    world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "Animator, SpriteRenderer", @import("ecs/systems/characteranimation.zig").process);
+
+    // collect renderers
+    renderQuery = flecs.ecs_query_new(world.world, "Position, SpriteRenderer, ?Color");
+    // sort renderers
+    flecs.ecs_query_order_by(world.world, renderQuery, e_position, sorters.sortY);
+
+    // empty system to call function for render query
+    world.newSystem("post_update", flecs.Phase.post_update, "", postUpdate);
+
+    player = flecs.ecs_new_w_type(world.world, 0);
+    world.setName(player, "Player");
+    world.set(player, &Position{ .x = 0, .y = 0 });
+    world.set(player, &Velocity{ .x = 0, .y = 0 });
+    world.set(player, &SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+    world.set(player, &Color{ .color = zia.math.Color.white });
+    world.set(player, &Animator{ .animation = animations.walk_S, .state = .play });
+    world.set(player, &CharacterInput{});
+    world.set(player, &BodyDirection{});
+
+    var other = flecs.ecs_new_w_type(world.world, 0);
+    world.setName(other, "Other");
+    world.set(other, &Position{ .x = 60, .y = 0 });
+    world.set(other, &SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+
+    var third = flecs.ecs_new_w_type(world.world, 0);
+    world.setName(third, "Third");
+    world.set(third, &Position{ .x = -60, .y = 0 });
+    world.set(third, &SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_N_0 });
+    world.set(third, &Color{ .color = zia.math.Color.red });
 }
 
 fn update() !void {
-    keyboard_direction = Direction.write(zia.input.keyDown(.w), zia.input.keyDown(.s), zia.input.keyDown(.a), zia.input.keyDown(.d));
-    body_direction = keyboard_direction;
-    position = position.add(keyboard_direction.normalized().scale(20 * zia.time.rawDeltaTime()));
-
-    mouse_position = camera.screenToWorld(zia.input.mousePos());
-    mouse_direction = Direction.find(8, mouse_position.x - position.x, mouse_position.y - position.y);
-    head_direction = mouse_direction;
+    world.progress(zia.time.dt());
 }
 
-fn render() !void {
-    zia.gfx.beginPass(.{ .color = Color.zia, .trans_mat = camera.transMat() });
-
-    zia.gfx.draw.line(position, position.add(body_direction.normalized().scale(100)), 2, Color.red);
-    zia.gfx.draw.line(position, position.add(head_direction.normalized().scale(100)), 2, Color.blue);
-
-    zia.gfx.draw.bindTexture(palette, 1);
-
-    zia.gfx.setShader(&spritePaletteShader);
-
-    bodyIndex = switch (body_direction) {
-        .S => assets.character_atlas.Body_RotationClothed_0,
-        .SE => assets.character_atlas.Body_RotationClothed_1,
-        .E => assets.character_atlas.Body_RotationClothed_2,
-        .NE => assets.character_atlas.Body_RotationClothed_3,
-        .N => assets.character_atlas.Body_RotationClothed_4,
-        .NW => assets.character_atlas.Body_RotationClothed_3,
-        .W => assets.character_atlas.Body_RotationClothed_2,
-        .SW => assets.character_atlas.Body_RotationClothed_1,
-        else => assets.character_atlas.Body_RotationClothed_0,
-    };
-
-    headIndex = switch (head_direction) {
-        .S => assets.character_atlas.Head_RotationClothed_0,
-        .SE => assets.character_atlas.Head_RotationClothed_1,
-        .E => assets.character_atlas.Head_RotationClothed_2,
-        .NE => assets.character_atlas.Head_RotationClothed_3,
-        .N => assets.character_atlas.Head_RotationClothed_4,
-        .NW => assets.character_atlas.Head_RotationClothed_3,
-        .W => assets.character_atlas.Head_RotationClothed_2,
-        .SW => assets.character_atlas.Head_RotationClothed_1,
-        else => assets.character_atlas.Head_RotationClothed_0,
-    };
-
-    zia.gfx.draw.sprite(atlas.sprites[bodyIndex], texture, position.add(.{ .x = -30, .y = 0 }), .{
-        .flipHorizontally = body_direction.flippedHorizontally(),
-        .color = zia.math.Color.fromBytes(9, 0, 2, 255),
-    });
-    zia.gfx.draw.sprite(atlas.sprites[headIndex], texture, position.add(.{ .x = -30, .y = 0 }), .{
-        .flipHorizontally = head_direction.flippedHorizontally(),
-        .color = zia.math.Color.fromBytes(9, 0, 1, 255),
-    });
-
-    zia.gfx.draw.sprite(atlas.sprites[bodyIndex], texture, position, .{
-        .flipHorizontally = body_direction.flippedHorizontally(),
-        .color = zia.math.Color.fromBytes(5, 3, 0, 255),
-    });
-    zia.gfx.draw.sprite(atlas.sprites[headIndex], texture, position, .{
-        .flipHorizontally = head_direction.flippedHorizontally(),
-        .color = zia.math.Color.fromBytes(5, 0, 0, 255),
-    });
-
-    zia.gfx.draw.sprite(atlas.sprites[bodyIndex], texture, position.add(.{ .x = 30, .y = 0 }), .{
-        .flipHorizontally = body_direction.flippedHorizontally(),
-        .color = zia.math.Color.fromBytes(4, 6, 3, 255),
-    });
-    zia.gfx.draw.sprite(atlas.sprites[headIndex], texture, position.add(.{ .x = 30, .y = 0 }), .{
-        .flipHorizontally = head_direction.flippedHorizontally(),
-        .color = zia.math.Color.fromBytes(4, 0, 2, 255),
-    });
-
+fn postUpdate(it: *flecs.ecs_iter_t) callconv(.C) void {
+    zia.gfx.beginPass(.{ .trans_mat = camera.transMat() });
+    actions.render(renderQuery);
     zia.gfx.endPass();
 }
 
 fn shutdown() !void {
-    //atlas.deinit();
-    texture.deinit();
-    palette.deinit();
-    spritePaletteShader.deinit();
+    world.deinit();
+    character_texture.deinit();
+    character_palette.deinit();
+    character_shader.deinit();
 }
