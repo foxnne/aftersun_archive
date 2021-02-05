@@ -13,8 +13,6 @@ const components = @import("ecs/components/components.zig");
 const sorters = @import("ecs/sorters/sorters.zig");
 const actions = @import("ecs/actions/actions.zig");
 
-var camera: zia.utils.Camera = undefined;
-
 var character_palette: zia.gfx.Texture = undefined;
 var character_texture: zia.gfx.Texture = undefined;
 var character_atlas: zia.gfx.Atlas = undefined;
@@ -22,67 +20,65 @@ var character_shader: zia.gfx.Shader = undefined;
 
 var world: flecs.World = undefined;
 var player: flecs.Entity = undefined;
-
-var renderQuery: ?*flecs.ecs_query_t = undefined;
+var camera: flecs.Entity = undefined;
 
 pub fn main() !void {
     try zia.run(.{
         .init = init,
         .update = update,
-        //.render = render,
         .shutdown = shutdown,
+        .window = .{ .title = "Lucid" },
     });
 }
 
 fn init() !void {
+
     // load textures, atlases and shaders
     character_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.characterpalette_png.path, .nearest) catch unreachable;
     character_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
     character_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.character_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
 
-    camera = zia.utils.Camera.init();
-    camera.zoom = 3;
-
     world = flecs.World.init();
 
     // register components
     const e_position = world.newComponent(components.Position);
     const e_velocity = world.newComponent(components.Velocity);
+    const e_camera = world.newComponent(components.Camera);
     const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
     const e_color = world.newComponent(components.Color);
     const e_animator = world.newComponent(components.SpriteAnimator);
 
-    const e_character_renderer = world.newComponent(components.CharacterRenderer);
-    const e_character_animator = world.newComponent(components.CharacterAnimator);
+    const e_composite_renderer = world.newComponent(components.CompositeRenderer);
+    const e_composite_animator = world.newComponent(components.CompositeAnimator);
     const e_body_direction = world.newComponent(components.BodyDirection);
     const e_character_input = world.newComponent(components.CharacterInput);
 
     world.newSystem("CharacterInputSystem", flecs.Phase.on_update, "CharacterInput", @import("ecs/systems/characterinput.zig").process);
     world.newSystem("CharacterVelocitySystem", flecs.Phase.on_update, "Position, Velocity, CharacterInput", @import("ecs/systems/charactervelocity.zig").process);
     world.newSystem("CharacterDirectionSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characterdirection.zig").process);
-    world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/characteranimation.zig").process);
+    world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").process);
 
-    // collect renderers
-    renderQuery = flecs.ecs_query_new(world.world, "Position, SpriteRenderer, ?Color");
-    // sort renderers
-    flecs.ecs_query_order_by(world.world, renderQuery, e_position, sorters.sortY);
+    // creates render passes per camera
+    world.newSystem("CameraRenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/camera.zig").process);
 
-    // empty system to call function for render query
-    world.newSystem("post_update", flecs.Phase.post_update, "", postUpdate);
+    camera = flecs.ecs_new_w_type(world.world, 0);
+    world.setName(camera, "Camera");
+    world.set(camera, &components.Camera{ .zoom = 1, .design_w = 640, .design_h = 360 });
+    world.set(camera, &components.Position{ .x = 0, .y = 0 });
 
     player = flecs.ecs_new_w_type(world.world, 0);
     world.setName(player, "Player");
-    world.set(player, &components.Position{ .x = 0, .y = 0 , .z = 0});
+    world.set(player, &components.Position{ .x = 0, .y = 0, .z = 0 });
     world.set(player, &components.Velocity{ .x = 0, .y = 0 });
-    world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
     world.set(player, &components.Color{ .color = zia.math.Color.white });
-    world.set(player, &components.SpriteAnimator{ .animation = animations.walk_S, .state = .play });
     world.set(player, &components.CharacterInput{});
+    world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+    world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
     world.set(player, &components.BodyDirection{});
 
     var other = flecs.ecs_new_w_type(world.world, 0);
-    world.setName(other, "Other");
+    world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
 
@@ -95,13 +91,6 @@ fn init() !void {
 
 fn update() !void {
     world.progress(zia.time.dt());
-    
-}
-
-fn postUpdate(it: *flecs.ecs_iter_t) callconv(.C) void {
-    zia.gfx.beginPass(.{ .trans_mat = camera.transMat() });
-    actions.render(renderQuery);
-    zia.gfx.endPass();
 }
 
 fn shutdown() !void {

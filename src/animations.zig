@@ -1,6 +1,6 @@
 const assets = @import("assets.zig");
 
-pub const walk_S = [_]usize {
+pub var walk_S = [_]usize {
     assets.character_atlas.Female_Walk_S_0,
     assets.character_atlas.Female_Walk_S_1,
     assets.character_atlas.Female_Walk_S_2,
@@ -11,7 +11,7 @@ pub const walk_S = [_]usize {
     assets.character_atlas.Female_Walk_S_7,
 }; 
 
-pub const walk_SE = [_]usize {
+pub var walk_SE = [_]usize {
     assets.character_atlas.Female_Walk_SE_0,
     assets.character_atlas.Female_Walk_SE_1,
     assets.character_atlas.Female_Walk_SE_2,
@@ -22,7 +22,7 @@ pub const walk_SE = [_]usize {
     assets.character_atlas.Female_Walk_SE_7,
 }; 
 
-pub const walk_E = [_]usize {
+pub var walk_E = [_]usize {
     assets.character_atlas.Female_Walk_E_0,
     assets.character_atlas.Female_Walk_E_1,
     assets.character_atlas.Female_Walk_E_2,
@@ -33,7 +33,7 @@ pub const walk_E = [_]usize {
     assets.character_atlas.Female_Walk_E_7,
 }; 
 
-pub const walk_NE = [_]usize {
+pub var walk_NE = [_]usize {
     assets.character_atlas.Female_Walk_NE_0,
     assets.character_atlas.Female_Walk_NE_1,
     assets.character_atlas.Female_Walk_NE_2,
@@ -44,7 +44,7 @@ pub const walk_NE = [_]usize {
     assets.character_atlas.Female_Walk_NE_7,
 }; 
 
-pub const walk_N = [_]usize {
+pub var walk_N = [_]usize {
     assets.character_atlas.Female_Walk_N_0,
     assets.character_atlas.Female_Walk_N_1,
     assets.character_atlas.Female_Walk_N_2,
@@ -55,7 +55,7 @@ pub const walk_N = [_]usize {
     assets.character_atlas.Female_Walk_N_7,
 }; 
 
-pub const idle_S = [_]usize { 
+pub var idle_S = [_]usize { 
     assets.character_atlas.Female_Idle_S_0,
     assets.character_atlas.Female_Idle_S_0, 
     assets.character_atlas.Female_Idle_S_0, 
@@ -65,7 +65,7 @@ pub const idle_S = [_]usize {
     assets.character_atlas.Female_Idle_S_0, 
     assets.character_atlas.Female_Idle_S_0,  
 };
-pub const idle_SE = [_]usize { 
+pub var idle_SE = [_]usize { 
     assets.character_atlas.Female_Idle_SE_0,
     assets.character_atlas.Female_Idle_SE_0, 
     assets.character_atlas.Female_Idle_SE_0, 
@@ -75,7 +75,7 @@ pub const idle_SE = [_]usize {
     assets.character_atlas.Female_Idle_SE_0, 
     assets.character_atlas.Female_Idle_SE_0, 
 };
-pub const idle_E = [_]usize { 
+pub var idle_E = [_]usize { 
     assets.character_atlas.Female_Idle_E_0,
     assets.character_atlas.Female_Idle_E_0,
     assets.character_atlas.Female_Idle_E_0,
@@ -85,7 +85,7 @@ pub const idle_E = [_]usize {
     assets.character_atlas.Female_Idle_E_0,
     assets.character_atlas.Female_Idle_E_0, 
 };
-pub const idle_NE = [_]usize { 
+pub var idle_NE = [_]usize { 
     assets.character_atlas.Female_Idle_NE_0,
     assets.character_atlas.Female_Idle_NE_0,
     assets.character_atlas.Female_Idle_NE_0,
@@ -95,7 +95,7 @@ pub const idle_NE = [_]usize {
     assets.character_atlas.Female_Idle_NE_0,
     assets.character_atlas.Female_Idle_NE_0, 
 };
-pub const idle_N = [_]usize { 
+pub var idle_N = [_]usize { 
     assets.character_atlas.Female_Idle_N_0,
     assets.character_atlas.Female_Idle_N_0,
     assets.character_atlas.Female_Idle_N_0,
