@@ -46,6 +46,7 @@ fn init() !void {
     const e_subpixel = world.newComponent(components.Subpixel);
     const e_velocity = world.newComponent(components.Velocity);
     const e_camera = world.newComponent(components.Camera);
+    const e_zoom = world.newComponent(components.Zoom);
     const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
     const e_color = world.newComponent(components.Color);
     const e_animator = world.newComponent(components.SpriteAnimator);
@@ -61,20 +62,22 @@ fn init() !void {
     world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").process);
     world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").process);
 
+    world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").process);
     world.newSystem("CameraRenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/camerarender.zig").process);
 
     camera = flecs.ecs_new_w_type(world.world, 0);
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
-    world.set(camera, &components.Position{ .x = 0, .y = 0 });
-    world.set(camera, &components.Subpixel{ .x = 0, .y = 0});
-    world.set(camera, &components.Velocity{ .x = 0, .y = 0});
+    world.set(camera, &components.Zoom{});
+    world.set(camera, &components.Position{});
+    world.set(camera, &components.Subpixel{});
+    world.set(camera, &components.Velocity{});
 
     player = flecs.ecs_new_w_type(world.world, 0);
     world.setName(player, "Player");
-    world.set(player, &components.Position{ .x = 0, .y = 0, .z = 0 });
-    world.set(player, &components.Subpixel{.x = 0, .y = 0});
-    world.set(player, &components.Velocity{ .x = 0, .y = 0 });
+    world.set(player, &components.Position{});
+    world.set(player, &components.Subpixel{});
+    world.set(player, &components.Velocity{});
     world.set(player, &components.Color{ .color = zia.math.Color.white });
     world.set(player, &components.MovementInput{});
     world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });

@@ -1,19 +1,26 @@
 const zia = @import("zia");
 
-pub const Position = struct { x: f32, y: f32, z: i32 = 0 };
+pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
 
-pub const Subpixel = struct { x: f32, y: f32 };
+pub const Subpixel = struct { x: f32 = 0, y: f32 = 0};
 
-pub const Velocity = struct { x: f32, y: f32, sub_x: f32 = 0, sub_y: f32 = 0 };
+pub const Velocity = struct { x: f32 = 0, y: f32 = 0, sub_x: f32 = 0, sub_y: f32 = 0 };
 
 pub const Camera = struct {
     zoom_min: f32 = 1.0,
     zoom_max: f32 = 4.0,
     zoom: f32 = 1.0,
     zoom_target: f32 = 1.0,
-    zoom_speed: f32 = 6.0,
+    zoom_speed: f32 = 4.0,
     design_w: i32,
     design_h: i32,
+};
+
+pub const Zoom = struct {
+    zoom_min: f32 = 1.0,
+    zoom_max: f32 = 4.0,
+    zoom_target: f32 = 1.0,
+    zoom_speed: f32 = 4.0,
 };
 
 pub const SpriteRenderer = struct {
