@@ -43,7 +43,7 @@ fn init() !void {
 
     // register components
     const e_position = world.newComponent(components.Position);
-    const e_subpixel_position = world.newComponent(components.SubpixelPosition);
+    const e_subpixel = world.newComponent(components.Subpixel);
     const e_velocity = world.newComponent(components.Velocity);
     const e_camera = world.newComponent(components.Camera);
     const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
@@ -57,7 +57,7 @@ fn init() !void {
 
     world.newSystem("MovementInputSystem", flecs.Phase.on_update, "MovementInput", @import("ecs/systems/movementinput.zig").process);
     world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "MovementInput, Velocity", @import("ecs/systems/inputvelocity.zig").process);
-    world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, SubpixelPosition, Velocity", @import("ecs/systems/applyvelocity.zig").process);
+    world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/applyvelocity.zig").process);
     world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").process);
     world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").process);
 
@@ -65,15 +65,15 @@ fn init() !void {
 
     camera = flecs.ecs_new_w_type(world.world, 0);
     world.setName(camera, "Camera");
-    world.set(camera, &components.Camera{ .zoom = 2, .design_w = 1280, .design_h = 720 });
+    world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
     world.set(camera, &components.Position{ .x = 0, .y = 0 });
-    world.set(camera, &components.SubpixelPosition{ .x = 0, .y = 0});
+    world.set(camera, &components.Subpixel{ .x = 0, .y = 0});
     world.set(camera, &components.Velocity{ .x = 0, .y = 0});
 
     player = flecs.ecs_new_w_type(world.world, 0);
     world.setName(player, "Player");
     world.set(player, &components.Position{ .x = 0, .y = 0, .z = 0 });
-    world.set(player, &components.SubpixelPosition{.x = 0, .y = 0});
+    world.set(player, &components.Subpixel{.x = 0, .y = 0});
     world.set(player, &components.Velocity{ .x = 0, .y = 0 });
     world.set(player, &components.Color{ .color = zia.math.Color.white });
     world.set(player, &components.MovementInput{});

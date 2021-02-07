@@ -28,16 +28,43 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         var pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
 
+        // reset the minimum zoom
+        cameras[i].zoom_min = 1.0;
+
         // clamp zoom to always fill the screen
-        var zoom = cameras[i].zoom;
-        if (design_w * zoom < size_w or design_h * zoom < size_h) {
-            if (size.w > size.h) {
-                zoom = @ceil(size_w / design_w);
-            } else {
-                zoom = @ceil(size_h / design_h);
-            }
-            zoom += 1;
+        if (design_w * cameras[i].zoom_min < size_w or design_h * cameras[i].zoom_min < size_h) {
+            var zoom_w = @ceil(size_w / design_w);
+            var zoom_h = @ceil(size_h / design_h);
+            cameras[i].zoom_min = if (zoom_w > zoom_h) zoom_w else zoom_h;
         }
+
+        if (zia.input.mouse_wheel_y > 0 and cameras[i].zoom < cameras[i].zoom_max)
+            cameras[i].zoom_target = @round(cameras[i].zoom + 1.0);
+
+        if (zia.input.mouse_wheel_y < 0 and cameras[i].zoom > cameras[i].zoom_min)
+            cameras[i].zoom_target = @round(cameras[i].zoom - 1.0);
+
+        if (cameras[i].zoom < cameras[i].zoom_target) {
+            var increment = zia.time.dt() * cameras[i].zoom_speed;
+
+            if (cameras[i].zoom_target - cameras[i].zoom > increment) {
+                cameras[i].zoom += increment;
+            } else {
+                cameras[i].zoom = cameras[i].zoom_target;
+            }
+        } else {
+            var increment = zia.time.dt() * cameras[i].zoom_speed;
+
+            if (cameras[i].zoom - cameras[i].zoom_target > increment) {
+                cameras[i].zoom -= increment;
+            } else {
+                cameras[i].zoom = cameras[i].zoom_target;
+            }
+        }
+
+        // ensure that zoom is within bounds
+        if (cameras[i].zoom < cameras[i].zoom_min) cameras[i].zoom = cameras[i].zoom_min;
+        if (cameras[i].zoom > cameras[i].zoom_max) cameras[i].zoom = cameras[i].zoom_max;
 
         // center the camera viewport on the position
         var camera_transform = zia.math.Matrix3x2.identity;
@@ -48,7 +75,7 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         // scale and center the camera viewport
         var rt_transform = zia.math.Matrix3x2.identity;
         var rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.scale(zoom, zoom);
+        rt_tmp.scale(cameras[i].zoom, cameras[i].zoom);
         rt_transform = rt_tmp.mul(rt_transform);
 
         rt_tmp = zia.math.Matrix3x2.identity;
