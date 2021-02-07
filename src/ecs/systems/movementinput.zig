@@ -4,7 +4,7 @@ const flecs = @import("flecs");
 const components = @import("../components/components.zig");
 
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var inputs = it.column(components.CharacterInput, 1);
+    var inputs = it.column(components.MovementInput, 1);
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
         inputs[i].direction = zia.math.Direction.write(

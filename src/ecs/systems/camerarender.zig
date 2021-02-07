@@ -28,8 +28,8 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         var pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
 
+        // clamp zoom to always fill the screen
         var zoom = cameras[i].zoom;
-
         if (design_w * zoom < size_w or design_h * zoom < size_h) {
             if (size.w > size.h) {
                 zoom = @ceil(size_w / design_w);
@@ -41,13 +41,12 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the camera viewport on the position
         var camera_transform = zia.math.Matrix3x2.identity;
-
         var cam_tmp = zia.math.Matrix3x2.identity;
         cam_tmp.translate(-positions[i].x + pass.color_texture.width / 2, -positions[i].y + pass.color_texture.height / 2);
         camera_transform = cam_tmp.mul(camera_transform);
 
+        // scale and center the camera viewport
         var rt_transform = zia.math.Matrix3x2.identity;
-
         var rt_tmp = zia.math.Matrix3x2.identity;
         rt_tmp.scale(zoom, zoom);
         rt_transform = rt_tmp.mul(rt_transform);

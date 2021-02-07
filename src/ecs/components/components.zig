@@ -1,7 +1,10 @@
 const zia = @import("zia");
 
 pub const Position = struct { x: f32, y: f32, z: i32 = 0 };
-pub const Velocity = struct { x: f32, y: f32 };
+
+pub const SubpixelPosition = struct { x: f32, y: f32 };
+
+pub const Velocity = struct { x: f32, y: f32, temp_x: f32 = 0, temp_y: f32 = 0};
 
 pub const Camera = struct {
     zoom: f32 = 1.0,
@@ -44,7 +47,7 @@ pub const SpriteAnimator = struct {
     animation: []usize,
     frame: usize = 0,
     elapsed: f32 = 0,
-    fps: usize = 8,
+    fps: usize = 10,
     state: State = State.pause,
 
     pub const State = enum {
@@ -53,7 +56,7 @@ pub const SpriteAnimator = struct {
     };
 };
 
-pub const CharacterInput = struct {
+pub const MovementInput = struct {
     direction: zia.math.Direction = .None,
 };
 

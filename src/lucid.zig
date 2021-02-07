@@ -43,6 +43,7 @@ fn init() !void {
 
     // register components
     const e_position = world.newComponent(components.Position);
+    const e_subpixel_position = world.newComponent(components.SubpixelPosition);
     const e_velocity = world.newComponent(components.Velocity);
     const e_camera = world.newComponent(components.Camera);
     const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
@@ -52,27 +53,30 @@ fn init() !void {
     const e_composite_renderer = world.newComponent(components.CompositeRenderer);
     const e_composite_animator = world.newComponent(components.CompositeAnimator);
     const e_body_direction = world.newComponent(components.BodyDirection);
-    const e_character_input = world.newComponent(components.CharacterInput);
+    const e_character_input = world.newComponent(components.MovementInput);
 
-    world.newSystem("CharacterInputSystem", flecs.Phase.on_update, "CharacterInput", @import("ecs/systems/characterinput.zig").process);
-    world.newSystem("CharacterVelocitySystem", flecs.Phase.on_update, "Position, Velocity, CharacterInput", @import("ecs/systems/charactervelocity.zig").process);
-    world.newSystem("CharacterDirectionSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characterdirection.zig").process);
+    world.newSystem("MovementInputSystem", flecs.Phase.on_update, "MovementInput", @import("ecs/systems/movementinput.zig").process);
+    world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "MovementInput, Velocity", @import("ecs/systems/inputvelocity.zig").process);
+    world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, SubpixelPosition, Velocity", @import("ecs/systems/applyvelocity.zig").process);
+    world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").process);
     world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").process);
 
-    // creates render passes per camera
-    world.newSystem("CameraRenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/camera.zig").process);
+    world.newSystem("CameraRenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/camerarender.zig").process);
 
     camera = flecs.ecs_new_w_type(world.world, 0);
     world.setName(camera, "Camera");
-    world.set(camera, &components.Camera{ .zoom = 1, .design_w = 640, .design_h = 360 });
+    world.set(camera, &components.Camera{ .zoom = 2, .design_w = 1280, .design_h = 720 });
     world.set(camera, &components.Position{ .x = 0, .y = 0 });
+    world.set(camera, &components.SubpixelPosition{ .x = 0, .y = 0});
+    world.set(camera, &components.Velocity{ .x = 0, .y = 0});
 
     player = flecs.ecs_new_w_type(world.world, 0);
     world.setName(player, "Player");
     world.set(player, &components.Position{ .x = 0, .y = 0, .z = 0 });
+    world.set(player, &components.SubpixelPosition{.x = 0, .y = 0});
     world.set(player, &components.Velocity{ .x = 0, .y = 0 });
     world.set(player, &components.Color{ .color = zia.math.Color.white });
-    world.set(player, &components.CharacterInput{});
+    world.set(player, &components.MovementInput{});
     world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
     world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
     world.set(player, &components.BodyDirection{});
