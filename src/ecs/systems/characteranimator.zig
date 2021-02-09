@@ -39,6 +39,7 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .None => &animations.idle_S,
             };
             animators[i].fps = 8;
+            
         }
     }
 }

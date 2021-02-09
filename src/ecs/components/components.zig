@@ -1,4 +1,5 @@
 const zia = @import("zia");
+const flecs = @import("flecs");
 
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
 
@@ -7,6 +8,7 @@ pub const Subpixel = struct { x: f32 = 0, y: f32 = 0};
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0, sub_x: f32 = 0, sub_y: f32 = 0 };
 
 pub const Camera = struct {
+    matrix: zia.math.Matrix3x2 = undefined,
     zoom_min: f32 = 1.0,
     zoom_max: f32 = 4.0,
     zoom: f32 = 1.0,
@@ -21,6 +23,13 @@ pub const Zoom = struct {
     zoom_max: f32 = 4.0,
     zoom_target: f32 = 1.0,
     zoom_speed: f32 = 4.0,
+};
+
+pub const Follow = struct {
+    target: flecs.Entity,
+    max_distance: f32 = 80,
+    min_distance: f32 = 30,
+    follow_speed: f32 = 40.0,
 };
 
 pub const SpriteRenderer = struct {
@@ -38,10 +47,6 @@ pub const CompositeRenderer = struct {
     colors: []usize,
 };
 
-pub const Color = struct {
-    color: zia.math.Color = zia.math.Color.white,
-};
-
 pub const CompositeAnimator = struct {
     animations: [][]usize,
     elapsed: f32 = 0,
@@ -52,6 +57,10 @@ pub const CompositeAnimator = struct {
         pause,
         play,
     };
+};
+
+pub const Color = struct {
+    color: zia.math.Color = zia.math.Color.white,
 };
 
 pub const SpriteAnimator = struct {

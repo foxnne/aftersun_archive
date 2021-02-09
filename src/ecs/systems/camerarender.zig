@@ -31,7 +31,7 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         // center the camera viewport on the position
         var camera_transform = zia.math.Matrix3x2.identity;
         var cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(-positions[i].x + pass.color_texture.width / 2, -positions[i].y + pass.color_texture.height / 2);
+        cam_tmp.translate(-positions[i].x + (pass.color_texture.width / 2), -positions[i].y + (pass.color_texture.height / 2));
         camera_transform = cam_tmp.mul(camera_transform);
 
         // scale and center the camera viewport
@@ -44,13 +44,18 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         rt_tmp.translate(half_w, half_h);
         rt_transform = rt_tmp.mul(rt_transform);
 
-        // center the render texture on the screen
-        var rt_pos = .{ .x = -pass.color_texture.width / 2, .y = -pass.color_texture.height / 2 };
+        // translate the camera matrix for converting screen to world
+        rt_tmp = zia.math.Matrix3x2.identity;
+        rt_tmp.translate(-positions[i].x, -positions[i].y);
+        cameras[i].matrix = rt_transform.mul(rt_tmp);
 
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
         actions.render(renderQuery);
         zia.gfx.endPass();
+
+         // center the render texture on the screen
+        var rt_pos = .{ .x = -pass.color_texture.width / 2, .y = -pass.color_texture.height / 2 };
 
         // render the render texture to the back buffer
         zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform });
