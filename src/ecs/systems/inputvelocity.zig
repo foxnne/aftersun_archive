@@ -1,7 +1,7 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
+const components = @import("lucid").components;
 
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
     var inputs = it.column(components.MovementInput, 1);

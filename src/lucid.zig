@@ -1,28 +1,33 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
+const imgui = @import("imgui");
+
+pub var gizmos: @import("gizmos/gizmos.zig").Gizmos = undefined;
+
+pub const enable_imgui = true;
 
 // generated
-const assets = @import("assets.zig");
-const shaders = @import("shaders.zig");
+pub const assets = @import("assets.zig");
+pub const shaders = @import("shaders.zig");
 
 // manual
-const animations = @import("animations.zig");
+pub const animations = @import("animations.zig");
 
-const components = @import("ecs/components/components.zig");
-const sorters = @import("ecs/sorters/sorters.zig");
-const actions = @import("ecs/actions/actions.zig");
+pub const components = @import("ecs/components/components.zig");
+pub const sorters = @import("ecs/sorters/sorters.zig");
+pub const actions = @import("ecs/actions/actions.zig");
 
 var character_palette: zia.gfx.Texture = undefined;
 var character_texture: zia.gfx.Texture = undefined;
 var character_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 
-var world: flecs.World = undefined;
-var player: flecs.Entity = undefined;
+pub var world: flecs.World = undefined;
+pub var player: flecs.Entity = undefined;
 var other: flecs.Entity = undefined;
 var third: flecs.Entity = undefined;
-var camera: flecs.Entity = undefined;
+pub var camera: flecs.Entity = undefined;
 
 pub fn main() !void {
     try zia.run(.{
@@ -34,6 +39,8 @@ pub fn main() !void {
 }
 
 fn init() !void {
+
+    gizmos = @import("gizmos/gizmos.zig").Gizmos.init(null);
 
     // load textures, atlases and shaders
     character_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.characterpalette_png.path, .nearest) catch unreachable;
@@ -88,7 +95,7 @@ fn init() !void {
     world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
     world.set(player, &components.BodyDirection{});
 
-    world.set(camera, &components.Follow{ .target = player});
+    world.set(camera, &components.Follow{ .target = player });
 
     other = flecs.ecs_new_w_type(world.world, 0);
     world.setName(other, "Second");
@@ -103,7 +110,25 @@ fn init() !void {
 }
 
 fn update() !void {
+
+    // enable/disable gizmos
+    if (zia.input.keyPressed(.grave)){
+        gizmos.enabled = !gizmos.enabled;
+    }
+
+    // create a blank window to draw gizmos to
+    if (zia.enable_imgui) {
+        imgui.ogSetNextWindowPos(.{}, imgui.ImGuiCond_Always, .{});
+        imgui.ogSetNextWindowSize(.{ .x = @intToFloat(f32, zia.window.width()), .y = @intToFloat(f32, zia.window.height()) }, imgui.ImGuiCond_Always);
+        _ = imgui.igBegin("Gizmos", null, imgui.ImGuiWindowFlags_NoBackground | imgui.ImGuiWindowFlags_NoTitleBar | imgui.ImGuiWindowFlags_NoResize | imgui.ImGuiWindowFlags_NoInputs);
+    }
+
+    // run all systems
     world.progress(zia.time.dt());
+
+    // end the window after all other systems are run
+    if (zia.enable_imgui)
+    imgui.igEnd();
 }
 
 fn shutdown() !void {

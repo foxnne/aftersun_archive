@@ -1,7 +1,7 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
+const components = @import("lucid").components;
 
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
@@ -10,28 +10,28 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        if (velocities[i].x != 0 and velocities[i].y != 0) {
-            velocities[i].sub_x += velocities[i].x;
-            velocities[i].sub_y += velocities[i].y;
+        // if (velocities[i].x != 0 and velocities[i].y != 0) {
+        subpixels[i].vx += velocities[i].x;
+        subpixels[i].vy += velocities[i].y;
 
-            var x = @trunc(velocities[i].sub_x);
-            var y = @trunc(velocities[i].sub_y);
+        var x = @trunc(subpixels[i].vx);
+        var y = @trunc(subpixels[i].vy);
 
-            velocities[i].sub_x -= x;
-            velocities[i].sub_y -= y;
+        subpixels[i].vx -= x;
+        subpixels[i].vy -= y;
 
-            positions[i].x += x;
-            positions[i].y += y;
-        } else {
-            positions[i].x += velocities[i].x;
-            positions[i].y += velocities[i].y;
-        }
+        positions[i].x += x;
+        positions[i].y += y;
+        // } else {
+        //     positions[i].x += velocities[i].x;
+        //     positions[i].y += velocities[i].y;
+        // }
 
         subpixels[i].x += positions[i].x;
         subpixels[i].y += positions[i].y;
 
-        var x = @trunc(subpixels[i].x);
-        var y = @trunc(subpixels[i].y);
+        x = @trunc(subpixels[i].x);
+        y = @trunc(subpixels[i].y);
 
         subpixels[i].x -= x;
         subpixels[i].y -= y;

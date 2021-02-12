@@ -1,9 +1,10 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
+const lucid = @import("lucid");
 
-const animations = @import("../../animations.zig");
+const components = lucid.components;
+const animations = lucid.animations;
 
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
     var animators = it.column(components.SpriteAnimator, 1);

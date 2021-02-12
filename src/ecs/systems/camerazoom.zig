@@ -1,8 +1,10 @@
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
-const actions = @import("../actions/actions.zig");
-const sorters = @import("../sorters/sorters.zig");
+const lucid = @import("lucid");
+
+const components = lucid.components;
+const actions = lucid.actions;
+const sorters = lucid.sorters;
 
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
     var cameras = it.column(components.Camera, 1);

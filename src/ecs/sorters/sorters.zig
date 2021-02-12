@@ -1,5 +1,5 @@
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
+const components = @import("lucid").components;
 
 // sort renderers by y position
 pub fn sortY(e1: flecs.ecs_entity_t, p1: ?*c_void, e2: flecs.ecs_entity_t, p2: ?*c_void) callconv(.C) c_int {

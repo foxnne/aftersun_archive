@@ -1,6 +1,7 @@
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
+const lucid = @import("lucid");
+const components = lucid.components;
 
 const Position = components.Position;
 const SpriteRenderer = components.SpriteRenderer;

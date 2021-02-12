@@ -2,13 +2,11 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
-
-pub const Subpixel = struct { x: f32 = 0, y: f32 = 0};
-
-pub const Velocity = struct { x: f32 = 0, y: f32 = 0, sub_x: f32 = 0, sub_y: f32 = 0 };
+pub const Velocity = struct { x: f32 = 0, y: f32 = 0};
+pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0};
 
 pub const Camera = struct {
-    matrix: zia.math.Matrix3x2 = undefined,
+    trans_mat: zia.math.Matrix3x2 = undefined,
     zoom_min: f32 = 1.0,
     zoom_max: f32 = 4.0,
     zoom: f32 = 1.0,
@@ -29,7 +27,7 @@ pub const Follow = struct {
     target: flecs.Entity,
     max_distance: f32 = 80,
     min_distance: f32 = 30,
-    follow_speed: f32 = 40.0,
+    speed: f32 = 40.0,
 };
 
 pub const SpriteRenderer = struct {
@@ -87,4 +85,23 @@ pub const BodyDirection = struct {
     pub const State = enum {
         idle, walking
     };
+};
+
+pub const Grid = struct {
+    cell_size: i32,
+    x: i32, // offset x
+    y: i32, // offset y
+};
+
+pub const ColliderShape = enum {
+    box,
+    circle
+};
+
+pub const Collider = struct {
+    shape: ColliderShape,
+    width: f32,
+    height: f32,
+    x: f32 = 0, // offset x
+    y: f32 = 0, // offset y
 };

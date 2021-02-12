@@ -1,8 +1,11 @@
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
-const actions = @import("../actions/actions.zig");
-const sorters = @import("../sorters/sorters.zig");
+const lucid = @import("lucid");
+const imgui = @import("imgui");
+
+const components = lucid.components;
+const actions = lucid.actions;
+const sorters = lucid.sorters;
 
 pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
@@ -47,14 +50,20 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         // translate the camera matrix for converting screen to world
         rt_tmp = zia.math.Matrix3x2.identity;
         rt_tmp.translate(-positions[i].x, -positions[i].y);
-        cameras[i].matrix = rt_transform.mul(rt_tmp);
+        cameras[i].trans_mat = rt_transform.mul(rt_tmp);
+
+        // TODO!
+        // pass gizmos the new matrix to render our gizmos at the correct scale
+        // how do we handle multiple cameras?
+        if (zia.enable_imgui)
+            lucid.gizmos.setTransmat(cameras[i].trans_mat);
 
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
         actions.render(renderQuery);
         zia.gfx.endPass();
 
-         // center the render texture on the screen
+        // center the render texture on the screen
         var rt_pos = .{ .x = -pass.color_texture.width / 2, .y = -pass.color_texture.height / 2 };
 
         // render the render texture to the back buffer
