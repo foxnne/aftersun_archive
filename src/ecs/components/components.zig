@@ -7,26 +7,22 @@ pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0};
 
 pub const Camera = struct {
     trans_mat: zia.math.Matrix3x2 = undefined,
-    zoom_min: f32 = 1.0,
-    zoom_max: f32 = 4.0,
-    zoom: f32 = 1.0,
-    zoom_target: f32 = 1.0,
-    zoom_speed: f32 = 4.0,
     design_w: i32,
     design_h: i32,
 };
 
 pub const Zoom = struct {
-    zoom_min: f32 = 1.0,
-    zoom_max: f32 = 4.0,
-    zoom_target: f32 = 1.0,
-    zoom_speed: f32 = 4.0,
+    min: f32 = 1.0,
+    max: f32 = 4.0,
+    current: f32 = 1.0,
+    target: f32 = 1.0,
+    speed: f32 = 4.0,
 };
 
 pub const Follow = struct {
     target: flecs.Entity,
-    max_distance: f32 = 80,
-    min_distance: f32 = 30,
+    max_distance: f32 = 120,
+    min_distance: f32 = 60,
     speed: f32 = 40.0,
 };
 
@@ -75,6 +71,10 @@ pub const SpriteAnimator = struct {
 };
 
 pub const MovementInput = struct {
+    direction: zia.math.Direction = .None,
+};
+
+pub const PanInput = struct {
     direction: zia.math.Direction = .None,
 };
 

@@ -20,42 +20,42 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         const design_h = @intToFloat(f32, cameras[i].design_h);
 
         // reset the minimum zoom
-        cameras[i].zoom_min = 1.0;
+        zooms[i].min = 1.0;
 
         // clamp zoom to always fill the screen
-        if (design_w * cameras[i].zoom_min < size_w or design_h * cameras[i].zoom_min < size_h) {
+        if (design_w * zooms[i].min < size_w or design_h * zooms[i].min < size_h) {
             var zoom_w = @ceil(size_w / design_w);
             var zoom_h = @ceil(size_h / design_h);
-            cameras[i].zoom_min = if (zoom_w > zoom_h) zoom_w else zoom_h;
+            zooms[i].min = if (zoom_w > zoom_h) zoom_w else zoom_h;
         }
 
-        if (zia.input.mouse_wheel_y > 0 and cameras[i].zoom < cameras[i].zoom_max)
-            cameras[i].zoom_target = @round(cameras[i].zoom + 1.0);
+        if (zia.input.mouse_wheel_y > 0 and zooms[i].current < zooms[i].max)
+            zooms[i].target = @round(zooms[i].current + 1.0);
 
-        if (zia.input.mouse_wheel_y < 0 and cameras[i].zoom > cameras[i].zoom_min)
-            cameras[i].zoom_target = @round(cameras[i].zoom - 1.0);
+        if (zia.input.mouse_wheel_y < 0 and zooms[i].current > zooms[i].min)
+            zooms[i].target = @round(zooms[i].current - 1.0);
 
-        if (cameras[i].zoom < cameras[i].zoom_target) {
-            var increment = zia.time.dt() * cameras[i].zoom_speed;
+        if (zooms[i].current < zooms[i].target) {
+            var increment = zia.time.dt() * zooms[i].speed;
 
-            if (cameras[i].zoom_target - cameras[i].zoom > increment) {
-                cameras[i].zoom += increment;
+            if (zooms[i].target - zooms[i].current > increment) {
+                zooms[i].current += increment;
             } else {
-                cameras[i].zoom = cameras[i].zoom_target;
+                zooms[i].current = zooms[i].target;
             }
         } else {
-            var increment = zia.time.dt() * cameras[i].zoom_speed;
+            var increment = zia.time.dt() * zooms[i].speed;
 
-            if (cameras[i].zoom - cameras[i].zoom_target > increment) {
-                cameras[i].zoom -= increment;
+            if (zooms[i].current - zooms[i].target > increment) {
+                zooms[i].current -= increment;
             } else {
-                cameras[i].zoom = cameras[i].zoom_target;
+                zooms[i].current = zooms[i].target;
             }
         }
 
         // ensure that zoom is within bounds
-        if (cameras[i].zoom < cameras[i].zoom_min) cameras[i].zoom = cameras[i].zoom_min;
-        if (cameras[i].zoom > cameras[i].zoom_max) cameras[i].zoom = cameras[i].zoom_max;
+        if (zooms[i].current < zooms[i].min) zooms[i].current = zooms[i].min;
+        if (zooms[i].current > zooms[i].max) zooms[i].current = zooms[i].max;
 
     }
 }

@@ -21,8 +21,8 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (target_position_ptr) |pos_ptr| {
             const target_position = @ptrCast(*const components.Position, @alignCast(@alignOf(components.Position), pos_ptr));
 
-            var target_distance = zia.math.Vector2.distance(.{ .x = target_position.x, .y = target_position.y }, .{ .x = positions[i].x, .y = positions[i].y });
-            var target_direction = zia.math.Direction.find(8, target_position.x - positions[i].x, target_position.y - positions[i].y).normalized();
+            const target_distance = zia.math.Vector2.distance(.{ .x = target_position.x, .y = target_position.y }, .{ .x = positions[i].x, .y = positions[i].y });
+            const target_direction = zia.math.Direction.find(8, target_position.x - positions[i].x, target_position.y - positions[i].y).vector2();
 
             if (target_velocity_ptr) |vel_ptr| {
                 const target_velocity = @ptrCast(*const components.Velocity, @alignCast(@alignOf(components.Velocity), vel_ptr));
@@ -35,8 +35,11 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
                     velocities[i].y = target_direction.y * zia.time.dt() * follows[i].speed;
                 } else { //greater than max distance
                     if (target_velocity.x != 0 or target_velocity.y != 0) {
-                        velocities[i].x = target_velocity.x;
-                        velocities[i].y = target_velocity.y;
+                        var speed_x = @fabs(target_velocity.x / zia.time.dt());
+                        var speed_y = @fabs(target_velocity.y / zia.time.dt());
+
+                        velocities[i].x = target_direction.x * zia.time.dt() * speed_x;
+                        velocities[i].y = target_direction.y * zia.time.dt() * speed_y;
                     } else {
                         velocities[i].x = target_direction.x * zia.time.dt() * follows[i].speed;
                         velocities[i].y = target_direction.y * zia.time.dt() * follows[i].speed;

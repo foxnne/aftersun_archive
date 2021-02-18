@@ -13,8 +13,10 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var world = flecs.World{ .world = it.world.? };
 
+
     // collect renderers
-    var renderQuery = flecs.ecs_query_new(world.world, "Position, SpriteRenderer, ?Color");
+    var renderQuery = lucid.renderQuery;
+    
     // sort renderers
     flecs.ecs_query_order_by(world.world, renderQuery, world.newComponent(components.Position), sorters.sortY);
 
@@ -31,18 +33,30 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         var pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
 
-        // center the camera viewport on the position
+        // translate by the cameras position
         var camera_transform = zia.math.Matrix3x2.identity;
         var cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(-positions[i].x + (pass.color_texture.width / 2), -positions[i].y + (pass.color_texture.height / 2));
+        cam_tmp.translate(-positions[i].x, -positions[i].y);
         camera_transform = cam_tmp.mul(camera_transform);
 
-        // scale and center the camera viewport
+         // center the camera viewport
+        cam_tmp = zia.math.Matrix3x2.identity;
+        cam_tmp.translate(pass.color_texture.width / 2, pass.color_texture.height / 2);
+        camera_transform = cam_tmp.mul(camera_transform);
+
+         // scale the render texture by zoom
         var rt_transform = zia.math.Matrix3x2.identity;
         var rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.scale(cameras[i].zoom, cameras[i].zoom);
-        rt_transform = rt_tmp.mul(rt_transform);
 
+        var zoom_ptr = flecs.ecs_get_w_entity(world.world, it.entities[i], world.newComponent(components.Zoom));
+
+        if (zoom_ptr) |ptr| {
+            const zoom = @ptrCast(*const components.Zoom, @alignCast(@alignOf(components.Zoom), ptr));
+            rt_tmp.scale(zoom.current, zoom.current);
+            rt_transform = rt_tmp.mul(rt_transform);
+        } 
+
+        // center the render texture
         rt_tmp = zia.math.Matrix3x2.identity;
         rt_tmp.translate(half_w, half_h);
         rt_transform = rt_tmp.mul(rt_transform);

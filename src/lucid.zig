@@ -29,6 +29,8 @@ var other: flecs.Entity = undefined;
 var third: flecs.Entity = undefined;
 pub var camera: flecs.Entity = undefined;
 
+pub var renderQuery: ?*flecs.ecs_query_t = undefined;
+
 pub fn main() !void {
     try zia.run(.{
         .init = init,
@@ -49,6 +51,7 @@ fn init() !void {
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
 
     world = flecs.World.init();
+    //world.setTargetFps(60);
 
     // register components
     const e_position = world.newComponent(components.Position);
@@ -60,25 +63,34 @@ fn init() !void {
     const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
     const e_color = world.newComponent(components.Color);
     const e_animator = world.newComponent(components.SpriteAnimator);
+    const e_collider = world.newComponent(components.Collider);
 
     const e_composite_renderer = world.newComponent(components.CompositeRenderer);
     const e_composite_animator = world.newComponent(components.CompositeAnimator);
     const e_body_direction = world.newComponent(components.BodyDirection);
-    const e_character_input = world.newComponent(components.MovementInput);
+    const e_movement_input = world.newComponent(components.MovementInput);
+    const e_pan_input = world.newComponent(components.PanInput);
 
     world.newSystem("MovementInputSystem", flecs.Phase.on_update, "MovementInput", @import("ecs/systems/movementinput.zig").process);
+    world.newSystem("PanInputSystem", flecs.Phase.on_update, "PanInput", @import("ecs/systems/paninput.zig").process);
     world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "MovementInput, Velocity", @import("ecs/systems/inputvelocity.zig").process);
+    //world.newSystem("CollisionSystem", flecs.Phase.on_update, "", @import("ecs/systems/collision.zig").process);
     world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/applyvelocity.zig").process);
     world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").process);
     world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").process);
 
+    renderQuery = world.newQuery("Position, SpriteRenderer, ?Color");
+
     world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").process);
+    world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Position, PanInput, Velocity", @import("ecs/systems/camerapan.zig").process);
     world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").process);
     world.newSystem("CameraRenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/camerarender.zig").process);
+
 
     camera = flecs.ecs_new_w_type(world.world, 0);
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
+    world.set(camera, &components.PanInput{});
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
     world.set(camera, &components.Subpixel{});
@@ -94,6 +106,7 @@ fn init() !void {
     world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
     world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
     world.set(player, &components.BodyDirection{});
+    world.set(player, &components.Collider{.shape = .circle, .width = 16, .height = 16});
 
     world.set(camera, &components.Follow{ .target = player });
 
@@ -101,6 +114,7 @@ fn init() !void {
     world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+    world.set(other, &components.Collider{ .shape = .box, .width = 32, .height = 32});
 
     third = flecs.ecs_new_w_type(world.world, 0);
     world.setName(third, "Third");
