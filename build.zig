@@ -58,7 +58,7 @@ fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []
     };
 
     const run_cmd = exe.run();
-    const exe_step = b.step(name, b.fmt("run {}.zig", .{name}));
+    const exe_step = b.step(name, b.fmt("run {s}.zig", .{name}));
     exe_step.dependOn(&run_cmd.step);
     exe.addPackage(lucid_package);
 

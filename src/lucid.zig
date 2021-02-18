@@ -39,7 +39,6 @@ pub fn main() !void {
         .window = .{ .title = "Lucid" },
     });
 }
-
 fn init() !void {
 
     gizmos = @import("gizmos/gizmos.zig").Gizmos.init(null);
