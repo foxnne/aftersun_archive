@@ -7,18 +7,11 @@ const components = lucid.components;
 const actions = lucid.actions;
 const sorters = lucid.sorters;
 
-pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
+pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
     var cameras = it.column(components.Camera, 2);
 
     var world = flecs.World{ .world = it.world.? };
-
-
-    // collect renderers
-    var renderQuery = lucid.renderQuery;
-    
-    // sort renderers
-    flecs.ecs_query_order_by(world.world, renderQuery, world.newComponent(components.Position), sorters.sortY);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
@@ -39,22 +32,20 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         cam_tmp.translate(-positions[i].x, -positions[i].y);
         camera_transform = cam_tmp.mul(camera_transform);
 
-         // center the camera viewport
+        // center the camera viewport
         cam_tmp = zia.math.Matrix3x2.identity;
         cam_tmp.translate(pass.color_texture.width / 2, pass.color_texture.height / 2);
         camera_transform = cam_tmp.mul(camera_transform);
 
-         // scale the render texture by zoom
+        // scale the render texture by zoom
         var rt_transform = zia.math.Matrix3x2.identity;
         var rt_tmp = zia.math.Matrix3x2.identity;
 
-        var zoom_ptr = flecs.ecs_get_w_entity(world.world, it.entities[i], world.newComponent(components.Zoom));
-
-        if (zoom_ptr) |ptr| {
-            const zoom = @ptrCast(*const components.Zoom, @alignCast(@alignOf(components.Zoom), ptr));
+        if (world.get(it.entities[i], components.Zoom)) |zoom| {
+            //const zoom = @ptrCast(*const components.Zoom, @alignCast(@alignOf(components.Zoom), ptr));
             rt_tmp.scale(zoom.current, zoom.current);
             rt_transform = rt_tmp.mul(rt_transform);
-        } 
+        }
 
         // center the render texture
         rt_tmp = zia.math.Matrix3x2.identity;
@@ -72,10 +63,13 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (zia.enable_imgui)
             lucid.gizmos.setTransmat(cameras[i].trans_mat);
 
-        // render the camera to the render texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
-        actions.render(renderQuery);
-        zia.gfx.endPass();
+
+        if (world.get(it.system, components.RenderQuery)) |renderQuery| {
+            // render the camera to the render texture
+            zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
+            actions.render(renderQuery.spriteRenderers);
+            zia.gfx.endPass();
+        }
 
         // center the render texture on the screen
         var rt_pos = .{ .x = -pass.color_texture.width / 2, .y = -pass.color_texture.height / 2 };

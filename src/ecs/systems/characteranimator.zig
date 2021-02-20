@@ -6,7 +6,7 @@ const lucid = @import("lucid");
 const components = lucid.components;
 const animations = lucid.animations;
 
-pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
+pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var animators = it.column(components.SpriteAnimator, 1);
     var renderers = it.column(components.SpriteRenderer, 2);
     var velocities = it.column(components.Velocity, 3);

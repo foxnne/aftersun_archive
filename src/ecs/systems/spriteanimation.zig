@@ -3,7 +3,7 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const components = @import("lucid").components;
 
-pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
+pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var animators = it.column(components.SpriteAnimator, 1);
     var renderers = it.column(components.SpriteRenderer, 2);
 

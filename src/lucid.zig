@@ -23,13 +23,7 @@ var character_texture: zia.gfx.Texture = undefined;
 var character_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 
-pub var world: flecs.World = undefined;
-pub var player: flecs.Entity = undefined;
-var other: flecs.Entity = undefined;
-var third: flecs.Entity = undefined;
-pub var camera: flecs.Entity = undefined;
-
-pub var renderQuery: ?*flecs.ecs_query_t = undefined;
+var world: flecs.World = undefined;
 
 pub fn main() !void {
     try zia.run(.{
@@ -40,7 +34,6 @@ pub fn main() !void {
     });
 }
 fn init() !void {
-
     gizmos = @import("gizmos/gizmos.zig").Gizmos.init(null);
 
     // load textures, atlases and shaders
@@ -50,72 +43,66 @@ fn init() !void {
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
 
     world = flecs.World.init();
-    //world.setTargetFps(60);
+    world.setTargetFps(60);
 
-    // register components
-    const e_position = world.newComponent(components.Position);
-    const e_subpixel = world.newComponent(components.Subpixel);
-    const e_velocity = world.newComponent(components.Velocity);
-    const e_camera = world.newComponent(components.Camera);
-    const e_zoom = world.newComponent(components.Zoom);
-    const e_follow = world.newComponent(components.Follow);
-    const e_sprite_renderer = world.newComponent(components.SpriteRenderer);
-    const e_color = world.newComponent(components.Color);
-    const e_animator = world.newComponent(components.SpriteAnimator);
-    const e_collider = world.newComponent(components.Collider);
+    // register all components
+    components.register(&world);
 
-    const e_composite_renderer = world.newComponent(components.CompositeRenderer);
-    const e_composite_animator = world.newComponent(components.CompositeAnimator);
-    const e_body_direction = world.newComponent(components.BodyDirection);
-    const e_movement_input = world.newComponent(components.MovementInput);
-    const e_pan_input = world.newComponent(components.PanInput);
+    // singletons
+    _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
+    _ = world.newSystem("PanInputSystem", flecs.Phase.on_update, "$PanInput", @import("ecs/systems/paninput.zig").progress);
 
-    world.newSystem("MovementInputSystem", flecs.Phase.on_update, "MovementInput", @import("ecs/systems/movementinput.zig").process);
-    world.newSystem("PanInputSystem", flecs.Phase.on_update, "PanInput", @import("ecs/systems/paninput.zig").process);
-    world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "MovementInput, Velocity", @import("ecs/systems/inputvelocity.zig").process);
-    //world.newSystem("CollisionSystem", flecs.Phase.on_update, "", @import("ecs/systems/collision.zig").process);
-    world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/applyvelocity.zig").process);
-    world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").process);
-    world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").process);
+    // generic
+    _ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
+    _ = world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/applyvelocity.zig").progress);
+    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").progress);
+    _ = world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
 
-    renderQuery = world.newQuery("Position, SpriteRenderer, ?Color");
+    // camera
+    _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
+    _ = world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Camera, Position, Velocity", @import("ecs/systems/camerapan.zig").progress);
+    _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
 
-    world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").process);
-    world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Position, PanInput, Velocity", @import("ecs/systems/camerapan.zig").process);
-    world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").process);
-    world.newSystem("CameraRenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/camerarender.zig").process);
+    // create a query for renderers
+    // attach directly to render system (its an entity as well, and there will only be one)
+    var spriteRenderers = world.newQuery("Position, SpriteRenderer");
+    world.sortQuery(spriteRenderers, components.Position, sorters.sortY);
+    var renderSystem = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/render.zig").progress);
+    world.set(renderSystem, &components.RenderQuery{
+        .spriteRenderers = spriteRenderers,
+    });
 
+    world.setSingleton(&components.MovementInput{});
+    world.setSingleton(&components.PanInput{});
 
-    camera = flecs.ecs_new_w_type(world.world, 0);
+    var camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
-    world.set(camera, &components.PanInput{});
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
     world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
 
-    player = flecs.ecs_new_w_type(world.world, 0);
+    var player = world.new();
     world.setName(player, "Player");
     world.set(player, &components.Position{});
     world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
     world.set(player, &components.Color{ .color = zia.math.Color.white });
-    world.set(player, &components.MovementInput{});
     world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
     world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
     world.set(player, &components.BodyDirection{});
-    world.set(player, &components.Collider{.shape = .circle, .width = 16, .height = 16});
+    //world.set(player, &components.Collider{ .shape = .circle, .width = 16, .height = 16 });
+    world.add(player, components.Player);
 
     world.set(camera, &components.Follow{ .target = player });
 
-    other = flecs.ecs_new_w_type(world.world, 0);
+    var other = world.new();
     world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
-    world.set(other, &components.Collider{ .shape = .box, .width = 32, .height = 32});
 
-    third = flecs.ecs_new_w_type(world.world, 0);
+    var third = world.new();
     world.setName(third, "Third");
     world.set(third, &components.Position{ .x = -60, .y = 0 });
     world.set(third, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_N_0 });
@@ -125,7 +112,7 @@ fn init() !void {
 fn update() !void {
 
     // enable/disable gizmos
-    if (zia.input.keyPressed(.grave)){
+    if (zia.input.keyPressed(.grave)) {
         gizmos.enabled = !gizmos.enabled;
     }
 
@@ -141,7 +128,7 @@ fn update() !void {
 
     // end the window after all other systems are run
     if (zia.enable_imgui)
-    imgui.igEnd();
+        imgui.igEnd();
 }
 
 fn shutdown() !void {

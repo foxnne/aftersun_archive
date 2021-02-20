@@ -6,7 +6,7 @@ const components = lucid.components;
 const actions = lucid.actions;
 const sorters = lucid.sorters;
 
-pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
+pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var cameras = it.column(components.Camera, 1);
     var zooms = it.column(components.Zoom, 2);
 
@@ -51,6 +51,11 @@ pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
             } else {
                 zooms[i].current = zooms[i].target;
             }
+        }
+
+        // ensure we snap to target
+        if (@fabs(zooms[i].current - zooms[i].target) <= 0.1) {
+            zooms[i].current = zooms[i].target;
         }
 
         // ensure that zoom is within bounds

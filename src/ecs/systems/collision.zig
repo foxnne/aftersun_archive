@@ -5,7 +5,7 @@ const lucid = @import("lucid");
 const components = lucid.components;
 const actions = lucid.actions;
 
-pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
+pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var world = flecs.World{ .world = it.world.?};
 

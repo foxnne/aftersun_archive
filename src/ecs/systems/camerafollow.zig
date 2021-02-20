@@ -4,28 +4,27 @@ const flecs = @import("flecs");
 const lucid = @import("lucid");
 const components = lucid.components;
 
-pub fn process(it: *flecs.ecs_iter_t) callconv(.C) void {
+pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var cameras = it.column(components.Camera, 1);
     var follows = it.column(components.Follow, 2);
     var positions = it.column(components.Position, 3);
     var velocities = it.column(components.Velocity, 4);
     //var subpixels = it.column(components.Subpixel, 5);
+    var world = flecs.World{ .world = it.world.? };
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        var world = flecs.World{ .world = it.world.? };
+        
 
-        var target_position_ptr = flecs.ecs_get_w_entity(world.world, follows[i].target, world.newComponent(components.Position));
-        var target_velocity_ptr = flecs.ecs_get_w_entity(world.world, follows[i].target, world.newComponent(components.Velocity));
+        var target_position_ptr = world.get(follows[i].target, components.Position);
+        var target_velocity_ptr = world.get(follows[i].target, components.Velocity);
 
-        if (target_position_ptr) |pos_ptr| {
-            const target_position = @ptrCast(*const components.Position, @alignCast(@alignOf(components.Position), pos_ptr));
+        if (target_position_ptr) |target_position| {
 
             const target_distance = zia.math.Vector2.distance(.{ .x = target_position.x, .y = target_position.y }, .{ .x = positions[i].x, .y = positions[i].y });
             const target_direction = zia.math.Direction.find(8, target_position.x - positions[i].x, target_position.y - positions[i].y).vector2();
 
-            if (target_velocity_ptr) |vel_ptr| {
-                const target_velocity = @ptrCast(*const components.Velocity, @alignCast(@alignOf(components.Velocity), vel_ptr));
+            if (target_velocity_ptr) |target_velocity| {
 
                 if (target_distance <= follows[i].min_distance) {
                     velocities[i].x = 0;
