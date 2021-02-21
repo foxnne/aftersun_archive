@@ -63,7 +63,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (zia.enable_imgui)
             lucid.gizmos.setTransmat(cameras[i].trans_mat);
 
-
         if (world.get(it.system, components.RenderQuery)) |renderQuery| {
             // render the camera to the render texture
             zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
@@ -74,9 +73,19 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // center the render texture on the screen
         var rt_pos = .{ .x = -pass.color_texture.width / 2, .y = -pass.color_texture.height / 2 };
 
+        
+
         // render the render texture to the back buffer
         zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform });
+
+        
+
+        // draw
         zia.gfx.draw.texture(pass.color_texture, rt_pos, .{});
+
+        
+
+        // end
         zia.gfx.endPass();
 
         pass.deinit();

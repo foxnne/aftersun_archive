@@ -12,6 +12,18 @@ pub const CompositeAnimator = struct {
     };
 };
 
+pub const CharacterAnimator = struct {
+    headAnimation: []usize,
+    bodyAnimation: []usize,
+    fps: usize = 8,
+    state: State = State.pause,
+
+    pub const State = enum {
+        pause,
+        play
+    };
+};
+
 
 pub const SpriteAnimator = struct {
     animation: []usize,

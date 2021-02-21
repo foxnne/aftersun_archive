@@ -52,11 +52,11 @@ fn init() !void {
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("PanInputSystem", flecs.Phase.on_update, "$PanInput", @import("ecs/systems/paninput.zig").progress);
 
-    // generic
-    _ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
-    _ = world.newSystem("ApplyVelocitySystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/applyvelocity.zig").progress);
-    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection", @import("ecs/systems/characteranimator.zig").progress);
-    _ = world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
+    // character
+    _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
+    _ = world.newSystem("SubpixelMoveSystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/subpixelmove.zig").progress);
+    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
+    _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
 
     // camera
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
@@ -88,11 +88,12 @@ fn init() !void {
     world.set(player, &components.Position{});
     world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
-    world.set(player, &components.Color{ .color = zia.math.Color.white });
+    world.set(player, &components.Color{ .color = zia.math.Color.fromRgbBytes(5, 0, 0) });
+    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{ &character_palette }});
     world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
     world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
     world.set(player, &components.BodyDirection{});
-    //world.set(player, &components.Collider{ .shape = .circle, .width = 16, .height = 16 });
+    world.set(player, &components.HeadDirection{});
     world.add(player, components.Player);
 
     world.set(camera, &components.Follow{ .target = player });
@@ -101,12 +102,16 @@ fn init() !void {
     world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
+    world.set(other, &components.Color{ .color = zia.math.Color.fromRgbBytes(4, 0, 0) });
+    world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{ &character_palette }});
 
     var third = world.new();
     world.setName(third, "Third");
     world.set(third, &components.Position{ .x = -60, .y = 0 });
     world.set(third, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_N_0 });
-    world.set(third, &components.Color{ .color = zia.math.Color.red });
+    world.set(third, &components.Color{ .color = zia.math.Color.fromRgbBytes(11, 0, 0) });
+    world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{ &character_palette }});
+
 }
 
 fn update() !void {

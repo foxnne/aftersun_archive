@@ -14,3 +14,8 @@ pub const CompositeRenderer = struct {
     indices: []usize,
     colors: []usize,
 };
+
+pub const Material = struct {
+    shader: *zia.gfx.Shader,
+    textures: []const *zia.gfx.Texture,
+};

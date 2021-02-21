@@ -44,10 +44,9 @@ pub usingnamespace @import("animator.zig");
 
 pub const BodyDirection = struct {
     direction: zia.math.Direction = .S,
-    state: State = .idle,
+};
 
-    pub const State = enum {
-        idle, walking
-    };
+pub const HeadDirection = struct {
+    direction: zia.math.Direction = .S,
 };
 
