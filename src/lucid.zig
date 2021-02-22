@@ -51,11 +51,12 @@ fn init() !void {
     // singletons
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("PanInputSystem", flecs.Phase.on_update, "$PanInput", @import("ecs/systems/paninput.zig").progress);
+    _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
 
     // character
     _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
     _ = world.newSystem("SubpixelMoveSystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/subpixelmove.zig").progress);
-    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
+    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
     _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
 
     // camera
@@ -72,9 +73,6 @@ fn init() !void {
         .spriteRenderers = spriteRenderers,
     });
 
-    world.setSingleton(&components.MovementInput{});
-    world.setSingleton(&components.PanInput{});
-
     var camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
@@ -82,6 +80,10 @@ fn init() !void {
     world.set(camera, &components.Position{});
     world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
+
+    world.setSingleton(&components.MovementInput{});
+    world.setSingleton(&components.PanInput{});
+    world.setSingleton(&components.MouseInput{ .camera = camera });
 
     var player = world.new();
     world.setName(player, "Player");

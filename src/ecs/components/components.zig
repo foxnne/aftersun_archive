@@ -1,6 +1,7 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
+const components = @import("../components/components.zig");
 
 pub fn register(world: *flecs.World) void {
     const decls = @typeInfo(@import("components.zig")).Struct.decls;

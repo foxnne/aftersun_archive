@@ -10,16 +10,29 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
     var animators = it.column(components.SpriteAnimator, 1);
     var renderers = it.column(components.SpriteRenderer, 2);
-    var velocities = it.column(components.Velocity, 3);
-    var bodies = it.column(components.BodyDirection, 4);
-    var heads = it.column(components.HeadDirection, 5);
+    var positions = it.column(components.Position, 3);
+    var velocities = it.column(components.Velocity, 4);
+    var bodies = it.column(components.BodyDirection, 5);
+    var heads = it.column(components.HeadDirection, 6);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
         var body = zia.math.Direction.find(8, velocities[i].x, velocities[i].y);
 
-        if (body != .None) {
+        // get camera matrix to find mouse position
+        var mouseInput = world.getSingleton(components.MouseInput);
+        var mousePos = mouseInput.?.position;
+
+        var head = zia.math.Direction.find(8, mousePos.x - positions[i].x, mousePos.y - positions[i].y);
+
+        if (body != .None) { //moving
             bodies[i].direction = body;
+
+            if (head == body or head == body.rotateCW() or head == body.rotateCCW()) {
+                heads[i].direction = head;
+            } else {
+                heads[i].direction = body;
+            }
 
             animators[i].animation = switch (body) {
                 .S => &animations.walk_S,
@@ -32,7 +45,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             animators[i].fps = 10;
             renderers[i].flipX = body.flippedHorizontally();
-        } else {
+        } else { //idle
 
             // get random number to decide body direction
             // when the direction is ortho
@@ -70,6 +83,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 else => {},
             }
 
+            if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW())
+                heads[i].direction = head;
+
             animators[i].animation = switch (bodies[i].direction) {
                 .SE, .SW => &animations.idle_SE,
                 .NE, .NW => &animations.idle_NE,
@@ -80,10 +96,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
 
         if (lucid.gizmos.enabled) {
-            const pos_ptr = world.get(it.entities[i], components.Position);
-            if (pos_ptr) |pos| {
-                lucid.gizmos.line(.{ .x = pos.x, .y = pos.y }, bodies[i].direction.normalized().scale(20).add(.{ .x = pos.x, .y = pos.y }), zia.math.Color.red, 2);
-            }
+            //const pos_ptr = world.get(it.entities[i], components.Position);
+            lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, bodies[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.red, 2);
+            lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, heads[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.blue, 2);
         }
     }
 }
