@@ -66,7 +66,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (world.get(it.system, components.RenderQuery)) |renderQuery| {
             // render the camera to the render texture
             zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
-            actions.render(renderQuery.spriteRenderers.?);
+            actions.render(renderQuery.renderers.?);
             zia.gfx.endPass();
         }
 

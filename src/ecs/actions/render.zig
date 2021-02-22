@@ -9,11 +9,11 @@ pub fn render(query: ?*flecs.ecs_query_t) void {
     while (flecs.ecs_query_next(&it)) {
         var world = flecs.World{ .world = it.world.? };
         var positions = it.column(components.Position, 1);
-        var renderers = it.column(components.SpriteRenderer, 2);
+        //var renderers = it.column(components.SpriteRenderer, 2);
 
         var i: usize = 0;
         while (i < it.count) : (i += 1) {
-            const color_ptr = world.get(it.entities[i], components.Color);
+            //const color_ptr = world.get(it.entities[i], components.Color);
 
             // get material
             var material_ptr = world.get(it.entities[i], components.Material);
@@ -27,15 +27,41 @@ pub fn render(query: ?*flecs.ecs_query_t) void {
                 }
             }
 
-            // draw
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].index], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y,
-            }, .{
-                .color = if (color_ptr) |col| col.color else zia.math.Color.white,
-                .flipX = renderers[i].flipX,
-                .flipY = renderers[i].flipY,
-            });
+            var spriteRendererPtr = world.get(it.entities[i], components.SpriteRenderer);
+            var characterRendererPtr = world.get(it.entities[i], components.CharacterRenderer);
+
+            if (spriteRendererPtr) |renderer| {
+                // draw
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
+                    .x = positions[i].x,
+                    .y = positions[i].y,
+                }, .{
+                    .color = renderer.color,
+                    .flipX = renderer.flipX,
+                    .flipY = renderer.flipY,
+                });
+            }
+
+            if (characterRendererPtr) |renderer| {
+                
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
+                    .x = positions[i].x,
+                    .y = positions[i].y,
+                }, .{
+                    .color = renderer.bodyColor,
+                    .flipX = renderer.flipX,
+                });
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+                    .x = positions[i].x,
+                    .y = positions[i].y,
+                }, .{
+                    .color = renderer.headColor,
+                    .flipX = renderer.flipX,
+                });
+
+            }
 
             // unset material shaders and textures
             if (material_ptr) |material| {

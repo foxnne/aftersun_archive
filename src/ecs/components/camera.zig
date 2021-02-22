@@ -8,7 +8,7 @@ pub const Camera = struct {
 };
 
 pub const RenderQuery = struct {
-    spriteRenderers: ?*flecs.Query,
+    renderers: ?*flecs.Query,
 };
 
 pub const Zoom = struct {

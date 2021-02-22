@@ -56,8 +56,8 @@ fn init() !void {
     // character
     _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
     _ = world.newSystem("SubpixelMoveSystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/subpixelmove.zig").progress);
-    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
-    _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
+    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
+    _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
 
     // camera
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
@@ -66,11 +66,11 @@ fn init() !void {
 
     // create a query for renderers
     // attach directly to render system (its an entity as well, and there will only be one)
-    var spriteRenderers = world.newQuery("Position, SpriteRenderer");
-    world.sortQuery(spriteRenderers, components.Position, sorters.sortY);
+    var renderers = world.newQuery("Position, ?SpriteRenderer, ?CharacterRenderer");
+    world.sortQuery(renderers, components.Position, sorters.sortY);
     var renderSystem = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/render.zig").progress);
     world.set(renderSystem, &components.RenderQuery{
-        .spriteRenderers = spriteRenderers,
+        .renderers = renderers,
     });
 
     var camera = world.new();
@@ -90,10 +90,21 @@ fn init() !void {
     world.set(player, &components.Position{});
     world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
-    world.set(player, &components.Color{ .color = zia.math.Color.fromRgbBytes(5, 0, 0) });
-    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{ &character_palette }});
-    world.set(player, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
-    world.set(player, &components.SpriteAnimator{ .animation = &animations.walk_S, .state = .play });
+    //world.set(player, &components.Color{ .color = zia.math.Color.fromRgbBytes(5, 0, 0) });
+    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
+    world.set(player, &components.CharacterRenderer{
+        .texture = character_texture,
+        .atlas = character_atlas,
+        .body = assets.character_atlas.Female_Idle_Body_SE_0,
+        .head = assets.character_atlas.Female_Idle_Head_S_0,
+        .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
+        .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
+    });
+    world.set(player, &components.CharacterAnimator{
+        .bodyAnimation = &animations.idleBodySE,
+        .headAnimation = &animations.idleHeadS,
+        .state = .idle,
+    });
     world.set(player, &components.BodyDirection{});
     world.set(player, &components.HeadDirection{});
     world.add(player, components.Player);
@@ -103,17 +114,25 @@ fn init() !void {
     var other = world.new();
     world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
-    world.set(other, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_S_0 });
-    world.set(other, &components.Color{ .color = zia.math.Color.fromRgbBytes(4, 0, 0) });
-    world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{ &character_palette }});
+    world.set(other, &components.SpriteRenderer{
+        .texture = character_texture,
+        .atlas = character_atlas,
+        .index = assets.character_atlas.Female_Idle_Body_S_0,
+    });
+    //world.set(other, &components.Color{ .color = zia.math.Color.fromRgbBytes(4, 0, 0) });
+    world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 
     var third = world.new();
     world.setName(third, "Third");
     world.set(third, &components.Position{ .x = -60, .y = 0 });
-    world.set(third, &components.SpriteRenderer{ .texture = character_texture, .atlas = character_atlas, .index = assets.character_atlas.Female_Idle_N_0 });
-    world.set(third, &components.Color{ .color = zia.math.Color.fromRgbBytes(11, 0, 0) });
-    world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{ &character_palette }});
-
+    world.set(third, &components.SpriteRenderer{
+        .texture = character_texture,
+        .atlas = character_atlas,
+        .index = assets.character_atlas.Female_Idle_Body_NE_0,
+        .color = zia.math.Color.fromRgbBytes(11, 0, 0),
+    });
+    //world.set(third, &components.Color{ .color = zia.math.Color.fromRgbBytes(11, 0, 0) });
+    world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 }
 
 fn update() !void {

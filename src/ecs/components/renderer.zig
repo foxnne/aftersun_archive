@@ -6,13 +6,17 @@ pub const SpriteRenderer = struct {
     index: usize = 0,
     flipX: bool = false,
     flipY: bool = false,
+    color: zia.math.Color = zia.math.Color.white,
 };
 
-pub const CompositeRenderer = struct {
+pub const CharacterRenderer = struct {
     texture: zia.gfx.Texture,
     atlas: zia.gfx.Atlas,
-    indices: []usize,
-    colors: []usize,
+    head: usize,
+    body: usize,
+    headColor: zia.math.Color = zia.math.Color.white,
+    bodyColor: zia.math.Color = zia.math.Color.white,
+    flipX: bool = false,
 };
 
 pub const Material = struct {

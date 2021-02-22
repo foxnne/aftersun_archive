@@ -35,7 +35,7 @@ pub const Player = struct {};
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
 pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0 };
-pub const Color = struct { color: zia.math.Color = zia.math.Color.white, };
+//pub const Color = struct { color: zia.math.Color = zia.math.Color.white, };
 
 
 pub usingnamespace @import("camera.zig");
