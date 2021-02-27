@@ -9,15 +9,7 @@ pub const SpriteRenderer = struct {
     color: zia.math.Color = zia.math.Color.white,
 };
 
-pub const CharacterRenderer = struct {
-    texture: zia.gfx.Texture,
-    atlas: zia.gfx.Atlas,
-    head: usize,
-    body: usize,
-    headColor: zia.math.Color = zia.math.Color.white,
-    bodyColor: zia.math.Color = zia.math.Color.white,
-    flipX: bool = false,
-};
+
 
 pub const Material = struct {
     shader: *zia.gfx.Shader,

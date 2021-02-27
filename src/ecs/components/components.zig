@@ -42,12 +42,5 @@ pub usingnamespace @import("camera.zig");
 pub usingnamespace @import("renderer.zig");
 pub usingnamespace @import("input.zig");
 pub usingnamespace @import("animator.zig");
-
-pub const BodyDirection = struct {
-    direction: zia.math.Direction = .S,
-};
-
-pub const HeadDirection = struct {
-    direction: zia.math.Direction = .S,
-};
+pub usingnamespace @import("character.zig");
 

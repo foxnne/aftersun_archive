@@ -3,8 +3,8 @@
         {
             "name": "Female_Walk_Body_NE_5.png",
             "source": {
-                "x": 115,
-                "y": 82,
+                "x": 297,
+                "y": 42,
                 "width": 14,
                 "height": 40
             },
@@ -14,10 +14,23 @@
             }
         },
         {
+            "name": "Trees_PineWind_2.png",
+            "source": {
+                "x": 0,
+                "y": 0,
+                "width": 54,
+                "height": 180
+            },
+            "origin": {
+                "x": 28,
+                "y": 176
+            }
+        },
+        {
             "name": "Female_Walk_Head_E_6.png",
             "source": {
-                "x": 30,
-                "y": 105,
+                "x": 367,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -29,8 +42,8 @@
         {
             "name": "Female_Walk_Head_E_7.png",
             "source": {
-                "x": 20,
-                "y": 105,
+                "x": 327,
+                "y": 93,
                 "width": 10,
                 "height": 11
             },
@@ -40,9 +53,22 @@
             }
         },
         {
+            "name": "Trees_PineWind_3.png",
+            "source": {
+                "x": 162,
+                "y": 0,
+                "width": 54,
+                "height": 180
+            },
+            "origin": {
+                "x": 28,
+                "y": 176
+            }
+        },
+        {
             "name": "Female_Walk_Body_NE_4.png",
             "source": {
-                "x": 103,
+                "x": 250,
                 "y": 42,
                 "width": 16,
                 "height": 40
@@ -55,7 +81,7 @@
         {
             "name": "Female_Walk_Body_NE_6.png",
             "source": {
-                "x": 226,
+                "x": 272,
                 "y": 82,
                 "width": 15,
                 "height": 38
@@ -66,10 +92,23 @@
             }
         },
         {
+            "name": "Trees_PineWind_1.png",
+            "source": {
+                "x": 54,
+                "y": 0,
+                "width": 54,
+                "height": 180
+            },
+            "origin": {
+                "x": 28,
+                "y": 176
+            }
+        },
+        {
             "name": "Female_Walk_Head_E_5.png",
             "source": {
-                "x": 10,
-                "y": 105,
+                "x": 317,
+                "y": 93,
                 "width": 10,
                 "height": 11
             },
@@ -81,20 +120,20 @@
         {
             "name": "Female_Idle_Body_SE_0.png",
             "source": {
-                "x": 227,
+                "x": 443,
                 "y": 0,
                 "width": 14,
                 "height": 41
             },
             "origin": {
-                "x": 7,
+                "x": 8,
                 "y": 35
             }
         },
         {
             "name": "Female_Idle_Body_N_0.png",
             "source": {
-                "x": 34,
+                "x": 295,
                 "y": 0,
                 "width": 15,
                 "height": 42
@@ -107,8 +146,8 @@
         {
             "name": "Female_Walk_Head_E_4.png",
             "source": {
-                "x": 0,
-                "y": 105,
+                "x": 307,
+                "y": 93,
                 "width": 10,
                 "height": 11
             },
@@ -118,10 +157,23 @@
             }
         },
         {
+            "name": "Trees_PineWind_0.png",
+            "source": {
+                "x": 108,
+                "y": 0,
+                "width": 54,
+                "height": 180
+            },
+            "origin": {
+                "x": 28,
+                "y": 176
+            }
+        },
+        {
             "name": "Female_Walk_Body_NE_7.png",
             "source": {
-                "x": 119,
-                "y": 42,
+                "x": 492,
+                "y": 41,
                 "width": 16,
                 "height": 40
             },
@@ -133,7 +185,7 @@
         {
             "name": "Female_Walk_Body_NE_3.png",
             "source": {
-                "x": 17,
+                "x": 233,
                 "y": 0,
                 "width": 17,
                 "height": 43
@@ -146,8 +198,8 @@
         {
             "name": "Female_Walk_Head_E_0.png",
             "source": {
-                "x": 241,
-                "y": 104,
+                "x": 297,
+                "y": 93,
                 "width": 10,
                 "height": 11
             },
@@ -159,8 +211,8 @@
         {
             "name": "Female_Walk_Head_E_1.png",
             "source": {
-                "x": 70,
-                "y": 94,
+                "x": 287,
+                "y": 93,
                 "width": 10,
                 "height": 11
             },
@@ -172,7 +224,7 @@
         {
             "name": "Female_Walk_Body_NE_2.png",
             "source": {
-                "x": 0,
+                "x": 216,
                 "y": 0,
                 "width": 17,
                 "height": 43
@@ -185,8 +237,8 @@
         {
             "name": "Female_Walk_Body_NE_0.png",
             "source": {
-                "x": 0,
-                "y": 43,
+                "x": 476,
+                "y": 41,
                 "width": 16,
                 "height": 40
             },
@@ -198,8 +250,8 @@
         {
             "name": "Female_Walk_Head_E_3.png",
             "source": {
-                "x": 60,
-                "y": 94,
+                "x": 226,
+                "y": 83,
                 "width": 10,
                 "height": 11
             },
@@ -211,8 +263,8 @@
         {
             "name": "Female_Walk_Head_E_2.png",
             "source": {
-                "x": 50,
-                "y": 94,
+                "x": 216,
+                "y": 83,
                 "width": 10,
                 "height": 11
             },
@@ -224,7 +276,7 @@
         {
             "name": "Female_Walk_Body_NE_1.png",
             "source": {
-                "x": 49,
+                "x": 280,
                 "y": 0,
                 "width": 15,
                 "height": 42
@@ -237,20 +289,20 @@
         {
             "name": "Female_Idle_Body_S_0.png",
             "source": {
-                "x": 241,
+                "x": 485,
                 "y": 0,
                 "width": 14,
                 "height": 41
             },
             "origin": {
-                "x": 7,
+                "x": 8,
                 "y": 35
             }
         },
         {
             "name": "Female_Walk_Body_N_1.png",
             "source": {
-                "x": 150,
+                "x": 366,
                 "y": 41,
                 "width": 14,
                 "height": 41
@@ -263,8 +315,8 @@
         {
             "name": "Female_Walk_Head_NE_2.png",
             "source": {
-                "x": 40,
-                "y": 94,
+                "x": 457,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -276,7 +328,7 @@
         {
             "name": "Female_Walk_Body_S_7.png",
             "source": {
-                "x": 164,
+                "x": 380,
                 "y": 41,
                 "width": 14,
                 "height": 41
@@ -289,8 +341,8 @@
         {
             "name": "Female_Walk_Body_S_6.png",
             "source": {
-                "x": 168,
-                "y": 82,
+                "x": 476,
+                "y": 81,
                 "width": 14,
                 "height": 39
             },
@@ -302,8 +354,8 @@
         {
             "name": "Female_Walk_Head_NE_3.png",
             "source": {
-                "x": 30,
-                "y": 94,
+                "x": 317,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -315,8 +367,8 @@
         {
             "name": "Female_Walk_Body_N_0.png",
             "source": {
-                "x": 48,
-                "y": 42,
+                "x": 499,
+                "y": 0,
                 "width": 13,
                 "height": 41
             },
@@ -328,8 +380,8 @@
         {
             "name": "Female_Walk_Body_N_2.png",
             "source": {
-                "x": 87,
-                "y": 82,
+                "x": 311,
+                "y": 42,
                 "width": 14,
                 "height": 40
             },
@@ -341,8 +393,8 @@
         {
             "name": "Female_Walk_Head_NE_1.png",
             "source": {
-                "x": 20,
-                "y": 94,
+                "x": 397,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -354,8 +406,8 @@
         {
             "name": "Female_Walk_Body_S_4.png",
             "source": {
-                "x": 74,
-                "y": 42,
+                "x": 450,
+                "y": 41,
                 "width": 13,
                 "height": 41
             },
@@ -367,7 +419,7 @@
         {
             "name": "Female_Walk_Body_S_5.png",
             "source": {
-                "x": 206,
+                "x": 408,
                 "y": 41,
                 "width": 14,
                 "height": 41
@@ -380,8 +432,8 @@
         {
             "name": "Female_Walk_Head_NE_0.png",
             "source": {
-                "x": 10,
-                "y": 94,
+                "x": 377,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -393,7 +445,7 @@
         {
             "name": "Female_Walk_Body_N_3.png",
             "source": {
-                "x": 220,
+                "x": 436,
                 "y": 41,
                 "width": 14,
                 "height": 41
@@ -406,8 +458,8 @@
         {
             "name": "Female_Walk_Head_NE_4.png",
             "source": {
-                "x": 0,
-                "y": 94,
+                "x": 357,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -419,7 +471,7 @@
         {
             "name": "Female_Walk_Body_N_7.png",
             "source": {
-                "x": 109,
+                "x": 339,
                 "y": 0,
                 "width": 14,
                 "height": 42
@@ -432,8 +484,8 @@
         {
             "name": "Female_Walk_Body_S_1.png",
             "source": {
-                "x": 234,
-                "y": 41,
+                "x": 429,
+                "y": 0,
                 "width": 14,
                 "height": 41
             },
@@ -445,8 +497,8 @@
         {
             "name": "Female_Walk_Body_S_0.png",
             "source": {
-                "x": 61,
-                "y": 42,
+                "x": 463,
+                "y": 41,
                 "width": 13,
                 "height": 41
             },
@@ -458,8 +510,8 @@
         {
             "name": "Female_Walk_Body_N_6.png",
             "source": {
-                "x": 16,
-                "y": 43,
+                "x": 325,
+                "y": 42,
                 "width": 14,
                 "height": 40
             },
@@ -471,7 +523,7 @@
         {
             "name": "Female_Walk_Head_NE_5.png",
             "source": {
-                "x": 241,
+                "x": 337,
                 "y": 93,
                 "width": 10,
                 "height": 11
@@ -484,21 +536,21 @@
         {
             "name": "Female_Idle_Head_E_0.png",
             "source": {
-                "x": 70,
-                "y": 83,
+                "x": 347,
+                "y": 93,
                 "width": 10,
                 "height": 11
             },
             "origin": {
-                "x": 5,
+                "x": 6,
                 "y": 45
             }
         },
         {
             "name": "Female_Walk_Head_NE_7.png",
             "source": {
-                "x": 20,
-                "y": 83,
+                "x": 347,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -510,7 +562,7 @@
         {
             "name": "Female_Walk_Body_N_4.png",
             "source": {
-                "x": 137,
+                "x": 353,
                 "y": 0,
                 "width": 13,
                 "height": 42
@@ -523,8 +575,8 @@
         {
             "name": "Female_Walk_Body_S_2.png",
             "source": {
-                "x": 101,
-                "y": 82,
+                "x": 339,
+                "y": 42,
                 "width": 14,
                 "height": 40
             },
@@ -536,8 +588,8 @@
         {
             "name": "Female_Walk_Body_S_3.png",
             "source": {
-                "x": 34,
-                "y": 42,
+                "x": 422,
+                "y": 41,
                 "width": 14,
                 "height": 41
             },
@@ -549,20 +601,20 @@
         {
             "name": "Female_Idle_Head_SE_0.png",
             "source": {
-                "x": 40,
-                "y": 105,
+                "x": 387,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
             "origin": {
-                "x": 5,
+                "x": 6,
                 "y": 45
             }
         },
         {
             "name": "Female_Walk_Body_N_5.png",
             "source": {
-                "x": 192,
+                "x": 394,
                 "y": 41,
                 "width": 14,
                 "height": 41
@@ -575,8 +627,8 @@
         {
             "name": "Female_Walk_Head_NE_6.png",
             "source": {
-                "x": 30,
-                "y": 83,
+                "x": 407,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -588,8 +640,8 @@
         {
             "name": "Female_Walk_Head_S_1.png",
             "source": {
-                "x": 45,
-                "y": 116,
+                "x": 216,
+                "y": 94,
                 "width": 9,
                 "height": 11
             },
@@ -601,10 +653,10 @@
         {
             "name": "Female_Walk_Head_N_7.png",
             "source": {
-                "x": 195,
-                "y": 121,
+                "x": 465,
+                "y": 93,
                 "width": 9,
-                "height": 10
+                "height": 11
             },
             "origin": {
                 "x": 5,
@@ -614,7 +666,7 @@
         {
             "name": "Female_Walk_Head_SE_6.png",
             "source": {
-                "x": 241,
+                "x": 287,
                 "y": 82,
                 "width": 10,
                 "height": 11
@@ -627,21 +679,21 @@
         {
             "name": "Female_Idle_Head_NE_0.png",
             "source": {
-                "x": 0,
-                "y": 83,
+                "x": 297,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
             "origin": {
-                "x": 5,
+                "x": 6,
                 "y": 45
             }
         },
         {
             "name": "Female_Walk_Head_SE_7.png",
             "source": {
-                "x": 10,
-                "y": 83,
+                "x": 307,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -653,10 +705,10 @@
         {
             "name": "Female_Walk_Head_N_6.png",
             "source": {
-                "x": 81,
-                "y": 122,
+                "x": 402,
+                "y": 93,
                 "width": 9,
-                "height": 10
+                "height": 11
             },
             "origin": {
                 "x": 5,
@@ -666,8 +718,8 @@
         {
             "name": "Female_Walk_Head_S_0.png",
             "source": {
-                "x": 0,
-                "y": 116,
+                "x": 375,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -679,8 +731,8 @@
         {
             "name": "Female_Walk_Head_S_2.png",
             "source": {
-                "x": 9,
-                "y": 116,
+                "x": 357,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -692,21 +744,21 @@
         {
             "name": "Female_Idle_Body_E_0.png",
             "source": {
-                "x": 123,
+                "x": 325,
                 "y": 0,
                 "width": 14,
                 "height": 42
             },
             "origin": {
-                "x": 7,
+                "x": 8,
                 "y": 35
             }
         },
         {
             "name": "Female_Walk_Head_SE_5.png",
             "source": {
-                "x": 50,
-                "y": 105,
+                "x": 327,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -718,10 +770,10 @@
         {
             "name": "Female_Walk_Head_N_4.png",
             "source": {
-                "x": 177,
-                "y": 121,
+                "x": 296,
+                "y": 104,
                 "width": 9,
-                "height": 10
+                "height": 11
             },
             "origin": {
                 "x": 5,
@@ -731,8 +783,8 @@
         {
             "name": "Female_Walk_Head_N_5.png",
             "source": {
-                "x": 72,
-                "y": 116,
+                "x": 467,
+                "y": 82,
                 "width": 9,
                 "height": 11
             },
@@ -744,8 +796,8 @@
         {
             "name": "Female_Walk_Head_SE_4.png",
             "source": {
-                "x": 60,
-                "y": 105,
+                "x": 337,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -757,8 +809,8 @@
         {
             "name": "Female_Walk_Head_S_3.png",
             "source": {
-                "x": 218,
-                "y": 120,
+                "x": 384,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -770,8 +822,8 @@
         {
             "name": "Female_Walk_Head_S_7.png",
             "source": {
-                "x": 227,
-                "y": 120,
+                "x": 393,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -783,8 +835,8 @@
         {
             "name": "Female_Walk_Head_SE_0.png",
             "source": {
-                "x": 70,
-                "y": 105,
+                "x": 417,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -796,8 +848,8 @@
         {
             "name": "Female_Walk_Head_N_1.png",
             "source": {
-                "x": 168,
-                "y": 121,
+                "x": 411,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -809,8 +861,8 @@
         {
             "name": "Female_Walk_Head_N_0.png",
             "source": {
-                "x": 36,
-                "y": 116,
+                "x": 420,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -822,8 +874,8 @@
         {
             "name": "Female_Walk_Head_SE_1.png",
             "source": {
-                "x": 40,
-                "y": 83,
+                "x": 427,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -835,8 +887,8 @@
         {
             "name": "Female_Walk_Head_S_6.png",
             "source": {
-                "x": 54,
-                "y": 116,
+                "x": 438,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -848,8 +900,8 @@
         {
             "name": "Female_Walk_Head_S_4.png",
             "source": {
-                "x": 63,
-                "y": 116,
+                "x": 447,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
@@ -861,10 +913,10 @@
         {
             "name": "Female_Walk_Head_N_2.png",
             "source": {
-                "x": 186,
-                "y": 121,
+                "x": 456,
+                "y": 93,
                 "width": 9,
-                "height": 10
+                "height": 11
             },
             "origin": {
                 "x": 5,
@@ -874,8 +926,8 @@
         {
             "name": "Female_Walk_Head_SE_3.png",
             "source": {
-                "x": 50,
-                "y": 83,
+                "x": 437,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -887,8 +939,8 @@
         {
             "name": "Female_Walk_Head_SE_2.png",
             "source": {
-                "x": 60,
-                "y": 83,
+                "x": 447,
+                "y": 82,
                 "width": 10,
                 "height": 11
             },
@@ -900,8 +952,8 @@
         {
             "name": "Female_Walk_Head_N_3.png",
             "source": {
-                "x": 27,
-                "y": 116,
+                "x": 225,
+                "y": 94,
                 "width": 9,
                 "height": 11
             },
@@ -913,8 +965,8 @@
         {
             "name": "Female_Walk_Head_S_5.png",
             "source": {
-                "x": 209,
-                "y": 120,
+                "x": 287,
+                "y": 104,
                 "width": 9,
                 "height": 11
             },
@@ -926,7 +978,7 @@
         {
             "name": "Female_Walk_Body_SE_1.png",
             "source": {
-                "x": 183,
+                "x": 399,
                 "y": 0,
                 "width": 15,
                 "height": 41
@@ -939,7 +991,7 @@
         {
             "name": "Female_Walk_Body_E_0.png",
             "source": {
-                "x": 64,
+                "x": 250,
                 "y": 0,
                 "width": 15,
                 "height": 42
@@ -952,7 +1004,7 @@
         {
             "name": "Female_Walk_Body_E_1.png",
             "source": {
-                "x": 79,
+                "x": 265,
                 "y": 0,
                 "width": 15,
                 "height": 42
@@ -965,7 +1017,7 @@
         {
             "name": "Female_Walk_Body_SE_0.png",
             "source": {
-                "x": 150,
+                "x": 366,
                 "y": 0,
                 "width": 18,
                 "height": 41
@@ -978,7 +1030,7 @@
         {
             "name": "Female_Walk_Body_SE_2.png",
             "source": {
-                "x": 213,
+                "x": 471,
                 "y": 0,
                 "width": 14,
                 "height": 41
@@ -991,8 +1043,8 @@
         {
             "name": "Female_Walk_Body_E_3.png",
             "source": {
-                "x": 178,
-                "y": 41,
+                "x": 457,
+                "y": 0,
                 "width": 14,
                 "height": 41
             },
@@ -1004,20 +1056,20 @@
         {
             "name": "Female_Idle_Head_S_0.png",
             "source": {
-                "x": 241,
-                "y": 115,
+                "x": 429,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
             "origin": {
-                "x": 4,
+                "x": 5,
                 "y": 45
             }
         },
         {
             "name": "Female_Walk_Body_E_2.png",
             "source": {
-                "x": 168,
+                "x": 384,
                 "y": 0,
                 "width": 15,
                 "height": 41
@@ -1030,7 +1082,7 @@
         {
             "name": "Female_Walk_Body_SE_3.png",
             "source": {
-                "x": 87,
+                "x": 266,
                 "y": 42,
                 "width": 16,
                 "height": 40
@@ -1043,7 +1095,7 @@
         {
             "name": "Female_Walk_Body_SE_7.png",
             "source": {
-                "x": 135,
+                "x": 282,
                 "y": 42,
                 "width": 15,
                 "height": 40
@@ -1056,8 +1108,8 @@
         {
             "name": "Female_Walk_Body_E_6.png",
             "source": {
-                "x": 156,
-                "y": 82,
+                "x": 230,
+                "y": 43,
                 "width": 12,
                 "height": 40
             },
@@ -1069,21 +1121,21 @@
         {
             "name": "Female_Idle_Body_NE_0.png",
             "source": {
-                "x": 94,
+                "x": 310,
                 "y": 0,
                 "width": 15,
                 "height": 42
             },
             "origin": {
-                "x": 7,
+                "x": 8,
                 "y": 36
             }
         },
         {
             "name": "Female_Walk_Body_E_7.png",
             "source": {
-                "x": 129,
-                "y": 82,
+                "x": 216,
+                "y": 43,
                 "width": 14,
                 "height": 40
             },
@@ -1095,8 +1147,8 @@
         {
             "name": "Female_Walk_Body_SE_6.png",
             "source": {
-                "x": 182,
-                "y": 82,
+                "x": 490,
+                "y": 81,
                 "width": 14,
                 "height": 39
             },
@@ -1108,7 +1160,7 @@
         {
             "name": "Female_Walk_Body_SE_4.png",
             "source": {
-                "x": 209,
+                "x": 255,
                 "y": 82,
                 "width": 17,
                 "height": 38
@@ -1121,8 +1173,8 @@
         {
             "name": "Female_Walk_Body_E_5.png",
             "source": {
-                "x": 143,
-                "y": 82,
+                "x": 353,
+                "y": 42,
                 "width": 13,
                 "height": 40
             },
@@ -1134,20 +1186,20 @@
         {
             "name": "Female_Idle_Head_N_0.png",
             "source": {
-                "x": 18,
-                "y": 116,
+                "x": 366,
+                "y": 93,
                 "width": 9,
                 "height": 11
             },
             "origin": {
-                "x": 4,
+                "x": 5,
                 "y": 45
             }
         },
         {
             "name": "Female_Walk_Body_E_4.png",
             "source": {
-                "x": 198,
+                "x": 414,
                 "y": 0,
                 "width": 15,
                 "height": 41
@@ -1160,7 +1212,7 @@
         {
             "name": "Female_Walk_Body_SE_5.png",
             "source": {
-                "x": 196,
+                "x": 242,
                 "y": 82,
                 "width": 13,
                 "height": 39

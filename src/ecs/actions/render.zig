@@ -50,7 +50,7 @@ pub fn render(query: ?*flecs.ecs_query_t) void {
                     .y = positions[i].y,
                 }, .{
                     .color = renderer.bodyColor,
-                    .flipX = renderer.flipX,
+                    .flipX = renderer.flipHead,
                 });
 
                 zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
@@ -58,7 +58,7 @@ pub fn render(query: ?*flecs.ecs_query_t) void {
                     .y = positions[i].y,
                 }, .{
                     .color = renderer.headColor,
-                    .flipX = renderer.flipX,
+                    .flipX = renderer.flipBody,
                 });
 
             }

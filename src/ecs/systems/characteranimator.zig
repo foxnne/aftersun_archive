@@ -1,4 +1,3 @@
-
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
@@ -29,7 +28,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (body != .None) { //moving
             bodies[i].direction = body;
 
-            if (head == body or head == body.rotateCW() or head == body.rotateCCW()) {
+            if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW() or head == bodies[i].direction.rotateCW().rotateCW() or head == bodies[i].direction.rotateCCW().rotateCCW()) {
                 heads[i].direction = head;
             } else {
                 heads[i].direction = body;
@@ -53,14 +52,16 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .None => unreachable,
             };
 
-            
-
             animators[i].fps = 10;
-            renderers[i].flipX = body.flippedHorizontally();
+            renderers[i].flipBody = body.flippedHorizontally();
 
             switch (heads[i].direction) {
-                .SW, .W, .NW => renderers[i].flipX = true,
-                else => {}
+                .SW,
+                .W,
+                .NW,
+                => renderers[i].flipHead = true,
+                .N, .S => renderers[i].flipHead = renderers[i].flipBody,
+                else => renderers[i].flipHead = false,
             }
         } else { //idle
 
@@ -79,7 +80,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     bodies[i].direction = .SE;
                 } else {
                     bodies[i].direction = .SW;
-                    renderers[i].flipX = true;
+                    renderers[i].flipBody = true;
+                    renderers[i].flipHead = true;
                 },
                 .E => if (r > 50) {
                     bodies[i].direction = .SE;
@@ -90,7 +92,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     bodies[i].direction = .NE;
                 } else {
                     bodies[i].direction = .NW;
-                    renderers[i].flipX = true;
+                    renderers[i].flipBody = true;
+                    renderers[i].flipHead = true;
                 },
                 .W => if (r > 50) {
                     bodies[i].direction = .NW;
@@ -100,7 +103,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 else => {},
             }
 
-            if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW())
+            if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW() or head == bodies[i].direction.rotateCW().rotateCW() or head == bodies[i].direction.rotateCCW().rotateCCW())
                 heads[i].direction = head;
 
             animators[i].bodyAnimation = switch (bodies[i].direction) {
@@ -120,6 +123,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             };
 
             animators[i].fps = 8;
+
+            switch (heads[i].direction) {
+                .SW,
+                .W,
+                .NW,
+                => renderers[i].flipHead = true,
+                .N, .S => renderers[i].flipHead = renderers[i].flipBody,
+                else => renderers[i].flipHead = false,
+            }
         }
 
         if (lucid.gizmos.enabled) {

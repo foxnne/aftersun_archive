@@ -34,7 +34,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the camera viewport
         cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(pass.color_texture.width / 2, pass.color_texture.height / 2);
+        cam_tmp.translate(@round(pass.color_texture.width / 2), @round(pass.color_texture.height / 2));
         camera_transform = cam_tmp.mul(camera_transform);
 
         // scale the render texture by zoom
@@ -71,21 +71,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
 
         // center the render texture on the screen
-        var rt_pos = .{ .x = -pass.color_texture.width / 2, .y = -pass.color_texture.height / 2 };
-
-        
+        var rt_pos = .{ .x = @round(-pass.color_texture.width / 2), .y = @round(-pass.color_texture.height / 2) };
 
         // render the render texture to the back buffer
         zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform });
 
-        
-
-        // draw
         zia.gfx.draw.texture(pass.color_texture, rt_pos, .{});
 
-        
-
-        // end
         zia.gfx.endPass();
 
         pass.deinit();

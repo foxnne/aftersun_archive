@@ -18,9 +18,9 @@ pub const components = @import("ecs/components/components.zig");
 pub const sorters = @import("ecs/sorters/sorters.zig");
 pub const actions = @import("ecs/actions/actions.zig");
 
-var character_palette: zia.gfx.Texture = undefined;
-var character_texture: zia.gfx.Texture = undefined;
-var character_atlas: zia.gfx.Atlas = undefined;
+var lucid_palette: zia.gfx.Texture = undefined;
+var lucid_texture: zia.gfx.Texture = undefined;
+var lucid_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 
 var world: flecs.World = undefined;
@@ -37,9 +37,9 @@ fn init() !void {
     gizmos = @import("gizmos/gizmos.zig").Gizmos.init(null);
 
     // load textures, atlases and shaders
-    character_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.characterpalette_png.path, .nearest) catch unreachable;
-    character_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.character_png.path, .nearest) catch unreachable;
-    character_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.character_atlas.path) catch unreachable;
+    lucid_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucidpalette_png.path, .nearest) catch unreachable;
+    lucid_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_png.path, .nearest) catch unreachable;
+    lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
 
     world = flecs.World.init();
@@ -91,12 +91,12 @@ fn init() !void {
     world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
     //world.set(player, &components.Color{ .color = zia.math.Color.fromRgbBytes(5, 0, 0) });
-    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
+    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&lucid_palette} });
     world.set(player, &components.CharacterRenderer{
-        .texture = character_texture,
-        .atlas = character_atlas,
-        .body = assets.character_atlas.Female_Idle_Body_SE_0,
-        .head = assets.character_atlas.Female_Idle_Head_S_0,
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .body = assets.lucid_atlas.Female_Idle_Body_SE_0,
+        .head = assets.lucid_atlas.Female_Idle_Head_S_0,
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
     });
@@ -115,24 +115,24 @@ fn init() !void {
     world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{
-        .texture = character_texture,
-        .atlas = character_atlas,
-        .index = assets.character_atlas.Female_Idle_Body_S_0,
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Trees_PineWind_0,
     });
     //world.set(other, &components.Color{ .color = zia.math.Color.fromRgbBytes(4, 0, 0) });
-    world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
+    //world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 
     var third = world.new();
     world.setName(third, "Third");
     world.set(third, &components.Position{ .x = -60, .y = 0 });
     world.set(third, &components.SpriteRenderer{
-        .texture = character_texture,
-        .atlas = character_atlas,
-        .index = assets.character_atlas.Female_Idle_Body_NE_0,
-        .color = zia.math.Color.fromRgbBytes(11, 0, 0),
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Trees_PineWind_1,
+        //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
     });
     //world.set(third, &components.Color{ .color = zia.math.Color.fromRgbBytes(11, 0, 0) });
-    world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
+    //world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 }
 
 fn update() !void {
@@ -159,7 +159,7 @@ fn update() !void {
 
 fn shutdown() !void {
     world.deinit();
-    character_texture.deinit();
-    character_palette.deinit();
+    lucid_texture.deinit();
+    lucid_palette.deinit();
     character_shader.deinit();
 }
