@@ -1,3 +1,4 @@
+const std = @import("std");
 const flecs = @import("flecs");
 const zia = @import("zia");
 
@@ -7,8 +8,9 @@ pub const Camera = struct {
     design_h: i32,
 };
 
-pub const RenderQuery = struct {
-    renderers: ?*flecs.Query,
+pub const RenderQueue = struct {
+    query: ?*flecs.Query,
+    entities: std.ArrayList(flecs.Entity),
 };
 
 pub const Zoom = struct {

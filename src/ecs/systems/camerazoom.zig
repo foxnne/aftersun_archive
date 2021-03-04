@@ -19,6 +19,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         const design_w = @intToFloat(f32, cameras[i].design_w);
         const design_h = @intToFloat(f32, cameras[i].design_h);
 
+
         // reset the minimum zoom
         zooms[i].min = 1.0;
 
@@ -51,11 +52,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             } else {
                 zooms[i].current = zooms[i].target;
             }
-        }
-
-        // ensure we snap to target
-        if (@fabs(zooms[i].current - zooms[i].target) <= 0.1) {
-            zooms[i].current = zooms[i].target;
         }
 
         // ensure that zoom is within bounds

@@ -5,6 +5,7 @@ const lucid = @import("lucid");
 const components = lucid.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
+    var cameras = it.column(components.Camera, 1);
     var positions = it.column(components.Position, 2);
     //var inputs = it.column(components.PanInput, 2);
     var velocities = it.column(components.Velocity, 3);
@@ -19,15 +20,14 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         var i: usize = 0;
         while (i < it.count) : (i += 1) {
-            //var world = flecs.World{ .world = it.world.? };
             var pan_direction = panInput.direction.vector2();
 
             var follow_ptr = world.get(it.entities[i], components.Follow);
 
             if (follow_ptr) |follow| {
-                //const follow = @ptrCast(*const components.Follow, @alignCast(@alignOf(components.Follow), fol_ptr));
 
-                var target_position_ptr = flecs.ecs_get_w_entity(world.world, follow.target, world.newComponent(components.Position));
+                //var target_position_ptr = flecs.ecs_get_w_entity(world.world, follow.target, world.newComponent(components.Position));
+                var target_position_ptr = world.get(follow.target, components.Position);
 
                 if (target_position_ptr) |pos_ptr| {
                     const target_position = @ptrCast(*const components.Position, @alignCast(@alignOf(components.Position), pos_ptr));

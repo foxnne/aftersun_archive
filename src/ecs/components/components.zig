@@ -28,19 +28,49 @@ pub fn register(world: *flecs.World) void {
     }
 }
 
-// tags
-pub const Player = struct {};
-
 // generic
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
 pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0 };
-//pub const Color = struct { color: zia.math.Color = zia.math.Color.white, };
 
+pub const Grid = struct {
+    chunkSize: i32 = 2, //cells wide/tall
+    cellWidth: i32 = 32,
+    cellHeight: i32 = 32
+};
+
+pub const Collider = struct {
+    shape: Shape,
+    chunk: Chunk = .{ .x = 0, .y = 0 },
+
+    pub const Shape = union(enum) {
+        circle: Circle,
+        box: Box,
+    };
+
+    pub const Circle = struct {
+        radius: f32,
+    };
+
+    pub const Box = struct {
+        width: f32,
+        height: f32,
+    };
+
+    pub const Chunk = struct {
+        x: i32 = 0,
+        y: i32 = 0,
+    };
+};
+
+pub const Broadphase = struct {
+    entities: zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity),
+};
 
 pub usingnamespace @import("camera.zig");
 pub usingnamespace @import("renderer.zig");
 pub usingnamespace @import("input.zig");
 pub usingnamespace @import("animator.zig");
 pub usingnamespace @import("character.zig");
+
 

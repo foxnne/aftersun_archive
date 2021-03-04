@@ -48,30 +48,30 @@ fn init() !void {
     // register all components
     components.register(&world);
 
-    // singletons
+    // input
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("PanInputSystem", flecs.Phase.on_update, "$PanInput", @import("ecs/systems/paninput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
-
-    // character
     _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
+
+    // physics
+    _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
+    _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, Position, Velocity, $Broadphase", @import("ecs/systems/narrowphase.zig").progress);
+
+    // correction
     _ = world.newSystem("SubpixelMoveSystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/subpixelmove.zig").progress);
+
+    // animation
     _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
     _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
 
-    // camera
+    // rendering
+    _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
     _ = world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Camera, Position, Velocity", @import("ecs/systems/camerapan.zig").progress);
-    _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
 
-    // create a query for renderers
-    // attach directly to render system (its an entity as well, and there will only be one)
-    var renderers = world.newQuery("Position, ?SpriteRenderer, ?CharacterRenderer");
-    world.sortQuery(renderers, components.Position, sorters.sortY);
-    var renderSystem = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera", @import("ecs/systems/render.zig").progress);
-    world.set(renderSystem, &components.RenderQuery{
-        .renderers = renderers,
-    });
+    _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
+    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/render.zig").progress);
 
     var camera = world.new();
     world.setName(camera, "Camera");
@@ -80,10 +80,18 @@ fn init() !void {
     world.set(camera, &components.Position{});
     world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
+    // create a query for renderers we want to draw using this camera
+    var rendererQuery = world.newQuery("Position, SpriteRenderer || CharacterRenderer");
+    world.set(camera, &components.RenderQueue{
+        .query = rendererQuery,
+        .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
+    });
 
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.PanInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
+    world.setSingleton(&components.Grid{});
+    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
 
     var player = world.new();
     world.setName(player, "Player");
@@ -108,6 +116,7 @@ fn init() !void {
     world.set(player, &components.BodyDirection{});
     world.set(player, &components.HeadDirection{});
     world.add(player, components.Player);
+    world.set(player, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
 
     world.set(camera, &components.Follow{ .target = player });
 
@@ -119,18 +128,53 @@ fn init() !void {
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_0,
     });
+    world.set(other, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
     //world.set(other, &components.Color{ .color = zia.math.Color.fromRgbBytes(4, 0, 0) });
     //world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 
     var third = world.new();
     world.setName(third, "Third");
-    world.set(third, &components.Position{ .x = -60, .y = 0 });
+    world.set(third, &components.Position{ .x = -160, .y = 10 });
     world.set(third, &components.SpriteRenderer{
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Trees_PineWind_1,
+    });
+    world.set(third, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
+
+    var fourth = world.new();
+    world.setName(fourth, "Fourth");
+    world.set(fourth, &components.Position{ .x = -175, .y = 40});
+    world.set(fourth, &components.SpriteRenderer{
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Trees_PineWind_2,
+    });
+    world.set(fourth, &components.Collider{ .shape = .{ .circle = .{ .radius = 10 } } });
+
+    var fifth = world.new();
+    world.setName(fifth, "Fifth");
+    world.set(fifth, &components.Position{ .x = 160, .y = 300 });
+    world.set(fifth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_1,
         //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
     });
+    world.set(fifth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+    
+
+    var sixth = world.new();
+    world.setName(sixth, "Sixth");
+    world.set(sixth, &components.Position{ .x = 170, .y = 290 });
+    world.set(sixth, &components.SpriteRenderer{
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Trees_PineWind_1,
+        //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
+    });
+    world.set(sixth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+
     //world.set(third, &components.Color{ .color = zia.math.Color.fromRgbBytes(11, 0, 0) });
     //world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 }
@@ -151,6 +195,13 @@ fn update() !void {
 
     // run all systems
     world.progress(zia.time.dt());
+
+    // clear the broadphase collection and reinit
+    var broadphase_ptr = world.getSingletonMut(components.Broadphase);
+    if (broadphase_ptr) |broadphase| {
+        broadphase.*.entities.deinit();
+        world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
+    }
 
     // end the window after all other systems are run
     if (zia.enable_imgui)

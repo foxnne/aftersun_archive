@@ -1,5 +1,7 @@
 const zia = @import("zia");
 
+pub const Player = struct {};
+
 pub const CharacterAnimator = struct {
     headAnimation: []usize,
     bodyAnimation: []usize,
@@ -21,7 +23,6 @@ pub const CharacterRenderer = struct {
     body: usize,
     headColor: zia.math.Color = zia.math.Color.white,
     bodyColor: zia.math.Color = zia.math.Color.white,
-    flipX: bool = false,
     flipBody: bool = false,
     flipHead: bool = false,
 };
