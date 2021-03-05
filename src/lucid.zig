@@ -65,11 +65,12 @@ fn init() !void {
     _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
     _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
 
-    // rendering
+    // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
     _ = world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Camera, Position, Velocity", @import("ecs/systems/camerapan.zig").progress);
 
+    // rendering
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
     _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/render.zig").progress);
 
@@ -98,7 +99,6 @@ fn init() !void {
     world.set(player, &components.Position{});
     world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
-    //world.set(player, &components.Color{ .color = zia.math.Color.fromRgbBytes(5, 0, 0) });
     world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&lucid_palette} });
     world.set(player, &components.CharacterRenderer{
         .texture = lucid_texture,
@@ -144,7 +144,7 @@ fn init() !void {
 
     var fourth = world.new();
     world.setName(fourth, "Fourth");
-    world.set(fourth, &components.Position{ .x = -175, .y = 40});
+    world.set(fourth, &components.Position{ .x = -175, .y = 40 });
     world.set(fourth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
@@ -162,7 +162,6 @@ fn init() !void {
         //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
     });
     world.set(fifth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
-    
 
     var sixth = world.new();
     world.setName(sixth, "Sixth");
@@ -174,9 +173,6 @@ fn init() !void {
         //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
     });
     world.set(sixth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
-
-    //world.set(third, &components.Color{ .color = zia.math.Color.fromRgbBytes(11, 0, 0) });
-    //world.set(third, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
 }
 
 fn update() !void {

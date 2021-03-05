@@ -139,9 +139,18 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     }
 }
 
+// top down sort
 fn sort(world: *flecs.World, lhs: flecs.Entity, rhs: flecs.Entity) bool {
     const pos1 = world.get(lhs, components.Position);
     const pos2 = world.get(rhs, components.Position);
 
-    return pos1.?.y < pos2.?.y;
+    if (pos1.?.z == pos2.?.z) {
+        if (pos1.?.y == pos2.?.y) {
+            return pos1.?.x < pos2.?.x;
+        } else {
+            return pos1.?.y < pos2.?.y;
+        }
+    } else {
+        return pos1.?.z < pos2.?.z;
+    }
 }

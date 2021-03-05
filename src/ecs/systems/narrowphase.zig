@@ -40,9 +40,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             if (entities_ptr) |entities| {
                 for (entities.items) |other| {
                     if (other != it.entities[i]) {
+
                         // here we have an entity that is a possible collision
                         const otherPosition = world.get(other, components.Position);
                         const otherCollider = world.get(other, components.Collider);
+
+                        if (positions[i].z != otherPosition.?.z)
+                            continue;
 
                         switch (colliders[i].shape) {
                             .circle => {
