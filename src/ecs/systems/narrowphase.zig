@@ -45,20 +45,23 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         const otherPosition = world.get(other, components.Position);
                         const otherCollider = world.get(other, components.Collider);
 
+                        // only collide when on the same height level
                         if (positions[i].z != otherPosition.?.z)
                             continue;
+
+                        //TODO: collision layers
 
                         switch (colliders[i].shape) {
                             .circle => {
                                 switch (otherCollider.?.shape) {
                                     .circle => {
-                                        const pos1 = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y };
+                                        const pos1 = zia.math.Vector2{ .x = positions[i].x + velocities[i].x, .y = positions[i].y + velocities[i].y };
                                         const pos2 = zia.math.Vector2{ .x = otherPosition.?.x, .y = otherPosition.?.y };
 
                                         const distSq = pos1.distanceSq(pos2);
 
                                         const radius = colliders[i].shape.circle.radius + otherCollider.?.shape.circle.radius;
-                                        const tolerance = radius * 0.05;
+                                        const tolerance = radius * 0;
 
                                         if (distSq < radius * radius) {
                                             const distance = std.math.sqrt(distSq);
@@ -82,28 +85,68 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                                 } else {
                                                     velocities[i].y += normal.y * penetration;
                                                 }
-
-                                                //velocities[i].x += normal.x * penetration;
-                                                //velocities[i].y += normal.y * penetration;
                                             }
                                         }
                                     },
 
-                                    .box => {},
+                                    .box => {
+                                        const pos1 = zia.math.Vector2{ .x = positions[i].x + velocities[i].x, .y = positions[i].y + velocities[i].y };
+                                        const pos2 = zia.math.Vector2{ .x = otherPosition.?.x, .y = otherPosition.?.y };
+
+                                        // // TODO: handle rotation?
+                                        // const aabb1 = zia.math.RectF{ .x = pos1.x, .y = pos1.y, .width = colliders[i].shape.circle.radius * 2, .height = colliders[i].shape.circle.radius * 2 };
+                                        // const aabb2 = zia.math.RectF{ .x = pos2.x, .y = pos2.y, .width = otherCollider.?.shape.box.width, .height = otherCollider.?.shape.box.height };
+
+                                        // if (aabb1.x < aabb2.x + aabb2.width and aabb1.x + aabb1.width > aabb2.x and aabb1.y < aabb2.y + aabb2.height and aabb1.y + aabb1.height > aabb2.y) {
+
+                                        // }
+
+                                        const aabb_halfextents = zia.math.Vector2{ .x = otherCollider.?.shape.box.width / 2, .y = otherCollider.?.shape.box.height / 2 };
+                                        //const aabb_center = zia.math.Vector2{ .x = otherPosition.?.x + aabb_halfextents.x, .y = otherPosition.?.y + aabb_halfextents.y};
+
+                                        var difference = zia.math.Vector2{ .x = pos1.x - pos2.x, .y = pos1.y - pos2.y };
+                                        const clamped = zia.math.Vector2{
+                                            .x = std.math.clamp(difference.x, -aabb_halfextents.x, aabb_halfextents.x),
+                                            .y = std.math.clamp(difference.y, -aabb_halfextents.y, aabb_halfextents.y),
+                                        };
+                                        const closest = zia.math.Vector2{ .x = pos2.x + clamped.x, .y = pos2.y + clamped.y };
+
+                                        difference.x = closest.x - pos1.x;
+                                        difference.y = closest.y - pos1.y;
+
+                                        if (std.math.sqrt(difference.x * difference.x + difference.y * difference.y) < colliders[i].shape.circle.radius) {
+                                            var direction = zia.math.Direction.find(4, difference.x, difference.y);
+
+                                            switch (direction) {
+                                                .E => {
+                                                    var penetration = colliders[i].shape.circle.radius - @fabs(difference.x);
+
+                                                    velocities[i].x -= penetration;
+                                                },
+                                                .W => {
+                                                    var penetration = colliders[i].shape.circle.radius - @fabs(difference.x);
+
+                                                    velocities[i].x += penetration;
+                                                },
+                                                .N => {
+                                                    var penetration = colliders[i].shape.circle.radius - @fabs(difference.y);
+
+                                                    velocities[i].y += penetration;
+                                                },
+                                                .S, .None => {
+                                                    var penetration = colliders[i].shape.circle.radius - @fabs(difference.y);
+
+                                                    velocities[i].y -= penetration;
+                                                },
+                                                else => unreachable,
+                                            }
+                                        }
+                                    },
                                 }
                             },
                             .box => {
                                 switch (otherCollider.?.shape) {
-                                    .circle => {
-                                        const pos1 = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y };
-                                        const pos2 = zia.math.Vector2{ .x = otherPosition.?.x, .y = otherPosition.?.y };
-
-                                        const futurePos1 = zia.math.Vector2{ .x = pos1.x + velocities[i].x, .y = pos1.y + velocities[i].y };
-
-                                        if (futurePos1.distance(pos2) < colliders[i].shape.circle.radius * 2) {
-                                            velocities[i] = .{ .x = 0, .y = 0 };
-                                        }
-                                    },
+                                    .circle => {},
 
                                     .box => {},
                                 }

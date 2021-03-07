@@ -4,7 +4,6 @@ const flecs = @import("flecs");
 const components = @import("lucid").components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    //var inputs = it.column(components.MovementInput, 1);
     var world = flecs.World{ .world = it.world.? };
 
     var movementInputPtr = world.getSingleton(components.MovementInput);

@@ -81,10 +81,9 @@ fn init() !void {
     world.set(camera, &components.Position{});
     world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
-    // create a query for renderers we want to draw using this camera
-    var rendererQuery = world.newQuery("Position, SpriteRenderer || CharacterRenderer");
+    // create a query for renderers we want to draw using this camera 
     world.set(camera, &components.RenderQueue{
-        .query = rendererQuery,
+        .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer"),
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
     });
 
@@ -121,7 +120,6 @@ fn init() !void {
     world.set(camera, &components.Follow{ .target = player });
 
     var other = world.new();
-    world.setName(other, "Second");
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{
         .texture = lucid_texture,
@@ -129,11 +127,18 @@ fn init() !void {
         .index = assets.lucid_atlas.Trees_PineWind_0,
     });
     world.set(other, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
-    //world.set(other, &components.Color{ .color = zia.math.Color.fromRgbBytes(4, 0, 0) });
-    //world.set(other, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&character_palette} });
+
+    var other2 = world.new();
+    world.set(other2, &components.Position{ .x = 78, .y = 2 });
+    world.set(other2, &components.SpriteRenderer{
+        .texture = lucid_texture,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Trees_PineWind_0,
+    });
+    world.set(other2, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+   
 
     var third = world.new();
-    world.setName(third, "Third");
     world.set(third, &components.Position{ .x = -160, .y = 10 });
     world.set(third, &components.SpriteRenderer{
         .texture = lucid_texture,
@@ -143,8 +148,7 @@ fn init() !void {
     world.set(third, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
 
     var fourth = world.new();
-    world.setName(fourth, "Fourth");
-    world.set(fourth, &components.Position{ .x = -175, .y = 40 });
+    world.set(fourth, &components.Position{ .x = -175, .y = 25 });
     world.set(fourth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
@@ -153,24 +157,20 @@ fn init() !void {
     world.set(fourth, &components.Collider{ .shape = .{ .circle = .{ .radius = 10 } } });
 
     var fifth = world.new();
-    world.setName(fifth, "Fifth");
-    world.set(fifth, &components.Position{ .x = 160, .y = 300 });
+    world.set(fifth, &components.Position{ .x = -160, .y = 45 });
     world.set(fifth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_1,
-        //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
     });
     world.set(fifth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
     var sixth = world.new();
-    world.setName(sixth, "Sixth");
-    world.set(sixth, &components.Position{ .x = 170, .y = 290 });
+    world.set(sixth, &components.Position{ .x = -170, .y = -10 });
     world.set(sixth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_1,
-        //.color = zia.math.Color.fromRgbBytes(11, 0, 0),
     });
     world.set(sixth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 }

@@ -20,8 +20,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         const size = zia.window.size();
         const size_w = @intToFloat(f32, size.w);
         const size_h = @intToFloat(f32, size.h);
-        const half_w = size_w * 0.5;
-        const half_h = size_h * 0.5;
 
         const design_w = @intToFloat(f32, cameras[i].design_w);
         const design_h = @intToFloat(f32, cameras[i].design_h);
@@ -51,7 +49,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the render texture
         rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.translate(half_w, half_h);
+        rt_tmp.translate(size_w * 0.5, size_h * 0.5);
         rt_transform = rt_tmp.mul(rt_transform);
 
         // translate the camera matrix for converting screen to world
