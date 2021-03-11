@@ -22,6 +22,7 @@ var lucid_palette: zia.gfx.Texture = undefined;
 var lucid_texture: zia.gfx.Texture = undefined;
 var lucid_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
+var pixel_perfect_shader: zia.gfx.Shader = undefined;
 
 var world: flecs.World = undefined;
 
@@ -41,6 +42,7 @@ fn init() !void {
     lucid_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_png.path, .nearest) catch unreachable;
     lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
+    pixel_perfect_shader = shaders.createPixelPerfectShader() catch unreachable;
 
     world = flecs.World.init();
     world.setTargetFps(60);
@@ -59,7 +61,7 @@ fn init() !void {
     _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, Position, Velocity, $Broadphase", @import("ecs/systems/narrowphase.zig").progress);
 
     // correction
-    _ = world.newSystem("SubpixelMoveSystem", flecs.Phase.on_update, "Position, Subpixel, Velocity", @import("ecs/systems/subpixelmove.zig").progress);
+    _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity", @import("ecs/systems/move.zig").progress);
 
     // animation
     _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
@@ -72,19 +74,23 @@ fn init() !void {
 
     // rendering
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
-    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/render.zig").progress);
+    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, Material, RenderQueue", @import("ecs/systems/render.zig").progress);
 
     var camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
-    world.set(camera, &components.Subpixel{});
+    //world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
     // create a query for renderers we want to draw using this camera 
     world.set(camera, &components.RenderQueue{
         .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer"),
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
+    });
+    world.set(camera, &components.Material{
+        .shader = &pixel_perfect_shader,
+        .textures = null
     });
 
     world.setSingleton(&components.MovementInput{});
@@ -96,7 +102,7 @@ fn init() !void {
     var player = world.new();
     world.setName(player, "Player");
     world.set(player, &components.Position{});
-    world.set(player, &components.Subpixel{});
+    //world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
     world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&lucid_palette} });
     world.set(player, &components.CharacterRenderer{

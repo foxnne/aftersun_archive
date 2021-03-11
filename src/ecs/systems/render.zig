@@ -11,7 +11,8 @@ const sorters = lucid.sorters;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
     var cameras = it.column(components.Camera, 2);
-    var renderqueues = it.column(components.RenderQueue, 3);
+    var materials = it.column(components.Material, 3);
+    var renderqueues = it.column(components.RenderQueue, 4);
 
     var world = flecs.World{ .world = it.world.? };
 
@@ -24,7 +25,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         const design_w = @intToFloat(f32, cameras[i].design_w);
         const design_h = @intToFloat(f32, cameras[i].design_h);
 
-        var pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
+        var pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
 
         // translate by the cameras position
         var camera_transform = zia.math.Matrix3x2.identity;
@@ -42,7 +43,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         var rt_tmp = zia.math.Matrix3x2.identity;
 
         if (world.get(it.entities[i], components.Zoom)) |zoom| {
-            //const zoom = @ptrCast(*const components.Zoom, @alignCast(@alignOf(components.Zoom), ptr));
             rt_tmp.scale(zoom.current, zoom.current);
             rt_transform = rt_tmp.mul(rt_transform);
         }
@@ -66,7 +66,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // sort
         std.sort.sort(flecs.Entity, renderqueues[i].entities.items, &world, sort);
 
-        //if (world.get(it.system, components.RenderQuery)) |renderQuery| {
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
 
@@ -76,8 +75,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             if (world.get(entity, components.Material)) |material| {
                 zia.gfx.setShader(material.shader);
 
-                for (material.textures) |texture, k| {
-                    zia.gfx.draw.bindTexture(texture.*, @intCast(c_uint, k + 1));
+                if (material.textures) |textures| {
+                    for (textures) |texture, k| {
+                        zia.gfx.draw.bindTexture(texture.*, @intCast(c_uint, k + 1));
+                    }
                 }
             }
 
@@ -113,22 +114,22 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             if (world.get(entity, components.Material)) |material| {
                 zia.gfx.setShader(null);
 
-                for (material.textures) |texture, k| {
-                    zia.gfx.draw.unbindTexture(@intCast(c_uint, k + 1));
+                if (material.textures) |textures| {
+                    for (textures) |texture, k| {
+                        zia.gfx.draw.unbindTexture(@intCast(c_uint, k + 1));
+                    }
                 }
             }
         }
-        //actions.render(renderQuery.renderers.?);
         zia.gfx.endPass();
-        //}
 
         renderqueues[i].entities.shrinkAndFree(0);
 
         // center the render texture on the screen
         var rt_pos = .{ .x = @round(-pass.color_texture.width / 2), .y = @round(-pass.color_texture.height / 2) };
 
-        // render the render texture to the back buffer
-        zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform });
+        // render the render texture to the back buffer using camera material shader
+        zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform, .shader = materials[i].shader });
 
         zia.gfx.draw.texture(pass.color_texture, rt_pos, .{});
         zia.gfx.endPass();

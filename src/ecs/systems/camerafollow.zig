@@ -18,11 +18,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         if (target_position_ptr) |target_position| {
             const target_distance = zia.math.Vector2.distance(.{ .x = target_position.x, .y = target_position.y }, .{ .x = positions[i].x, .y = positions[i].y });
-            const target_direction = zia.math.Direction.find(8, target_position.x - positions[i].x, target_position.y - positions[i].y).vector2();
+            const target_direction = zia.math.Direction.find(8, target_position.x - positions[i].x, target_position.y - positions[i].y).normalized();
+            
 
             if (target_velocity_ptr) |target_velocity| {
-                // set min_distance based on zoom..?
-                // so pan and follow always go to design extents?
 
                 if (target_distance <= follows[i].min_distance) {
                     velocities[i].x = 0;
@@ -35,8 +34,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         var speed_x = @fabs(target_velocity.x / zia.time.dt());
                         var speed_y = @fabs(target_velocity.y / zia.time.dt());
 
-                        velocities[i].x = target_direction.x * zia.time.dt() * speed_x;
-                        velocities[i].y = target_direction.y * zia.time.dt() * speed_y;
+                        velocities[i].x = target_direction.x * zia.time.dt() * follows[i].speed;
+                        velocities[i].y = target_direction.y * zia.time.dt() * follows[i].speed;
                     } else {
                         velocities[i].x = target_direction.x * zia.time.dt() * follows[i].speed;
                         velocities[i].y = target_direction.y * zia.time.dt() * follows[i].speed;

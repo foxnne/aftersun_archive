@@ -5,6 +5,12 @@ const math = zia.math;
 const renderkit = zia.renderkit;
 
 
+pub fn createPixelPerfectShader() !gfx.Shader {
+    const vert = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/sprite_vs.glsl") else @embedFile("../assets/shaders/sprite_vs.metal");
+    const frag = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/pixelPerfect_fs.glsl") else @embedFile("../assets/shaders/pixelPerfect_fs.metal");
+    return try gfx.Shader.initWithVertFrag(VertexParams, struct { pub const metadata = .{ .images = .{ "main_tex" } }; }, .{ .frag = frag, .vert = vert });
+}
+
 pub fn createSpritePaletteShader() !gfx.Shader {
     const vert = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/sprite_vs.glsl") else @embedFile("../assets/shaders/sprite_vs.metal");
     const frag = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/spritePalette_fs.glsl") else @embedFile("../assets/shaders/spritePalette_fs.metal");

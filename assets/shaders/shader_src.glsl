@@ -44,7 +44,8 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 @program sprite sprite_vs sprite_fs
 
-
+// RENDERS INDEXED SPRITES USING A PALETTE, SPLITTING THE THREE
+// CHANNELS INTO "LAYERS", PALETTE INDEX IS CHANNEL COLOR (0-255)
 @fs spritePalette_fs
 @include_block sprite_fs_main
 uniform sampler2D palette_tex;
@@ -79,5 +80,24 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @end
 
 @program spritePalette sprite_vs spritePalette_fs
+
+
+// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
+@fs pixelPerfect_fs
+@include_block sprite_fs_main
+
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+
+	ivec2 tex_size = textureSize(tex,0);
+	vec2 scaled_tex_coords = tex_coord * tex_size;
+	float texelsPerPixel = 8;
+	vec2 locationWithinTexel = fract(scaled_tex_coords);
+  	vec2 interpolationAmount = clamp(locationWithinTexel / texelsPerPixel, 0, 0.5) + clamp((locationWithinTexel - 1) / texelsPerPixel + 0.5, 0, 0.5);
+  	vec2 finalTextureCoords = (floor(scaled_tex_coords) + interpolationAmount) / tex_size;
+  	return texture(tex, finalTextureCoords) * vert_color;
+}
+@end
+
+@program pixelPerfect sprite_vs pixelPerfect_fs
 
 #@include example_include_commented_out.glsl

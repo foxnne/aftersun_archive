@@ -25,5 +25,5 @@ pub const Follow = struct {
     target: flecs.Entity,
     max_distance: f32 = 120,
     min_distance: f32 = 60,
-    speed: f32 = 40.0,
+    speed: f32 = 60.0,
 };
