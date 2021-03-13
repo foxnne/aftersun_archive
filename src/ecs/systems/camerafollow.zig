@@ -56,8 +56,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
                 var difference = forward_target.subtract(camera_position);
 
-                velocities[i].x = difference.x * follows[i].easing;
-                velocities[i].y = difference.y * follows[i].easing;
+                velocities[i].x = difference.x * follows[i].easing * 3;
+                velocities[i].y = difference.y * follows[i].easing * 3;
+
+    
 
                 if (lucid.gizmos.enabled) {
                     var color = zia.math.Color.fromBytes(255, 255, 255, 128);
