@@ -52,7 +52,6 @@ fn init() !void {
 
     // input
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
-    _ = world.newSystem("PanInputSystem", flecs.Phase.on_update, "$PanInput", @import("ecs/systems/paninput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
     _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
 
@@ -70,7 +69,6 @@ fn init() !void {
     // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
-    //_ = world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Camera, Position, Velocity", @import("ecs/systems/camerapan.zig").progress);
 
     // rendering
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
@@ -119,7 +117,6 @@ fn init() !void {
     world.set(camera, &components.Follow{ .target = player });
 
     world.setSingleton(&components.MovementInput{});
-    world.setSingleton(&components.PanInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Grid{});
     world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
