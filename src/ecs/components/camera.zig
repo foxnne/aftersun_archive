@@ -23,7 +23,7 @@ pub const Zoom = struct {
 
 pub const Follow = struct {
     target: flecs.Entity,
-    max_distance: f32 = 120,
-    min_distance: f32 = 60,
-    speed: f32 = 60.0,
+    max_distance: f32 = 30,
+    min_distance: f32 = 15,
+    easing: f32 = 0.05,
 };

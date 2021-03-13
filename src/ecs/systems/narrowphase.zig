@@ -160,7 +160,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                             var pos2 = zia.math.Vector2{ .x = otherpos.x, .y = otherpos.y };
 
                             if (lucid.gizmos.enabled) {
-                                lucid.gizmos.line(pos1, pos2, zia.math.Color.red, 1);
+                                lucid.gizmos.line(pos1, pos2, zia.math.Color.fromBytes(255, 0, 0, 128), 1);
                             }
                         }
                     }

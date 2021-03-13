@@ -70,34 +70,11 @@ fn init() !void {
     // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
-    _ = world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Camera, Position, Velocity", @import("ecs/systems/camerapan.zig").progress);
+    //_ = world.newSystem("CameraPanSystem", flecs.Phase.post_update, "Camera, Position, Velocity", @import("ecs/systems/camerapan.zig").progress);
 
     // rendering
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
     _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, Material, RenderQueue", @import("ecs/systems/render.zig").progress);
-
-    var camera = world.new();
-    world.setName(camera, "Camera");
-    world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
-    world.set(camera, &components.Zoom{});
-    world.set(camera, &components.Position{});
-    //world.set(camera, &components.Subpixel{});
-    world.set(camera, &components.Velocity{});
-    // create a query for renderers we want to draw using this camera 
-    world.set(camera, &components.RenderQueue{
-        .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer"),
-        .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
-    });
-    world.set(camera, &components.Material{
-        .shader = &pixel_perfect_shader,
-        .textures = null
-    });
-
-    world.setSingleton(&components.MovementInput{});
-    world.setSingleton(&components.PanInput{});
-    world.setSingleton(&components.MouseInput{ .camera = camera });
-    world.setSingleton(&components.Grid{});
-    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
 
     var player = world.new();
     world.setName(player, "Player");
@@ -123,7 +100,29 @@ fn init() !void {
     world.add(player, components.Player);
     world.set(player, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
 
+    var camera = world.new();
+    world.setName(camera, "Camera");
+    world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
+    world.set(camera, &components.Zoom{});
+    world.set(camera, &components.Position{});
+    //world.set(camera, &components.Subpixel{});
+    world.set(camera, &components.Velocity{});
+    // create a query for renderers we want to draw using this camera
+    world.set(camera, &components.RenderQueue{
+        .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer"),
+        .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
+    });
+    world.set(camera, &components.Material{
+        .shader = &pixel_perfect_shader,
+        .textures = null,
+    });
     world.set(camera, &components.Follow{ .target = player });
+
+    world.setSingleton(&components.MovementInput{});
+    world.setSingleton(&components.PanInput{});
+    world.setSingleton(&components.MouseInput{ .camera = camera });
+    world.setSingleton(&components.Grid{});
+    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
 
     var other = world.new();
     world.set(other, &components.Position{ .x = 60, .y = 0 });
@@ -142,7 +141,6 @@ fn init() !void {
         .index = assets.lucid_atlas.Trees_PineWind_0,
     });
     world.set(other2, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
-   
 
     var third = world.new();
     world.set(third, &components.Position{ .x = -160, .y = 10 });

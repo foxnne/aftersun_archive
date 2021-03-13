@@ -21,10 +21,12 @@ static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color)
 {
 #line 20 ""
-    float2 _42 = tex_coord * float2(int2(tex.get_width(), tex.get_height()));
-    float2 _48 = fract(_42);
+#line 21 ""
+    float2 _44 = float2(int2(tex.get_width(), tex.get_height()));
+    float2 _45 = tex_coord * _44;
+    float2 _51 = fract(_45);
 #line 26 ""
-    return tex.sample(texSmplr, ((floor(_42) + (fast::clamp(_48 * float2(0.125), float2(0.0), float2(0.5)) + fast::clamp(((_48 - float2(1.0)) * float2(0.125)) + float2(0.5), float2(0.0), float2(0.5)))) / float2(int2(tex.get_width(), tex.get_height())))) * vert_color;
+    return tex.sample(texSmplr, ((floor(_45) + (fast::clamp(_51 * float2(0.125), float2(0.0), float2(0.5)) + fast::clamp(((_51 - float2(1.0)) * float2(0.125)) + float2(0.5), float2(0.0), float2(0.5)))) / _44)) * vert_color;
 }
 
 #line 15 ""
