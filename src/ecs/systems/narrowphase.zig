@@ -18,26 +18,25 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (velocities[i].x == 0 and velocities[i].y == 0)
             continue;
 
-        // get all possible chunks around the entity
-        var c = colliders[i].chunk;
-        var e = .{ .x = c.x + 1, .y = c.y };
-        var w = .{ .x = c.x - 1, .y = c.y };
-        var n = .{ .x = c.x, .y = c.y - 1 };
-        var s = .{ .x = c.x, .y = c.y + 1 };
-        var ne = .{ .x = c.x + 1, .y = c.y - 1 };
-        var se = .{ .x = c.x + 1, .y = c.y + 1 };
-        var sw = .{ .x = c.x - 1, .y = c.y + 1 };
-        var nw = .{ .x = c.x - 1, .y = c.y - 1 };
+        // get all possible cells around the entity
+        const current = colliders[i].cell;
 
-        // collect into an array for iteration
-        var chunks = [_]components.Collider.Chunk{
-            c, e, w, n, s, ne, se, sw, nw,
+        // collect all cells around the current cell
+        var cells = [_]components.Collider.Cell{
+            current,
+            .{ .x = current.x + 1, .y = current.y }, //east
+            .{ .x = current.x - 1, .y = current.y }, //west
+            .{ .x = current.x, .y = current.y - 1 }, //north
+            .{ .x = current.x, .y = current.y + 1 }, //south
+            .{ .x = current.x + 1, .y = current.y - 1 }, //ne
+            .{ .x = current.x + 1, .y = current.y + 1 }, //se
+            .{ .x = current.x - 1, .y = current.y + 1 }, //sw
+            .{ .x = current.x - 1, .y = current.y - 1 }, //nw
         };
 
-        // iterate chunks finding all possible collideable entities
-        for (chunks) |chunk| {
-            var entities_ptr = broadphase.*.entities.get(chunk);
-            if (entities_ptr) |entities| {
+        // iterate cells finding all possible collideable entities
+        for (cells) |cell| {
+            if (broadphase.*.entities.get(cell)) |entities| {
                 for (entities.items) |other| {
                     if (other != it.entities[i]) {
 
@@ -90,19 +89,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                     },
 
                                     .box => {
-                                        const pos1 = zia.math.Vector2{ .x = positions[i].x + velocities[i].x, .y = positions[i].y + velocities[i].y };
+                                        const pos1 = zia.math.Vector2{ .x = positions[i].x + velocities[i].x, .y = positions[i].y};
                                         const pos2 = zia.math.Vector2{ .x = otherPosition.?.x, .y = otherPosition.?.y };
 
                                         // // TODO: handle rotation?
-                                        // const aabb1 = zia.math.RectF{ .x = pos1.x, .y = pos1.y, .width = colliders[i].shape.circle.radius * 2, .height = colliders[i].shape.circle.radius * 2 };
-                                        // const aabb2 = zia.math.RectF{ .x = pos2.x, .y = pos2.y, .width = otherCollider.?.shape.box.width, .height = otherCollider.?.shape.box.height };
-
-                                        // if (aabb1.x < aabb2.x + aabb2.width and aabb1.x + aabb1.width > aabb2.x and aabb1.y < aabb2.y + aabb2.height and aabb1.y + aabb1.height > aabb2.y) {
-
-                                        // }
-
+                               
                                         const aabb_halfextents = zia.math.Vector2{ .x = otherCollider.?.shape.box.width / 2, .y = otherCollider.?.shape.box.height / 2 };
-                                        //const aabb_center = zia.math.Vector2{ .x = otherPosition.?.x + aabb_halfextents.x, .y = otherPosition.?.y + aabb_halfextents.y};
 
                                         var difference = zia.math.Vector2{ .x = pos1.x - pos2.x, .y = pos1.y - pos2.y };
                                         const clamped = zia.math.Vector2{
@@ -114,7 +106,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                         difference.x = closest.x - pos1.x;
                                         difference.y = closest.y - pos1.y;
 
-                                        if (std.math.sqrt(difference.x * difference.x + difference.y * difference.y) < colliders[i].shape.circle.radius) {
+                                        if (difference.x * difference.x + difference.y * difference.y < colliders[i].shape.circle.radius * colliders[i].shape.circle.radius) {
                                             var direction = zia.math.Direction.find(4, difference.x, difference.y);
 
                                             switch (direction) {

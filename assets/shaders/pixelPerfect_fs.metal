@@ -16,16 +16,16 @@ struct main0_in
     float4 color_out [[user(locn1)]];
 };
 
-#line 20 ""
+#line 32 ""
 static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color)
 {
-#line 20 ""
-#line 21 ""
+#line 32 ""
+#line 33 ""
     float2 _44 = float2(int2(tex.get_width(), tex.get_height()));
     float2 _45 = tex_coord * _44;
     float2 _51 = fract(_45);
-#line 26 ""
+#line 40 ""
     return tex.sample(texSmplr, ((floor(_45) + (fast::clamp(_51 * float2(0.125), float2(0.0), float2(0.5)) + fast::clamp(((_51 - float2(1.0)) * float2(0.125)) + float2(0.5), float2(0.0), float2(0.5)))) / _44)) * vert_color;
 }
 

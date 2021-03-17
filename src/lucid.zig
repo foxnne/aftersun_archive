@@ -119,7 +119,7 @@ fn init() !void {
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Grid{});
-    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
+    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
 
     var other = world.new();
     world.set(other, &components.Position{ .x = 60, .y = 0 });
@@ -197,7 +197,7 @@ fn update() !void {
     var broadphase_ptr = world.getSingletonMut(components.Broadphase);
     if (broadphase_ptr) |broadphase| {
         broadphase.*.entities.deinit();
-        world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity).init(std.testing.allocator) });
+        world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
     }
 
     // end the window after all other systems are run

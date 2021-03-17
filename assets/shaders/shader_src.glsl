@@ -86,6 +86,18 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @fs pixelPerfect_fs
 @include_block sprite_fs_main
 
+// not used, left here for if we want to try to make a fake
+// tiltshift shader?
+vec4 blur (sampler2D tex, vec2 tex_coord, vec2 tex_size) {
+
+	vec4 color = vec4(0.0);
+	vec2 off1 = vec2(1.3333333333333333) * vec2(1,1);
+	color += texture(tex, tex_coord) * 0.29411764705882354;
+	color += texture(tex, tex_coord + (off1 / tex_size)) * 0.35294117647058826;
+	color += texture(tex, tex_coord - (off1 / tex_size)) * 0.35294117647058826;
+	return color;
+}
+
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	ivec2 tex_size = textureSize(tex,0);
@@ -94,6 +106,8 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	vec2 locationWithinTexel = fract(scaled_tex_coords);
   	vec2 interpolationAmount = clamp(locationWithinTexel / texelsPerPixel, 0, 0.5) + clamp((locationWithinTexel - 1) / texelsPerPixel + 0.5, 0, 0.5);
   	vec2 finalTextureCoords = (floor(scaled_tex_coords) + interpolationAmount) / tex_size;
+	
+
   	return texture(tex, finalTextureCoords) * vert_color;
 }
 @end

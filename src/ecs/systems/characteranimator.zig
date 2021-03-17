@@ -30,7 +30,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW() or head == bodies[i].direction.rotateCW().rotateCW() or head == bodies[i].direction.rotateCCW().rotateCCW()) {
                 heads[i].direction = head;
-            } else {
+            } else if (heads[i].direction == bodies[i].direction or heads[i].direction == bodies[i].direction.rotateCW() or heads[i].direction == bodies[i].direction.rotateCCW() or heads[i].direction == bodies[i].direction.rotateCW().rotateCW() or heads[i].direction == bodies[i].direction.rotateCCW().rotateCCW()) {} else {
                 heads[i].direction = body;
             }
 

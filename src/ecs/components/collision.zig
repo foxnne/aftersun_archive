@@ -3,14 +3,13 @@ const flecs = @import("flecs");
 const components = @import("components.zig");
 
 pub const Grid = struct {
-    chunkSize: i32 = 2, //cells wide/tall
-    cellWidth: i32 = 32,
-    cellHeight: i32 = 32
+    cellSize: i32 = 2, //cells wide/tall
+    pixelsPerUnit: i32 = 32,
 };
 
 pub const Collider = struct {
     shape: Shape,
-    chunk: Chunk = .{ .x = 0, .y = 0 },
+    cell: Cell = .{ .x = 0, .y = 0 },
 
     pub const Shape = union(enum) {
         circle: Circle,
@@ -26,12 +25,12 @@ pub const Collider = struct {
         height: f32,
     };
 
-    pub const Chunk = struct {
+    pub const Cell = struct {
         x: i32 = 0,
         y: i32 = 0,
     };
 };
 
 pub const Broadphase = struct {
-    entities: zia.utils.MultiHashMap(components.Collider.Chunk, flecs.Entity),
+    entities: zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity),
 };

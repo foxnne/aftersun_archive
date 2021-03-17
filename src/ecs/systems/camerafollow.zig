@@ -21,7 +21,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             var velocity_direction: zia.math.Direction = zia.math.Direction.None;
             var body_direction: zia.math.Direction = zia.math.Direction.None;
             var head_direction: zia.math.Direction = zia.math.Direction.None;
-            var target_distance = target_position.distance(.{ .x = positions[i].x, .y = positions[i].y });
 
             if (world.get(follows[i].target, components.Velocity)) |tv| {
                 velocity_direction = zia.math.Direction.find(8, tv.x, tv.y);
@@ -56,8 +55,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
                 var difference = forward_target.subtract(camera_position);
 
-                velocities[i].x = difference.x * follows[i].easing;
-                velocities[i].y = difference.y * follows[i].easing;
+                velocities[i].x = difference.x * follows[i].easing * 3;
+                velocities[i].y = difference.y * follows[i].easing * 3;
 
                 if (lucid.gizmos.enabled) {
                     var color = zia.math.Color.fromBytes(255, 255, 255, 128);

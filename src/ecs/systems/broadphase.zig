@@ -10,7 +10,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var colliders = it.column(components.Collider, 1);
     var positions = it.column(components.Position, 2);
-
     var broadphase = it.column(components.Broadphase, 3);
 
     var grid_ptr = world.getSingleton(components.Grid);
@@ -19,12 +18,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         var i: usize = 0;
         while (i < it.count) : (i += 1) {
-            var x = @floatToInt(i32, @trunc(positions[i].x / @intToFloat(f32, (grid.cellWidth * grid.chunkSize))));
-            var y = @floatToInt(i32, @trunc(positions[i].y / @intToFloat(f32, (grid.cellHeight * grid.chunkSize))));
+            var x = @floatToInt(i32, @trunc(positions[i].x / @intToFloat(f32, (grid.pixelsPerUnit * grid.cellSize))));
+            var y = @floatToInt(i32, @trunc(positions[i].y / @intToFloat(f32, (grid.pixelsPerUnit * grid.cellSize))));
 
-            colliders[i].chunk = .{ .x = x, .y = y };
+            colliders[i].cell = .{ .x = x, .y = y };
 
-            broadphase.*.entities.append(colliders[i].chunk, it.entities[i]);
+            broadphase.*.entities.append(colliders[i].cell, it.entities[i]);
 
             if (lucid.gizmos.enabled) {
                 switch (colliders[i].shape)
