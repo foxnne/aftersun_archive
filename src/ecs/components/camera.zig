@@ -24,6 +24,6 @@ pub const Zoom = struct {
 pub const Follow = struct {
     target: flecs.Entity,
     max_distance: f32 = 50,
-    min_distance: f32 = 0,
+    min_distance: f32 = 10,
     easing: f32 = 0.05,
 };
