@@ -94,6 +94,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
 
             if (world.get(entity, components.CharacterRenderer)) |renderer| {
+                
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .color = renderer.headColor,
+                    .flipX = renderer.flipBody,
+                });
+
                 zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
                     .x = position.?.x,
                     .y = position.?.y,
@@ -102,13 +111,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     .flipX = renderer.flipHead,
                 });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
                     .x = position.?.x,
                     .y = position.?.y,
                 }, .{
-                    .color = renderer.headColor,
-                    .flipX = renderer.flipBody,
+                    .color = renderer.hairColor,
+                    .flipX = renderer.flipHead,
                 });
+
+                
             }
 
             if (world.get(entity, components.Material)) |material| {

@@ -28,9 +28,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (body != .None) { //moving
             bodies[i].direction = body;
 
-            if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW() or head == bodies[i].direction.rotateCW().rotateCW() or head == bodies[i].direction.rotateCCW().rotateCCW()) {
+            if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW()) {
                 heads[i].direction = head;
-            } else if (heads[i].direction == bodies[i].direction or heads[i].direction == bodies[i].direction.rotateCW() or heads[i].direction == bodies[i].direction.rotateCCW() or heads[i].direction == bodies[i].direction.rotateCW().rotateCW() or heads[i].direction == bodies[i].direction.rotateCCW().rotateCCW()) {} else {
+            } else if (heads[i].direction == bodies[i].direction or heads[i].direction == bodies[i].direction.rotateCW() or heads[i].direction == bodies[i].direction.rotateCCW()) {} else {
                 heads[i].direction = body;
             }
 
@@ -49,6 +49,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .E, .W => &animations.walkHeadE,
                 .NE, .NW => &animations.walkHeadNE,
                 .N => &animations.walkHeadN,
+                .None => unreachable,
+            };
+
+            animators[i].hairAnimation = switch (heads[i].direction) {
+                .S => &animations.walkHairF01S,
+                .SE, .SW => &animations.walkHairF01SE,
+                .E, .W => &animations.walkHairF01E,
+                .NE, .NW => &animations.walkHairF01NE,
+                .N => &animations.walkHairF01N,
                 .None => unreachable,
             };
 
@@ -122,13 +131,19 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .None => &animations.idleHeadS,
             };
 
+            animators[i].hairAnimation = switch (heads[i].direction) {
+                .S => &animations.idleHairF01S,
+                .SE, .SW => &animations.idleHairF01SE,
+                .E, .W => &animations.idleHairF01E,
+                .NE, .NW => &animations.idleHairF01NE,
+                .N => &animations.idleHairF01N,
+                .None => unreachable,
+            };
+
             animators[i].fps = 8;
 
             switch (heads[i].direction) {
-                .SW,
-                .W,
-                .NW,
-                => renderers[i].flipHead = true,
+                .SW, .W, .NW => renderers[i].flipHead = true,
                 .N, .S => renderers[i].flipHead = renderers[i].flipBody,
                 else => renderers[i].flipHead = false,
             }

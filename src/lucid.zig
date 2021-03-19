@@ -83,14 +83,17 @@ fn init() !void {
     world.set(player, &components.CharacterRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
-        .body = assets.lucid_atlas.Female_Idle_Body_SE_0,
-        .head = assets.lucid_atlas.Female_Idle_Head_S_0,
+        .body = assets.lucid_atlas.Body_Idle_S_0,
+        .head = assets.lucid_atlas.Head_Idle_S_0,
+        .hair = assets.lucid_atlas.HairF01_Idle_S_0,
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
+        .hairColor = zia.math.Color.fromRgbBytes(1, 0, 0),
     });
     world.set(player, &components.CharacterAnimator{
         .bodyAnimation = &animations.idleBodySE,
         .headAnimation = &animations.idleHeadS,
+        .hairAnimation = &animations.idleHairF01SE,
         .state = .idle,
     });
     world.set(player, &components.BodyDirection{});
