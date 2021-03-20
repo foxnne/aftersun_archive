@@ -86,17 +86,47 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @fs pixelPerfect_fs
 @include_block sprite_fs_main
 
-// not used, left here for if we want to try to make a fake
-// tiltshift shader?
-vec4 blur (sampler2D tex, vec2 tex_coord, vec2 tex_size) {
 
-	vec4 color = vec4(0.0);
-	vec2 off1 = vec2(1.3333333333333333) * vec2(1,1);
-	color += texture(tex, tex_coord) * 0.29411764705882354;
-	color += texture(tex, tex_coord + (off1 / tex_size)) * 0.35294117647058826;
-	color += texture(tex, tex_coord - (off1 / tex_size)) * 0.35294117647058826;
-	return color;
+vec4 tiltshift (sampler2D tex, vec2 tex_coord) {
+	const float bluramount  = 1;
+	const float center      = 1;
+	const float stepSize    = 0.004;
+	const float steps       = 3.0;
+
+	const float minOffs     = (float(steps-1.0)) / -2.0;
+	const float maxOffs     = (float(steps-1.0)) / +2.0;
+
+	float amount;
+    vec4 blurred;
+        
+        //Work out how much to blur based on the mid point 
+    amount = pow((tex_coord.y * center) * 2.0 - 1.0, 2.0) * bluramount;
+        
+        //This is the accumulation of color from the surrounding pixels in the texture
+    blurred = vec4(0.0, 0.0, 0.0, 1.0);
+        
+        //From minimum offset to maximum offset
+    for (float offsX = minOffs; offsX <= maxOffs; ++offsX) {
+        for (float offsY = minOffs; offsY <= maxOffs; ++offsY) {
+
+                //copy the coord so we can mess with it
+            vec2 temp_tcoord = tex_coord.xy;
+
+                //work out which uv we want to sample now
+            temp_tcoord.x += offsX * amount * stepSize;
+            temp_tcoord.y += offsY * amount * stepSize;
+
+                //accumulate the sample 
+            blurred += texture(tex, temp_tcoord);
+        
+        } //for y
+    } //for x 
+        
+        //because we are doing an average, we divide by the amount (x AND y, hence steps * steps)
+    return blurred /= float(steps * steps);
+      
 }
+
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
@@ -108,10 +138,15 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
   	vec2 finalTextureCoords = (floor(scaled_tex_coords) + interpolationAmount) / tex_size;
 	
 
-  	return texture(tex, finalTextureCoords) * vert_color;
+
+  	// return texture(tex, finalTextureCoords) * vert_color;
+
+	return tiltshift(tex, finalTextureCoords) * vert_color;  
 }
 @end
 
 @program pixelPerfect sprite_vs pixelPerfect_fs
 
 #@include example_include_commented_out.glsl
+
+

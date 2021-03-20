@@ -41,7 +41,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 forward_target = forward_target.add(head_direction.normalized().scale(follows[i].min_distance));
 
                 var difference = forward_target.subtract(camera_position);
-                var distance = forward_target.distance(camera_position);
 
                 velocities[i].x = difference.x * follows[i].easing * 1.2;
                 velocities[i].y = difference.y * follows[i].easing * 1.2;

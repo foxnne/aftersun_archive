@@ -134,7 +134,7 @@ fn init() !void {
     world.set(other, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
     var other2 = world.new();
-    world.set(other2, &components.Position{ .x = 78, .y = 2 });
+    world.set(other2, &components.Position{ .x = 78, .y = -40 });
     world.set(other2, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
@@ -161,7 +161,7 @@ fn init() !void {
     world.set(fourth, &components.Collider{ .shape = .{ .circle = .{ .radius = 10 } } });
 
     var fifth = world.new();
-    world.set(fifth, &components.Position{ .x = -160, .y = 45 });
+    world.set(fifth, &components.Position{ .x = -160, .y = 220 });
     world.set(fifth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
@@ -170,7 +170,7 @@ fn init() !void {
     world.set(fifth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
     var sixth = world.new();
-    world.set(sixth, &components.Position{ .x = -170, .y = -10 });
+    world.set(sixth, &components.Position{ .x = -250, .y = -80 });
     world.set(sixth, &components.SpriteRenderer{
         .texture = lucid_texture,
         .atlas = lucid_atlas,
