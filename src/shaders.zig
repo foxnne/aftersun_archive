@@ -35,12 +35,19 @@ pub const VertexParams = extern struct {
 pub const LightParams = extern struct {
     pub const metadata = .{
         .images = .{ "main_tex", "height_tex" },
-        .uniforms = .{ .LightParams = .{ .type = .float4, .array_count = 1 } },
+        .uniforms = .{ .LightParams = .{ .type = .float4, .array_count = 3 } },
     };
 
     tex_width: f32 = 0,
     tex_height: f32 = 0,
     sun_XYAngle: f32 = 0,
     sun_ZAngle: f32 = 0,
+    shadow_r: f32 = 0,
+    shadow_g: f32 = 0,
+    shadow_b: f32 = 0,
+    max_steps: f32 = 0,
+    max_height: f32 = 0,
+    fade: f32 = 0,
+    _pad40_0_: [8]u8 = [_]u8{0} ** 8,
 };
 

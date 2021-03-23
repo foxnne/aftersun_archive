@@ -104,6 +104,14 @@ uniform LightParams {
 	float tex_height;
 	float sun_XYAngle;
 	float sun_ZAngle;
+	float shadow_r;
+	float shadow_g;
+	float shadow_b;
+	float max_steps;
+	float max_height;
+	float fade;
+
+
 };
 
 vec2 extrude(vec2 other, float angle, float len) {
@@ -112,9 +120,9 @@ vec2 extrude(vec2 other, float angle, float len) {
 	return vec2(other.x + x, other.y + y);
 }
 
-float getHeightAt(vec2 texCoord, float xyAngle, float dist, sampler2D heightMap) {
+float getHeightAt(vec2 texCoord, float xyAngle, float dist) {
 	vec2 newTexCoord = extrude(texCoord, xyAngle, dist);
-	float height = texture(heightMap, newTexCoord).r;
+	float height = texture(height_tex, newTexCoord).r;
 	return height;
 }
 
@@ -122,37 +130,35 @@ float getTraceHeight(float height, float zAngle, float dist) {
 	return dist * tan(radians(zAngle)) + height;
 }
 
-bool isInShadow(float xyAngle, float zAngle, sampler2D heightMap,vec2 texCoord, float stp) {
+vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_steps, float max_height, float fade, vec4 shadow_color, vec4 vert_color) {
 	float dist;
 	float height;
-	float otherHeight;
-	float traceHeight;
-	height = texture(heightMap, texCoord).r;
+	float other_height;
+	float trace_height;
+	height = texture(height_tex, tex_coord).r;
 
-	for(int i = 0; i < 200; ++i) {
+	for(int i = 0; i < max_steps; ++i) {
 		dist = stp * float(i);
-		otherHeight = getHeightAt(texCoord, xyAngle, dist, heightMap);
+		other_height = getHeightAt(tex_coord, xy_angle, dist);
 
-		if(otherHeight > height && otherHeight - height < 50 * stp) {
-			traceHeight = getTraceHeight(height, zAngle, dist);
-			if(traceHeight < otherHeight) {
-				return true;
+		if(other_height > height && other_height - height < max_height * stp) {
+			trace_height = getTraceHeight(height, z_angle, dist);
+			if(trace_height < other_height) {
+				return clamp(shadow_color + vec4(vec3(dist * fade), 1), 0, 1);
 			}
 		}
 	}
-	return false;
+	return vert_color;
 }
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	const vec2 tex_size = vec2(tex_width, tex_height);
-	const float texStep = 1 / tex_size.y;
-	const vec4 shadowColor = vec4( 0.8, 0.8, 0.9, 1);
+	const float tex_step = 1 / tex_size.y;
+	const vec4 shadow_color = vec4( shadow_r, shadow_g, shadow_b, 1);
+	
 
-	if(isInShadow(sun_XYAngle, sun_ZAngle, height_tex, tex_coord, texStep)) {
-		return shadowColor;
-	}
-	return vert_color;
+	return shadow(sun_XYAngle, sun_ZAngle, tex_coord, tex_step,max_steps, max_height,fade,shadow_color, vert_color);
 
 }
 @end

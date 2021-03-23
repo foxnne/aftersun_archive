@@ -1,6 +1,6 @@
 #version 330
 
-uniform vec4 LightParams[1];
+uniform vec4 LightParams[3];
 uniform sampler2D main_tex;
 uniform sampler2D height_tex;
 
@@ -13,12 +13,12 @@ vec2 extrude(vec2 other, float angle, float len)
     return vec2(other.x + (len * cos(radians(angle))), other.y + (len * sin(radians(angle))));
 }
 
-float getHeightAt(vec2 texCoord, float xyAngle, float dist, sampler2D heightMap)
+float getHeightAt(vec2 texCoord, float xyAngle, float dist)
 {
     vec2 param = texCoord;
     float param_1 = xyAngle;
     float param_2 = dist;
-    return texture(heightMap, extrude(param, param_1, param_2)).x;
+    return texture(height_tex, extrude(param, param_1, param_2)).x;
 }
 
 float getTraceHeight(float height, float zAngle, float dist)
@@ -26,39 +26,40 @@ float getTraceHeight(float height, float zAngle, float dist)
     return (dist * tan(radians(zAngle))) + height;
 }
 
-bool isInShadow(float xyAngle, float zAngle, sampler2D heightMap, vec2 texCoord, float stp)
+vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_steps, float max_height, float fade, vec4 shadow_color, vec4 vert_color)
 {
-    vec4 _116 = texture(heightMap, texCoord);
-    float _117 = _116.x;
-    for (int i = 0; i < 200; i++)
+    vec4 _119 = texture(height_tex, tex_coord);
+    float _120 = _119.x;
+    for (int i = 0; float(i) < max_steps; i++)
     {
-        float _134 = stp * float(i);
-        vec2 param = texCoord;
-        float param_1 = xyAngle;
-        float param_2 = _134;
-        float _142 = getHeightAt(param, param_1, param_2, heightMap);
-        bool _145 = _142 > _117;
-        bool _155;
-        if (_145)
+        float _139 = stp * float(i);
+        vec2 param = tex_coord;
+        float param_1 = xy_angle;
+        float param_2 = _139;
+        float _147 = getHeightAt(param, param_1, param_2);
+        bool _150 = _147 > _120;
+        bool _160;
+        if (_150)
         {
-            _155 = (_142 - _117) < (50.0 * stp);
+            _160 = (_147 - _120) < (max_height * stp);
         }
         else
         {
-            _155 = _145;
+            _160 = _150;
         }
-        if (_155)
+        if (_160)
         {
-            float param_3 = _117;
-            float param_4 = zAngle;
-            float param_5 = _134;
-            if (getTraceHeight(param_3, param_4, param_5) < _142)
+            float param_3 = _120;
+            float param_4 = z_angle;
+            float param_5 = _139;
+            if (getTraceHeight(param_3, param_4, param_5) < _147)
             {
-                return true;
+                float _179 = _139 * fade;
+                return clamp(shadow_color + vec4(_179, _179, _179, 1.0), vec4(0.0), vec4(1.0));
             }
         }
     }
-    return false;
+    return vert_color;
 }
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
@@ -67,11 +68,12 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     float param_1 = LightParams[0].w;
     vec2 param_2 = tex_coord;
     float param_3 = 1.0 / LightParams[0].y;
-    if (isInShadow(param, param_1, height_tex, param_2, param_3))
-    {
-        return vec4(0.800000011920928955078125, 0.800000011920928955078125, 0.89999997615814208984375, 1.0);
-    }
-    return vert_color;
+    float param_4 = LightParams[1].w;
+    float param_5 = LightParams[2].x;
+    float param_6 = LightParams[2].y;
+    vec4 param_7 = vec4(LightParams[1].x, LightParams[1].y, LightParams[1].z, 1.0);
+    vec4 param_8 = vert_color;
+    return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8);
 }
 
 void main()

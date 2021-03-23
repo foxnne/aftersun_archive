@@ -28,6 +28,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         shadowprocesses[i].shader.frag_uniform.tex_width = design_w;
         shadowprocesses[i].shader.frag_uniform.tex_height = design_h;
+        shadowprocesses[i].shader.frag_uniform.shadow_r = 0.7;
+        shadowprocesses[i].shader.frag_uniform.shadow_g = 0.7;
+        shadowprocesses[i].shader.frag_uniform.shadow_b = 0.8;
 
         var mainpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         var heightpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
@@ -180,8 +183,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.endPass();
 
         renderqueues[i].entities.shrinkAndFree(0);
-
-        
 
         // center the render texture on the screen
         var rt_pos = .{ .x = @round(-mainpass.color_texture.width / 2), .y = @round(-mainpass.color_texture.height / 2) };

@@ -209,33 +209,64 @@ fn update() !void {
         _ = imgui.igBegin("Gizmos", null, imgui.ImGuiWindowFlags_NoBackground | imgui.ImGuiWindowFlags_NoTitleBar | imgui.ImGuiWindowFlags_NoResize | imgui.ImGuiWindowFlags_NoInputs);
     }
 
-    light_shader.frag_uniform.sun_XYAngle += 5 * zia.time.dt();
+    //TODO: Move this to a system!
+
+    // light_shader.frag_uniform.sun_XYAngle += 10 * zia.time.dt();
+    // if (light_shader.frag_uniform.sun_XYAngle > 360)
+    //     light_shader.frag_uniform.sun_XYAngle = 0;
+    // if (light_shader.frag_uniform.sun_XYAngle > 0 and light_shader.frag_uniform.sun_XYAngle <= 90){
+    //     var f = light_shader.frag_uniform.sun_XYAngle / 90;
+    //     light_shader.frag_uniform.sun_ZAngle = 22.5 + f * (70 - 22.5);
+    // }
+    // else if (light_shader.frag_uniform.sun_XYAngle > 90 and light_shader.frag_uniform.sun_XYAngle <= 180){
+    //     var f = (light_shader.frag_uniform.sun_XYAngle - 90) / 90;
+    //     light_shader.frag_uniform.sun_ZAngle = 70.0 + f * (22.5 - 70.0);
+    // }
+    // else if (light_shader.frag_uniform.sun_XYAngle > 180 and light_shader.frag_uniform.sun_XYAngle <= 270){
+    //     var f = (light_shader.frag_uniform.sun_XYAngle - 180) / 90;
+    //     light_shader.frag_uniform.sun_ZAngle = 22.5 + f * (55 - 22.5);
+    // } else if (light_shader.frag_uniform.sun_XYAngle > 270){
+    //     var f = (light_shader.frag_uniform.sun_XYAngle - 270) / 90;
+    //     light_shader.frag_uniform.sun_ZAngle = 55.0 + f * (22.5 - 55.0);
+    // }
+
+    const height_high = 75;
+    const height_low = 50;
+
+    const steps_high = 150;
+    const steps_low = 10;
+
+    const fade_high = 10;
+    const fade_low = 1;
+
+    light_shader.frag_uniform.sun_XYAngle += 10 * zia.time.dt();
     if (light_shader.frag_uniform.sun_XYAngle > 360)
         light_shader.frag_uniform.sun_XYAngle = 0;
+    light_shader.frag_uniform.sun_ZAngle = 22.5;
+    light_shader.frag_uniform.max_height = 50;
     if (light_shader.frag_uniform.sun_XYAngle > 0 and light_shader.frag_uniform.sun_XYAngle <= 90){
         var f = light_shader.frag_uniform.sun_XYAngle / 90;
-        light_shader.frag_uniform.sun_ZAngle = 45 + f * (70 - 45);
+        light_shader.frag_uniform.max_steps = steps_high + f * (steps_low - steps_high);
+        light_shader.frag_uniform.max_height = height_low + f * (height_high - height_low);
+        light_shader.frag_uniform.fade = fade_low + f * (fade_high - fade_low);
     }
     else if (light_shader.frag_uniform.sun_XYAngle > 90 and light_shader.frag_uniform.sun_XYAngle <= 180){
         var f = (light_shader.frag_uniform.sun_XYAngle - 90) / 90;
-        light_shader.frag_uniform.sun_ZAngle = 70 + f * (45 - 70);
+        light_shader.frag_uniform.max_steps = steps_low + f * (steps_high - steps_low);
+        light_shader.frag_uniform.max_height = height_high + f * (height_low - height_high);
+        light_shader.frag_uniform.fade = fade_high + f * (fade_low - fade_high);
     }
     else if (light_shader.frag_uniform.sun_XYAngle > 180 and light_shader.frag_uniform.sun_XYAngle <= 270){
         var f = (light_shader.frag_uniform.sun_XYAngle - 180) / 90;
-        light_shader.frag_uniform.sun_ZAngle = 45 + f * (55 - 45);
+        light_shader.frag_uniform.max_steps = steps_high + f * (steps_low - steps_high);
+        light_shader.frag_uniform.max_height = height_low + f * (height_high - height_low);
+        light_shader.frag_uniform.fade = fade_low + f * (fade_high - fade_low);
     } else if (light_shader.frag_uniform.sun_XYAngle > 270){
         var f = (light_shader.frag_uniform.sun_XYAngle - 270) / 90;
-        light_shader.frag_uniform.sun_ZAngle = 55 + f * (45 - 55);
+        light_shader.frag_uniform.max_steps = steps_low + f * (steps_high - steps_low);
+        light_shader.frag_uniform.max_height = height_high + f * (height_low - height_high);
+        light_shader.frag_uniform.fade = fade_high + f * (fade_low - fade_high);
     }
-
-    // light_shader.frag_uniform.sun_XYAngle += 5 * zia.time.dt();
-    // if (light_shader.frag_uniform.sun_XYAngle > 360)
-    //     light_shader.frag_uniform.sun_XYAngle = 0;
-
-    // light_shader.frag_uniform.sun_ZAngle = 45;
-   
-
-
 
     // run all systems
     world.progress(zia.time.dt());
