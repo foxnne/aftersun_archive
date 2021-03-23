@@ -20,6 +20,8 @@ void main() {
 @end
 
 
+
+
 @block sprite_fs_main
 uniform sampler2D main_tex;
 
@@ -35,20 +37,29 @@ void main() {
 @end
 
 
+
+
+
+
 @fs sprite_fs
 @include_block sprite_fs_main
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	return texture(tex, tex_coord) * vert_color;
 }
 @end
-
 @program sprite sprite_vs sprite_fs
+
+
+
+
+
 
 // RENDERS INDEXED SPRITES USING A PALETTE, SPLITTING THE THREE
 // CHANNELS INTO "LAYERS", PALETTE INDEX IS CHANNEL COLOR (0-255)
 @fs spritePalette_fs
 @include_block sprite_fs_main
 uniform sampler2D palette_tex;
+
 
 int max3 (vec3 channels) {
 	return int(max(channels.z, max (channels.y, channels.x)));
@@ -78,14 +89,82 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	return palette_color * base_color.a * vert_color.a;
 }
 @end
-
 @program spritePalette sprite_vs spritePalette_fs
 
 
-// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
-@fs pixelPerfect_fs
-@include_block sprite_fs_main
 
+
+
+
+@fs light_fs
+@include_block sprite_fs_main
+uniform sampler2D height_tex;
+uniform LightParams {
+	float tex_width;
+	float tex_height;
+	float sun_XYAngle;
+	float sun_ZAngle;
+};
+
+vec2 extrude(vec2 other, float angle, float len) {
+	float x = len * cos(radians(angle));
+	float y = len * sin(radians(angle));
+	return vec2(other.x + x, other.y + y);
+}
+
+float getHeightAt(vec2 texCoord, float xyAngle, float dist, sampler2D heightMap) {
+	vec2 newTexCoord = extrude(texCoord, xyAngle, dist);
+	float height = texture(heightMap, newTexCoord).r;
+	return height;
+}
+
+float getTraceHeight(float height, float zAngle, float dist) {
+	return dist * tan(radians(zAngle)) + height;
+}
+
+bool isInShadow(float xyAngle, float zAngle, sampler2D heightMap,vec2 texCoord, float stp) {
+	float dist;
+	float height;
+	float otherHeight;
+	float traceHeight;
+	height = texture(heightMap, texCoord).r;
+
+	for(int i = 0; i < 200; ++i) {
+		dist = stp * float(i);
+		otherHeight = getHeightAt(texCoord, xyAngle, dist, heightMap);
+
+		if(otherHeight > height && otherHeight - height < 50 * stp) {
+			traceHeight = getTraceHeight(height, zAngle, dist);
+			if(traceHeight < otherHeight) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+
+	const vec2 tex_size = vec2(tex_width, tex_height);
+	const float texStep = 1 / tex_size.y;
+	const vec4 shadowColor = vec4( 0.8, 0.8, 0.9, 1);
+
+	if(isInShadow(sun_XYAngle, sun_ZAngle, height_tex, tex_coord, texStep)) {
+		return shadowColor;
+	}
+	return vert_color;
+
+}
+@end
+@program light sprite_vs light_fs
+
+
+
+
+// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
+@fs postProcess_fs
+@include_block sprite_fs_main
+uniform sampler2D shadow_tex;
 
 vec4 tiltshift (sampler2D tex, vec2 tex_coord) {
 	const float bluramount  = 1;
@@ -127,25 +206,28 @@ vec4 tiltshift (sampler2D tex, vec2 tex_coord) {
       
 }
 
+vec2 interpolate (vec2 tex_coord, ivec2 tex_size, float texelsPerPixel) {
+	vec2 scaled_tex_coords = tex_coord * tex_size;
+	vec2 locationWithinTexel = fract(scaled_tex_coords);
+  	vec2 interpolationAmount = clamp(locationWithinTexel / texelsPerPixel, 0, 0.5) + clamp((locationWithinTexel - 1) / texelsPerPixel + 0.5, 0, 0.5);
+  	return (floor(scaled_tex_coords) + interpolationAmount) / tex_size;
+}
+
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	ivec2 tex_size = textureSize(tex,0);
-	vec2 scaled_tex_coords = tex_coord * tex_size;
 	float texelsPerPixel = 8;
-	vec2 locationWithinTexel = fract(scaled_tex_coords);
-  	vec2 interpolationAmount = clamp(locationWithinTexel / texelsPerPixel, 0, 0.5) + clamp((locationWithinTexel - 1) / texelsPerPixel + 0.5, 0, 0.5);
-  	vec2 finalTextureCoords = (floor(scaled_tex_coords) + interpolationAmount) / tex_size;
 	
+  	vec2 interpolated_tex_coords = interpolate(tex_coord, tex_size, texelsPerPixel);
 
-
-  	// return texture(tex, finalTextureCoords) * vert_color;
-
-	return tiltshift(tex, finalTextureCoords) * vert_color;  
+	vec4 shadow = tiltshift(shadow_tex, interpolated_tex_coords);
+	
+	return tiltshift(tex, interpolated_tex_coords) * shadow;  
 }
 @end
 
-@program pixelPerfect sprite_vs pixelPerfect_fs
+@program postProcess sprite_vs postProcess_fs
 
 #@include example_include_commented_out.glsl
 

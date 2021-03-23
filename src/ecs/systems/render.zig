@@ -11,8 +11,9 @@ const sorters = lucid.sorters;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
     var cameras = it.column(components.Camera, 2);
-    var materials = it.column(components.Material, 3);
+    var postprocesses = it.column(components.PostProcess, 3);
     var renderqueues = it.column(components.RenderQueue, 4);
+    var shadowprocesses = it.column(components.ShadowProcess, 5);
 
     var world = flecs.World{ .world = it.world.? };
 
@@ -25,7 +26,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         const design_w = @intToFloat(f32, cameras[i].design_w);
         const design_h = @intToFloat(f32, cameras[i].design_h);
 
-        var pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
+        shadowprocesses[i].shader.frag_uniform.tex_width = design_w;
+        shadowprocesses[i].shader.frag_uniform.tex_height = design_h;
+
+        var mainpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
+        var heightpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
+        var shadowpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
 
         // translate by the cameras position
         var camera_transform = zia.math.Matrix3x2.identity;
@@ -35,7 +41,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the camera viewport
         cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(@round(pass.color_texture.width / 2), @round(pass.color_texture.height / 2));
+        cam_tmp.translate(@round(mainpass.color_texture.width / 2), @round(mainpass.color_texture.height / 2));
         camera_transform = cam_tmp.mul(camera_transform);
 
         // scale the render texture by zoom
@@ -66,8 +72,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // sort
         std.sort.sort(flecs.Entity, renderqueues[i].entities.items, &world, sort);
 
+
         // render the camera to the render texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = pass, .trans_mat = camera_transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = mainpass, .trans_mat = camera_transform });
 
         for (renderqueues[i].entities.items) |entity, j| {
             var position = world.get(entity, components.Position);
@@ -94,7 +101,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
 
             if (world.get(entity, components.CharacterRenderer)) |renderer| {
-                
                 zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
                     .x = position.?.x,
                     .y = position.?.y,
@@ -118,8 +124,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     .color = renderer.hairColor,
                     .flipX = renderer.flipHead,
                 });
-
-                
             }
 
             if (world.get(entity, components.Material)) |material| {
@@ -134,18 +138,72 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
         zia.gfx.endPass();
 
-        renderqueues[i].entities.shrinkAndFree(0);
+        // render the heightmaps to the heightmap texture
+        zia.gfx.beginPass(.{ .color = zia.math.Color.fromBytes(1, 1, 1, 255), .pass = heightpass, .trans_mat = camera_transform });
 
-        // center the render texture on the screen
-        var rt_pos = .{ .x = @round(-pass.color_texture.width / 2), .y = @round(-pass.color_texture.height / 2) };
+        for (renderqueues[i].entities.items) |entity, j| {
+            var position = world.get(entity, components.Position);
 
-        // render the render texture to the back buffer using camera material shader
-        zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform, .shader = materials[i].shader });
+            if (world.get(entity, components.SpriteRenderer)) |renderer| {
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.heightmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipX,
+                    .flipY = renderer.flipY,
+                });
+            }
 
-        zia.gfx.draw.texture(pass.color_texture, rt_pos, .{});
+            if (world.get(entity, components.CharacterRenderer)) |renderer| {
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.heightmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipBody,
+                });
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.heightmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipHead,
+                });
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.heightmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipHead,
+                });
+            }
+        }
         zia.gfx.endPass();
 
-        pass.deinit();
+        renderqueues[i].entities.shrinkAndFree(0);
+
+        
+
+        // center the render texture on the screen
+        var rt_pos = .{ .x = @round(-mainpass.color_texture.width / 2), .y = @round(-mainpass.color_texture.height / 2) };
+
+        zia.gfx.beginPass(.{.color = zia.math.Color.white, .pass = shadowpass, .shader = &shadowprocesses[i].shader.shader});
+        zia.gfx.draw.bindTexture(heightpass.color_texture, 1);
+        zia.gfx.draw.texture(heightpass.color_texture, .{}, .{});
+        zia.gfx.endPass();
+        zia.gfx.draw.unbindTexture(1);
+
+        // render the render texture to the back buffer using camera material shader
+        zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform, .shader = postprocesses[i].shader });
+        zia.gfx.draw.bindTexture(shadowpass.color_texture, 1);
+        zia.gfx.draw.texture(mainpass.color_texture, rt_pos, .{});
+        zia.gfx.endPass();
+        zia.gfx.draw.unbindTexture(1);
+
+        
+        mainpass.deinit();
+        heightpass.deinit();
+        shadowpass.deinit();
+        
     }
 }
 

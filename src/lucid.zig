@@ -20,9 +20,11 @@ pub const actions = @import("ecs/actions/actions.zig");
 
 var lucid_palette: zia.gfx.Texture = undefined;
 var lucid_texture: zia.gfx.Texture = undefined;
+var lucid_heightmap: zia.gfx.Texture = undefined;
 var lucid_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
-var pixel_perfect_shader: zia.gfx.Shader = undefined;
+var light_shader: shaders.LightShader = undefined;
+var post_process_shader: zia.gfx.Shader = undefined;
 
 var world: flecs.World = undefined;
 
@@ -40,9 +42,12 @@ fn init() !void {
     // load textures, atlases and shaders
     lucid_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucidpalette_png.path, .nearest) catch unreachable;
     lucid_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_png.path, .nearest) catch unreachable;
+    lucid_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_h_png.path , .nearest) catch unreachable;
     lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
-    pixel_perfect_shader = shaders.createPixelPerfectShader() catch unreachable;
+    light_shader = shaders.createLightShader();
+    
+    post_process_shader = shaders.createPostProcessShader() catch unreachable;
 
     world = flecs.World.init();
     world.setTargetFps(60);
@@ -72,7 +77,7 @@ fn init() !void {
 
     // rendering
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
-    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, Material, RenderQueue", @import("ecs/systems/render.zig").progress);
+    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, PostProcess, RenderQueue, ShadowProcess", @import("ecs/systems/render.zig").progress);
 
     var player = world.new();
     world.setName(player, "Player");
@@ -82,6 +87,7 @@ fn init() !void {
     world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&lucid_palette} });
     world.set(player, &components.CharacterRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .body = assets.lucid_atlas.Body_Idle_S_0,
         .head = assets.lucid_atlas.Head_Idle_S_0,
@@ -106,15 +112,19 @@ fn init() !void {
     world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
-    //world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
     // create a query for renderers we want to draw using this camera
     world.set(camera, &components.RenderQueue{
         .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer"),
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
     });
-    world.set(camera, &components.Material{
-        .shader = &pixel_perfect_shader,
+
+    world.set(camera, &components.ShadowProcess {
+        .shader = &light_shader,
+    });
+
+    world.set(camera, &components.PostProcess{
+        .shader = &post_process_shader,
         .textures = null,
     });
     world.set(camera, &components.Follow{ .target = player });
@@ -128,6 +138,7 @@ fn init() !void {
     world.set(other, &components.Position{ .x = 60, .y = 0 });
     world.set(other, &components.SpriteRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_0,
     });
@@ -137,6 +148,7 @@ fn init() !void {
     world.set(other2, &components.Position{ .x = 78, .y = -40 });
     world.set(other2, &components.SpriteRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_0,
     });
@@ -146,6 +158,7 @@ fn init() !void {
     world.set(third, &components.Position{ .x = -160, .y = 10 });
     world.set(third, &components.SpriteRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_1,
     });
@@ -155,6 +168,7 @@ fn init() !void {
     world.set(fourth, &components.Position{ .x = -175, .y = 25 });
     world.set(fourth, &components.SpriteRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_2,
     });
@@ -164,6 +178,7 @@ fn init() !void {
     world.set(fifth, &components.Position{ .x = -160, .y = 220 });
     world.set(fifth, &components.SpriteRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_1,
     });
@@ -173,6 +188,7 @@ fn init() !void {
     world.set(sixth, &components.Position{ .x = -250, .y = -80 });
     world.set(sixth, &components.SpriteRenderer{
         .texture = lucid_texture,
+        .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Trees_PineWind_1,
     });
@@ -192,6 +208,34 @@ fn update() !void {
         imgui.ogSetNextWindowSize(.{ .x = @intToFloat(f32, zia.window.width()), .y = @intToFloat(f32, zia.window.height()) }, imgui.ImGuiCond_Always);
         _ = imgui.igBegin("Gizmos", null, imgui.ImGuiWindowFlags_NoBackground | imgui.ImGuiWindowFlags_NoTitleBar | imgui.ImGuiWindowFlags_NoResize | imgui.ImGuiWindowFlags_NoInputs);
     }
+
+    light_shader.frag_uniform.sun_XYAngle += 5 * zia.time.dt();
+    if (light_shader.frag_uniform.sun_XYAngle > 360)
+        light_shader.frag_uniform.sun_XYAngle = 0;
+    if (light_shader.frag_uniform.sun_XYAngle > 0 and light_shader.frag_uniform.sun_XYAngle <= 90){
+        var f = light_shader.frag_uniform.sun_XYAngle / 90;
+        light_shader.frag_uniform.sun_ZAngle = 45 + f * (70 - 45);
+    }
+    else if (light_shader.frag_uniform.sun_XYAngle > 90 and light_shader.frag_uniform.sun_XYAngle <= 180){
+        var f = (light_shader.frag_uniform.sun_XYAngle - 90) / 90;
+        light_shader.frag_uniform.sun_ZAngle = 70 + f * (45 - 70);
+    }
+    else if (light_shader.frag_uniform.sun_XYAngle > 180 and light_shader.frag_uniform.sun_XYAngle <= 270){
+        var f = (light_shader.frag_uniform.sun_XYAngle - 180) / 90;
+        light_shader.frag_uniform.sun_ZAngle = 45 + f * (55 - 45);
+    } else if (light_shader.frag_uniform.sun_XYAngle > 270){
+        var f = (light_shader.frag_uniform.sun_XYAngle - 270) / 90;
+        light_shader.frag_uniform.sun_ZAngle = 55 + f * (45 - 55);
+    }
+
+    // light_shader.frag_uniform.sun_XYAngle += 5 * zia.time.dt();
+    // if (light_shader.frag_uniform.sun_XYAngle > 360)
+    //     light_shader.frag_uniform.sun_XYAngle = 0;
+
+    // light_shader.frag_uniform.sun_ZAngle = 45;
+   
+
+
 
     // run all systems
     world.progress(zia.time.dt());

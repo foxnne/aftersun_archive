@@ -42,13 +42,13 @@ float4 tiltshift(thread const texture2d<float> tex, thread const sampler texSmpl
         {
 #line 42 ""
 #line 45 ""
-            float2 _179 = tex_coord;
-            _179.x = tex_coord.x + ((offsX * _58) * 0.0040000001899898052215576171875);
+            float2 _183 = tex_coord;
+            _183.x = tex_coord.x + ((offsX * _58) * 0.0040000001899898052215576171875);
 #line 46 ""
-            float2 _182 = _179;
-            _182.y = tex_coord.y + ((offsY * _58) * 0.0040000001899898052215576171875);
+            float2 _186 = _183;
+            _186.y = tex_coord.y + ((offsY * _58) * 0.0040000001899898052215576171875);
 #line 49 ""
-            blurred += tex.sample(texSmplr, _182);
+            blurred += tex.sample(texSmplr, _186);
         }
     }
 #line 55 ""
@@ -60,25 +60,27 @@ float4 tiltshift(thread const texture2d<float> tex, thread const sampler texSmpl
 
 #line 69 ""
 static inline __attribute__((always_inline))
-float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color)
+float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> shadow_tex, thread const sampler shadow_texSmplr)
 {
 #line 69 ""
 #line 72 ""
     float2 param = tex_coord;
     int2 param_1 = int2(tex.get_width(), tex.get_height());
     float param_2 = 8.0;
-    float2 param_3 = interpolate(param, param_1, param_2);
-    return tiltshift(tex, texSmplr, param_3) * vert_color;
+    float2 _168 = interpolate(param, param_1, param_2);
+    float2 param_3 = _168;
+    float2 param_4 = _168;
+    return tiltshift(tex, texSmplr, param_4) * tiltshift(shadow_tex, shadow_texSmplr, param_3);
 }
 
 #line 15 ""
-fragment main0_out main0(main0_in in [[stage_in]], texture2d<float> main_tex [[texture(0)]], sampler main_texSmplr [[sampler(0)]])
+fragment main0_out main0(main0_in in [[stage_in]], texture2d<float> main_tex [[texture(0)]], texture2d<float> shadow_tex [[texture(1)]], sampler main_texSmplr [[sampler(0)]], sampler shadow_texSmplr [[sampler(1)]])
 {
     main0_out out = {};
 #line 15 ""
     float2 param = in.uv_out;
     float4 param_1 = in.color_out;
-    out.frag_color = effect(main_tex, main_texSmplr, param, param_1);
+    out.frag_color = effect(main_tex, main_texSmplr, param, param_1, shadow_tex, shadow_texSmplr);
     return out;
 }
 

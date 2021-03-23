@@ -140,6 +140,10 @@ pub const lucid_atlas = struct {
   pub const Head_Walk_S_2 = 135;
 };
 
+pub const lucid_h_png = struct {
+  pub const path = "assets/textures/lucid_h.png";
+};
+
 pub const lucid_png = struct {
   pub const path = "assets/textures/lucid.png";
 };

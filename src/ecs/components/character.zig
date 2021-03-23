@@ -19,6 +19,7 @@ pub const CharacterAnimator = struct {
 
 pub const CharacterRenderer = struct {
     texture: zia.gfx.Texture,
+    heightmap: zia.gfx.Texture,
     atlas: zia.gfx.Atlas,
     head: usize,
     body: usize,

@@ -1,6 +1,7 @@
 #version 330
 
 uniform sampler2D main_tex;
+uniform sampler2D shadow_tex;
 
 layout(location = 0) out vec4 frag_color;
 in vec2 uv_out;
@@ -21,11 +22,11 @@ vec4 tiltshift(sampler2D tex, vec2 tex_coord)
     {
         for (float offsY = -1.0; offsY <= 1.0; offsY += 1.0)
         {
-            vec2 _179 = tex_coord;
-            _179.x = tex_coord.x + ((offsX * _58) * 0.0040000001899898052215576171875);
-            vec2 _182 = _179;
-            _182.y = tex_coord.y + ((offsY * _58) * 0.0040000001899898052215576171875);
-            blurred += texture(tex, _182);
+            vec2 _183 = tex_coord;
+            _183.x = tex_coord.x + ((offsX * _58) * 0.0040000001899898052215576171875);
+            vec2 _186 = _183;
+            _186.y = tex_coord.y + ((offsY * _58) * 0.0040000001899898052215576171875);
+            blurred += texture(tex, _186);
         }
     }
     vec4 _111 = blurred;
@@ -39,8 +40,10 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     vec2 param = tex_coord;
     ivec2 param_1 = textureSize(tex, 0);
     float param_2 = 8.0;
-    vec2 param_3 = interpolate(param, param_1, param_2);
-    return tiltshift(tex, param_3) * vert_color;
+    vec2 _168 = interpolate(param, param_1, param_2);
+    vec2 param_3 = _168;
+    vec2 param_4 = _168;
+    return tiltshift(tex, param_4) * tiltshift(shadow_tex, param_3);
 }
 
 void main()
