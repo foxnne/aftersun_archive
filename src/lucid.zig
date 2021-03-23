@@ -234,10 +234,10 @@ fn update() !void {
     const height_low = 50;
 
     const steps_high = 150;
-    const steps_low = 10;
+    const steps_low = 40;
 
-    const fade_high = 10;
-    const fade_low = 1;
+    const fade_high = 8;
+    const fade_low = 2;
 
     light_shader.frag_uniform.sun_XYAngle += 10 * zia.time.dt();
     if (light_shader.frag_uniform.sun_XYAngle > 360)
