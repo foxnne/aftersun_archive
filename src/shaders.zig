@@ -4,11 +4,11 @@ const gfx = zia.gfx;
 const math = zia.math;
 const renderkit = zia.renderkit;
 
-pub const LightShader = gfx.ShaderState(LightParams);
+pub const EnvironmentShader = gfx.ShaderState(LightParams);
 
-pub fn createLightShader() LightShader {
-    const frag = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/light_fs.glsl") else @embedFile("../assets/shaders/light_fs.metal");
-    return LightShader.init(.{ .frag = frag, .onPostBind = LightShader.onPostBind });
+pub fn createEnvironmentShader() EnvironmentShader {
+    const frag = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/environment_fs.glsl") else @embedFile("../assets/shaders/environment_fs.metal");
+    return EnvironmentShader.init(.{ .frag = frag, .onPostBind = EnvironmentShader.onPostBind });
 }
 
 pub fn createPostProcessShader() !gfx.Shader {

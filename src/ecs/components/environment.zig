@@ -2,9 +2,9 @@ const zia = @import("zia");
 const shaders = @import("../../shaders.zig");
 
 pub const Environment = struct {
-    light_shader: *shaders.LightShader,
+    environment_shader: *shaders.EnvironmentShader,
     sun_color: zia.math.Color = zia.math.Color.white,
-    sun_xy_angle: f32 = 0,
+    sun_xy_angle: f32 = 60,
     sun_z_angle: f32 = 22.5,
     sun_height_high: f32 = 75,
     sun_height_low: f32 = 50,
@@ -13,7 +13,5 @@ pub const Environment = struct {
     shadow_fade_high: f32 = 8,
     shadow_fade_low: f32 = 2,
     shadow_color: zia.math.Color = zia.math.Color.fromBytes(200, 200, 200, 255),
-
-  
 };
 

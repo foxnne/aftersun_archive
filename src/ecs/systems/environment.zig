@@ -14,7 +14,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     while (i < it.count) : (i += 1) {
 
         //advance the sun angle
-        environments[i].sun_xy_angle += 10 * zia.time.dt();
+        environments[i].sun_xy_angle += 5 * zia.time.dt();
         if (environments[i].sun_xy_angle > 360)
             environments[i].sun_xy_angle = 0;
     
@@ -79,13 +79,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // send sun and shadow settings to light shader
         // sun color is sent as vertex color!
-        environments[i].light_shader.frag_uniform.sun_xy_angle = environments[i].sun_xy_angle;
-        environments[i].light_shader.frag_uniform.sun_z_angle = environments[i].sun_z_angle;
-        environments[i].light_shader.frag_uniform.max_shadow_steps = max_shadow_steps;
-        environments[i].light_shader.frag_uniform.max_shadow_height = max_shadow_height;
-        environments[i].light_shader.frag_uniform.shadow_fade = shadow_fade;
-        environments[i].light_shader.frag_uniform.shadow_r = @intToFloat(f32, environments[i].shadow_color.channels.r) / 255;
-        environments[i].light_shader.frag_uniform.shadow_g = @intToFloat(f32, environments[i].shadow_color.channels.g) / 255;
-        environments[i].light_shader.frag_uniform.shadow_b = @intToFloat(f32, environments[i].shadow_color.channels.b) / 255;
+        environments[i].environment_shader.frag_uniform.sun_xy_angle = environments[i].sun_xy_angle;
+        environments[i].environment_shader.frag_uniform.sun_z_angle = environments[i].sun_z_angle;
+        environments[i].environment_shader.frag_uniform.max_shadow_steps = max_shadow_steps;
+        environments[i].environment_shader.frag_uniform.max_shadow_height = max_shadow_height;
+        environments[i].environment_shader.frag_uniform.shadow_fade = shadow_fade;
+        environments[i].environment_shader.frag_uniform.shadow_r = @intToFloat(f32, environments[i].shadow_color.channels.r) / 255;
+        environments[i].environment_shader.frag_uniform.shadow_g = @intToFloat(f32, environments[i].shadow_color.channels.g) / 255;
+        environments[i].environment_shader.frag_uniform.shadow_b = @intToFloat(f32, environments[i].shadow_color.channels.b) / 255;
     }
 }

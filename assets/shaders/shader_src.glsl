@@ -96,7 +96,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 
 
-@fs light_fs
+@fs environment_fs
 @include_block sprite_fs_main
 uniform sampler2D height_tex;
 uniform LightParams {
@@ -160,7 +160,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 }
 @end
-@program light sprite_vs light_fs
+@program environment sprite_vs environment_fs
 
 
 

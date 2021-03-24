@@ -23,7 +23,7 @@ var lucid_texture: zia.gfx.Texture = undefined;
 var lucid_heightmap: zia.gfx.Texture = undefined;
 var lucid_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
-var light_shader: shaders.LightShader = undefined;
+var environment_shader: shaders.EnvironmentShader = undefined;
 var post_process_shader: zia.gfx.Shader = undefined;
 
 var world: flecs.World = undefined;
@@ -45,7 +45,7 @@ fn init() !void {
     lucid_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_h_png.path , .nearest) catch unreachable;
     lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
-    light_shader = shaders.createLightShader();
+    environment_shader = shaders.createEnvironmentShader();
     
     post_process_shader = shaders.createPostProcessShader() catch unreachable;
 
@@ -74,6 +74,7 @@ fn init() !void {
     // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
+
     _ = world.newSystem("EnvironmentSystem", flecs.Phase.post_update, "Environment", @import("ecs/systems/environment.zig").progress);
 
     // rendering
@@ -121,7 +122,7 @@ fn init() !void {
     });
 
     world.set(camera, &components.Environment {
-        .light_shader = &light_shader,
+        .environment_shader = &environment_shader,
     });
 
     world.set(camera, &components.PostProcess{
