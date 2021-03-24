@@ -74,10 +74,11 @@ fn init() !void {
     // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
+    _ = world.newSystem("EnvironmentSystem", flecs.Phase.post_update, "Environment", @import("ecs/systems/environment.zig").progress);
 
     // rendering
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
-    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, PostProcess, RenderQueue, ShadowProcess", @import("ecs/systems/render.zig").progress);
+    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, PostProcess, RenderQueue, Environment", @import("ecs/systems/render.zig").progress);
 
     var player = world.new();
     world.setName(player, "Player");
@@ -119,8 +120,8 @@ fn init() !void {
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
     });
 
-    world.set(camera, &components.ShadowProcess {
-        .shader = &light_shader,
+    world.set(camera, &components.Environment {
+        .light_shader = &light_shader,
     });
 
     world.set(camera, &components.PostProcess{
@@ -207,65 +208,6 @@ fn update() !void {
         imgui.ogSetNextWindowPos(.{}, imgui.ImGuiCond_Always, .{});
         imgui.ogSetNextWindowSize(.{ .x = @intToFloat(f32, zia.window.width()), .y = @intToFloat(f32, zia.window.height()) }, imgui.ImGuiCond_Always);
         _ = imgui.igBegin("Gizmos", null, imgui.ImGuiWindowFlags_NoBackground | imgui.ImGuiWindowFlags_NoTitleBar | imgui.ImGuiWindowFlags_NoResize | imgui.ImGuiWindowFlags_NoInputs);
-    }
-
-    //TODO: Move this to a system!
-
-    // light_shader.frag_uniform.sun_XYAngle += 10 * zia.time.dt();
-    // if (light_shader.frag_uniform.sun_XYAngle > 360)
-    //     light_shader.frag_uniform.sun_XYAngle = 0;
-    // if (light_shader.frag_uniform.sun_XYAngle > 0 and light_shader.frag_uniform.sun_XYAngle <= 90){
-    //     var f = light_shader.frag_uniform.sun_XYAngle / 90;
-    //     light_shader.frag_uniform.sun_ZAngle = 22.5 + f * (70 - 22.5);
-    // }
-    // else if (light_shader.frag_uniform.sun_XYAngle > 90 and light_shader.frag_uniform.sun_XYAngle <= 180){
-    //     var f = (light_shader.frag_uniform.sun_XYAngle - 90) / 90;
-    //     light_shader.frag_uniform.sun_ZAngle = 70.0 + f * (22.5 - 70.0);
-    // }
-    // else if (light_shader.frag_uniform.sun_XYAngle > 180 and light_shader.frag_uniform.sun_XYAngle <= 270){
-    //     var f = (light_shader.frag_uniform.sun_XYAngle - 180) / 90;
-    //     light_shader.frag_uniform.sun_ZAngle = 22.5 + f * (55 - 22.5);
-    // } else if (light_shader.frag_uniform.sun_XYAngle > 270){
-    //     var f = (light_shader.frag_uniform.sun_XYAngle - 270) / 90;
-    //     light_shader.frag_uniform.sun_ZAngle = 55.0 + f * (22.5 - 55.0);
-    // }
-
-    const height_high = 75;
-    const height_low = 50;
-
-    const steps_high = 150;
-    const steps_low = 40;
-
-    const fade_high = 8;
-    const fade_low = 2;
-
-    light_shader.frag_uniform.sun_XYAngle += 10 * zia.time.dt();
-    if (light_shader.frag_uniform.sun_XYAngle > 360)
-        light_shader.frag_uniform.sun_XYAngle = 0;
-    light_shader.frag_uniform.sun_ZAngle = 22.5;
-    light_shader.frag_uniform.max_height = 50;
-    if (light_shader.frag_uniform.sun_XYAngle > 0 and light_shader.frag_uniform.sun_XYAngle <= 90){
-        var f = light_shader.frag_uniform.sun_XYAngle / 90;
-        light_shader.frag_uniform.max_steps = steps_high + f * (steps_low - steps_high);
-        light_shader.frag_uniform.max_height = height_low + f * (height_high - height_low);
-        light_shader.frag_uniform.fade = fade_low + f * (fade_high - fade_low);
-    }
-    else if (light_shader.frag_uniform.sun_XYAngle > 90 and light_shader.frag_uniform.sun_XYAngle <= 180){
-        var f = (light_shader.frag_uniform.sun_XYAngle - 90) / 90;
-        light_shader.frag_uniform.max_steps = steps_low + f * (steps_high - steps_low);
-        light_shader.frag_uniform.max_height = height_high + f * (height_low - height_high);
-        light_shader.frag_uniform.fade = fade_high + f * (fade_low - fade_high);
-    }
-    else if (light_shader.frag_uniform.sun_XYAngle > 180 and light_shader.frag_uniform.sun_XYAngle <= 270){
-        var f = (light_shader.frag_uniform.sun_XYAngle - 180) / 90;
-        light_shader.frag_uniform.max_steps = steps_high + f * (steps_low - steps_high);
-        light_shader.frag_uniform.max_height = height_low + f * (height_high - height_low);
-        light_shader.frag_uniform.fade = fade_low + f * (fade_high - fade_low);
-    } else if (light_shader.frag_uniform.sun_XYAngle > 270){
-        var f = (light_shader.frag_uniform.sun_XYAngle - 270) / 90;
-        light_shader.frag_uniform.max_steps = steps_low + f * (steps_high - steps_low);
-        light_shader.frag_uniform.max_height = height_high + f * (height_low - height_high);
-        light_shader.frag_uniform.fade = fade_high + f * (fade_low - fade_high);
     }
 
     // run all systems

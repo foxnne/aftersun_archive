@@ -13,7 +13,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var cameras = it.column(components.Camera, 2);
     var postprocesses = it.column(components.PostProcess, 3);
     var renderqueues = it.column(components.RenderQueue, 4);
-    var shadowprocesses = it.column(components.ShadowProcess, 5);
+    var environments = it.column(components.Environment, 5);
 
     var world = flecs.World{ .world = it.world.? };
 
@@ -26,11 +26,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         const design_w = @intToFloat(f32, cameras[i].design_w);
         const design_h = @intToFloat(f32, cameras[i].design_h);
 
-        shadowprocesses[i].shader.frag_uniform.tex_width = design_w;
-        shadowprocesses[i].shader.frag_uniform.tex_height = design_h;
-        shadowprocesses[i].shader.frag_uniform.shadow_r = 0.7;
-        shadowprocesses[i].shader.frag_uniform.shadow_g = 0.7;
-        shadowprocesses[i].shader.frag_uniform.shadow_b = 0.8;
+        environments[i].light_shader.frag_uniform.tex_width = design_w;
+        environments[i].light_shader.frag_uniform.tex_height = design_h;
+        environments[i].light_shader.frag_uniform.shadow_r = 0.7;
+        environments[i].light_shader.frag_uniform.shadow_g = 0.7;
+        environments[i].light_shader.frag_uniform.shadow_b = 0.8;
 
         var mainpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         var heightpass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
@@ -187,9 +187,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // center the render texture on the screen
         var rt_pos = .{ .x = @round(-mainpass.color_texture.width / 2), .y = @round(-mainpass.color_texture.height / 2) };
 
-        zia.gfx.beginPass(.{.color = zia.math.Color.white, .pass = shadowpass, .shader = &shadowprocesses[i].shader.shader});
+        zia.gfx.beginPass(.{.color = zia.math.Color.white, .pass = shadowpass, .shader = &environments[i].light_shader.shader});
         zia.gfx.draw.bindTexture(heightpass.color_texture, 1);
-        zia.gfx.draw.texture(heightpass.color_texture, .{}, .{});
+        zia.gfx.draw.texture(heightpass.color_texture, .{}, .{.color = environments[i].sun_color});
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
 

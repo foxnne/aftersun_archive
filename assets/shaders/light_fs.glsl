@@ -26,11 +26,11 @@ float getTraceHeight(float height, float zAngle, float dist)
     return (dist * tan(radians(zAngle))) + height;
 }
 
-vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_steps, float max_height, float fade, vec4 shadow_color, vec4 vert_color)
+vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_shadow_steps, float max_shadow_height, float shadow_fade, vec4 shadow_color, vec4 vert_color)
 {
     vec4 _119 = texture(height_tex, tex_coord);
     float _120 = _119.x;
-    for (int i = 0; float(i) < max_steps; i++)
+    for (int i = 0; float(i) < max_shadow_steps; i++)
     {
         float _139 = stp * float(i);
         vec2 param = tex_coord;
@@ -41,7 +41,7 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_
         bool _160;
         if (_150)
         {
-            _160 = (_147 - _120) < (max_height * stp);
+            _160 = (_147 - _120) < (max_shadow_height * stp);
         }
         else
         {
@@ -54,8 +54,8 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_
             float param_5 = _139;
             if (getTraceHeight(param_3, param_4, param_5) < _147)
             {
-                float _179 = _139 * fade;
-                return clamp(shadow_color + vec4(_179, _179, _179, 1.0), vec4(0.0), vec4(1.0));
+                float _179 = _139 * shadow_fade;
+                return clamp(shadow_color + vec4(_179, _179, _179, _139 * shadow_fade), vec4(0.0), vec4(1.0)) * vert_color;
             }
         }
     }

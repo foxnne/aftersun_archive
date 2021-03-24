@@ -37,3 +37,4 @@ pub usingnamespace @import("sprite.zig");
 pub usingnamespace @import("character.zig");
 pub usingnamespace @import("collision.zig");
 pub usingnamespace @import("postprocess.zig");
+pub usingnamespace @import("environment.zig");

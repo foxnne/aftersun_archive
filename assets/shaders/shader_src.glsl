@@ -102,16 +102,14 @@ uniform sampler2D height_tex;
 uniform LightParams {
 	float tex_width;
 	float tex_height;
-	float sun_XYAngle;
-	float sun_ZAngle;
+	float sun_xy_angle;
+	float sun_z_angle;
 	float shadow_r;
 	float shadow_g;
 	float shadow_b;
-	float max_steps;
-	float max_height;
-	float fade;
-
-
+	float max_shadow_steps;
+	float max_shadow_height;
+	float shadow_fade;
 };
 
 vec2 extrude(vec2 other, float angle, float len) {
@@ -130,21 +128,21 @@ float getTraceHeight(float height, float zAngle, float dist) {
 	return dist * tan(radians(zAngle)) + height;
 }
 
-vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_steps, float max_height, float fade, vec4 shadow_color, vec4 vert_color) {
+vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_shadow_steps, float max_shadow_height, float shadow_fade, vec4 shadow_color, vec4 vert_color) {
 	float dist;
 	float height;
 	float other_height;
 	float trace_height;
 	height = texture(height_tex, tex_coord).r;
 
-	for(int i = 0; i < max_steps; ++i) {
+	for(int i = 0; i < max_shadow_steps; ++i) {
 		dist = stp * float(i);
 		other_height = getHeightAt(tex_coord, xy_angle, dist);
 
-		if(other_height > height && other_height - height < max_height * stp) {
+		if(other_height > height && other_height - height < max_shadow_height * stp) {
 			trace_height = getTraceHeight(height, z_angle, dist);
 			if(trace_height < other_height) {
-				return clamp(shadow_color + vec4(vec3(dist * fade), 1), 0, 1);
+				return clamp(shadow_color + vec4(vec3(dist * shadow_fade), dist * shadow_fade), 0, 1) * vert_color;
 			}
 		}
 	}
@@ -158,7 +156,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const vec4 shadow_color = vec4( shadow_r, shadow_g, shadow_b, 1);
 	
 
-	return shadow(sun_XYAngle, sun_ZAngle, tex_coord, tex_step,max_steps, max_height,fade,shadow_color, vert_color);
+	return shadow(sun_xy_angle, sun_z_angle, tex_coord, tex_step,max_shadow_steps, max_shadow_height,shadow_fade,shadow_color, vert_color);
 
 }
 @end
