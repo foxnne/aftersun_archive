@@ -4,7 +4,7 @@ const shaders = @import("../../shaders.zig");
 pub const Environment = struct {
     environment_shader: *shaders.EnvironmentShader,
     sun_color: zia.math.Color = zia.math.Color.white,
-    sun_xy_angle: f32 = 60,
+    sun_xy_angle: f32 = 0,
     sun_z_angle: f32 = 22.5,
     sun_height_high: f32 = 75,
     sun_height_low: f32 = 50,

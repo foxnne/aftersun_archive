@@ -33,7 +33,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         defer main_pass.deinit();
         var height_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
         defer height_pass.deinit();
-        var light_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
+        var light_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         defer light_pass.deinit();
         var environment_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         defer environment_pass.deinit();
