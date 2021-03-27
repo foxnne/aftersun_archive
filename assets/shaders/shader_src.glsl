@@ -166,7 +166,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @fs postProcess_fs
 @include_block sprite_fs_main
 
-uniform sampler2D environment_tex;
+uniform sampler2D environment_texture;
 uniform sampler2D emission_tex;
 
 
@@ -238,10 +238,10 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
   	vec2 interpolated_tex_coords =  interpolate(tex_coord, tex_size, texelsPerPixel);
 
 	vec4 bloom = bloom(emission_tex, interpolated_tex_coords);
-	vec4 environment = tiltshift(environment_tex, interpolated_tex_coords);
+	vec4 environment = tiltshift(environment_texture, interpolated_tex_coords);
 	vec4 main = tiltshift(tex, interpolated_tex_coords);
 
-	return main * environment;  
+	return main * environment + bloom;  
 }
 @end
 

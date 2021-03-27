@@ -136,6 +136,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
 
             if (world.get(entity, components.Material)) |material| {
+                zia.gfx.draw.batcher.flush();
                 zia.gfx.setShader(null);
 
                 if (material.textures) |textures| {

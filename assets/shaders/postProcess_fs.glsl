@@ -3,7 +3,7 @@
 uniform vec4 PostProcessingParams[1];
 uniform sampler2D main_tex;
 uniform sampler2D emission_tex;
-uniform sampler2D environment_tex;
+uniform sampler2D environment_texture;
 
 layout(location = 0) out vec4 frag_color;
 in vec2 uv_out;
@@ -29,11 +29,11 @@ vec4 tiltshift(sampler2D tex, vec2 tex_coord)
     {
         for (float offsY = -1.0; offsY <= 1.0; offsY += 1.0)
         {
-            vec2 _211 = tex_coord;
-            _211.x = tex_coord.x + ((offsX * _81) * 0.0040000001899898052215576171875);
-            vec2 _214 = _211;
-            _214.y = tex_coord.y + ((offsY * _81) * 0.0040000001899898052215576171875);
-            blurred += texture(tex, _214);
+            vec2 _213 = tex_coord;
+            _213.x = tex_coord.x + ((offsX * _81) * 0.0040000001899898052215576171875);
+            vec2 _216 = _213;
+            _216.y = tex_coord.y + ((offsY * _81) * 0.0040000001899898052215576171875);
+            blurred += texture(tex, _216);
         }
     }
     vec4 _133 = blurred;
@@ -51,7 +51,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     vec2 param_3 = _189;
     vec2 param_4 = _189;
     vec2 param_5 = _189;
-    return tiltshift(tex, param_5) * tiltshift(environment_tex, param_4);
+    return (tiltshift(tex, param_5) * tiltshift(environment_texture, param_4)) + bloom(emission_tex, param_3);
 }
 
 void main()

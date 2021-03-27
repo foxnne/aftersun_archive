@@ -53,7 +53,7 @@ pub const LightParams = extern struct {
 
 pub const PostProcessingParams = extern struct {
     pub const metadata = .{
-        .images = .{ "main_tex", "emission_tex", "environment_tex" },
+        .images = .{ "main_tex", "emission_tex", "environment_texture" },
         .uniforms = .{ .PostProcessingParams = .{ .type = .float4, .array_count = 1 } },
     };
 

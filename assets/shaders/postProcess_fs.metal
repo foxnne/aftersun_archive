@@ -57,13 +57,13 @@ float4 tiltshift(thread const texture2d<float> tex, thread const sampler texSmpl
         {
 #line 57 ""
 #line 60 ""
-            float2 _211 = tex_coord;
-            _211.x = tex_coord.x + ((offsX * _81) * 0.0040000001899898052215576171875);
+            float2 _213 = tex_coord;
+            _213.x = tex_coord.x + ((offsX * _81) * 0.0040000001899898052215576171875);
 #line 61 ""
-            float2 _214 = _211;
-            _214.y = tex_coord.y + ((offsY * _81) * 0.0040000001899898052215576171875);
+            float2 _216 = _213;
+            _216.y = tex_coord.y + ((offsY * _81) * 0.0040000001899898052215576171875);
 #line 64 ""
-            blurred += tex.sample(texSmplr, _214);
+            blurred += tex.sample(texSmplr, _216);
         }
     }
 #line 70 ""
@@ -75,7 +75,7 @@ float4 tiltshift(thread const texture2d<float> tex, thread const sampler texSmpl
 
 #line 84 ""
 static inline __attribute__((always_inline))
-float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, constant PostProcessingParams& v_55, thread texture2d<float> emission_tex, thread const sampler emission_texSmplr, thread texture2d<float> environment_tex, thread const sampler environment_texSmplr)
+float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, constant PostProcessingParams& v_55, thread texture2d<float> emission_tex, thread const sampler emission_texSmplr, thread texture2d<float> environment_texture, thread const sampler environment_textureSmplr)
 {
 #line 84 ""
 #line 87 ""
@@ -86,17 +86,17 @@ float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, 
     float2 param_3 = _189;
     float2 param_4 = _189;
     float2 param_5 = _189;
-    return tiltshift(tex, texSmplr, param_5, v_55) * tiltshift(environment_tex, environment_texSmplr, param_4, v_55);
+    return (tiltshift(tex, texSmplr, param_5, v_55) * tiltshift(environment_texture, environment_textureSmplr, param_4, v_55)) + bloom(emission_tex, emission_texSmplr, param_3);
 }
 
 #line 15 ""
-fragment main0_out main0(main0_in in [[stage_in]], constant PostProcessingParams& v_55 [[buffer(0)]], texture2d<float> main_tex [[texture(0)]], texture2d<float> emission_tex [[texture(1)]], texture2d<float> environment_tex [[texture(2)]], sampler main_texSmplr [[sampler(0)]], sampler emission_texSmplr [[sampler(1)]], sampler environment_texSmplr [[sampler(2)]])
+fragment main0_out main0(main0_in in [[stage_in]], constant PostProcessingParams& v_55 [[buffer(0)]], texture2d<float> main_tex [[texture(0)]], texture2d<float> emission_tex [[texture(1)]], texture2d<float> environment_texture [[texture(2)]], sampler main_texSmplr [[sampler(0)]], sampler emission_texSmplr [[sampler(1)]], sampler environment_textureSmplr [[sampler(2)]])
 {
     main0_out out = {};
 #line 15 ""
     float2 param = in.uv_out;
     float4 param_1 = in.color_out;
-    out.frag_color = effect(main_tex, main_texSmplr, param, param_1, v_55, emission_tex, emission_texSmplr, environment_tex, environment_texSmplr);
+    out.frag_color = effect(main_tex, main_texSmplr, param, param_1, v_55, emission_tex, emission_texSmplr, environment_texture, environment_textureSmplr);
     return out;
 }
 
