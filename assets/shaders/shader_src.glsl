@@ -37,10 +37,6 @@ void main() {
 @end
 
 
-
-
-
-
 @fs sprite_fs
 @include_block sprite_fs_main
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
@@ -48,8 +44,6 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 }
 @end
 @program sprite sprite_vs sprite_fs
-
-
 
 
 
@@ -98,7 +92,9 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 @fs environment_fs
 @include_block sprite_fs_main
+
 uniform sampler2D height_tex;
+uniform sampler2D light_tex;
 uniform LightParams {
 	float tex_width;
 	float tex_height;
@@ -154,10 +150,11 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const vec2 tex_size = vec2(tex_width, tex_height);
 	const float tex_step = 1 / tex_size.y;
 	const vec4 shadow_color = vec4( shadow_r, shadow_g, shadow_b, 1);
+
+	vec4 shadow = shadow(sun_xy_angle, sun_z_angle, tex_coord, tex_step,max_shadow_steps, max_shadow_height,shadow_fade,shadow_color, vert_color);
+	vec4 light = texture(light_tex, tex_coord);
 	
-
-	return shadow(sun_xy_angle, sun_z_angle, tex_coord, tex_step,max_shadow_steps, max_shadow_height,shadow_fade,shadow_color, vert_color);
-
+	return shadow + light;
 }
 @end
 @program environment sprite_vs environment_fs
@@ -168,10 +165,25 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 // RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
 @fs postProcess_fs
 @include_block sprite_fs_main
-uniform sampler2D shadow_tex;
+
+uniform sampler2D environment_tex;
+uniform sampler2D emission_tex;
+
+
+uniform PostProcessingParams {
+	float tiltshift_amount;
+	float bloom_amount;
+};
+
+
+
+vec4 bloom (sampler2D tex, vec2 tex_coord) {
+	const float bloomamount = bloom_amount;
+	return texture(tex, tex_coord);
+}
 
 vec4 tiltshift (sampler2D tex, vec2 tex_coord) {
-	const float bluramount  = 1;
+	const float bluramount  = tiltshift_amount;
 	const float center      = 1;
 	const float stepSize    = 0.004;
 	const float steps       = 3.0;
@@ -223,11 +235,13 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	ivec2 tex_size = textureSize(tex,0);
 	float texelsPerPixel = 8;
 	
-  	vec2 interpolated_tex_coords = interpolate(tex_coord, tex_size, texelsPerPixel);
+  	vec2 interpolated_tex_coords =  interpolate(tex_coord, tex_size, texelsPerPixel);
 
-	vec4 shadow = tiltshift(shadow_tex, interpolated_tex_coords);
-	
-	return tiltshift(tex, interpolated_tex_coords) * shadow;  
+	vec4 bloom = bloom(emission_tex, interpolated_tex_coords);
+	vec4 environment = tiltshift(environment_tex, interpolated_tex_coords);
+	vec4 main = tiltshift(tex, interpolated_tex_coords);
+
+	return main * environment;  
 }
 @end
 

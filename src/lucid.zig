@@ -21,10 +21,13 @@ pub const actions = @import("ecs/actions/actions.zig");
 var lucid_palette: zia.gfx.Texture = undefined;
 var lucid_texture: zia.gfx.Texture = undefined;
 var lucid_heightmap: zia.gfx.Texture = undefined;
+var lucid_emissionmap: zia.gfx.Texture = undefined;
 var lucid_atlas: zia.gfx.Atlas = undefined;
+var light_texture: zia.gfx.Texture = undefined;
+var light_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 var environment_shader: shaders.EnvironmentShader = undefined;
-var post_process_shader: zia.gfx.Shader = undefined;
+var post_process_shader: shaders.PostProcessShader = undefined;
 
 var world: flecs.World = undefined;
 
@@ -43,11 +46,13 @@ fn init() !void {
     lucid_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucidpalette_png.path, .nearest) catch unreachable;
     lucid_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_png.path, .nearest) catch unreachable;
     lucid_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_h_png.path , .nearest) catch unreachable;
+    lucid_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_e_png.path , .nearest) catch unreachable;
     lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
+    light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
+    light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
     environment_shader = shaders.createEnvironmentShader();
-    
-    post_process_shader = shaders.createPostProcessShader() catch unreachable;
+    post_process_shader = shaders.createPostProcessShader();
 
     world = flecs.World.init();
     world.setTargetFps(60);
@@ -70,6 +75,8 @@ fn init() !void {
     // animation
     _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
     _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
+    _ = world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
+
 
     // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
@@ -108,6 +115,11 @@ fn init() !void {
     world.set(player, &components.HeadDirection{});
     world.add(player, components.Player);
     world.set(player, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
+    // world.set(player, &components.LightRenderer{
+    //     .texture = light_texture,
+    //     .atlas = light_atlas,
+    //     .color = zia.math.Color.fromRgbBytes(50, 50, 50),
+    // });
 
     var camera = world.new();
     world.setName(camera, "Camera");
@@ -117,7 +129,7 @@ fn init() !void {
     world.set(camera, &components.Velocity{});
     // create a query for renderers we want to draw using this camera
     world.set(camera, &components.RenderQueue{
-        .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer"),
+        .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer || LightRenderer"),
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
     });
 
@@ -195,6 +207,26 @@ fn init() !void {
         .index = assets.lucid_atlas.Trees_PineWind_1,
     });
     world.set(sixth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+
+    var seventh = world.new();
+    world.set(seventh, &components.Position{ .x = 0, .y = -80 });
+    world.set(seventh, &components.LightRenderer{
+        .texture = light_texture,
+        .atlas = light_atlas,
+        .color = zia.math.Color.orange,
+        .index = assets.lights_atlas.point256,
+    });
+    world.set(seventh, &components.SpriteRenderer{
+        .texture = lucid_texture,
+        .emissionmap = lucid_emissionmap,
+        .atlas = lucid_atlas,
+        .index = assets.lucid_atlas.Campfire_Flame_0,
+    });
+    world.set(seventh, &components.SpriteAnimator{
+        .animation = &animations.campfireFlame,
+        .state = .play,
+        .fps = 16,
+    });
 }
 
 fn update() !void {

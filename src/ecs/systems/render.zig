@@ -35,6 +35,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         defer height_pass.deinit();
         var light_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         defer light_pass.deinit();
+        var emission_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
+        defer emission_pass.deinit();
         var environment_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         defer environment_pass.deinit();
 
@@ -79,7 +81,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // sort
         std.sort.sort(flecs.Entity, renderqueues[i].entities.items, &world, sort);
-
 
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = main_pass, .trans_mat = camera_transform });
@@ -147,62 +148,131 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.endPass();
 
         // render the heightmaps to the heightmap texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.fromBytes(1, 1, 1, 255), .pass = height_pass, .trans_mat = camera_transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = height_pass, .trans_mat = camera_transform });
 
         for (renderqueues[i].entities.items) |entity, j| {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.SpriteRenderer)) |renderer| {
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.heightmap, .{
-                    .x = position.?.x,
-                    .y = position.?.y,
-                }, .{
-                    .flipX = renderer.flipX,
-                    .flipY = renderer.flipY,
-                });
+                if (renderer.heightmap) |heightmap| {
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipX,
+                        .flipY = renderer.flipY,
+                    });
+                }
             }
 
             if (world.get(entity, components.CharacterRenderer)) |renderer| {
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.heightmap, .{
-                    .x = position.?.x,
-                    .y = position.?.y,
-                }, .{
-                    .flipX = renderer.flipBody,
-                });
+                if (renderer.heightmap) |heightmap| {
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipBody,
+                    });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.heightmap, .{
-                    .x = position.?.x,
-                    .y = position.?.y,
-                }, .{
-                    .flipX = renderer.flipHead,
-                });
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipHead,
+                    });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.heightmap, .{
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipHead,
+                    });
+                }
+            }
+        }
+        zia.gfx.endPass();
+
+        // render the lightmaps to the lightmap texture
+        zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = light_pass, .trans_mat = camera_transform });
+
+        for (renderqueues[i].entities.items) |entity, j| {
+            var position = world.get(entity, components.Position);
+
+            if (world.get(entity, components.LightRenderer)) |renderer| {
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
                     .x = position.?.x,
                     .y = position.?.y,
                 }, .{
-                    .flipX = renderer.flipHead,
+                    .color = renderer.color,
                 });
             }
+        }
+        zia.gfx.endPass();
+
+        // render the emission maps to the emission texture
+        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = emission_pass, .trans_mat = camera_transform });
+
+        for (renderqueues[i].entities.items) |entity, j| {
+            var position = world.get(entity, components.Position);
+
+            if (world.get(entity, components.SpriteRenderer)) |renderer| {
+                if (renderer.emissionmap) |emissionmap| {
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], emissionmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipX,
+                        .flipY = renderer.flipY,
+                    });
+                }
+            }
+
+            // if (world.get(entity, components.CharacterRenderer)) |renderer| {
+            //     if (renderer.heightmap) |heightmap| {
+            //         zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
+            //             .x = position.?.x,
+            //             .y = position.?.y,
+            //         }, .{
+            //             .flipX = renderer.flipBody,
+            //         });
+
+            //         zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], heightmap, .{
+            //             .x = position.?.x,
+            //             .y = position.?.y,
+            //         }, .{
+            //             .flipX = renderer.flipHead,
+            //         });
+
+            //         zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
+            //             .x = position.?.x,
+            //             .y = position.?.y,
+            //         }, .{
+            //             .flipX = renderer.flipHead,
+            //         });
+            //     }
+            // }
         }
         zia.gfx.endPass();
 
         renderqueues[i].entities.shrinkAndFree(0);
 
         // render the environment, sun and sunshadows
-        zia.gfx.beginPass(.{.color = zia.math.Color.white, .pass = environment_pass, .shader = &environments[i].environment_shader.shader});
+        zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = environment_pass, .shader = &environments[i].environment_shader.shader });
         zia.gfx.draw.bindTexture(height_pass.color_texture, 1);
-        zia.gfx.draw.texture(environment_pass.color_texture, .{}, .{.color = environments[i].sun_color});
+        zia.gfx.draw.bindTexture(light_pass.color_texture, 2);
+        zia.gfx.draw.texture(main_pass.color_texture, .{}, .{ .color = environments[i].sun_color });
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
+        zia.gfx.draw.unbindTexture(2);
 
-        // render the main pass combining other passes and postprocessors
-        zia.gfx.beginPass(.{ .color = zia.math.Color.zia, .trans_mat = rt_transform, .shader = postprocesses[i].shader });
-        zia.gfx.draw.bindTexture(environment_pass.color_texture, 1);
+        // render the main pass combining other passes and postprocess
+        zia.gfx.beginPass(.{ .trans_mat = rt_transform, .shader = &postprocesses[i].shader.shader });
+        zia.gfx.draw.bindTexture(emission_pass.color_texture, 1);
+        zia.gfx.draw.bindTexture(environment_pass.color_texture, 2);
         zia.gfx.draw.texture(main_pass.color_texture, rt_pos, .{});
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
-
+        zia.gfx.draw.unbindTexture(2);        
     }
 }
 

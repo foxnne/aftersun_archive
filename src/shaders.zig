@@ -5,16 +5,16 @@ const math = zia.math;
 const renderkit = zia.renderkit;
 
 pub const EnvironmentShader = gfx.ShaderState(LightParams);
+pub const PostProcessShader = gfx.ShaderState(PostProcessingParams);
 
 pub fn createEnvironmentShader() EnvironmentShader {
     const frag = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/environment_fs.glsl") else @embedFile("../assets/shaders/environment_fs.metal");
     return EnvironmentShader.init(.{ .frag = frag, .onPostBind = EnvironmentShader.onPostBind });
 }
 
-pub fn createPostProcessShader() !gfx.Shader {
-    const vert = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/sprite_vs.glsl") else @embedFile("../assets/shaders/sprite_vs.metal");
+pub fn createPostProcessShader() PostProcessShader {
     const frag = if (renderkit.current_renderer == .opengl) @embedFile("../assets/shaders/postProcess_fs.glsl") else @embedFile("../assets/shaders/postProcess_fs.metal");
-    return try gfx.Shader.initWithVertFrag(VertexParams, struct { pub const metadata = .{ .images = .{ "main_tex", "shadow_tex" } }; }, .{ .frag = frag, .vert = vert });
+    return PostProcessShader.init(.{ .frag = frag, .onPostBind = PostProcessShader.onPostBind });
 }
 
 pub fn createSpritePaletteShader() !gfx.Shader {
@@ -34,7 +34,7 @@ pub const VertexParams = extern struct {
 
 pub const LightParams = extern struct {
     pub const metadata = .{
-        .images = .{ "main_tex", "height_tex" },
+        .images = .{ "main_tex", "height_tex", "light_tex" },
         .uniforms = .{ .LightParams = .{ .type = .float4, .array_count = 3 } },
     };
 
@@ -49,5 +49,16 @@ pub const LightParams = extern struct {
     max_shadow_height: f32 = 0,
     shadow_fade: f32 = 0,
     _pad40_0_: [8]u8 = [_]u8{0} ** 8,
+};
+
+pub const PostProcessingParams = extern struct {
+    pub const metadata = .{
+        .images = .{ "main_tex", "emission_tex", "environment_tex" },
+        .uniforms = .{ .PostProcessingParams = .{ .type = .float4, .array_count = 1 } },
+    };
+
+    tiltshift_amount: f32 = 0,
+    bloom_amount: f32 = 0,
+    _pad8_0_: [8]u8 = [_]u8{0} ** 8,
 };
 

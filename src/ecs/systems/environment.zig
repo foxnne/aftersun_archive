@@ -31,9 +31,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // between morning and noon
         if (environments[i].sun_xy_angle > 0 and environments[i].sun_xy_angle <= 90) {
             var f = environments[i].sun_xy_angle / 90;
-            max_shadow_steps = environments[i].shadow_steps_high + f * (environments[i].shadow_steps_low - environments[i].shadow_steps_high);
-            max_shadow_height = environments[i].sun_height_low + f * (environments[i].sun_height_high - environments[i].sun_height_low);
-            shadow_fade = environments[i].shadow_fade_low + f * (environments[i].shadow_fade_high - environments[i].shadow_fade_low);
+            max_shadow_steps = lerp(environments[i].shadow_steps_high, environments[i].shadow_steps_low, f);
+            max_shadow_height = lerp(environments[i].sun_height_low, environments[i].sun_height_high, f);
+            shadow_fade = lerp (environments[i].shadow_fade_low, environments[i].shadow_fade_high, f);
             environments[i].sun_color = zia.math.Color.fromRgb(
                 lerp(sun_morning_color[0], sun_noon_color[0], flip(square(flip(f)))), 
                 lerp(sun_morning_color[1], sun_noon_color[1], flip(square(flip(f)))),  
@@ -43,9 +43,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // between noon and night
         } else if (environments[i].sun_xy_angle > 90 and environments[i].sun_xy_angle <= 180) {
             var f = (environments[i].sun_xy_angle - 90) / 90;
-            max_shadow_steps = environments[i].shadow_steps_low + f * (environments[i].shadow_steps_high - environments[i].shadow_steps_low);
-            max_shadow_height = environments[i].sun_height_high + f * (environments[i].sun_height_low - environments[i].sun_height_high);
-            shadow_fade = environments[i].shadow_fade_high + f * (environments[i].shadow_fade_low - environments[i].shadow_fade_high);
+            max_shadow_steps = lerp(environments[i].shadow_steps_low, environments[i].shadow_steps_high, f);
+            max_shadow_height = lerp(environments[i].sun_height_high, environments[i].sun_height_low, f);
+            shadow_fade = lerp(environments[i].shadow_fade_high, environments[i].shadow_fade_low, f);
             environments[i].sun_color = zia.math.Color.fromRgb(
                 lerp(sun_noon_color[0], sun_night_color[0], square(f)), 
                 lerp(sun_noon_color[1], sun_night_color[1], square(f)),  
@@ -54,9 +54,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // between night and midnight
         } else if (environments[i].sun_xy_angle > 180 and environments[i].sun_xy_angle <= 270) {
             var f = (environments[i].sun_xy_angle - 180) / 90;
-            max_shadow_steps = environments[i].shadow_steps_high + f * (environments[i].shadow_steps_low - environments[i].shadow_steps_high);
-            max_shadow_height = environments[i].sun_height_low + f * (environments[i].sun_height_high - environments[i].sun_height_low);
-            shadow_fade = environments[i].shadow_fade_low + f * (environments[i].shadow_fade_high - environments[i].shadow_fade_low);
+            max_shadow_steps = lerp(environments[i].shadow_steps_high, environments[i].shadow_steps_low, f);
+            max_shadow_height = lerp(environments[i].sun_height_low , environments[i].sun_height_high, f);
+            shadow_fade = lerp(environments[i].shadow_fade_low, environments[i].shadow_fade_high, f);
             environments[i].sun_color = zia.math.Color.fromRgb(
                 lerp(sun_night_color[0], sun_midnight_color[0], flip(square(flip(f)))), 
                 lerp(sun_night_color[1], sun_midnight_color[1], flip(square(flip(f)))),  
@@ -66,9 +66,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // between midnight and morning
         } else if (environments[i].sun_xy_angle > 270) {
             var f = (environments[i].sun_xy_angle - 270) / 90;
-            max_shadow_steps = environments[i].shadow_steps_low + f * (environments[i].shadow_steps_high - environments[i].shadow_steps_low);
-            max_shadow_height = environments[i].sun_height_high + f * (environments[i].sun_height_low - environments[i].sun_height_high);
-            shadow_fade = environments[i].shadow_fade_high + f * (environments[i].shadow_fade_low - environments[i].shadow_fade_high);
+            max_shadow_steps = lerp(environments[i].shadow_steps_low, environments[i].shadow_steps_high, f);
+            max_shadow_height = lerp(environments[i].sun_height_high, environments[i].sun_height_low, f);
+            shadow_fade = lerp(environments[i].shadow_fade_high, environments[i].shadow_fade_low, f);
             environments[i].sun_color = zia.math.Color.fromRgb(
                 lerp(sun_midnight_color[0], sun_morning_color[0], square(f)), 
                 lerp(sun_midnight_color[1], sun_morning_color[1], square(f)),  

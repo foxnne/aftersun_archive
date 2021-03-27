@@ -3,6 +3,7 @@
 uniform vec4 LightParams[3];
 uniform sampler2D main_tex;
 uniform sampler2D height_tex;
+uniform sampler2D light_tex;
 
 layout(location = 0) out vec4 frag_color;
 in vec2 uv_out;
@@ -73,7 +74,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     float param_6 = LightParams[2].y;
     vec4 param_7 = vec4(LightParams[1].x, LightParams[1].y, LightParams[1].z, 1.0);
     vec4 param_8 = vert_color;
-    return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8);
+    return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8) + texture(light_tex, tex_coord);
 }
 
 void main()

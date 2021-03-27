@@ -91,6 +91,24 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         continue;
                     }
                 }
+
+                if (world.get(entity, components.LightRenderer)) |renderer| {
+                    const source = renderer.atlas.sprites[renderer.index].source;
+                    const origin = renderer.atlas.sprites[renderer.index].origin;
+                    const br = .{
+                        .x = position.?.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
+                        .y = position.?.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
+                    };
+                    const tl = .{
+                        .x = position.?.x - @intToFloat(f32, origin.x),
+                        .y = position.?.y - @intToFloat(f32, origin.y),
+                    };
+
+                    if (visible(cam_tl, cam_br, tl, br)) {
+                        renderqueues[i].entities.append(renderIt.entities[j]) catch unreachable;
+                        continue;
+                    }
+                }
             }
         }
     }
