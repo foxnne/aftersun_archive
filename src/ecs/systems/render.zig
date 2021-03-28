@@ -282,7 +282,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         height_pass.deinit();
         light_pass.deinit();
 
-        var finalize_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
+        var finalize_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         var bloom_horizontal_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
         var bloom_vertical_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
 
@@ -299,9 +299,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = bloom_vertical_pass, .shader = &postprocesses[i].bloom_shader.shader });
         zia.gfx.draw.texture(bloom_horizontal_pass.color_texture, .{}, .{});
         zia.gfx.endPass();
-
-        
-
         
         postprocesses[i].finalize_shader.frag_uniform.texel_size = 8;
         postprocesses[i].finalize_shader.frag_uniform.tex_size_x = design_w;
@@ -328,7 +325,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.texture(finalize_pass.color_texture, .{}, .{});
         zia.gfx.endPass();
 
-        // render the main pass combining other passes and postprocess
+        // render the result image to the back buffer
         zia.gfx.beginPass(.{ .trans_mat = rt_transform});
         zia.gfx.draw.texture(tiltshift_pass.color_texture, rt_pos, .{});
         zia.gfx.endPass();

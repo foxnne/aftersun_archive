@@ -39,10 +39,10 @@ float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, 
 #line 47 ""
 #line 50 ""
             float2 _114 = tex_coord;
-            _114.x = tex_coord.x + ((offsX * _55) * 0.0040000001899898052215576171875);
+            _114.x = tex_coord.x + ((offsX * _55) * 0.0030000000260770320892333984375);
 #line 51 ""
             float2 _117 = _114;
-            _117.y = tex_coord.y + ((offsY * _55) * 0.0040000001899898052215576171875);
+            _117.y = tex_coord.y + ((offsY * _55) * 0.0030000000260770320892333984375);
 #line 54 ""
             blurred += tex.sample(texSmplr, _117);
         }

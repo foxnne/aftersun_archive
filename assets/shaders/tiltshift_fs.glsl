@@ -16,9 +16,9 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
         for (float offsY = -1.0; offsY <= 1.0; offsY += 1.0)
         {
             vec2 _114 = tex_coord;
-            _114.x = tex_coord.x + ((offsX * _55) * 0.0040000001899898052215576171875);
+            _114.x = tex_coord.x + ((offsX * _55) * 0.0030000000260770320892333984375);
             vec2 _117 = _114;
-            _117.y = tex_coord.y + ((offsY * _55) * 0.0040000001899898052215576171875);
+            _117.y = tex_coord.y + ((offsY * _55) * 0.0030000000260770320892333984375);
             blurred += texture(tex, _117);
         }
     }

@@ -236,7 +236,7 @@ uniform TiltshiftParams {
 vec4 effect (sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const float bluramount  = blur_amount;
 	const float center      = 1;
-	const float stepSize    = 0.004;
+	const float stepSize    = 0.003;
 	const float steps       = 3.0;
 
 	const float minOffs     = (float(steps-1.0)) / -2.0;
