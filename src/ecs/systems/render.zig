@@ -30,15 +30,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         environments[i].environment_shader.frag_uniform.tex_height = design_h;
 
         var main_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
-        defer main_pass.deinit();
         var height_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
-        defer height_pass.deinit();
         var light_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
-        defer light_pass.deinit();
         var emission_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
-        defer emission_pass.deinit();
         var environment_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
-        defer environment_pass.deinit();
+
 
         // translate by the cameras position
         var camera_transform = zia.math.Matrix3x2.identity;
@@ -217,6 +213,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.SpriteRenderer)) |renderer| {
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipX,
+                        .flipY = renderer.flipY,
+                        .color = zia.math.Color.black,
+                    });
                 if (renderer.emissionmap) |emissionmap| {
                     zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], emissionmap, .{
                         .x = position.?.x,
@@ -224,34 +229,41 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     }, .{
                         .flipX = renderer.flipX,
                         .flipY = renderer.flipY,
+                
                     });
+                    
                 }
+
+                
             }
 
-            // if (world.get(entity, components.CharacterRenderer)) |renderer| {
-            //     if (renderer.heightmap) |heightmap| {
-            //         zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
-            //             .x = position.?.x,
-            //             .y = position.?.y,
-            //         }, .{
-            //             .flipX = renderer.flipBody,
-            //         });
+            if (world.get(entity, components.CharacterRenderer)) |renderer| {
+               
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipBody,
+                        .color = zia.math.Color.black,
+                    });
 
-            //         zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], heightmap, .{
-            //             .x = position.?.x,
-            //             .y = position.?.y,
-            //         }, .{
-            //             .flipX = renderer.flipHead,
-            //         });
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipHead,
+                        .color = zia.math.Color.black,
+                    });
 
-            //         zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
-            //             .x = position.?.x,
-            //             .y = position.?.y,
-            //         }, .{
-            //             .flipX = renderer.flipHead,
-            //         });
-            //     }
-            // }
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipHead,
+                        .color = zia.math.Color.black,
+                    });
+                
+            }
         }
         zia.gfx.endPass();
 
@@ -263,17 +275,68 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.bindTexture(light_pass.color_texture, 2);
         zia.gfx.draw.texture(main_pass.color_texture, .{}, .{ .color = environments[i].sun_color });
         zia.gfx.endPass();
+        zia.gfx.draw.batcher.flush();
         zia.gfx.draw.unbindTexture(1);
         zia.gfx.draw.unbindTexture(2);
 
-        // render the main pass combining other passes and postprocess
-        zia.gfx.beginPass(.{ .trans_mat = rt_transform, .shader = &postprocesses[i].shader.shader });
-        zia.gfx.draw.bindTexture(emission_pass.color_texture, 1);
+        height_pass.deinit();
+        light_pass.deinit();
+
+        var finalize_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
+        var bloom_horizontal_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
+        var bloom_vertical_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .linear, .clamp);
+
+        postprocesses[i].bloom_shader.frag_uniform.tex_size_x = design_w;
+        postprocesses[i].bloom_shader.frag_uniform.tex_size_y = design_h;
+        postprocesses[i].bloom_shader.frag_uniform.horizontal = 1;
+
+        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = bloom_horizontal_pass, .shader = &postprocesses[i].bloom_shader.shader });
+        zia.gfx.draw.texture(emission_pass.color_texture, .{}, .{});
+        zia.gfx.endPass();
+
+        postprocesses[i].bloom_shader.frag_uniform.horizontal = 0;
+
+        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = bloom_vertical_pass, .shader = &postprocesses[i].bloom_shader.shader });
+        zia.gfx.draw.texture(bloom_horizontal_pass.color_texture, .{}, .{});
+        zia.gfx.endPass();
+
+        
+
+        
+        postprocesses[i].finalize_shader.frag_uniform.texel_size = 8;
+        postprocesses[i].finalize_shader.frag_uniform.tex_size_x = design_w;
+        postprocesses[i].finalize_shader.frag_uniform.tex_size_y = design_h;
+
+        zia.gfx.beginPass(.{ .pass = finalize_pass, .shader = &postprocesses[i].finalize_shader.shader });
+        zia.gfx.draw.bindTexture(bloom_vertical_pass.color_texture, 1);
         zia.gfx.draw.bindTexture(environment_pass.color_texture, 2);
-        zia.gfx.draw.texture(main_pass.color_texture, rt_pos, .{});
+        zia.gfx.draw.texture(main_pass.color_texture, .{}, .{});
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
-        zia.gfx.draw.unbindTexture(2);        
+        zia.gfx.draw.unbindTexture(2); 
+
+        environment_pass.deinit();
+        emission_pass.deinit();
+        bloom_horizontal_pass.deinit();
+        bloom_vertical_pass.deinit();
+        main_pass.deinit(); 
+        var tiltshift_pass = zia.gfx.OffscreenPass.initWithOptions(cameras[i].design_w, cameras[i].design_h, .nearest, .clamp);
+
+        postprocesses[i].tiltshift_shader.frag_uniform.blur_amount = 1;
+
+        zia.gfx.beginPass(.{ .pass = tiltshift_pass, .shader = &postprocesses[i].tiltshift_shader.shader });
+        zia.gfx.draw.texture(finalize_pass.color_texture, .{}, .{});
+        zia.gfx.endPass();
+
+        // render the main pass combining other passes and postprocess
+        zia.gfx.beginPass(.{ .trans_mat = rt_transform});
+        zia.gfx.draw.texture(tiltshift_pass.color_texture, rt_pos, .{});
+        zia.gfx.endPass();
+     
+
+        finalize_pass.deinit();
+        tiltshift_pass.deinit();
+           
     }
 }
 

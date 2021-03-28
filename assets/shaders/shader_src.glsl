@@ -161,29 +161,80 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 
 
+// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
+@fs emission_fs
+@include_block sprite_fs_main
+uniform sampler2D main_texture;
+
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+
+	return texture(tex, tex_coord);
+}
+@end
+
+@program emission sprite_vs emission_fs
+
+
+
 
 // RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
-@fs postProcess_fs
+@fs bloom_fs
+@include_block sprite_fs_main
+uniform sampler2D previous_bloom_tex;
+
+uniform BloomParams {
+	float horizontal;
+	float tex_size_x;
+	float tex_size_y;
+
+};
+
+const float weight[10] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216, 0.0111343, 0.00849020, 0.0040293, 0.0021293, 0.00011234);
+
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+
+	vec2 tex_offset = 1.0 / vec2(tex_size_x, tex_size_y); // gets size of single texel
+    vec3 result = texture(tex, tex_coord).rgb * weight[0]; // current fragment's contribution
+    if(horizontal > 0)
+    {
+        for(int i = 1; i < 10; ++i)
+        {
+            result += texture(tex, tex_coord + vec2(tex_offset.x * i, 0.0)).rgb *  weight[i];
+            result += texture(tex, tex_coord - vec2(tex_offset.x * i, 0.0)).rgb  * weight[i];
+        }
+    }
+    else
+    {
+        for(int i = 1; i < 10; ++i)
+        {
+            result += texture(tex, tex_coord + vec2(0.0, tex_offset.y * i)).rgb * weight[i];
+            result += texture(tex, tex_coord - vec2(0.0, tex_offset.y * i)).rgb * weight[i];
+			
+        }
+    }
+    return vec4(result, 1.0);
+
+}
+@end
+
+@program bloom sprite_vs bloom_fs
+
+
+
+
+
+// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
+@fs tiltshift_fs
 @include_block sprite_fs_main
 
-uniform sampler2D environment_texture;
-uniform sampler2D emission_tex;
 
-
-uniform PostProcessingParams {
-	float tiltshift_amount;
-	float bloom_amount;
+uniform TiltshiftParams {
+	float blur_amount;
 };
 
 
-
-vec4 bloom (sampler2D tex, vec2 tex_coord) {
-	const float bloomamount = bloom_amount;
-	return texture(tex, tex_coord);
-}
-
-vec4 tiltshift (sampler2D tex, vec2 tex_coord) {
-	const float bluramount  = tiltshift_amount;
+vec4 effect (sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+	const float bluramount  = blur_amount;
 	const float center      = 1;
 	const float stepSize    = 0.004;
 	const float steps       = 3.0;
@@ -222,7 +273,25 @@ vec4 tiltshift (sampler2D tex, vec2 tex_coord) {
       
 }
 
-vec2 interpolate (vec2 tex_coord, ivec2 tex_size, float texelsPerPixel) {
+@end
+
+@program tiltshift sprite_vs tiltshift_fs
+
+
+// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
+@fs finalize_fs
+@include_block sprite_fs_main
+uniform sampler2D bloom_t;
+uniform sampler2D envir_t;
+
+uniform FinalizeParams {
+	float texel_size;
+	float tex_size_x;
+	float tex_size_y;
+};
+
+
+vec2 interpolate (vec2 tex_coord, vec2 tex_size, float texelsPerPixel) {
 	vec2 scaled_tex_coords = tex_coord * tex_size;
 	vec2 locationWithinTexel = fract(scaled_tex_coords);
   	vec2 interpolationAmount = clamp(locationWithinTexel / texelsPerPixel, 0, 0.5) + clamp((locationWithinTexel - 1) / texelsPerPixel + 0.5, 0, 0.5);
@@ -232,20 +301,20 @@ vec2 interpolate (vec2 tex_coord, ivec2 tex_size, float texelsPerPixel) {
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
-	ivec2 tex_size = textureSize(tex,0);
-	float texelsPerPixel = 8;
+	vec2 tex_size = vec2(tex_size_x, tex_size_y);
+	float texelsPerPixel = texel_size;
 	
   	vec2 interpolated_tex_coords =  interpolate(tex_coord, tex_size, texelsPerPixel);
 
-	vec4 bloom = bloom(emission_tex, interpolated_tex_coords);
-	vec4 environment = tiltshift(environment_texture, interpolated_tex_coords);
-	vec4 main = tiltshift(tex, interpolated_tex_coords);
+	vec4 bloom = texture(bloom_t, tex_coord);
+	vec4 environment = texture(envir_t, interpolated_tex_coords);
+	vec4 main = texture(tex, interpolated_tex_coords);
 
 	return main * environment + bloom;  
 }
 @end
 
-@program postProcess sprite_vs postProcess_fs
+@program finalize sprite_vs finalize_fs
 
 #@include example_include_commented_out.glsl
 

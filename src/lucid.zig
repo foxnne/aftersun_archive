@@ -27,7 +27,10 @@ var light_texture: zia.gfx.Texture = undefined;
 var light_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 var environment_shader: shaders.EnvironmentShader = undefined;
-var post_process_shader: shaders.PostProcessShader = undefined;
+var emission_shader: zia.gfx.Shader = undefined;
+var bloom_shader: shaders.BloomShader = undefined;
+var tiltshift_shader: shaders.TiltshiftShader = undefined;
+var finalize_shader: shaders.FinalizeShader = undefined;
 
 var world: flecs.World = undefined;
 
@@ -51,8 +54,11 @@ fn init() !void {
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
+    emission_shader = shaders.createEmissionShader() catch unreachable;
     environment_shader = shaders.createEnvironmentShader();
-    post_process_shader = shaders.createPostProcessShader();
+    bloom_shader = shaders.createBloomShader();
+    tiltshift_shader = shaders.createTiltshiftShader();
+    finalize_shader = shaders.createFinalizeShader();
 
     world = flecs.World.init();
     world.setTargetFps(60);
@@ -138,7 +144,10 @@ fn init() !void {
     });
 
     world.set(camera, &components.PostProcess{
-        .shader = &post_process_shader,
+        .bloom_shader = &bloom_shader,
+        .finalize_shader = &finalize_shader,
+        .tiltshift_shader = &tiltshift_shader,
+        .emission_shader = &emission_shader,
         .textures = null,
     });
     world.set(camera, &components.Follow{ .target = player });
