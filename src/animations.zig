@@ -297,6 +297,10 @@ pub var pineWind = [_]usize {
     assets.lucid_atlas.Trees_PineWind_1,
     assets.lucid_atlas.Trees_PineWind_2,
     assets.lucid_atlas.Trees_PineWind_3,
+    assets.lucid_atlas.Trees_PineWind_4,
+    assets.lucid_atlas.Trees_PineWind_5,
+    assets.lucid_atlas.Trees_PineWind_6,
+    assets.lucid_atlas.Trees_PineWind_7,
 };
 
 pub var campfireFlame = [_]usize {

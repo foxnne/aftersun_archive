@@ -3,8 +3,8 @@
         {
             "name": "HairF01_Walk_N_3.png",
             "source": {
-                "x": 468,
-                "y": 122,
+                "x": 326,
+                "y": 166,
                 "width": 11,
                 "height": 17
             },
@@ -16,8 +16,8 @@
         {
             "name": "Body_Walk_NE_0.png",
             "source": {
-                "x": 465,
-                "y": 82,
+                "x": 421,
+                "y": 125,
                 "width": 16,
                 "height": 40
             },
@@ -29,8 +29,8 @@
         {
             "name": "Body_Idle_S_0.png",
             "source": {
-                "x": 497,
-                "y": 0,
+                "x": 304,
+                "y": 45,
                 "width": 14,
                 "height": 41
             },
@@ -42,8 +42,8 @@
         {
             "name": "Campfire_Flame_5.png",
             "source": {
-                "x": 245,
-                "y": 45,
+                "x": 304,
+                "y": 86,
                 "width": 29,
                 "height": 40
             },
@@ -55,8 +55,8 @@
         {
             "name": "HairF01_Walk_S_5.png",
             "source": {
-                "x": 322,
-                "y": 124,
+                "x": 218,
+                "y": 178,
                 "width": 12,
                 "height": 14
             },
@@ -68,34 +68,34 @@
         {
             "name": "Trees_PineWind_2.png",
             "source": {
-                "x": 54,
+                "x": 39,
                 "y": 0,
-                "width": 54,
-                "height": 180
+                "width": 39,
+                "height": 178
             },
             "origin": {
-                "x": 28,
-                "y": 176
+                "x": 15,
+                "y": 175
             }
         },
         {
             "name": "Trees_PineWind_3.png",
             "source": {
-                "x": 108,
+                "x": 0,
                 "y": 0,
-                "width": 54,
-                "height": 180
+                "width": 39,
+                "height": 178
             },
             "origin": {
-                "x": 28,
-                "y": 176
+                "x": 15,
+                "y": 175
             }
         },
         {
             "name": "HairF01_Walk_S_4.png",
             "source": {
-                "x": 300,
-                "y": 138,
+                "x": 254,
+                "y": 178,
                 "width": 12,
                 "height": 13
             },
@@ -107,7 +107,7 @@
         {
             "name": "Campfire_Flame_4.png",
             "source": {
-                "x": 274,
+                "x": 391,
                 "y": 0,
                 "width": 29,
                 "height": 44
@@ -120,7 +120,7 @@
         {
             "name": "Body_Walk_NE_1.png",
             "source": {
-                "x": 395,
+                "x": 483,
                 "y": 0,
                 "width": 15,
                 "height": 43
@@ -133,8 +133,8 @@
         {
             "name": "HairF01_Walk_N_2.png",
             "source": {
-                "x": 439,
-                "y": 123,
+                "x": 148,
+                "y": 178,
                 "width": 11,
                 "height": 16
             },
@@ -146,8 +146,8 @@
         {
             "name": "HairF01_Walk_N_0.png",
             "source": {
-                "x": 368,
-                "y": 123,
+                "x": 315,
+                "y": 166,
                 "width": 11,
                 "height": 17
             },
@@ -159,7 +159,7 @@
         {
             "name": "Body_Walk_NE_3.png",
             "source": {
-                "x": 361,
+                "x": 449,
                 "y": 0,
                 "width": 17,
                 "height": 43
@@ -172,8 +172,8 @@
         {
             "name": "Campfire_Flame_6.png",
             "source": {
-                "x": 216,
-                "y": 45,
+                "x": 421,
+                "y": 85,
                 "width": 29,
                 "height": 40
             },
@@ -185,8 +185,8 @@
         {
             "name": "HairF01_Walk_S_6.png",
             "source": {
-                "x": 379,
-                "y": 139,
+                "x": 266,
+                "y": 178,
                 "width": 12,
                 "height": 13
             },
@@ -198,34 +198,34 @@
         {
             "name": "Trees_PineWind_1.png",
             "source": {
-                "x": 0,
+                "x": 155,
                 "y": 0,
-                "width": 54,
-                "height": 180
+                "width": 38,
+                "height": 178
             },
             "origin": {
-                "x": 28,
-                "y": 176
+                "x": 14,
+                "y": 175
             }
         },
         {
             "name": "Trees_PineWind_0.png",
             "source": {
-                "x": 162,
+                "x": 193,
                 "y": 0,
-                "width": 54,
-                "height": 180
+                "width": 37,
+                "height": 178
             },
             "origin": {
-                "x": 28,
-                "y": 176
+                "x": 13,
+                "y": 175
             }
         },
         {
             "name": "HairF01_Walk_S_7.png",
             "source": {
-                "x": 310,
-                "y": 124,
+                "x": 170,
+                "y": 178,
                 "width": 12,
                 "height": 14
             },
@@ -237,8 +237,8 @@
         {
             "name": "Campfire_Flame_7.png",
             "source": {
-                "x": 410,
-                "y": 0,
+                "x": 420,
+                "y": 43,
                 "width": 29,
                 "height": 42
             },
@@ -250,7 +250,7 @@
         {
             "name": "Body_Walk_NE_2.png",
             "source": {
-                "x": 378,
+                "x": 466,
                 "y": 0,
                 "width": 17,
                 "height": 43
@@ -263,8 +263,8 @@
         {
             "name": "HairF01_Walk_N_1.png",
             "source": {
-                "x": 479,
-                "y": 122,
+                "x": 55,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -276,8 +276,8 @@
         {
             "name": "HairF01_Walk_N_5.png",
             "source": {
-                "x": 457,
-                "y": 122,
+                "x": 472,
+                "y": 165,
                 "width": 11,
                 "height": 17
             },
@@ -289,8 +289,8 @@
         {
             "name": "Body_Walk_NE_6.png",
             "source": {
-                "x": 259,
-                "y": 85,
+                "x": 360,
+                "y": 165,
                 "width": 15,
                 "height": 38
             },
@@ -302,7 +302,7 @@
         {
             "name": "Campfire_Flame_3.png",
             "source": {
-                "x": 332,
+                "x": 420,
                 "y": 0,
                 "width": 29,
                 "height": 43
@@ -315,8 +315,8 @@
         {
             "name": "HairF01_Walk_S_3.png",
             "source": {
-                "x": 312,
-                "y": 138,
+                "x": 242,
+                "y": 178,
                 "width": 12,
                 "height": 13
             },
@@ -326,10 +326,23 @@
             }
         },
         {
+            "name": "Trees_PineWind_4.png",
+            "source": {
+                "x": 78,
+                "y": 0,
+                "width": 39,
+                "height": 178
+            },
+            "origin": {
+                "x": 15,
+                "y": 175
+            }
+        },
+        {
             "name": "HairF01_Idle_SE_0.png",
             "source": {
-                "x": 469,
-                "y": 139,
+                "x": 443,
+                "y": 182,
                 "width": 11,
                 "height": 12
             },
@@ -339,10 +352,23 @@
             }
         },
         {
+            "name": "Trees_PineWind_5.png",
+            "source": {
+                "x": 117,
+                "y": 0,
+                "width": 38,
+                "height": 178
+            },
+            "origin": {
+                "x": 14,
+                "y": 175
+            }
+        },
+        {
             "name": "HairF01_Walk_S_2.png",
             "source": {
-                "x": 288,
-                "y": 137,
+                "x": 194,
+                "y": 178,
                 "width": 12,
                 "height": 14
             },
@@ -354,8 +380,8 @@
         {
             "name": "Head_Idle_E_0.png",
             "source": {
-                "x": 364,
-                "y": 151,
+                "x": 321,
+                "y": 183,
                 "width": 10,
                 "height": 11
             },
@@ -367,7 +393,7 @@
         {
             "name": "Campfire_Flame_2.png",
             "source": {
-                "x": 245,
+                "x": 304,
                 "y": 0,
                 "width": 29,
                 "height": 45
@@ -380,8 +406,8 @@
         {
             "name": "Head_Idle_NE_0.png",
             "source": {
-                "x": 226,
-                "y": 140,
+                "x": 331,
+                "y": 183,
                 "width": 10,
                 "height": 11
             },
@@ -393,8 +419,8 @@
         {
             "name": "Body_Walk_NE_7.png",
             "source": {
-                "x": 442,
-                "y": 83,
+                "x": 469,
+                "y": 125,
                 "width": 15,
                 "height": 40
             },
@@ -406,8 +432,8 @@
         {
             "name": "HairF01_Walk_N_4.png",
             "source": {
-                "x": 216,
-                "y": 124,
+                "x": 159,
+                "y": 178,
                 "width": 11,
                 "height": 16
             },
@@ -419,8 +445,8 @@
         {
             "name": "HairF01_Walk_N_6.png",
             "source": {
-                "x": 404,
-                "y": 123,
+                "x": 102,
+                "y": 178,
                 "width": 12,
                 "height": 16
             },
@@ -432,8 +458,8 @@
         {
             "name": "Body_Walk_NE_5.png",
             "source": {
-                "x": 349,
-                "y": 84,
+                "x": 343,
+                "y": 126,
                 "width": 14,
                 "height": 39
             },
@@ -445,7 +471,7 @@
         {
             "name": "Campfire_Flame_0.png",
             "source": {
-                "x": 303,
+                "x": 362,
                 "y": 0,
                 "width": 29,
                 "height": 44
@@ -458,8 +484,8 @@
         {
             "name": "HairF01_Walk_S_0.png",
             "source": {
-                "x": 391,
-                "y": 139,
+                "x": 230,
+                "y": 178,
                 "width": 12,
                 "height": 13
             },
@@ -469,10 +495,36 @@
             }
         },
         {
+            "name": "Trees_PineWind_7.png",
+            "source": {
+                "x": 267,
+                "y": 0,
+                "width": 37,
+                "height": 178
+            },
+            "origin": {
+                "x": 13,
+                "y": 175
+            }
+        },
+        {
+            "name": "Trees_PineWind_6.png",
+            "source": {
+                "x": 230,
+                "y": 0,
+                "width": 37,
+                "height": 178
+            },
+            "origin": {
+                "x": 13,
+                "y": 175
+            }
+        },
+        {
             "name": "HairF01_Walk_S_1.png",
             "source": {
-                "x": 276,
-                "y": 137,
+                "x": 182,
+                "y": 178,
                 "width": 12,
                 "height": 14
             },
@@ -484,7 +536,7 @@
         {
             "name": "Campfire_Flame_1.png",
             "source": {
-                "x": 216,
+                "x": 333,
                 "y": 0,
                 "width": 29,
                 "height": 45
@@ -497,8 +549,8 @@
         {
             "name": "Body_Walk_NE_4.png",
             "source": {
-                "x": 410,
-                "y": 83,
+                "x": 490,
+                "y": 124,
                 "width": 16,
                 "height": 40
             },
@@ -510,8 +562,8 @@
         {
             "name": "HairF01_Walk_N_7.png",
             "source": {
-                "x": 335,
-                "y": 123,
+                "x": 304,
+                "y": 166,
                 "width": 11,
                 "height": 17
             },
@@ -523,8 +575,8 @@
         {
             "name": "Body_Walk_S_6.png",
             "source": {
-                "x": 335,
-                "y": 84,
+                "x": 357,
+                "y": 126,
                 "width": 14,
                 "height": 39
             },
@@ -536,8 +588,8 @@
         {
             "name": "Head_Walk_NE_7.png",
             "source": {
-                "x": 501,
-                "y": 139,
+                "x": 375,
+                "y": 183,
                 "width": 10,
                 "height": 11
             },
@@ -549,8 +601,8 @@
         {
             "name": "Body_Idle_NE_0.png",
             "source": {
-                "x": 439,
-                "y": 0,
+                "x": 449,
+                "y": 43,
                 "width": 15,
                 "height": 42
             },
@@ -562,8 +614,8 @@
         {
             "name": "Body_Walk_N_0.png",
             "source": {
-                "x": 299,
-                "y": 44,
+                "x": 409,
+                "y": 85,
                 "width": 12,
                 "height": 41
             },
@@ -575,8 +627,8 @@
         {
             "name": "HairF01_Walk_SE_7.png",
             "source": {
-                "x": 458,
-                "y": 139,
+                "x": 278,
+                "y": 178,
                 "width": 11,
                 "height": 12
             },
@@ -588,8 +640,8 @@
         {
             "name": "Head_Walk_E_1.png",
             "source": {
-                "x": 491,
-                "y": 139,
+                "x": 385,
+                "y": 183,
                 "width": 10,
                 "height": 11
             },
@@ -601,8 +653,8 @@
         {
             "name": "Head_Walk_E_0.png",
             "source": {
-                "x": 354,
-                "y": 151,
+                "x": 395,
+                "y": 183,
                 "width": 10,
                 "height": 11
             },
@@ -614,8 +666,8 @@
         {
             "name": "HairF01_Walk_SE_6.png",
             "source": {
-                "x": 447,
-                "y": 139,
+                "x": 465,
+                "y": 182,
                 "width": 11,
                 "height": 12
             },
@@ -627,8 +679,8 @@
         {
             "name": "Body_Walk_N_1.png",
             "source": {
-                "x": 332,
-                "y": 43,
+                "x": 464,
+                "y": 84,
                 "width": 13,
                 "height": 41
             },
@@ -640,8 +692,8 @@
         {
             "name": "Head_Walk_NE_6.png",
             "source": {
-                "x": 344,
-                "y": 151,
+                "x": 278,
+                "y": 190,
                 "width": 10,
                 "height": 11
             },
@@ -653,8 +705,8 @@
         {
             "name": "Body_Walk_S_7.png",
             "source": {
-                "x": 410,
-                "y": 42,
+                "x": 318,
+                "y": 45,
                 "width": 14,
                 "height": 41
             },
@@ -666,8 +718,8 @@
         {
             "name": "Body_Walk_S_5.png",
             "source": {
-                "x": 495,
-                "y": 41,
+                "x": 498,
+                "y": 42,
                 "width": 14,
                 "height": 41
             },
@@ -679,8 +731,8 @@
         {
             "name": "Head_Walk_NE_4.png",
             "source": {
-                "x": 334,
-                "y": 151,
+                "x": 288,
+                "y": 190,
                 "width": 10,
                 "height": 11
             },
@@ -692,8 +744,8 @@
         {
             "name": "Body_Walk_N_3.png",
             "source": {
-                "x": 384,
-                "y": 43,
+                "x": 494,
+                "y": 83,
                 "width": 13,
                 "height": 41
             },
@@ -705,8 +757,8 @@
         {
             "name": "HairF01_Walk_SE_4.png",
             "source": {
-                "x": 403,
-                "y": 139,
+                "x": 454,
+                "y": 182,
                 "width": 11,
                 "height": 12
             },
@@ -718,8 +770,8 @@
         {
             "name": "HairF01_Idle_S_0.png",
             "source": {
-                "x": 264,
-                "y": 137,
+                "x": 206,
+                "y": 178,
                 "width": 12,
                 "height": 14
             },
@@ -731,8 +783,8 @@
         {
             "name": "Head_Walk_E_2.png",
             "source": {
-                "x": 286,
-                "y": 151,
+                "x": 230,
+                "y": 191,
                 "width": 10,
                 "height": 11
             },
@@ -744,8 +796,8 @@
         {
             "name": "Head_Walk_E_3.png",
             "source": {
-                "x": 256,
-                "y": 151,
+                "x": 240,
+                "y": 191,
                 "width": 10,
                 "height": 11
             },
@@ -757,8 +809,8 @@
         {
             "name": "HairF01_Walk_SE_5.png",
             "source": {
-                "x": 324,
-                "y": 138,
+                "x": 300,
+                "y": 183,
                 "width": 11,
                 "height": 12
             },
@@ -770,8 +822,8 @@
         {
             "name": "Body_Walk_N_2.png",
             "source": {
-                "x": 216,
-                "y": 85,
+                "x": 484,
+                "y": 164,
                 "width": 13,
                 "height": 39
             },
@@ -783,8 +835,8 @@
         {
             "name": "Head_Walk_NE_5.png",
             "source": {
-                "x": 226,
-                "y": 151,
+                "x": 250,
+                "y": 191,
                 "width": 10,
                 "height": 11
             },
@@ -796,8 +848,8 @@
         {
             "name": "Body_Walk_S_4.png",
             "source": {
-                "x": 371,
-                "y": 43,
+                "x": 358,
+                "y": 85,
                 "width": 13,
                 "height": 41
             },
@@ -809,8 +861,8 @@
         {
             "name": "Body_Walk_S_0.png",
             "source": {
-                "x": 274,
-                "y": 44,
+                "x": 384,
+                "y": 85,
                 "width": 13,
                 "height": 41
             },
@@ -822,8 +874,8 @@
         {
             "name": "Head_Walk_NE_1.png",
             "source": {
-                "x": 216,
-                "y": 151,
+                "x": 260,
+                "y": 191,
                 "width": 10,
                 "height": 11
             },
@@ -835,8 +887,8 @@
         {
             "name": "Body_Walk_N_6.png",
             "source": {
-                "x": 391,
-                "y": 84,
+                "x": 399,
+                "y": 126,
                 "width": 14,
                 "height": 39
             },
@@ -848,8 +900,8 @@
         {
             "name": "HairF01_Walk_SE_1.png",
             "source": {
-                "x": 414,
-                "y": 139,
+                "x": 289,
+                "y": 178,
                 "width": 11,
                 "height": 12
             },
@@ -861,8 +913,8 @@
         {
             "name": "Head_Walk_E_7.png",
             "source": {
-                "x": 501,
-                "y": 150,
+                "x": 170,
+                "y": 192,
                 "width": 10,
                 "height": 11
             },
@@ -874,8 +926,8 @@
         {
             "name": "Head_Walk_E_6.png",
             "source": {
-                "x": 365,
-                "y": 140,
+                "x": 180,
+                "y": 192,
                 "width": 10,
                 "height": 11
             },
@@ -887,8 +939,8 @@
         {
             "name": "HairF01_Walk_SE_0.png",
             "source": {
-                "x": 425,
-                "y": 139,
+                "x": 432,
+                "y": 182,
                 "width": 11,
                 "height": 12
             },
@@ -901,7 +953,7 @@
             "name": "Body_Walk_N_7.png",
             "source": {
                 "x": 345,
-                "y": 43,
+                "y": 45,
                 "width": 13,
                 "height": 41
             },
@@ -913,8 +965,8 @@
         {
             "name": "Head_Walk_NE_0.png",
             "source": {
-                "x": 355,
-                "y": 140,
+                "x": 311,
+                "y": 183,
                 "width": 10,
                 "height": 11
             },
@@ -926,8 +978,8 @@
         {
             "name": "Body_Walk_S_1.png",
             "source": {
-                "x": 481,
-                "y": 41,
+                "x": 362,
+                "y": 44,
                 "width": 14,
                 "height": 41
             },
@@ -939,8 +991,8 @@
         {
             "name": "Body_Walk_S_3.png",
             "source": {
-                "x": 467,
-                "y": 41,
+                "x": 404,
+                "y": 44,
                 "width": 14,
                 "height": 41
             },
@@ -952,8 +1004,8 @@
         {
             "name": "Head_Walk_NE_2.png",
             "source": {
-                "x": 335,
-                "y": 140,
+                "x": 190,
+                "y": 192,
                 "width": 10,
                 "height": 11
             },
@@ -965,8 +1017,8 @@
         {
             "name": "HairF01_Idle_N_0.png",
             "source": {
-                "x": 357,
-                "y": 123,
+                "x": 0,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -978,8 +1030,8 @@
         {
             "name": "Body_Walk_N_5.png",
             "source": {
-                "x": 452,
-                "y": 42,
+                "x": 371,
+                "y": 85,
                 "width": 13,
                 "height": 41
             },
@@ -991,8 +1043,8 @@
         {
             "name": "HairF01_Walk_SE_2.png",
             "source": {
-                "x": 480,
-                "y": 139,
+                "x": 421,
+                "y": 182,
                 "width": 11,
                 "height": 12
             },
@@ -1004,8 +1056,8 @@
         {
             "name": "Head_Walk_E_4.png",
             "source": {
-                "x": 236,
-                "y": 140,
+                "x": 200,
+                "y": 192,
                 "width": 10,
                 "height": 11
             },
@@ -1017,8 +1069,8 @@
         {
             "name": "Head_Walk_E_5.png",
             "source": {
-                "x": 246,
-                "y": 140,
+                "x": 210,
+                "y": 192,
                 "width": 10,
                 "height": 11
             },
@@ -1030,8 +1082,8 @@
         {
             "name": "HairF01_Walk_SE_3.png",
             "source": {
-                "x": 436,
-                "y": 139,
+                "x": 410,
+                "y": 182,
                 "width": 11,
                 "height": 12
             },
@@ -1043,8 +1095,8 @@
         {
             "name": "Body_Walk_N_4.png",
             "source": {
-                "x": 287,
-                "y": 44,
+                "x": 397,
+                "y": 85,
                 "width": 12,
                 "height": 41
             },
@@ -1056,8 +1108,8 @@
         {
             "name": "Head_Walk_NE_3.png",
             "source": {
-                "x": 345,
-                "y": 140,
+                "x": 220,
+                "y": 192,
                 "width": 10,
                 "height": 11
             },
@@ -1069,8 +1121,8 @@
         {
             "name": "Body_Walk_S_2.png",
             "source": {
-                "x": 377,
-                "y": 84,
+                "x": 371,
+                "y": 126,
                 "width": 14,
                 "height": 39
             },
@@ -1082,8 +1134,8 @@
         {
             "name": "HairF01_Walk_NE_3.png",
             "source": {
-                "x": 253,
-                "y": 123,
+                "x": 22,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -1095,8 +1147,8 @@
         {
             "name": "HairF01_Walk_E_2.png",
             "source": {
-                "x": 298,
-                "y": 85,
+                "x": 388,
+                "y": 165,
                 "width": 11,
                 "height": 18
             },
@@ -1108,8 +1160,8 @@
         {
             "name": "Head_Idle_S_0.png",
             "source": {
-                "x": 430,
-                "y": 151,
+                "x": 9,
+                "y": 195,
                 "width": 9,
                 "height": 11
             },
@@ -1121,8 +1173,8 @@
         {
             "name": "Head_Walk_SE_3.png",
             "source": {
-                "x": 324,
-                "y": 150,
+                "x": 77,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1134,8 +1186,8 @@
         {
             "name": "Head_Walk_SE_2.png",
             "source": {
-                "x": 491,
-                "y": 150,
+                "x": 87,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1147,8 +1199,8 @@
         {
             "name": "HairF01_Walk_E_3.png",
             "source": {
-                "x": 501,
-                "y": 122,
+                "x": 44,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -1160,8 +1212,8 @@
         {
             "name": "HairF01_Walk_NE_2.png",
             "source": {
-                "x": 298,
-                "y": 120,
+                "x": 436,
+                "y": 165,
                 "width": 12,
                 "height": 17
             },
@@ -1173,8 +1225,8 @@
         {
             "name": "HairF01_Walk_NE_0.png",
             "source": {
-                "x": 392,
-                "y": 123,
+                "x": 114,
+                "y": 178,
                 "width": 12,
                 "height": 16
             },
@@ -1186,8 +1238,8 @@
         {
             "name": "HairF01_Walk_E_1.png",
             "source": {
-                "x": 287,
-                "y": 103,
+                "x": 423,
+                "y": 165,
                 "width": 13,
                 "height": 17
             },
@@ -1199,8 +1251,8 @@
         {
             "name": "Head_Walk_SE_0.png",
             "source": {
-                "x": 236,
-                "y": 151,
+                "x": 97,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1212,8 +1264,8 @@
         {
             "name": "Head_Walk_SE_1.png",
             "source": {
-                "x": 246,
-                "y": 151,
+                "x": 107,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1225,8 +1277,8 @@
         {
             "name": "HairF01_Walk_E_0.png",
             "source": {
-                "x": 379,
-                "y": 123,
+                "x": 77,
+                "y": 178,
                 "width": 13,
                 "height": 16
             },
@@ -1238,8 +1290,8 @@
         {
             "name": "HairF01_Walk_NE_1.png",
             "source": {
-                "x": 416,
-                "y": 123,
+                "x": 90,
+                "y": 178,
                 "width": 12,
                 "height": 16
             },
@@ -1251,8 +1303,8 @@
         {
             "name": "HairF01_Walk_NE_5.png",
             "source": {
-                "x": 428,
-                "y": 123,
+                "x": 137,
+                "y": 178,
                 "width": 11,
                 "height": 16
             },
@@ -1264,8 +1316,8 @@
         {
             "name": "HairF01_Walk_E_4.png",
             "source": {
-                "x": 242,
-                "y": 123,
+                "x": 66,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -1277,8 +1329,8 @@
         {
             "name": "Head_Walk_SE_5.png",
             "source": {
-                "x": 266,
-                "y": 151,
+                "x": 117,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1290,8 +1342,8 @@
         {
             "name": "Head_Idle_N_0.png",
             "source": {
-                "x": 484,
-                "y": 161,
+                "x": 474,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1303,8 +1355,8 @@
         {
             "name": "Head_Walk_SE_4.png",
             "source": {
-                "x": 276,
-                "y": 151,
+                "x": 127,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1316,8 +1368,8 @@
         {
             "name": "HairF01_Walk_E_5.png",
             "source": {
-                "x": 346,
-                "y": 123,
+                "x": 33,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -1329,8 +1381,8 @@
         {
             "name": "HairF01_Walk_NE_4.png",
             "source": {
-                "x": 227,
-                "y": 124,
+                "x": 126,
+                "y": 178,
                 "width": 11,
                 "height": 16
             },
@@ -1342,8 +1394,8 @@
         {
             "name": "HairF01_Walk_NE_6.png",
             "source": {
-                "x": 490,
-                "y": 122,
+                "x": 11,
+                "y": 178,
                 "width": 11,
                 "height": 17
             },
@@ -1355,8 +1407,8 @@
         {
             "name": "HairF01_Walk_E_7.png",
             "source": {
-                "x": 274,
-                "y": 103,
+                "x": 410,
+                "y": 165,
                 "width": 13,
                 "height": 17
             },
@@ -1368,8 +1420,8 @@
         {
             "name": "Head_Walk_SE_6.png",
             "source": {
-                "x": 296,
-                "y": 151,
+                "x": 137,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1381,8 +1433,8 @@
         {
             "name": "Head_Walk_SE_7.png",
             "source": {
-                "x": 306,
-                "y": 151,
+                "x": 147,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1394,8 +1446,8 @@
         {
             "name": "HairF01_Walk_E_6.png",
             "source": {
-                "x": 274,
-                "y": 85,
+                "x": 375,
+                "y": 165,
                 "width": 13,
                 "height": 18
             },
@@ -1407,8 +1459,8 @@
         {
             "name": "HairF01_Walk_NE_7.png",
             "source": {
-                "x": 286,
-                "y": 120,
+                "x": 460,
+                "y": 165,
                 "width": 12,
                 "height": 17
             },
@@ -1420,8 +1472,8 @@
         {
             "name": "Head_Walk_S_6.png",
             "source": {
-                "x": 325,
-                "y": 161,
+                "x": 465,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1433,8 +1485,8 @@
         {
             "name": "Head_Walk_N_0.png",
             "source": {
-                "x": 316,
-                "y": 161,
+                "x": 456,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1446,8 +1498,8 @@
         {
             "name": "Body_Walk_SE_4.png",
             "source": {
-                "x": 242,
-                "y": 85,
+                "x": 343,
+                "y": 165,
                 "width": 17,
                 "height": 38
             },
@@ -1459,7 +1511,7 @@
         {
             "name": "Body_Walk_E_1.png",
             "source": {
-                "x": 454,
+                "x": 498,
                 "y": 0,
                 "width": 13,
                 "height": 42
@@ -1472,8 +1524,8 @@
         {
             "name": "Body_Walk_E_0.png",
             "source": {
-                "x": 482,
-                "y": 0,
+                "x": 479,
+                "y": 43,
                 "width": 15,
                 "height": 41
             },
@@ -1485,8 +1537,8 @@
         {
             "name": "Head_Walk_N_1.png",
             "source": {
-                "x": 383,
-                "y": 152,
+                "x": 438,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1498,8 +1550,8 @@
         {
             "name": "Body_Walk_SE_5.png",
             "source": {
-                "x": 229,
-                "y": 85,
+                "x": 497,
+                "y": 164,
                 "width": 13,
                 "height": 39
             },
@@ -1511,8 +1563,8 @@
         {
             "name": "Head_Walk_S_7.png",
             "source": {
-                "x": 466,
-                "y": 151,
+                "x": 411,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1524,8 +1576,8 @@
         {
             "name": "Head_Walk_S_5.png",
             "source": {
-                "x": 448,
-                "y": 151,
+                "x": 393,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1537,8 +1589,8 @@
         {
             "name": "HairF01_Idle_NE_0.png",
             "source": {
-                "x": 274,
-                "y": 120,
+                "x": 448,
+                "y": 165,
                 "width": 12,
                 "height": 17
             },
@@ -1550,8 +1602,8 @@
         {
             "name": "Body_Walk_SE_7.png",
             "source": {
-                "x": 497,
-                "y": 82,
+                "x": 304,
+                "y": 126,
                 "width": 15,
                 "height": 40
             },
@@ -1563,8 +1615,8 @@
         {
             "name": "Head_Walk_N_3.png",
             "source": {
-                "x": 439,
-                "y": 151,
+                "x": 384,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1576,8 +1628,8 @@
         {
             "name": "Head_Idle_SE_0.png",
             "source": {
-                "x": 216,
-                "y": 140,
+                "x": 157,
+                "y": 194,
                 "width": 10,
                 "height": 11
             },
@@ -1589,8 +1641,8 @@
         {
             "name": "Body_Walk_E_2.png",
             "source": {
-                "x": 358,
-                "y": 43,
+                "x": 477,
+                "y": 84,
                 "width": 13,
                 "height": 41
             },
@@ -1602,8 +1654,8 @@
         {
             "name": "Body_Walk_E_3.png",
             "source": {
-                "x": 438,
-                "y": 42,
+                "x": 376,
+                "y": 44,
                 "width": 14,
                 "height": 41
             },
@@ -1615,8 +1667,8 @@
         {
             "name": "Body_Walk_SE_6.png",
             "source": {
-                "x": 363,
-                "y": 84,
+                "x": 385,
+                "y": 126,
                 "width": 14,
                 "height": 39
             },
@@ -1628,8 +1680,8 @@
         {
             "name": "Head_Walk_N_2.png",
             "source": {
-                "x": 403,
-                "y": 151,
+                "x": 375,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1641,8 +1693,8 @@
         {
             "name": "Head_Walk_S_4.png",
             "source": {
-                "x": 216,
-                "y": 162,
+                "x": 18,
+                "y": 195,
                 "width": 9,
                 "height": 11
             },
@@ -1654,8 +1706,8 @@
         {
             "name": "Head_Walk_S_0.png",
             "source": {
-                "x": 412,
-                "y": 151,
+                "x": 320,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1667,8 +1719,8 @@
         {
             "name": "Head_Walk_N_6.png",
             "source": {
-                "x": 421,
-                "y": 151,
+                "x": 329,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1680,8 +1732,8 @@
         {
             "name": "Body_Walk_SE_2.png",
             "source": {
-                "x": 424,
-                "y": 42,
+                "x": 390,
+                "y": 44,
                 "width": 14,
                 "height": 41
             },
@@ -1693,8 +1745,8 @@
         {
             "name": "Body_Walk_E_7.png",
             "source": {
-                "x": 311,
-                "y": 84,
+                "x": 319,
+                "y": 126,
                 "width": 13,
                 "height": 40
             },
@@ -1706,8 +1758,8 @@
         {
             "name": "Body_Walk_E_6.png",
             "source": {
-                "x": 324,
-                "y": 84,
+                "x": 332,
+                "y": 126,
                 "width": 11,
                 "height": 40
             },
@@ -1719,8 +1771,8 @@
         {
             "name": "Head_Walk_N_7.png",
             "source": {
-                "x": 457,
-                "y": 151,
+                "x": 402,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1732,8 +1784,8 @@
         {
             "name": "Body_Walk_SE_3.png",
             "source": {
-                "x": 426,
-                "y": 83,
+                "x": 453,
+                "y": 125,
                 "width": 16,
                 "height": 40
             },
@@ -1745,8 +1797,8 @@
         {
             "name": "Head_Walk_S_1.png",
             "source": {
-                "x": 475,
-                "y": 151,
+                "x": 420,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1758,8 +1810,8 @@
         {
             "name": "Head_Walk_S_3.png",
             "source": {
-                "x": 374,
-                "y": 152,
+                "x": 429,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1771,8 +1823,8 @@
         {
             "name": "Body_Walk_SE_1.png",
             "source": {
-                "x": 467,
-                "y": 0,
+                "x": 464,
+                "y": 43,
                 "width": 15,
                 "height": 41
             },
@@ -1784,8 +1836,8 @@
         {
             "name": "Head_Walk_N_5.png",
             "source": {
-                "x": 392,
-                "y": 152,
+                "x": 447,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
@@ -1797,8 +1849,8 @@
         {
             "name": "Body_Walk_E_4.png",
             "source": {
-                "x": 481,
-                "y": 82,
+                "x": 437,
+                "y": 125,
                 "width": 16,
                 "height": 40
             },
@@ -1810,8 +1862,8 @@
         {
             "name": "Body_Walk_E_5.png",
             "source": {
-                "x": 397,
-                "y": 43,
+                "x": 332,
+                "y": 45,
                 "width": 13,
                 "height": 41
             },
@@ -1823,8 +1875,8 @@
         {
             "name": "Body_Walk_SE_0.png",
             "source": {
-                "x": 311,
-                "y": 44,
+                "x": 333,
+                "y": 86,
                 "width": 18,
                 "height": 40
             },
@@ -1836,8 +1888,8 @@
         {
             "name": "Head_Walk_N_4.png",
             "source": {
-                "x": 493,
-                "y": 161,
+                "x": 0,
+                "y": 195,
                 "width": 9,
                 "height": 11
             },
@@ -1849,8 +1901,8 @@
         {
             "name": "HairF01_Idle_E_0.png",
             "source": {
-                "x": 287,
-                "y": 85,
+                "x": 399,
+                "y": 165,
                 "width": 11,
                 "height": 18
             },
@@ -1862,8 +1914,8 @@
         {
             "name": "Head_Walk_S_2.png",
             "source": {
-                "x": 502,
-                "y": 161,
+                "x": 311,
+                "y": 194,
                 "width": 9,
                 "height": 11
             },
