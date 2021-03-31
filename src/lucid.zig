@@ -163,13 +163,13 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_5,
+        .index = assets.lucid_atlas.Tree_PineWind_6,
     });
 
     world.set(other, &components.SpriteAnimator{
         .animation = &animations.pineWind,
         .state = .play,
-        .fps = 4,
+        .fps = 8,
     });
     world.set(other, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
@@ -179,12 +179,12 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_3,
+        .index = assets.lucid_atlas.Tree_PineWind_3,
     });
     world.set(other2, &components.SpriteAnimator{
         .animation = &animations.pineWind,
         .state = .play,
-        .fps = 4,
+        .fps = 8,
     });
     world.set(other2, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
@@ -194,12 +194,12 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_1,
+        .index = assets.lucid_atlas.Tree_PineWind_0,
     });
     world.set(third, &components.SpriteAnimator{
         .animation = &animations.pineWind,
         .state = .play,
-        .fps = 4,
+        .fps = 8,
     });
     world.set(third, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
 
@@ -209,13 +209,13 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_2,
+        .index = assets.lucid_atlas.Tree_PineWind_4,
     });
     world.set(fourth, &components.SpriteAnimator{
         .animation = &animations.pineWind,
         .state = .play,
         .frame = 2,
-        .fps = 4,
+        .fps = 8,
     });
     world.set(fourth, &components.Collider{ .shape = .{ .circle = .{ .radius = 10 } } });
 
@@ -225,13 +225,13 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_3,
+        .index = assets.lucid_atlas.Tree_PineWind_3,
     });
     world.set(fifth, &components.SpriteAnimator{
         .animation = &animations.pineWind,
         .state = .play,
         .frame = 6,
-        .fps = 4,
+        .fps = 8,
     });
     world.set(fifth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
@@ -241,13 +241,13 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_1,
+        .index = assets.lucid_atlas.Tree_PineWind_1,
     });
     world.set(sixth, &components.SpriteAnimator{
         .animation = &animations.pineWind,
         .state = .play,
         .frame = 3,
-        .fps = 4,
+        .fps = 8,
     });
     world.set(sixth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
 
