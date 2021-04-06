@@ -43,6 +43,24 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .None => unreachable,
             };
 
+            animators[i].bottomAnimation = switch (bodies[i].direction) {
+                .S => &animations.walkBottomF01S,
+                .SE, .SW => &animations.walkBottomF01SE,
+                .E, .W => &animations.walkBottomF01E,
+                .NE, .NW => &animations.walkBottomF01NE,
+                .N => &animations.walkBottomF01N,
+                .None => unreachable,
+            };
+
+            animators[i].topAnimation = switch (bodies[i].direction) {
+                .S => &animations.walkTopF01S,
+                .SE, .SW => &animations.walkTopF01SE,
+                .E, .W => &animations.walkTopF01E,
+                .NE, .NW => &animations.walkTopF01NE,
+                .N => &animations.walkTopF01N,
+                .None => unreachable,
+            };
+
             animators[i].headAnimation = switch (heads[i].direction) {
                 .S => &animations.walkHeadS,
                 .SE, .SW => &animations.walkHeadSE,
@@ -129,6 +147,20 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .NE, .NW => &animations.idleHeadNE,
                 .N => &animations.idleHeadN,
                 .None => &animations.idleHeadS,
+            };
+
+            animators[i].bottomAnimation = switch (bodies[i].direction) {
+                .SE, .SW => &animations.idleBottomF01SE,
+                .NE, .NW => &animations.idleBottomF01NE,
+                .None => &animations.idleBottomF01SE,
+                else => &animations.idleBottomF01SE,
+            };
+
+            animators[i].topAnimation = switch (bodies[i].direction) {
+                .SE, .SW => &animations.idleTopF01SE,
+                .NE, .NW => &animations.idleTopF01NE,
+                .None => &animations.idleTopF01SE,
+                else => &animations.idleTopF01SE,
             };
 
             animators[i].hairAnimation = switch (heads[i].direction) {

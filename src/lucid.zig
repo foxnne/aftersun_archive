@@ -12,7 +12,7 @@ pub const assets = @import("assets.zig");
 pub const shaders = @import("shaders.zig");
 
 // manual
-pub const animations = @import("animations.zig");
+pub const animations = @import("animations/animations.zig");
 
 pub const components = @import("ecs/components/components.zig");
 pub const sorters = @import("ecs/sorters/sorters.zig");
@@ -104,16 +104,22 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .body = assets.lucid_atlas.Body_Idle_S_0,
-        .head = assets.lucid_atlas.Head_Idle_S_0,
+        .body = assets.lucid_atlas.Body_Idle_SE_0,
+        .head = assets.lucid_atlas.Head_Idle_SE_0,
+        .bottom = assets.lucid_atlas.BottomF01_Idle_SE_0,
+        .top = assets.lucid_atlas.TopF01_Idle_SE_0,
         .hair = assets.lucid_atlas.HairF01_Idle_S_0,
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
+        .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
+        .topColor = zia.math.Color.fromRgbBytes(13, 0, 0),
         .hairColor = zia.math.Color.fromRgbBytes(1, 0, 0),
     });
     world.set(player, &components.CharacterAnimator{
         .bodyAnimation = &animations.idleBodySE,
         .headAnimation = &animations.idleHeadS,
+        .bottomAnimation = &animations.idleBottomF01SE,
+        .topAnimation = &animations.idleTopF01SE,
         .hairAnimation = &animations.idleHairF01SE,
         .state = .idle,
     });
@@ -163,7 +169,7 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Tree_PineWind_6,
+        .index = assets.lucid_atlas.Trees_PineWind_6,
     });
 
     world.set(other, &components.SpriteAnimator{
@@ -179,7 +185,7 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Tree_PineWind_3,
+        .index = assets.lucid_atlas.Trees_PineWind_3,
     });
     world.set(other2, &components.SpriteAnimator{
         .animation = &animations.pineWind,
@@ -194,7 +200,7 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Tree_PineWind_0,
+        .index = assets.lucid_atlas.Trees_PineWind_0,
     });
     world.set(third, &components.SpriteAnimator{
         .animation = &animations.pineWind,
@@ -209,7 +215,7 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Tree_PineWind_4,
+        .index = assets.lucid_atlas.Trees_PineWind_4,
     });
     world.set(fourth, &components.SpriteAnimator{
         .animation = &animations.pineWind,
@@ -225,7 +231,7 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Tree_PineWind_3,
+        .index = assets.lucid_atlas.Trees_PineWind_3,
     });
     world.set(fifth, &components.SpriteAnimator{
         .animation = &animations.pineWind,
@@ -241,7 +247,7 @@ fn init() !void {
         .texture = lucid_texture,
         .heightmap = lucid_heightmap,
         .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Tree_PineWind_1,
+        .index = assets.lucid_atlas.Trees_PineWind_1,
     });
     world.set(sixth, &components.SpriteAnimator{
         .animation = &animations.pineWind,

@@ -20,6 +20,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
         renderers[i].head = animators[i].headAnimation[animators[i].frame];
         renderers[i].body = animators[i].bodyAnimation[animators[i].frame];
+        renderers[i].bottom = animators[i].bottomAnimation[animators[i].frame];
+        renderers[i].top = animators[i].topAnimation[animators[i].frame];
         renderers[i].hair = animators[i].hairAnimation[animators[i].frame];
     }
 }

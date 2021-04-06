@@ -121,6 +121,22 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     .flipX = renderer.flipHead,
                 });
 
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.bottom], renderer.texture, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .color = renderer.bottomColor,
+                    .flipX = renderer.flipBody,
+                });
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], renderer.texture, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .color = renderer.topColor,
+                    .flipX = renderer.flipBody,
+                });
+
                 zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
                     .x = position.?.x,
                     .y = position.?.y,
@@ -177,12 +193,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .flipX = renderer.flipHead,
                     });
 
-                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
-                        .x = position.?.x,
-                        .y = position.?.y,
-                    }, .{
-                        .flipX = renderer.flipHead,
-                    });
+                    // zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
+                    //     .x = position.?.x,
+                    //     .y = position.?.y,
+                    // }, .{
+                    //     .flipX = renderer.flipHead,
+                    // });
                 }
             }
         }
