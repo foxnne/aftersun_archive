@@ -48,8 +48,8 @@ fn init() !void {
     // load textures, atlases and shaders
     lucid_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucidpalette_png.path, .nearest) catch unreachable;
     lucid_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_png.path, .nearest) catch unreachable;
-    lucid_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_h_png.path , .nearest) catch unreachable;
-    lucid_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_e_png.path , .nearest) catch unreachable;
+    lucid_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_h_png.path, .nearest) catch unreachable;
+    lucid_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_e_png.path, .nearest) catch unreachable;
     lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
@@ -83,7 +83,6 @@ fn init() !void {
     _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
     _ = world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
 
-
     // camera
     _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
@@ -97,7 +96,6 @@ fn init() !void {
     var player = world.new();
     world.setName(player, "Player");
     world.set(player, &components.Position{});
-    //world.set(player, &components.Subpixel{});
     world.set(player, &components.Velocity{});
     world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&lucid_palette} });
     world.set(player, &components.CharacterRenderer{
@@ -145,7 +143,7 @@ fn init() !void {
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
     });
 
-    world.set(camera, &components.Environment {
+    world.set(camera, &components.Environment{
         .environment_shader = &environment_shader,
     });
 
@@ -163,115 +161,55 @@ fn init() !void {
     world.setSingleton(&components.Grid{});
     world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
 
-    var other = world.new();
-    world.set(other, &components.Position{ .x = 60, .y = 0 });
-    world.set(other, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_6,
-    });
+    const treeSpawnWidth = 5000;
+    const treeSpawnHeight = 5000;
+    const treeSpawnCount = 1500;
 
-    world.set(other, &components.SpriteAnimator{
-        .animation = &animations.pineWind,
-        .state = .play,
-        .fps = 8,
+    var prng = std.rand.DefaultPrng.init(blk: {
+        var seed: u64 = undefined;
+        std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
+        break :blk seed;
     });
-    world.set(other, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+    const rand = &prng.random;
 
-    var other2 = world.new();
-    world.set(other2, &components.Position{ .x = 78, .y = -40 });
-    world.set(other2, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_3,
-    });
-    world.set(other2, &components.SpriteAnimator{
-        .animation = &animations.pineWind,
-        .state = .play,
-        .fps = 8,
-    });
-    world.set(other2, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+    var i: usize = 0;
+    while (i < treeSpawnCount) : (i += 1) {
+        var x = @intToFloat(f32, rand.intRangeAtMost(i32, -@divTrunc(treeSpawnWidth, 2), @divTrunc(treeSpawnWidth, 2)));
+        var y = @intToFloat(f32, rand.intRangeAtMost(i32, -@divTrunc(treeSpawnHeight, 2), @divTrunc(treeSpawnHeight, 2)));
+        var e = world.new();
 
-    var third = world.new();
-    world.set(third, &components.Position{ .x = -160, .y = 10 });
-    world.set(third, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_0,
-    });
-    world.set(third, &components.SpriteAnimator{
-        .animation = &animations.pineWind,
-        .state = .play,
-        .fps = 8,
-    });
-    world.set(third, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
+        world.set(e, &components.Position{ .x = x, .y = y });
+        world.set(e, &components.SpriteRenderer{
+            .texture = lucid_texture,
+            .heightmap = lucid_heightmap,
+            .atlas = lucid_atlas,
+            .index = assets.lucid_atlas.Trees_PineWind_6,
+        });
 
-    var fourth = world.new();
-    world.set(fourth, &components.Position{ .x = -175, .y = 25 });
-    world.set(fourth, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_4,
-    });
-    world.set(fourth, &components.SpriteAnimator{
-        .animation = &animations.pineWind,
-        .state = .play,
-        .frame = 2,
-        .fps = 8,
-    });
-    world.set(fourth, &components.Collider{ .shape = .{ .circle = .{ .radius = 10 } } });
+        world.set(e, &components.SpriteAnimator{
+            .animation = &animations.pineWind,
+            .state = .play,
+            .frame = rand.intRangeAtMost(usize, 0, 7),
+            .fps = 8,
+        });
+        world.set(e, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+    }
 
-    var fifth = world.new();
-    world.set(fifth, &components.Position{ .x = -160, .y = 220 });
-    world.set(fifth, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_3,
-    });
-    world.set(fifth, &components.SpriteAnimator{
-        .animation = &animations.pineWind,
-        .state = .play,
-        .frame = 6,
-        .fps = 8,
-    });
-    world.set(fifth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
-
-    var sixth = world.new();
-    world.set(sixth, &components.Position{ .x = -250, .y = -80 });
-    world.set(sixth, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Trees_PineWind_1,
-    });
-    world.set(sixth, &components.SpriteAnimator{
-        .animation = &animations.pineWind,
-        .state = .play,
-        .frame = 3,
-        .fps = 8,
-    });
-    world.set(sixth, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
-
-    var seventh = world.new();
-    world.set(seventh, &components.Position{ .x = 0, .y = -80 });
-    world.set(seventh, &components.LightRenderer{
+    var campfire = world.new();
+    world.set(campfire, &components.Position{ .x = 0, .y = -80 });
+    world.set(campfire, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
         .color = zia.math.Color.orange,
         .index = assets.lights_atlas.point256,
     });
-    world.set(seventh, &components.SpriteRenderer{
+    world.set(campfire, &components.SpriteRenderer{
         .texture = lucid_texture,
         .emissionmap = lucid_emissionmap,
         .atlas = lucid_atlas,
         .index = assets.lucid_atlas.Campfire_Flame_0,
     });
-    world.set(seventh, &components.SpriteAnimator{
+    world.set(campfire, &components.SpriteAnimator{
         .animation = &animations.campfireFlame,
         .state = .play,
         .fps = 16,
