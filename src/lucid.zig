@@ -133,7 +133,16 @@ fn init() !void {
 
     var camera = world.new();
     world.setName(camera, "Camera");
-    world.set(camera, &components.Camera{ .design_w = 1280, .design_h = 720 });
+    world.set(camera, &components.Camera{
+        .design_w = 1280,
+        .design_h = 720,
+        .pass_0 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
+        .pass_1 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .nearest, .clamp),
+        .pass_2 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
+        .pass_3 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
+        .pass_4 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
+        .pass_5 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
+    });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
     world.set(camera, &components.Velocity{});
@@ -163,11 +172,11 @@ fn init() !void {
 
     const treeSpawnWidth = 5000;
     const treeSpawnHeight = 5000;
-    const treeSpawnCount = 1500;
+    const treeSpawnCount = 2000;
 
     var prng = std.rand.DefaultPrng.init(blk: {
-        var seed: u64 = undefined;
-        std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
+        var seed: u64 = 1234567890;
+        //std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
         break :blk seed;
     });
     const rand = &prng.random;
@@ -196,7 +205,7 @@ fn init() !void {
     }
 
     var campfire = world.new();
-    world.set(campfire, &components.Position{ .x = 0, .y = -80 });
+    world.set(campfire, &components.Position{ .x = 0, .y = 50 });
     world.set(campfire, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,

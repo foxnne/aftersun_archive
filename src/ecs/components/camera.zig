@@ -6,6 +6,12 @@ pub const Camera = struct {
     trans_mat: zia.math.Matrix3x2 = undefined,
     design_w: i32,
     design_h: i32,
+    pass_0: zia.gfx.OffscreenPass,
+    pass_1: zia.gfx.OffscreenPass,
+    pass_2: zia.gfx.OffscreenPass,
+    pass_3: zia.gfx.OffscreenPass,
+    pass_4: zia.gfx.OffscreenPass,
+    pass_5: zia.gfx.OffscreenPass,
 };
 
 pub const RenderQueue = struct {

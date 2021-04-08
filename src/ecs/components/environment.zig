@@ -12,6 +12,6 @@ pub const Environment = struct {
     shadow_steps_low: f32 = 40,
     shadow_fade_high: f32 = 8,
     shadow_fade_low: f32 = 2,
-    shadow_color: zia.math.Color = zia.math.Color.fromBytes(200, 200, 200, 255),
+    shadow_color: zia.math.Color = zia.math.Color.fromBytes(150, 150, 160, 255),
 };
 
