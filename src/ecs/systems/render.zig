@@ -186,7 +186,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     }, .{
                         .flipX = renderer.flipHead,
                     });
-
                 }
             }
         }
@@ -226,15 +225,14 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.SpriteRenderer)) |renderer| {
-
                 zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
-                        .x = position.?.x,
-                        .y = position.?.y,
-                    }, .{
-                        .flipX = renderer.flipX,
-                        .flipY = renderer.flipY,
-                        .color = zia.math.Color.black,
-                    });
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipX,
+                    .flipY = renderer.flipY,
+                    .color = zia.math.Color.black,
+                });
                 if (renderer.emissionmap) |emissionmap| {
                     zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], emissionmap, .{
                         .x = position.?.x,
@@ -242,40 +240,34 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     }, .{
                         .flipX = renderer.flipX,
                         .flipY = renderer.flipY,
-                
                     });
-                    
                 }
-
-                
             }
 
             if (world.get(entity, components.CharacterRenderer)) |renderer| {
-               
-                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
-                        .x = position.?.x,
-                        .y = position.?.y,
-                    }, .{
-                        .flipX = renderer.flipBody,
-                        .color = zia.math.Color.black,
-                    });
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipBody,
+                    .color = zia.math.Color.black,
+                });
 
-                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
-                        .x = position.?.x,
-                        .y = position.?.y,
-                    }, .{
-                        .flipX = renderer.flipHead,
-                        .color = zia.math.Color.black,
-                    });
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipHead,
+                    .color = zia.math.Color.black,
+                });
 
-                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
-                        .x = position.?.x,
-                        .y = position.?.y,
-                    }, .{
-                        .flipX = renderer.flipHead,
-                        .color = zia.math.Color.black,
-                    });
-                
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipHead,
+                    .color = zia.math.Color.black,
+                });
             }
         }
         zia.gfx.endPass();
@@ -295,7 +287,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_4, .shader = &postprocesses[i].bloom_shader.shader });
         zia.gfx.draw.texture(cameras[i].pass_2.color_texture, .{}, .{});
         zia.gfx.endPass();
-        
+
         postprocesses[i].finalize_shader.frag_uniform.texel_size = 8;
         postprocesses[i].finalize_shader.frag_uniform.tex_size_x = design_w;
         postprocesses[i].finalize_shader.frag_uniform.tex_size_y = design_h;
@@ -306,7 +298,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{});
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
-        zia.gfx.draw.unbindTexture(2); 
+        zia.gfx.draw.unbindTexture(2);
 
         postprocesses[i].tiltshift_shader.frag_uniform.blur_amount = 1;
 
@@ -315,10 +307,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.endPass();
 
         // render the result image to the back buffer
-        zia.gfx.beginPass(.{ .trans_mat = rt_transform});
+        zia.gfx.beginPass(.{ .trans_mat = rt_transform });
         zia.gfx.draw.texture(cameras[i].pass_1.color_texture, rt_pos, .{});
         zia.gfx.endPass();
-          
     }
 }
 
