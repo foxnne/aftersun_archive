@@ -49,9 +49,9 @@ pub const BloomParams = extern struct {
     };
 
     horizontal: f32 = 0,
+    multiplier: f32 = 0,
     tex_size_x: f32 = 0,
     tex_size_y: f32 = 0,
-    _pad12_0_: [4]u8 = [_]u8{0} ** 4,
 };
 
 pub const LightParams = extern struct {

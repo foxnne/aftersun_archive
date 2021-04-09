@@ -47,11 +47,12 @@ struct spvUnsafeArray
 struct BloomParams
 {
     float horizontal;
+    float multiplier;
     float tex_size_x;
     float tex_size_y;
 };
 
-constant spvUnsafeArray<float, 10> _101 = spvUnsafeArray<float, 10>({ 0.227026998996734619140625, 0.19459460675716400146484375, 0.121621601283550262451171875, 0.054053999483585357666015625, 0.01621600054204463958740234375, 0.0111343003809452056884765625, 0.008490200154483318328857421875, 0.0040293000638484954833984375, 0.0021293000318109989166259765625, 0.00011233999975956976413726806640625 });
+constant spvUnsafeArray<float, 10> _102 = spvUnsafeArray<float, 10>({ 0.227026998996734619140625, 0.19459460675716400146484375, 0.121621601283550262451171875, 0.054053999483585357666015625, 0.01621600054204463958740234375, 0.0111343003809452056884765625, 0.008490200154483318328857421875, 0.0040293000638484954833984375, 0.0021293000318109989166259765625, 0.00011233999975956976413726806640625 });
 
 struct main0_out
 {
@@ -64,38 +65,38 @@ struct main0_in
     float4 color_out [[user(locn1)]];
 };
 
-#line 30 ""
+#line 31 ""
 static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, constant BloomParams& v_37)
 {
-#line 30 ""
-    float2 _48 = float2(1.0) / float2(v_37.tex_size_x, v_37.tex_size_y);
 #line 31 ""
-    float3 result = tex.sample(texSmplr, tex_coord).xyz * 0.227026998996734619140625;
+    float2 _48 = float2(1.0) / float2(v_37.tex_size_x, v_37.tex_size_y);
 #line 32 ""
+    float3 result = tex.sample(texSmplr, tex_coord).xyz * 0.227026998996734619140625;
+#line 33 ""
     if (v_37.horizontal > 0.0)
     {
-#line 34 ""
+#line 35 ""
         for (int i = 1; i < 10; i++)
         {
-#line 36 ""
-            float2 _86 = float2(_48.x * float(i), 0.0);
 #line 37 ""
-            result = (result + (tex.sample(texSmplr, (tex_coord + _86)).xyz * _101[i])) + (tex.sample(texSmplr, (tex_coord - _86)).xyz * _101[i]);
+            float2 _87 = float2(_48.x * float(i), 0.0);
+#line 38 ""
+            result = (result + (tex.sample(texSmplr, (tex_coord + _87)).xyz * (_102[i] * v_37.multiplier))) + (tex.sample(texSmplr, (tex_coord - _87)).xyz * (_102[i] * v_37.multiplier));
         }
     }
     else
     {
-#line 44 ""
+#line 45 ""
         for (int i_1 = 1; i_1 < 10; i_1++)
         {
-#line 46 ""
-            float2 _147 = float2(0.0, _48.y * float(i_1));
 #line 47 ""
-            result = (result + (tex.sample(texSmplr, (tex_coord + _147)).xyz * _101[i_1])) + (tex.sample(texSmplr, (tex_coord - _147)).xyz * _101[i_1]);
+            float2 _154 = float2(0.0, _48.y * float(i_1));
+#line 48 ""
+            result = (result + (tex.sample(texSmplr, (tex_coord + _154)).xyz * (_102[i_1] * v_37.multiplier))) + (tex.sample(texSmplr, (tex_coord - _154)).xyz * (_102[i_1] * v_37.multiplier));
         }
     }
-#line 52 ""
+#line 53 ""
     return float4(result, 1.0);
 }
 

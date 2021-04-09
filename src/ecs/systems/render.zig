@@ -277,6 +277,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         postprocesses[i].bloom_shader.frag_uniform.tex_size_x = design_w;
         postprocesses[i].bloom_shader.frag_uniform.tex_size_y = design_h;
         postprocesses[i].bloom_shader.frag_uniform.horizontal = 1;
+        postprocesses[i].bloom_shader.frag_uniform.multiplier = 1.2;
 
         zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_2, .shader = &postprocesses[i].bloom_shader.shader });
         zia.gfx.draw.texture(cameras[i].pass_1.color_texture, .{}, .{});

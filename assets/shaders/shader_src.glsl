@@ -184,6 +184,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 uniform BloomParams {
 	float horizontal;
+	float multiplier;
 	float tex_size_x;
 	float tex_size_y;
 
@@ -199,8 +200,8 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
     {
         for(int i = 1; i < 10; ++i)
         {
-            result += texture(tex, tex_coord + vec2(tex_offset.x * i, 0.0)).rgb *  weight[i];
-            result += texture(tex, tex_coord - vec2(tex_offset.x * i, 0.0)).rgb  * weight[i];
+            result += texture(tex, tex_coord + vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
+            result += texture(tex, tex_coord - vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
 			
         }
 		
@@ -209,8 +210,8 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
     {
         for(int i = 1; i < 10; ++i)
         {
-            result += texture(tex, tex_coord + vec2(0.0, tex_offset.y * i)).rgb * weight[i];
-            result += texture(tex, tex_coord - vec2(0.0, tex_offset.y * i)).rgb * weight[i];
+            result += texture(tex, tex_coord + vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
+            result += texture(tex, tex_coord - vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
 			
         }
 		
