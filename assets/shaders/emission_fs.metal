@@ -18,20 +18,20 @@ struct main0_in
 
 #line 21 ""
 static inline __attribute__((always_inline))
-float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color)
+float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> main_texture, thread const sampler main_textureSmplr)
 {
 #line 21 ""
-    return tex.sample(texSmplr, tex_coord);
+    return (tex.sample(texSmplr, tex_coord) * main_texture.sample(main_textureSmplr, tex_coord)) * vert_color;
 }
 
 #line 15 ""
-fragment main0_out main0(main0_in in [[stage_in]], texture2d<float> main_tex [[texture(0)]], sampler main_texSmplr [[sampler(0)]])
+fragment main0_out main0(main0_in in [[stage_in]], texture2d<float> main_tex [[texture(0)]], texture2d<float> main_texture [[texture(1)]], sampler main_texSmplr [[sampler(0)]], sampler main_textureSmplr [[sampler(1)]])
 {
     main0_out out = {};
 #line 15 ""
     float2 param = in.uv_out;
     float4 param_1 = in.color_out;
-    out.frag_color = effect(main_tex, main_texSmplr, param, param_1);
+    out.frag_color = effect(main_tex, main_texSmplr, param, param_1, main_texture, main_textureSmplr);
     return out;
 }
 

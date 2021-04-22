@@ -161,14 +161,13 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 
 
-// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
 @fs emission_fs
 @include_block sprite_fs_main
 uniform sampler2D main_texture;
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
-	return texture(tex, tex_coord);
+	return texture(tex, tex_coord) * texture(main_texture, tex_coord) * vert_color;
 }
 @end
 
@@ -202,9 +201,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
         {
             result += texture(tex, tex_coord + vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
             result += texture(tex, tex_coord - vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
-			
         }
-		
     }
     else
     {
@@ -212,7 +209,6 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
         {
             result += texture(tex, tex_coord + vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
             result += texture(tex, tex_coord - vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
-			
         }
 		
     }

@@ -5,8 +5,6 @@ const lucid = @import("lucid");
 const imgui = @import("imgui");
 
 const components = lucid.components;
-const actions = lucid.actions;
-const sorters = lucid.sorters;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
@@ -15,7 +13,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var world = flecs.World{ .world = it.world.? };
 
-    const camExp = 0; //pixels to expand camera bounds by
+    const camExp = 400; //pixels to expand camera bounds by
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

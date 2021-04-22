@@ -14,7 +14,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     while (i < it.count) : (i += 1) {
 
         //advance the sun angle
-        environments[i].sun_xy_angle += 5 * zia.time.dt();
+        environments[i].sun_xy_angle += environments[i].timescale * zia.time.dt();
         if (environments[i].sun_xy_angle > 360)
             environments[i].sun_xy_angle = 0;
     

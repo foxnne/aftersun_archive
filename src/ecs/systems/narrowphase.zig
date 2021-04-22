@@ -89,11 +89,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                     },
 
                                     .box => {
-                                        const pos1 = zia.math.Vector2{ .x = positions[i].x + velocities[i].x, .y = positions[i].y};
+                                        const pos1 = zia.math.Vector2{ .x = positions[i].x + velocities[i].x, .y = positions[i].y };
                                         const pos2 = zia.math.Vector2{ .x = otherPosition.?.x, .y = otherPosition.?.y };
 
                                         // // TODO: handle rotation?
-                               
+
                                         const aabb_halfextents = zia.math.Vector2{ .x = otherCollider.?.shape.box.width / 2, .y = otherCollider.?.shape.box.height / 2 };
 
                                         var difference = zia.math.Vector2{ .x = pos1.x - pos2.x, .y = pos1.y - pos2.y };
@@ -145,13 +145,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                             },
                         }
 
-                        var other_pos_ptr = world.get(other, components.Position);
+                        if (lucid.gizmos.enabled) {
+                            if (world.get(other, components.Position)) |otherpos| {
+                                var pos1 = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y };
+                                var pos2 = zia.math.Vector2{ .x = otherpos.x, .y = otherpos.y };
 
-                        if (other_pos_ptr) |otherpos| {
-                            var pos1 = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y };
-                            var pos2 = zia.math.Vector2{ .x = otherpos.x, .y = otherpos.y };
-
-                            if (lucid.gizmos.enabled) {
                                 lucid.gizmos.line(pos1, pos2, zia.math.Color.fromBytes(255, 0, 0, 128), 1);
                             }
                         }

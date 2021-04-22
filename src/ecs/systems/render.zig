@@ -219,7 +219,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.unbindTexture(2);
 
         // render the emission maps to the emission texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_1, .trans_mat = camera_transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_1, .trans_mat = camera_transform,});
 
         for (renderqueues[i].entities.items) |entity, j| {
             var position = world.get(entity, components.Position);
@@ -268,6 +268,30 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     .flipX = renderer.flipHead,
                     .color = zia.math.Color.black,
                 });
+
+                if (renderer.emissionmap) |emissionmap| {
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], emissionmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipBody,
+                });
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], emissionmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipHead,
+                });
+
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], emissionmap, .{
+                    .x = position.?.x,
+                    .y = position.?.y,
+                }, .{
+                    .flipX = renderer.flipHead,
+                });
+                }
             }
         }
         zia.gfx.endPass();

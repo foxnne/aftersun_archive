@@ -242,11 +242,9 @@ fn update() !void {
     // run all systems
     world.progress(zia.time.dt());
 
-    // clear the broadphase collection and reinit
-    var broadphase_ptr = world.getSingletonMut(components.Broadphase);
-    if (broadphase_ptr) |broadphase| {
-        broadphase.*.entities.deinit();
-        world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
+    // clear the broadphase collection 
+    if (world.getSingletonMut(components.Broadphase)) |broadphase| {
+        broadphase.*.entities.clear();
     }
 
     // end the window after all other systems are run

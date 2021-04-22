@@ -2,6 +2,7 @@ const zia = @import("zia");
 const shaders = @import("../../shaders.zig");
 
 pub const Environment = struct {
+    timescale: f32 = 1,
     environment_shader: *shaders.EnvironmentShader,
     sun_color: zia.math.Color = zia.math.Color.white,
     sun_xy_angle: f32 = 0,

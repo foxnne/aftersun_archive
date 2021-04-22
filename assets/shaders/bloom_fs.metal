@@ -87,16 +87,16 @@ float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, 
     }
     else
     {
-#line 45 ""
+#line 43 ""
         for (int i_1 = 1; i_1 < 10; i_1++)
         {
-#line 47 ""
+#line 45 ""
             float2 _154 = float2(0.0, _48.y * float(i_1));
-#line 48 ""
+#line 46 ""
             result = (result + (tex.sample(texSmplr, (tex_coord + _154)).xyz * (_102[i_1] * v_37.multiplier))) + (tex.sample(texSmplr, (tex_coord - _154)).xyz * (_102[i_1] * v_37.multiplier));
         }
     }
-#line 53 ""
+#line 50 ""
     return float4(result, 1.0);
 }
 
