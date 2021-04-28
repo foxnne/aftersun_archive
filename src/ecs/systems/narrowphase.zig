@@ -145,6 +145,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                             },
                         }
 
+                       
+
                         if (lucid.gizmos.enabled) {
                             if (world.get(other, components.Position)) |otherpos| {
                                 var pos1 = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y };
@@ -152,7 +154,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
                                 lucid.gizmos.line(pos1, pos2, zia.math.Color.fromBytes(255, 0, 0, 128), 1);
                             }
+
                         }
+
+                        
                     }
                 }
             }

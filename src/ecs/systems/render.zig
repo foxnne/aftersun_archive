@@ -65,8 +65,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // TODO!
         // pass gizmos the new matrix to render our gizmos at the correct scale
         // how do we handle multiple cameras?
-        if (zia.enable_imgui)
-            lucid.gizmos.setTransmat(cameras[i].trans_mat);
+        // if (zia.enable_imgui)
+        //     lucid.gizmos.setTransmat(cameras[i].trans_mat);
 
         // sort
         std.sort.sort(flecs.Entity, renderqueues[i].entities.items, &world, sort);
@@ -150,7 +150,30 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     }
                 }
             }
+
+
+
         }
+
+        //if (world.getSingletonMut(components.Gizmos)) |gizmos| {
+        if (lucid.gizmos.enabled) {
+            for (lucid.gizmos.gizmos.items) |gizmo| {
+                switch (gizmo.shape) {
+                    .line => {
+                        zia.gfx.draw.line(gizmo.shape.line.start, gizmo.shape.line.end, gizmo.shape.line.thickness, gizmo.shape.line.color);
+                    },
+                    .box => {
+                        zia.gfx.draw.hollowRect(gizmo.shape.box.position, gizmo.shape.box.width, gizmo.shape.box.height, gizmo.shape.box.thickness, gizmo.shape.box.color);
+                    },
+                    .circle => {
+                        zia.gfx.draw.circle(gizmo.shape.circle.position, gizmo.shape.circle.radius, gizmo.shape.circle.thickness, 10, gizmo.shape.circle.color);
+                    },
+                    // else => {},
+                }
+            }
+            lucid.gizmos.gizmos.shrinkAndFree(0);
+        }
+
         zia.gfx.endPass();
 
         // render the heightmaps to the heightmap texture
@@ -219,7 +242,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.unbindTexture(2);
 
         // render the emission maps to the emission texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_1, .trans_mat = camera_transform,});
+        zia.gfx.beginPass(.{
+            .color = zia.math.Color.black,
+            .pass = cameras[i].pass_1,
+            .trans_mat = camera_transform,
+        });
 
         for (renderqueues[i].entities.items) |entity, j| {
             var position = world.get(entity, components.Position);
@@ -270,27 +297,26 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 });
 
                 if (renderer.emissionmap) |emissionmap| {
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], emissionmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipBody,
+                    });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], emissionmap, .{
-                    .x = position.?.x,
-                    .y = position.?.y,
-                }, .{
-                    .flipX = renderer.flipBody,
-                });
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], emissionmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipHead,
+                    });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], emissionmap, .{
-                    .x = position.?.x,
-                    .y = position.?.y,
-                }, .{
-                    .flipX = renderer.flipHead,
-                });
-
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], emissionmap, .{
-                    .x = position.?.x,
-                    .y = position.?.y,
-                }, .{
-                    .flipX = renderer.flipHead,
-                });
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], emissionmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        .flipX = renderer.flipHead,
+                    });
                 }
             }
         }

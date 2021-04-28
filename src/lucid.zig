@@ -3,7 +3,9 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const imgui = @import("imgui");
 
-pub var gizmos: @import("gizmos/gizmos.zig").Gizmos = undefined;
+const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
+const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
+pub var gizmos: Gizmos = undefined;
 
 pub const enable_imgui = true;
 
@@ -43,7 +45,8 @@ pub fn main() !void {
     });
 }
 fn init() !void {
-    gizmos = @import("gizmos/gizmos.zig").Gizmos.init(null);
+    // initialize gizmos
+    gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator)};
 
     // load textures, atlases and shaders
     lucid_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucidpalette_png.path, .nearest) catch unreachable;
@@ -62,11 +65,14 @@ fn init() !void {
 
     world = flecs.World.init();
     world.setTargetFps(60);
+    const design_w = 1280;
+    const design_h = 720;
 
     // register all components
     components.register(&world);
 
     // input
+    //_ = world.newSystem("GizmoInputSystem", flecs.Phase.on_update, "$Gizmos", @import("ecs/systems/gizmos.zig").progress);
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
     _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
@@ -74,6 +80,7 @@ fn init() !void {
     // physics
     _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
     _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, Position, Velocity, $Broadphase", @import("ecs/systems/narrowphase.zig").progress);
+    _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
 
     // correction
     _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity", @import("ecs/systems/move.zig").progress);
@@ -130,18 +137,19 @@ fn init() !void {
     //     .atlas = light_atlas,
     //     .color = zia.math.Color.fromRgbBytes(50, 50, 50),
     // });
+    
 
     var camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{
-        .design_w = 1280,
-        .design_h = 720,
-        .pass_0 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
-        .pass_1 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .nearest, .clamp),
-        .pass_2 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
-        .pass_3 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
-        .pass_4 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
-        .pass_5 = zia.gfx.OffscreenPass.initWithOptions(1280, 720, .linear, .clamp),
+        .design_w = design_w,
+        .design_h = design_h,
+        .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
+        .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        .pass_5 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
     });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
@@ -151,11 +159,9 @@ fn init() !void {
         .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer || LightRenderer"),
         .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
     });
-
     world.set(camera, &components.Environment{
         .environment_shader = &environment_shader,
     });
-
     world.set(camera, &components.PostProcess{
         .bloom_shader = &bloom_shader,
         .finalize_shader = &finalize_shader,
@@ -165,6 +171,7 @@ fn init() !void {
     });
     world.set(camera, &components.Follow{ .target = player });
 
+    //world.setSingleton(&components.Gizmos{.gizmos = std.ArrayList(components.Gizmo).init(std.testing.allocator)});
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Grid{});
@@ -227,29 +234,12 @@ fn init() !void {
 
 fn update() !void {
 
-    // enable/disable gizmos
     if (zia.input.keyPressed(.grave)) {
         gizmos.enabled = !gizmos.enabled;
     }
 
-    // create a blank window to draw gizmos to
-    if (zia.enable_imgui) {
-        imgui.ogSetNextWindowPos(.{}, imgui.ImGuiCond_Always, .{});
-        imgui.ogSetNextWindowSize(.{ .x = @intToFloat(f32, zia.window.width()), .y = @intToFloat(f32, zia.window.height()) }, imgui.ImGuiCond_Always);
-        _ = imgui.igBegin("Gizmos", null, imgui.ImGuiWindowFlags_NoBackground | imgui.ImGuiWindowFlags_NoTitleBar | imgui.ImGuiWindowFlags_NoResize | imgui.ImGuiWindowFlags_NoInputs);
-    }
-
     // run all systems
     world.progress(zia.time.dt());
-
-    // clear the broadphase collection 
-    if (world.getSingletonMut(components.Broadphase)) |broadphase| {
-        broadphase.*.entities.clear();
-    }
-
-    // end the window after all other systems are run
-    if (zia.enable_imgui)
-        imgui.igEnd();
 }
 
 fn shutdown() !void {

@@ -13,7 +13,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var broadphase = it.column(components.Broadphase, 3);
 
     if (world.getSingleton(components.Grid)) |grid| {
- 
         var i: usize = 0;
         while (i < it.count) : (i += 1) {
             var x = @floatToInt(i32, @trunc(positions[i].x / @intToFloat(f32, (grid.pixelsPerUnit * grid.cellSize))));
@@ -23,15 +22,19 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             broadphase.*.entities.append(colliders[i].cell, it.entities[i]);
 
+            // if (world.getSingletonMut(components.Gizmos)) |gizmos| {
+            //     gizmos.testAdd();
+            // }
+
             if (lucid.gizmos.enabled) {
-                switch (colliders[i].shape)
-                {
-                    .circle => lucid.gizmos.circle(.{.x = positions[i].x, .y = positions[i].y}, colliders[i].shape.circle.radius, zia.math.Color.green, 1),
-                    .box => lucid.gizmos.box(.{.x = positions[i].x, .y = positions[i].y}, colliders[i].shape.box.width, colliders[i].shape.box.height, zia.math.Color.green, 1),
+                switch (colliders[i].shape) {
+                    //.circle => gizmos.circle(.{.x = positions[i].x, .y = positions[i].y}, colliders[i].shape.circle.radius, zia.math.Color.green, 1),
+                    .circle => lucid.gizmos.circle(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.circle.radius,  zia.math.Color.green, 1 ),
+                    .box => lucid.gizmos.box(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.box.width, colliders[i].shape.box.height,  zia.math.Color.green, 1 ),
+                    
+                    // else => {},
                 }
             }
         }
-
-
     }
 }

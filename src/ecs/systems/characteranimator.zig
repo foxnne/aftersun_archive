@@ -181,10 +181,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
         }
 
-        if (lucid.gizmos.enabled) {
-            //const pos_ptr = world.get(it.entities[i], components.Position);
-            lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, bodies[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.red, 2);
-            lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, heads[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.blue, 2);
-        }
+        // if (lucid.gizmos.enabled) {
+        //     //const pos_ptr = world.get(it.entities[i], components.Position);
+        //     lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, bodies[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.red, 2);
+        //     lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, heads[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.blue, 2);
+        // }
     }
 }
