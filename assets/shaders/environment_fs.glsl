@@ -48,12 +48,12 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_
             float param_3 = _134;
             float param_4 = z_angle;
             float param_5 = _152;
-            float param_6 = abs(getTraceHeight(param_3, param_4, param_5));
+            float param_6 = getTraceHeight(param_3, param_4, param_5);
             float param_7 = _160;
             if (approx(param_6, param_7))
             {
-                float _185 = _152 * shadow_fade;
-                return clamp(shadow_color + vec4(_185, _185, _185, _152 * shadow_fade), vec4(0.0), vec4(1.0)) * vert_color;
+                float _184 = _152 * shadow_fade;
+                return clamp(shadow_color + vec4(_184, _184, _184, _152 * shadow_fade), vec4(0.0), vec4(1.0)) * vert_color;
             }
         }
     }
@@ -65,7 +65,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     float param = LightParams[0].z;
     float param_1 = LightParams[0].w;
     vec2 param_2 = tex_coord;
-    float param_3 = (1.0 / LightParams[0].x) / cos(radians(LightParams[0].z));
+    float param_3 = 1.0 / LightParams[0].x;
     float param_4 = LightParams[1].w;
     float param_5 = LightParams[2].x;
     float param_6 = LightParams[2].y;

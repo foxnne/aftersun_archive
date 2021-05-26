@@ -132,7 +132,7 @@ bool approx (float a, float b) {
 	return abs(b-a) < 0.01;
 }
 
-vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_shadow_steps, float max_shadow_height, float shadow_fade, vec4 shadow_color, vec4 vert_color) {
+vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_shadow_steps, float max_shadow_height, float shadow_fade, vec4 shadow_color, vec4 vert_color) {
 	float dist;
 	float height;
 	float other_height;
@@ -157,7 +157,7 @@ vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_s
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	const vec2 tex_size = vec2(tex_width, tex_height);
-	const float tex_step =  1 / tex_width.x / cos(radians(sun_xy_angle));
+	const float tex_step =  1 / tex_width.x;
 	const vec4 shadow_color = vec4( shadow_r, shadow_g, shadow_b, 1);
 
 	vec4 shadow = shadow(sun_xy_angle, sun_z_angle, tex_coord, tex_step,max_shadow_steps, max_shadow_height,shadow_fade,shadow_color, vert_color);

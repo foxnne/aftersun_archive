@@ -97,13 +97,13 @@ float4 shadow(thread const float& xy_angle, thread const float& z_angle, thread 
             float param_3 = _134;
             float param_4 = z_angle;
             float param_5 = _152;
-            float param_6 = abs(getTraceHeight(param_3, param_4, param_5));
+            float param_6 = getTraceHeight(param_3, param_4, param_5);
             float param_7 = _160;
             if (approx(param_6, param_7))
             {
 #line 71 ""
-                float _185 = _152 * shadow_fade;
-                return fast::clamp(shadow_color + float4(_185, _185, _185, _152 * shadow_fade), float4(0.0), float4(1.0)) * vert_color;
+                float _184 = _152 * shadow_fade;
+                return fast::clamp(shadow_color + float4(_184, _184, _184, _152 * shadow_fade), float4(0.0), float4(1.0)) * vert_color;
             }
         }
     }
@@ -113,31 +113,32 @@ float4 shadow(thread const float& xy_angle, thread const float& z_angle, thread 
 
 #line 82 ""
 static inline __attribute__((always_inline))
-float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> height_tex, thread const sampler height_texSmplr, constant LightParams& v_213, thread texture2d<float> light_tex, thread const sampler light_texSmplr)
+float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> height_tex, thread const sampler height_texSmplr, constant LightParams& v_212, thread texture2d<float> light_tex, thread const sampler light_texSmplr)
 {
 #line 82 ""
 #line 83 ""
-    float param = v_213.sun_xy_angle;
-    float param_1 = v_213.sun_z_angle;
+#line 85 ""
+    float param = v_212.sun_xy_angle;
+    float param_1 = v_212.sun_z_angle;
     float2 param_2 = tex_coord;
-    float param_3 = (1.0 / v_213.tex_width) / cos(radians(v_213.sun_xy_angle));
-    float param_4 = v_213.max_shadow_steps;
-    float param_5 = v_213.max_shadow_height;
-    float param_6 = v_213.shadow_fade;
-    float4 param_7 = float4(v_213.shadow_r, v_213.shadow_g, v_213.shadow_b, 1.0);
+    float param_3 = 1.0 / v_212.tex_width;
+    float param_4 = v_212.max_shadow_steps;
+    float param_5 = v_212.max_shadow_height;
+    float param_6 = v_212.shadow_fade;
+    float4 param_7 = float4(v_212.shadow_r, v_212.shadow_g, v_212.shadow_b, 1.0);
     float4 param_8 = vert_color;
 #line 86 ""
     return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8, height_tex, height_texSmplr) + light_tex.sample(light_texSmplr, tex_coord);
 }
 
 #line 15 ""
-fragment main0_out main0(main0_in in [[stage_in]], constant LightParams& v_213 [[buffer(0)]], texture2d<float> main_tex [[texture(0)]], texture2d<float> height_tex [[texture(1)]], texture2d<float> light_tex [[texture(2)]], sampler main_texSmplr [[sampler(0)]], sampler height_texSmplr [[sampler(1)]], sampler light_texSmplr [[sampler(2)]])
+fragment main0_out main0(main0_in in [[stage_in]], constant LightParams& v_212 [[buffer(0)]], texture2d<float> main_tex [[texture(0)]], texture2d<float> height_tex [[texture(1)]], texture2d<float> light_tex [[texture(2)]], sampler main_texSmplr [[sampler(0)]], sampler height_texSmplr [[sampler(1)]], sampler light_texSmplr [[sampler(2)]])
 {
     main0_out out = {};
 #line 15 ""
     float2 param = in.uv_out;
     float4 param_1 = in.color_out;
-    out.frag_color = effect(main_tex, main_texSmplr, param, param_1, height_tex, height_texSmplr, v_213, light_tex, light_texSmplr);
+    out.frag_color = effect(main_tex, main_texSmplr, param, param_1, height_tex, height_texSmplr, v_212, light_tex, light_texSmplr);
     return out;
 }
 
