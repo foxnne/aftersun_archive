@@ -121,7 +121,15 @@ float getHeightAt(vec2 texCoord, float xyAngle, float dist) {
 }
 
 float getTraceHeight(float height, float zAngle, float dist) {
-	return dist * tan(radians(zAngle)) + height;
+	return dist * float(tan(radians(zAngle))) + height;
+}
+
+float shadowLength (float height, float z_angle) {
+	return height / tan(radians(z_angle));
+}
+
+bool approx (float a, float b) {
+	return abs(b-a) < 0.01;
 }
 
 vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_shadow_steps, float max_shadow_height, float shadow_fade, vec4 shadow_color, vec4 vert_color) {
@@ -135,10 +143,11 @@ vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_s
 		dist = stp * float(i);
 		other_height = getHeightAt(tex_coord, xy_angle, dist);
 
-		if(other_height > height && other_height - height < max_shadow_height * stp) {
+		if(other_height > height) {
 			trace_height = getTraceHeight(height, z_angle, dist);
-			if(trace_height < other_height) {
+			if(approx(trace_height, other_height)) {
 				return clamp(shadow_color + vec4(vec3(dist * shadow_fade), dist * shadow_fade), 0, 1) * vert_color;
+				//return shadow_color * vert_color;
 			}
 		}
 	}
@@ -148,7 +157,7 @@ vec4 shadow(float xy_angle, float z_angle,vec2 tex_coord, float stp, float max_s
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	const vec2 tex_size = vec2(tex_width, tex_height);
-	const float tex_step = 1 / tex_size.y;
+	const float tex_step =  1 / tex_width.x / cos(radians(sun_xy_angle));
 	const vec4 shadow_color = vec4( shadow_r, shadow_g, shadow_b, 1);
 
 	vec4 shadow = shadow(sun_xy_angle, sun_z_angle, tex_coord, tex_step,max_shadow_steps, max_shadow_height,shadow_fade,shadow_color, vert_color);

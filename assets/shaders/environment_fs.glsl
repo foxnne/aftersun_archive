@@ -27,36 +27,33 @@ float getTraceHeight(float height, float zAngle, float dist)
     return (dist * tan(radians(zAngle))) + height;
 }
 
+bool approx(float a, float b)
+{
+    return abs(b - a) < 0.00999999977648258209228515625;
+}
+
 vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_shadow_steps, float max_shadow_height, float shadow_fade, vec4 shadow_color, vec4 vert_color)
 {
-    vec4 _119 = texture(height_tex, tex_coord);
-    float _120 = _119.x;
+    vec4 _133 = texture(height_tex, tex_coord);
+    float _134 = _133.x;
     for (int i = 0; float(i) < max_shadow_steps; i++)
     {
-        float _139 = stp * float(i);
+        float _152 = stp * float(i);
         vec2 param = tex_coord;
         float param_1 = xy_angle;
-        float param_2 = _139;
-        float _147 = getHeightAt(param, param_1, param_2);
-        bool _150 = _147 > _120;
-        bool _160;
-        if (_150)
+        float param_2 = _152;
+        float _160 = getHeightAt(param, param_1, param_2);
+        if (_160 > _134)
         {
-            _160 = (_147 - _120) < (max_shadow_height * stp);
-        }
-        else
-        {
-            _160 = _150;
-        }
-        if (_160)
-        {
-            float param_3 = _120;
+            float param_3 = _134;
             float param_4 = z_angle;
-            float param_5 = _139;
-            if (getTraceHeight(param_3, param_4, param_5) < _147)
+            float param_5 = _152;
+            float param_6 = abs(getTraceHeight(param_3, param_4, param_5));
+            float param_7 = _160;
+            if (approx(param_6, param_7))
             {
-                float _179 = _139 * shadow_fade;
-                return clamp(shadow_color + vec4(_179, _179, _179, _139 * shadow_fade), vec4(0.0), vec4(1.0)) * vert_color;
+                float _185 = _152 * shadow_fade;
+                return clamp(shadow_color + vec4(_185, _185, _185, _152 * shadow_fade), vec4(0.0), vec4(1.0)) * vert_color;
             }
         }
     }
@@ -68,7 +65,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     float param = LightParams[0].z;
     float param_1 = LightParams[0].w;
     vec2 param_2 = tex_coord;
-    float param_3 = 1.0 / LightParams[0].y;
+    float param_3 = (1.0 / LightParams[0].x) / cos(radians(LightParams[0].z));
     float param_4 = LightParams[1].w;
     float param_5 = LightParams[2].x;
     float param_6 = LightParams[2].y;
