@@ -1,8 +1,8 @@
 const flecs = @import("flecs");
-const lucid = @import("lucid");
+const game = @import("game");
 const imgui = @import("imgui");
 const zia = @import("zia");
-const components = lucid.components;
+const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var input = it.column(components.MouseInput, 1);

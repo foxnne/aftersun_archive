@@ -1,9 +1,9 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
-const components = lucid.components;
-const actions = lucid.actions;
+const game = @import("game");
+const components = game.components;
+const actions = game.actions;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
@@ -26,11 +26,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             //     gizmos.testAdd();
             // }
 
-            if (lucid.gizmos.enabled) {
+            if (game.gizmos.enabled) {
                 switch (colliders[i].shape) {
                     //.circle => gizmos.circle(.{.x = positions[i].x, .y = positions[i].y}, colliders[i].shape.circle.radius, zia.math.Color.green, 1),
-                    .circle => lucid.gizmos.circle(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.circle.radius,  zia.math.Color.green, 1 ),
-                    .box => lucid.gizmos.box(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.box.width, colliders[i].shape.box.height,  zia.math.Color.green, 1 ),
+                    .circle => game.gizmos.circle(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.circle.radius,  zia.math.Color.green, 1 ),
+                    .box => game.gizmos.box(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.box.width, colliders[i].shape.box.height,  zia.math.Color.green, 1 ),
                     
                     // else => {},
                 }

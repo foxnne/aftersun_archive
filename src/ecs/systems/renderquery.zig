@@ -1,10 +1,10 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
+const game = @import("game");
 const imgui = @import("imgui");
 
-const components = lucid.components;
+const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
@@ -63,8 +63,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     if (visible(cam_tl, cam_br, tl, br)) {
                         renderqueues[i].entities.append(renderIt.entities[j]) catch unreachable;
 
-                        // if (lucid.gizmos.enabled) {
-                        //     lucid.gizmos.box(.{ .x = tl.x + (br.x - tl.x) / 2, .y = tl.y + (br.y - tl.y) / 2 }, br.x - tl.x, br.y - tl.y, zia.math.Color.yellow, 1);
+                        // if (game.gizmos.enabled) {
+                        //     game.gizmos.box(.{ .x = tl.x + (br.x - tl.x) / 2, .y = tl.y + (br.y - tl.y) / 2 }, br.x - tl.x, br.y - tl.y, zia.math.Color.yellow, 1);
                         // }
                         continue;
                     }
@@ -83,8 +83,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     if (visible(cam_tl, cam_br, tl, br)) {
                         renderqueues[i].entities.append(renderIt.entities[j]) catch unreachable;
 
-                        // if (lucid.gizmos.enabled) {
-                        //     lucid.gizmos.box(.{ .x = tl.x + (br.x - tl.x) / 2, .y = tl.y + (br.y - tl.y) / 2 }, br.x - tl.x, br.y - tl.y, zia.math.Color.yellow, 1);
+                        // if (game.gizmos.enabled) {
+                        //     game.gizmos.box(.{ .x = tl.x + (br.x - tl.x) / 2, .y = tl.y + (br.y - tl.y) / 2 }, br.x - tl.x, br.y - tl.y, zia.math.Color.yellow, 1);
                         // }
                         continue;
                     }

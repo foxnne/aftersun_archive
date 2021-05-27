@@ -1,8 +1,8 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
-const components = lucid.components;
+const game = @import("game");
+const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var cameras = it.column(components.Camera, 1);
@@ -45,9 +45,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 velocities[i].x = difference.x * follows[i].easing * 1.2;
                 velocities[i].y = difference.y * follows[i].easing * 1.2;
 
-                if (lucid.gizmos.enabled) {
+                if (game.gizmos.enabled) {
                     var color = zia.math.Color.fromBytes(255, 255, 255, 128);
-                    lucid.gizmos.circle(forward_target, 2, color, 1);
+                    game.gizmos.circle(forward_target, 2, color, 1);
                 }
             } else {
                 var vec = head_direction.normalized();
@@ -58,9 +58,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 velocities[i].x = difference.x * follows[i].easing * 2;
                 velocities[i].y = difference.y * follows[i].easing * 2;
 
-                if (lucid.gizmos.enabled) {
+                if (game.gizmos.enabled) {
                     var color = zia.math.Color.fromBytes(255, 255, 255, 128);
-                    lucid.gizmos.circle(forward_target, 2, color, 1);
+                    game.gizmos.circle(forward_target, 2, color, 1);
                 }
             }
         }

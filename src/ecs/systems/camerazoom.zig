@@ -1,10 +1,10 @@
 const zia = @import("zia");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
+const game = @import("game");
 
-const components = lucid.components;
-const actions = lucid.actions;
-const sorters = lucid.sorters;
+const components = game.components;
+const actions = game.actions;
+const sorters = game.sorters;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var cameras = it.column(components.Camera, 1);

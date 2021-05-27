@@ -1,10 +1,10 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
+const game = @import("game");
 
-const components = lucid.components;
-const animations = lucid.animations;
+const components = game.components;
+const animations = game.animations;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
@@ -181,10 +181,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
         }
 
-        // if (lucid.gizmos.enabled) {
+        // if (game.gizmos.enabled) {
         //     //const pos_ptr = world.get(it.entities[i], components.Position);
-        //     lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, bodies[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.red, 2);
-        //     lucid.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, heads[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.blue, 2);
+        //     game.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, bodies[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.red, 2);
+        //     game.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, heads[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.blue, 2);
         // }
     }
 }

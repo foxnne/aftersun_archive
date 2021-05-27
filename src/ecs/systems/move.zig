@@ -1,7 +1,7 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("lucid").components;
+const components = @import("game").components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);

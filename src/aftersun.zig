@@ -7,7 +7,9 @@ const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
 const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
 pub var gizmos: Gizmos = undefined;
 
-pub const enable_imgui = true;
+pub const enable_imgui = @import("build_options").enable_imgui;
+pub const editor = @import("editor/editor.zig");
+pub var enable_editor = false;
 
 // generated
 pub const assets = @import("assets.zig");
@@ -20,11 +22,11 @@ pub const components = @import("ecs/components/components.zig");
 pub const sorters = @import("ecs/sorters/sorters.zig");
 pub const actions = @import("ecs/actions/actions.zig");
 
-var lucid_palette: zia.gfx.Texture = undefined;
-var lucid_texture: zia.gfx.Texture = undefined;
-var lucid_heightmap: zia.gfx.Texture = undefined;
-var lucid_emissionmap: zia.gfx.Texture = undefined;
-var lucid_atlas: zia.gfx.Atlas = undefined;
+var aftersun_palette: zia.gfx.Texture = undefined;
+var aftersun_texture: zia.gfx.Texture = undefined;
+var aftersun_heightmap: zia.gfx.Texture = undefined;
+var aftersun_emissionmap: zia.gfx.Texture = undefined;
+var aftersun_atlas: zia.gfx.Atlas = undefined;
 var light_texture: zia.gfx.Texture = undefined;
 var light_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
@@ -41,19 +43,19 @@ pub fn main() !void {
         .init = init,
         .update = update,
         .shutdown = shutdown,
-        .window = .{ .title = "Lucid" },
+        .window = .{ .title = "Aftersun" },
     });
 }
 fn init() !void {
     // initialize gizmos
-    gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator)};
+    gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator) };
 
     // load textures, atlases and shaders
-    lucid_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucidpalette_png.path, .nearest) catch unreachable;
-    lucid_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_png.path, .nearest) catch unreachable;
-    lucid_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_h_png.path, .nearest) catch unreachable;
-    lucid_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lucid_e_png.path, .nearest) catch unreachable;
-    lucid_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lucid_atlas.path) catch unreachable;
+    aftersun_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
+    aftersun_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
+    aftersun_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
+    aftersun_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_e_png.path, .nearest) catch unreachable;
+    aftersun_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
@@ -104,16 +106,16 @@ fn init() !void {
     world.setName(player, "Player");
     world.set(player, &components.Position{});
     world.set(player, &components.Velocity{});
-    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&lucid_palette} });
+    world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&aftersun_palette} });
     world.set(player, &components.CharacterRenderer{
-        .texture = lucid_texture,
-        .heightmap = lucid_heightmap,
-        .atlas = lucid_atlas,
-        .body = assets.lucid_atlas.Body_Idle_SE_0,
-        .head = assets.lucid_atlas.Head_Idle_SE_0,
-        .bottom = assets.lucid_atlas.BottomF01_Idle_SE_0,
-        .top = assets.lucid_atlas.TopF01_Idle_SE_0,
-        .hair = assets.lucid_atlas.HairF01_Idle_S_0,
+        .texture = aftersun_texture,
+        .heightmap = aftersun_heightmap,
+        .atlas = aftersun_atlas,
+        .body = assets.aftersun_atlas.Body_Idle_SE_0,
+        .head = assets.aftersun_atlas.Head_Idle_SE_0,
+        .bottom = assets.aftersun_atlas.BottomF01_Idle_SE_0,
+        .top = assets.aftersun_atlas.TopF01_Idle_SE_0,
+        .hair = assets.aftersun_atlas.HairF01_Idle_S_0,
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
@@ -137,7 +139,6 @@ fn init() !void {
     //     .atlas = light_atlas,
     //     .color = zia.math.Color.fromRgbBytes(50, 50, 50),
     // });
-    
 
     var camera = world.new();
     world.setName(camera, "Camera");
@@ -196,10 +197,10 @@ fn init() !void {
 
         world.set(e, &components.Position{ .x = x, .y = y });
         world.set(e, &components.SpriteRenderer{
-            .texture = lucid_texture,
-            .heightmap = lucid_heightmap,
-            .atlas = lucid_atlas,
-            .index = assets.lucid_atlas.Trees_PineWind_6,
+            .texture = aftersun_texture,
+            .heightmap = aftersun_heightmap,
+            .atlas = aftersun_atlas,
+            .index = assets.aftersun_atlas.Trees_PineWind_6,
         });
 
         world.set(e, &components.SpriteAnimator{
@@ -220,10 +221,10 @@ fn init() !void {
         .index = assets.lights_atlas.point256,
     });
     world.set(campfire, &components.SpriteRenderer{
-        .texture = lucid_texture,
-        .emissionmap = lucid_emissionmap,
-        .atlas = lucid_atlas,
-        .index = assets.lucid_atlas.Campfire_Flame_0,
+        .texture = aftersun_texture,
+        .emissionmap = aftersun_emissionmap,
+        .atlas = aftersun_atlas,
+        .index = assets.aftersun_atlas.Campfire_Flame_0,
     });
     world.set(campfire, &components.SpriteAnimator{
         .animation = &animations.campfireFlame,
@@ -233,9 +234,16 @@ fn init() !void {
 }
 
 fn update() !void {
-
     if (zia.input.keyPressed(.grave)) {
         gizmos.enabled = !gizmos.enabled;
+
+        if (enable_imgui)
+            enable_editor = !enable_editor;
+    }
+
+    if (enable_editor) {        
+        editor.drawMenuBar();
+        editor.drawDebugWindow();
     }
 
     // run all systems
@@ -244,7 +252,7 @@ fn update() !void {
 
 fn shutdown() !void {
     world.deinit();
-    lucid_texture.deinit();
-    lucid_palette.deinit();
+    aftersun_texture.deinit();
+    aftersun_palette.deinit();
     character_shader.deinit();
 }

@@ -6,16 +6,24 @@ pub const lights_atlas = struct {
   pub const point256 = 1;
 };
 
-pub const lucid_e_png = struct {
-  pub const path = "assets/textures/lucid_e.png";
+pub const aftersun_e_png = struct {
+  pub const path = "assets/textures/aftersun_e.png";
 };
 
 pub const lights_png = struct {
   pub const path = "assets/textures/lights.png";
 };
 
-pub const lucid_atlas = struct {
-  pub const path = "assets/textures/lucid.atlas";
+pub const aftersun_png = struct {
+  pub const path = "assets/textures/aftersun.png";
+};
+
+pub const aftersun_h_png = struct {
+  pub const path = "assets/textures/aftersun_h.png";
+};
+
+pub const aftersun_atlas = struct {
+  pub const path = "assets/textures/aftersun.atlas";
   pub const HairF01_Walk_N_3 = 0;
   pub const Head_Idle_NE_7 = 1;
   pub const Body_Walk_NE_0 = 2;
@@ -88,7 +96,7 @@ pub const lucid_atlas = struct {
   pub const Head_Idle_NE_0 = 69;
   pub const Body_Walk_NE_7 = 70;
   pub const HairF01_Walk_N_4 = 71;
-  pub const HairF01_Walk_N_6 = 72; 
+  pub const HairF01_Walk_N_6 = 72;
   pub const Body_Walk_NE_5 = 73;
   pub const Head_Idle_NE_2 = 74;
   pub const TopF01_Walk_N_4 = 75;
@@ -362,15 +370,7 @@ pub const lucid_atlas = struct {
   pub const Head_Walk_S_2 = 343;
 };
 
-pub const lucid_h_png = struct {
-  pub const path = "assets/textures/lucid_h.png";
-};
-
-pub const lucid_png = struct {
-  pub const path = "assets/textures/lucid.png";
-};
-
-pub const lucidpalette_png = struct {
-  pub const path = "assets/textures/palettes/lucidpalette.png";
+pub const aftersunpalette_png = struct {
+  pub const path = "assets/textures/palettes/aftersunpalette.png";
 };
 

@@ -1,9 +1,9 @@
 const std = @import("std");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
+const game = @import("game");
 const imgui = @import("imgui");
 const zia = @import("zia");
-const components = lucid.components;
+const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var environments = it.column(components.Environment, 1);
@@ -18,9 +18,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (environments[i].sun_xy_angle > 360)
             environments[i].sun_xy_angle = 0;
     
-        var max_shadow_steps: f32 = 150;
-        var max_shadow_height: f32 = 100;
-        var shadow_fade: f32 = environments[i].shadow_fade_low;
 
         const sun_morning_color = zia.math.Color.fromBytes(150, 140, 150, 255).asArray();
         const sun_noon_color = zia.math.Color.fromBytes(255, 255, 255, 255).asArray();
@@ -81,9 +78,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // sun color is sent as vertex color!
         environments[i].environment_shader.frag_uniform.sun_xy_angle = environments[i].sun_xy_angle;
         environments[i].environment_shader.frag_uniform.sun_z_angle = environments[i].sun_z_angle;
-        environments[i].environment_shader.frag_uniform.max_shadow_steps = max_shadow_steps;
+        environments[i].environment_shader.frag_uniform.max_shadow_steps = environments[i].shadow_steps;
         //environments[i].environment_shader.frag_uniform.max_shadow_height = max_shadow_height;
-        environments[i].environment_shader.frag_uniform.shadow_fade = shadow_fade;
+        //environments[i].environment_shader.frag_uniform.shadow_fade = environments[i].shadow_fade;
         environments[i].environment_shader.frag_uniform.shadow_r = @intToFloat(f32, environments[i].shadow_color.channels.r) / 255;
         environments[i].environment_shader.frag_uniform.shadow_g = @intToFloat(f32, environments[i].shadow_color.channels.g) / 255;
         environments[i].environment_shader.frag_uniform.shadow_b = @intToFloat(f32, environments[i].shadow_color.channels.b) / 255;

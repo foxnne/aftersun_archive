@@ -18,7 +18,7 @@ pub fn build(b: *Builder) !void {
     // use a different cache folder for macos arm builds
     b.cache_root = if (std.builtin.os.tag == .macos and std.builtin.arch == std.builtin.Arch.aarch64) "zig-arm-cache" else "zig-cache";
 
-    var exe = createExe(b, target, "run", "src/lucid.zig");
+    var exe = createExe(b, target, "run", "src/aftersun.zig");
     b.default_step.dependOn(&exe.step);
 
     //shader compiler, run with `zig build compile-shaders`
@@ -52,15 +52,15 @@ fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []
 
     zia_build.addZiaToArtifact(b, exe, target, "src/deps/zia/");
 
-    const lucid_package = std.build.Pkg {
-        .name = "lucid",
-        .path = "src/lucid.zig",
+    const aftersun_package = std.build.Pkg {
+        .name = "game",
+        .path = "src/aftersun.zig",
     };
 
     const run_cmd = exe.run();
     const exe_step = b.step(name, b.fmt("run {s}.zig", .{name}));
     exe_step.dependOn(&run_cmd.step);
-    exe.addPackage(lucid_package);
+    exe.addPackage(aftersun_package);
 
     return exe;
 }

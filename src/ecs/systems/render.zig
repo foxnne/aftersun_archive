@@ -1,12 +1,12 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const lucid = @import("lucid");
+const game = @import("game");
 const imgui = @import("imgui");
 
-const components = lucid.components;
-const actions = lucid.actions;
-const sorters = lucid.sorters;
+const components = game.components;
+const actions = game.actions;
+const sorters = game.sorters;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var positions = it.column(components.Position, 1);
@@ -66,7 +66,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // pass gizmos the new matrix to render our gizmos at the correct scale
         // how do we handle multiple cameras?
         // if (zia.enable_imgui)
-        //     lucid.gizmos.setTransmat(cameras[i].trans_mat);
+        //     game.gizmos.setTransmat(cameras[i].trans_mat);
 
         // sort
         std.sort.sort(flecs.Entity, renderqueues[i].entities.items, &world, sort);
@@ -156,8 +156,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
 
         //if (world.getSingletonMut(components.Gizmos)) |gizmos| {
-        if (lucid.gizmos.enabled) {
-            for (lucid.gizmos.gizmos.items) |gizmo| {
+        if (game.gizmos.enabled) {
+            for (game.gizmos.gizmos.items) |gizmo| {
                 switch (gizmo.shape) {
                     .line => {
                         zia.gfx.draw.line(gizmo.shape.line.start, gizmo.shape.line.end, gizmo.shape.line.thickness, gizmo.shape.line.color);
@@ -171,13 +171,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     // else => {},
                 }
             }
-            lucid.gizmos.gizmos.shrinkAndFree(0);
+            game.gizmos.gizmos.shrinkAndFree(0);
         }
 
         zia.gfx.endPass();
 
         // render the heightmaps to the heightmap texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_1, .trans_mat = camera_transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(0, 0, 0), .pass = cameras[i].pass_1, .trans_mat = camera_transform });
 
         for (renderqueues[i].entities.items) |entity, j| {
             var position = world.get(entity, components.Position);

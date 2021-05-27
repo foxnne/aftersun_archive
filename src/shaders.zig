@@ -57,7 +57,7 @@ pub const BloomParams = extern struct {
 pub const LightParams = extern struct {
     pub const metadata = .{
         .images = .{ "main_tex", "height_tex", "light_tex" },
-        .uniforms = .{ .LightParams = .{ .type = .float4, .array_count = 3 } },
+        .uniforms = .{ .LightParams = .{ .type = .float4, .array_count = 2 } },
     };
 
     tex_width: f32 = 0,
@@ -68,9 +68,6 @@ pub const LightParams = extern struct {
     shadow_g: f32 = 0,
     shadow_b: f32 = 0,
     max_shadow_steps: f32 = 0,
-    max_shadow_height: f32 = 0,
-    shadow_fade: f32 = 0,
-    _pad40_0_: [8]u8 = [_]u8{0} ** 8,
 };
 
 pub const FinalizeParams = extern struct {

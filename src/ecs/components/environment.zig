@@ -6,13 +6,13 @@ pub const Environment = struct {
     environment_shader: *shaders.EnvironmentShader,
     sun_color: zia.math.Color = zia.math.Color.white,
     sun_xy_angle: f32 = 0,
-    sun_z_angle: f32 = 82,
-    sun_height_high: f32 = 75,
-    sun_height_low: f32 = 50,
-    shadow_steps_high: f32 = 150,
-    shadow_steps_low: f32 = 150,
-    shadow_fade_high: f32 = 8,
-    shadow_fade_low: f32 = 4,
-    shadow_color: zia.math.Color = zia.math.Color.fromBytes(150, 150, 160, 255),
+    sun_z_angle: f32 = 83, //82 is magic
+    // sun_height_high: f32 = 75,
+    // sun_height_low: f32 = 50,
+    shadow_steps: f32 = 150,
+    //shadow_steps_low: f32 = 150,
+    //shadow_fade_high: f32 = 8,
+    //shadow_fade: f32 = 4,
+    shadow_color: zia.math.Color = zia.math.Color.fromBytes(180, 180, 190, 255),
 };
 

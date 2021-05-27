@@ -23,30 +23,30 @@ struct main0_in
     float4 color_out [[user(locn1)]];
 };
 
-#line 28 ""
+#line 27 ""
 static inline __attribute__((always_inline))
 float2 interpolate(thread const float2& tex_coord, thread const float2& tex_size, thread const float& texelsPerPixel)
 {
-#line 28 ""
+#line 27 ""
     float2 _43 = tex_coord * tex_size;
     float2 _46 = fract(_43);
     return (floor(_43) + (fast::clamp(_46 / float2(texelsPerPixel), float2(0.0), float2(0.5)) + fast::clamp(((_46 - float2(1.0)) / float2(texelsPerPixel)) + float2(0.5), float2(0.0), float2(0.5)))) / tex_size;
 }
 
-#line 37 ""
+#line 36 ""
 static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, constant FinalizeParams& v_81, thread texture2d<float> bloom_t, thread const sampler bloom_tSmplr, thread texture2d<float> envir_t, thread const sampler envir_tSmplr)
 {
+#line 36 ""
 #line 37 ""
-#line 38 ""
-#line 40 ""
+#line 39 ""
     float2 param = tex_coord;
     float2 param_1 = float2(v_81.tex_size_x, v_81.tex_size_y);
     float param_2 = v_81.texel_size;
     float2 _102 = interpolate(param, param_1, param_2);
+#line 41 ""
 #line 42 ""
 #line 43 ""
-#line 44 ""
     return (tex.sample(texSmplr, _102) * envir_t.sample(envir_tSmplr, _102)) + bloom_t.sample(bloom_tSmplr, tex_coord);
 }
 
