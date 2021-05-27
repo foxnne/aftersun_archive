@@ -9,12 +9,12 @@ struct LightParams
 {
     float tex_width;
     float tex_height;
-    float sun_xy_angle;
-    float sun_z_angle;
+    float ambient_xy_angle;
+    float ambient_z_angle;
     float shadow_r;
     float shadow_g;
     float shadow_b;
-    float max_shadow_steps;
+    float shadow_steps;
 };
 
 struct main0_out
@@ -35,32 +35,32 @@ inline T radians(T d)
     return d * T(0.01745329251);
 }
 
-#line 38 ""
+#line 37 ""
 static inline __attribute__((always_inline))
 float2 getTargetTexCoords(thread const float& x_step, thread const float& y_step, thread const float& xy_angle, thread const float& h)
 {
+#line 37 ""
 #line 38 ""
-#line 39 ""
     return float2((cos(radians(xy_angle)) * h) * x_step, (sin(radians(xy_angle)) * h) * y_step);
 }
 
-#line 34 ""
+#line 33 ""
 static inline __attribute__((always_inline))
 bool approx(thread const float& a, thread const float& b)
 {
-#line 34 ""
+#line 33 ""
     return abs(b - a) < 0.00999999977648258209228515625;
 }
 
-#line 49 ""
+#line 48 ""
 static inline __attribute__((always_inline))
-float4 shadow(thread const float& xy_angle, thread const float& z_angle, thread const float2& tex_coord, thread const float& stp, thread const float& max_shadow_steps, thread const float& tex_step_x, thread const float& tex_step_y, thread const float4& shadow_color, thread const float4& vert_color, thread texture2d<float> height_tex, thread const sampler height_texSmplr)
+float4 shadow(thread const float& xy_angle, thread const float& z_angle, thread const float2& tex_coord, thread const float& stp, thread const float& shadow_steps, thread const float& tex_step_x, thread const float& tex_step_y, thread const float4& shadow_color, thread const float4& vert_color, thread texture2d<float> height_tex, thread const sampler height_texSmplr)
 {
-#line 49 ""
+#line 48 ""
     float4 _92 = height_tex.sample(height_texSmplr, tex_coord);
     float _95 = _92.x;
-#line 51 ""
-    for (int i = 0; i < int(max_shadow_steps); i++)
+#line 50 ""
+    for (int i = 0; i < int(shadow_steps); i++)
     {
         float param = tex_step_x;
         float param_1 = tex_step_y;
@@ -68,7 +68,7 @@ float4 shadow(thread const float& xy_angle, thread const float& z_angle, thread 
         float param_3 = float(i);
         float4 _123 = height_tex.sample(height_texSmplr, (tex_coord + getTargetTexCoords(param, param_1, param_2, param_3)));
         float _124 = _123.x;
-#line 57 ""
+#line 53 ""
         float param_4 = tex_step_x;
         float param_5 = tex_step_y;
         float param_6 = xy_angle;
@@ -79,35 +79,35 @@ float4 shadow(thread const float& xy_angle, thread const float& z_angle, thread 
             float param_9 = _124;
             if (approx(param_8, param_9))
             {
-#line 63 ""
+#line 59 ""
                 return shadow_color * vert_color;
             }
         }
     }
-#line 67 ""
+#line 63 ""
     return vert_color;
 }
 
-#line 72 ""
+#line 68 ""
 static inline __attribute__((always_inline))
 float4 effect(thread const texture2d<float> tex, thread const sampler texSmplr, thread const float2& tex_coord, thread const float4& vert_color, thread texture2d<float> height_tex, thread const sampler height_texSmplr, constant LightParams& v_174, thread texture2d<float> light_tex, thread const sampler light_texSmplr)
 {
-#line 72 ""
+#line 68 ""
     float _178 = 1.0 / v_174.tex_width;
-#line 73 ""
+#line 69 ""
     float _182 = 1.0 / v_174.tex_height;
-#line 79 ""
-#line 81 ""
-    float param = v_174.sun_xy_angle;
-    float param_1 = v_174.sun_z_angle;
+#line 75 ""
+#line 77 ""
+    float param = v_174.ambient_xy_angle;
+    float param_1 = v_174.ambient_z_angle;
     float2 param_2 = tex_coord;
     float param_3 = sqrt((_178 * _178) + (_182 * _182));
-    float param_4 = v_174.max_shadow_steps;
+    float param_4 = v_174.shadow_steps;
     float param_5 = _178;
     float param_6 = _182;
     float4 param_7 = float4(v_174.shadow_r, v_174.shadow_g, v_174.shadow_b, 1.0);
     float4 param_8 = vert_color;
-#line 82 ""
+#line 78 ""
     return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8, height_tex, height_texSmplr) + light_tex.sample(light_texSmplr, tex_coord);
 }
 

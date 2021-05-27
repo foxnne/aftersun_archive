@@ -3,9 +3,8 @@ const flecs = @import("flecs");
 const zia = @import("zia");
 
 pub const Camera = struct {
-    trans_mat: zia.math.Matrix3x2 = undefined,
-    design_w: i32,
-    design_h: i32,
+    matrix: zia.math.Matrix3x2 = undefined,
+    size: zia.math.Vector2 = .{},
     pass_0: zia.gfx.OffscreenPass,
     pass_1: zia.gfx.OffscreenPass,
     pass_2: zia.gfx.OffscreenPass,

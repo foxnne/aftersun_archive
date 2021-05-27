@@ -19,8 +19,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     while (i < it.count) : (i += 1) {
         var renderIt = flecs.ecs_query_iter(renderqueues[i].query);
 
-        var cam_br = cameras[i].trans_mat.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camExp), .y = @intToFloat(f32, zia.window.height() + camExp) });
-        var cam_tl = cameras[i].trans_mat.invert().transformVec2(.{ .x = -camExp, .y = -camExp });
+        var cam_br = cameras[i].matrix.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camExp), .y = @intToFloat(f32, zia.window.height() + camExp) });
+        var cam_tl = cameras[i].matrix.invert().transformVec2(.{ .x = -camExp, .y = -camExp });
 
         while (flecs.ecs_query_next(&renderIt)) {
             var j: usize = 0;

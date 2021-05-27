@@ -62,12 +62,12 @@ pub const LightParams = extern struct {
 
     tex_width: f32 = 0,
     tex_height: f32 = 0,
-    sun_xy_angle: f32 = 0,
-    sun_z_angle: f32 = 0,
+    ambient_xy_angle: f32 = 0,
+    ambient_z_angle: f32 = 0,
     shadow_r: f32 = 0,
     shadow_g: f32 = 0,
     shadow_b: f32 = 0,
-    max_shadow_steps: f32 = 0,
+    shadow_steps: f32 = 0,
 };
 
 pub const FinalizeParams = extern struct {

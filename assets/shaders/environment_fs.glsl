@@ -19,11 +19,11 @@ bool approx(float a, float b)
     return abs(b - a) < 0.00999999977648258209228515625;
 }
 
-vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float max_shadow_steps, float tex_step_x, float tex_step_y, vec4 shadow_color, vec4 vert_color)
+vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shadow_steps, float tex_step_x, float tex_step_y, vec4 shadow_color, vec4 vert_color)
 {
     vec4 _92 = texture(height_tex, tex_coord);
     float _95 = _92.x;
-    for (int i = 0; i < int(max_shadow_steps); i++)
+    for (int i = 0; i < int(shadow_steps); i++)
     {
         float param = tex_step_x;
         float param_1 = tex_step_y;

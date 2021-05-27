@@ -12,21 +12,20 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        const size = zia.window.size();
-        const size_w = @intToFloat(f32, size.w);
-        const size_h = @intToFloat(f32, size.h);
+       
+        const window_size = .{ .x = @intToFloat(f32, zia.window.size().w), .y = @intToFloat(f32, zia.window.size().h) };
 
-        const design_w = @intToFloat(f32, cameras[i].design_w);
-        const design_h = @intToFloat(f32, cameras[i].design_h);
+        // const cameras[i].size.x = @intToFloat(f32, cameras[i].cameras[i].size.x);
+        // const cameras[i].size.y = @intToFloat(f32, cameras[i].cameras[i].size.y);
 
 
         // reset the minimum zoom
         zooms[i].min = 1.0;
 
         // clamp zoom to always fill the screen
-        if (design_w * zooms[i].min < size_w or design_h * zooms[i].min < size_h) {
-            var zoom_w = @ceil(size_w / design_w);
-            var zoom_h = @ceil(size_h / design_h);
+        if (cameras[i].size.x * zooms[i].min < window_size.x or cameras[i].size.y * zooms[i].min < window_size.y) {
+            var zoom_w = @ceil(window_size.x / cameras[i].size.x);
+            var zoom_h = @ceil(window_size.y / cameras[i].size.y);
             zooms[i].min = if (zoom_w > zoom_h) zoom_w else zoom_h;
         }
 

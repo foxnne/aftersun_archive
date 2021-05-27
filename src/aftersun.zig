@@ -17,10 +17,7 @@ pub const shaders = @import("shaders.zig");
 
 // manual
 pub const animations = @import("animations/animations.zig");
-
 pub const components = @import("ecs/components/components.zig");
-pub const sorters = @import("ecs/sorters/sorters.zig");
-pub const actions = @import("ecs/actions/actions.zig");
 
 var aftersun_palette: zia.gfx.Texture = undefined;
 var aftersun_texture: zia.gfx.Texture = undefined;
@@ -77,7 +74,7 @@ fn init() !void {
     //_ = world.newSystem("GizmoInputSystem", flecs.Phase.on_update, "$Gizmos", @import("ecs/systems/gizmos.zig").progress);
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
-    _ = world.newSystem("InputToVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
+    _ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
 
     // physics
     _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
@@ -143,8 +140,7 @@ fn init() !void {
     var camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{
-        .design_w = design_w,
-        .design_h = design_h,
+        .size = .{.x = design_w, .y = design_h},
         .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),

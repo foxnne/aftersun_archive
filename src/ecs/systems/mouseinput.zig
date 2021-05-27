@@ -11,7 +11,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var camera_ptr = world.get(input.*.camera, components.Camera);
     if (camera_ptr) |camera| {
-        input.*.position = camera.trans_mat.invert().transformVec2(zia.input.mousePos());
+        input.*.position = camera.matrix.invert().transformVec2(zia.input.mousePos());
 
     } 
 }

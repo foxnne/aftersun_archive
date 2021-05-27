@@ -19,15 +19,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        const size = zia.window.size();
-        const size_w = @intToFloat(f32, size.w);
-        const size_h = @intToFloat(f32, size.h);
-
-        const design_w = @intToFloat(f32, cameras[i].design_w);
-        const design_h = @intToFloat(f32, cameras[i].design_h);
-
-        environments[i].environment_shader.frag_uniform.tex_width = design_w;
-        environments[i].environment_shader.frag_uniform.tex_height = design_h;
+        const window_size = .{ .x = @intToFloat(f32, zia.window.size().w), .y = @intToFloat(f32, zia.window.size().h) };
 
         // translate by the cameras position
         var camera_transform = zia.math.Matrix3x2.identity;
@@ -37,7 +29,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the camera viewport
         cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(@round(cameras[i].pass_0.color_texture.width / 2), @round(cameras[i].pass_0.color_texture.height / 2));
+        cam_tmp.translate(cameras[i].size.x * 0.5, cameras[i].size.y * 0.5);
         camera_transform = cam_tmp.mul(camera_transform);
 
         // scale the render texture by zoom
@@ -51,22 +43,16 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the render texture
         rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.translate(size_w * 0.5, size_h * 0.5);
+        rt_tmp.translate(window_size.x * 0.5, window_size.y * 0.5);
         rt_transform = rt_tmp.mul(rt_transform);
 
         // translate the camera matrix for converting screen to world
         rt_tmp = zia.math.Matrix3x2.identity;
         rt_tmp.translate(-positions[i].x, -positions[i].y);
-        cameras[i].trans_mat = rt_transform.mul(rt_tmp);
+        cameras[i].matrix = rt_transform.mul(rt_tmp);
 
         // center the render texture on the screen
-        var rt_pos = .{ .x = @round(-cameras[i].pass_0.color_texture.width / 2), .y = @round(-cameras[i].pass_0.color_texture.height / 2) };
-
-        // TODO!
-        // pass gizmos the new matrix to render our gizmos at the correct scale
-        // how do we handle multiple cameras?
-        // if (zia.enable_imgui)
-        //     game.gizmos.setTransmat(cameras[i].trans_mat);
+        var rt_pos = .{ .x = -cameras[i].size.x * 0.5, .y = -cameras[i].size.y * 0.5 };
 
         // sort
         std.sort.sort(flecs.Entity, renderqueues[i].entities.items, &world, sort);
@@ -150,12 +136,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     }
                 }
             }
-
-
-
         }
 
-        //if (world.getSingletonMut(components.Gizmos)) |gizmos| {
         if (game.gizmos.enabled) {
             for (game.gizmos.gizmos.items) |gizmo| {
                 switch (gizmo.shape) {
@@ -231,11 +213,14 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
         zia.gfx.endPass();
 
+        environments[i].environment_shader.frag_uniform.tex_width = cameras[i].size.x;
+        environments[i].environment_shader.frag_uniform.tex_height = cameras[i].size.y;
+
         // render the environment, sun and sunshadows
         zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = cameras[i].pass_3, .shader = &environments[i].environment_shader.shader });
         zia.gfx.draw.bindTexture(cameras[i].pass_1.color_texture, 1);
         zia.gfx.draw.bindTexture(cameras[i].pass_2.color_texture, 2);
-        zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{ .color = environments[i].sun_color });
+        zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{ .color = environments[i].ambient_color });
         zia.gfx.endPass();
         zia.gfx.draw.batcher.flush();
         zia.gfx.draw.unbindTexture(1);
@@ -324,8 +309,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         renderqueues[i].entities.shrinkAndFree(0);
 
-        postprocesses[i].bloom_shader.frag_uniform.tex_size_x = design_w;
-        postprocesses[i].bloom_shader.frag_uniform.tex_size_y = design_h;
+        postprocesses[i].bloom_shader.frag_uniform.tex_size_x = cameras[i].size.x;
+        postprocesses[i].bloom_shader.frag_uniform.tex_size_y = cameras[i].size.y;
         postprocesses[i].bloom_shader.frag_uniform.horizontal = 1;
         postprocesses[i].bloom_shader.frag_uniform.multiplier = 1.2;
 
@@ -340,8 +325,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.endPass();
 
         postprocesses[i].finalize_shader.frag_uniform.texel_size = 8;
-        postprocesses[i].finalize_shader.frag_uniform.tex_size_x = design_w;
-        postprocesses[i].finalize_shader.frag_uniform.tex_size_y = design_h;
+        postprocesses[i].finalize_shader.frag_uniform.tex_size_x = cameras[i].size.x;
+        postprocesses[i].finalize_shader.frag_uniform.tex_size_y = cameras[i].size.y;
 
         zia.gfx.beginPass(.{ .pass = cameras[i].pass_5, .shader = &postprocesses[i].finalize_shader.shader });
         zia.gfx.draw.bindTexture(cameras[i].pass_4.color_texture, 1);

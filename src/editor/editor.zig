@@ -1,12 +1,16 @@
 const std = @import("std");
 const imgui = @import("imgui");
 const game = @import("game");
+const flecs = @import("flecs");
 const zia = @import("zia");
+
+var world: *flecs.World = undefined;
 
 var enable_debug_window: bool = false;
 
-pub fn init () void {
+pub fn init (world: *flecs.World) void {
     //frames = std.ArrayList(f32).initCapacity(std.testing.allocator, 20) catch unreachable;
+    world = world;
 }
 
 pub fn drawMenuBar() void {
@@ -31,6 +35,7 @@ pub fn drawDebugWindow() void {
     //imgui.igSetNextWindowPos(.{}, imgui.ImGuiCond_Always, .{});
     if (imgui.igBegin("Debug", &enable_debug_window, imgui.ImGuiWindowFlags_None)) {
         _ = imgui.igValueUint("FPS", @intCast(c_uint, zia.time.fps()));
+        //_ = imgui.igValueUint("Entities", @intCast(c_uint,  ));
 
     
 
