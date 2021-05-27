@@ -13,14 +13,14 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var world = flecs.World{ .world = it.world.? };
 
-    const camExp = 400; //pixels to expand camera bounds by
+    const camera_margin = 400; //pixels to expand camera bounds by
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
         var renderIt = flecs.ecs_query_iter(renderqueues[i].query);
 
-        var cam_br = cameras[i].matrix.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camExp), .y = @intToFloat(f32, zia.window.height() + camExp) });
-        var cam_tl = cameras[i].matrix.invert().transformVec2(.{ .x = -camExp, .y = -camExp });
+        var cam_br = cameras[i].matrix.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camera_margin), .y = @intToFloat(f32, zia.window.height() + camera_margin) });
+        var cam_tl = cameras[i].matrix.invert().transformVec2(.{ .x = -camera_margin, .y = -camera_margin });
 
         while (flecs.ecs_query_next(&renderIt)) {
             var j: usize = 0;

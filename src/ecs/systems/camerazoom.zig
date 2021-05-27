@@ -12,12 +12,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-       
         const window_size = .{ .x = @intToFloat(f32, zia.window.size().w), .y = @intToFloat(f32, zia.window.size().h) };
-
-        // const cameras[i].size.x = @intToFloat(f32, cameras[i].cameras[i].size.x);
-        // const cameras[i].size.y = @intToFloat(f32, cameras[i].cameras[i].size.y);
-
 
         // reset the minimum zoom
         zooms[i].min = 1.0;
@@ -56,6 +51,5 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // ensure that zoom is within bounds
         if (zooms[i].current < zooms[i].min) zooms[i].current = zooms[i].min;
         if (zooms[i].current > zooms[i].max) zooms[i].current = zooms[i].max;
-
     }
 }

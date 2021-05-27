@@ -178,10 +178,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             if (world.get(entity, components.CharacterRenderer)) |renderer| {
                 if (renderer.heightmap) |heightmap| {
+                    
                     zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
+                        
                         .flipX = renderer.flipBody,
                     });
 
@@ -189,6 +191,31 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
+                        
+                        .flipX = renderer.flipHead,
+                    });
+
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.bottom], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                       
+                        .flipX = renderer.flipBody,
+                    });
+
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        
+                        .flipX = renderer.flipBody,
+                    });
+
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
+                        .x = position.?.x,
+                        .y = position.?.y,
+                    }, .{
+                        
                         .flipX = renderer.flipHead,
                     });
                 }
