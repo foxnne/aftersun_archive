@@ -60,7 +60,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = cameras[i].pass_0, .trans_mat = camera_transform });
 
-        for (renderqueues[i].entities.items) |entity, j| {
+        for (renderqueues[i].entities.items) |entity| {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.Material)) |material| {
@@ -131,7 +131,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 zia.gfx.setShader(null);
 
                 if (material.textures) |textures| {
-                    for (textures) |texture, k| {
+                    for (textures) |_, k| {
                         zia.gfx.draw.unbindTexture(@intCast(c_uint, k + 1));
                     }
                 }
@@ -161,7 +161,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // render the heightmaps to the heightmap texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(0, 0, 0), .pass = cameras[i].pass_1, .trans_mat = camera_transform });
 
-        for (renderqueues[i].entities.items) |entity, j| {
+        for (renderqueues[i].entities.items) |entity| {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.SpriteRenderer)) |renderer| {
@@ -226,7 +226,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // render the lightmaps to the lightmap texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = cameras[i].pass_2, .trans_mat = camera_transform });
 
-        for (renderqueues[i].entities.items) |entity, j| {
+        for (renderqueues[i].entities.items) |entity| {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.LightRenderer)) |renderer| {
@@ -260,7 +260,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             .trans_mat = camera_transform,
         });
 
-        for (renderqueues[i].entities.items) |entity, j| {
+        for (renderqueues[i].entities.items) |entity| {
             var position = world.get(entity, components.Position);
 
             if (world.get(entity, components.SpriteRenderer)) |renderer| {

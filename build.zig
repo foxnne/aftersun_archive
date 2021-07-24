@@ -13,10 +13,9 @@ const ProcessAssetsStep = @import("src/deps/zia/src/utils/process_assets.zig").P
 
 pub fn build(b: *Builder) !void {
     const target = b.standardTargetOptions(.{});
-    const mode = b.standardReleaseOptions();
 
     // use a different cache folder for macos arm builds
-    b.cache_root = if (std.builtin.os.tag == .macos and std.builtin.cpu.arch == std.Target.Cpu.Arch.aarch64) "zig-arm-cache" else "zig-cache";
+    //b.cache_root = if (std.builtin.os.tag == .macos and std.builtin.cpu.arch == std.Target.Cpu.Arch.aarch64) "zig-arm-cache" else "zig-cache";
 
     var exe = createExe(b, target, "run", "src/aftersun.zig");
     b.default_step.dependOn(&exe.step);
@@ -48,17 +47,30 @@ pub fn build(b: *Builder) !void {
 fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []const u8) *std.build.LibExeObjStep {
     var exe = b.addExecutable(name, source);
     exe.setBuildMode(b.standardReleaseOptions());
-    exe.setOutputDir(std.fs.path.join(b.allocator, &[_][]const u8{ b.cache_root, "bin" }) catch unreachable);
+    //exe.setOutputDir(std.fs.path.join(b.allocator, &[_][]const u8{ b.cache_root, "bin" }) catch unreachable);
 
     zia_build.addZiaToArtifact(b, exe, target, "src/deps/zia/");
 
+    if (b.is_release) {
+        exe.want_lto = false; //workaround until this is supported
+
+        if (target.isWindows()) {
+            exe.subsystem = .Windows;
+        }
+
+        if (std.builtin.os.tag == .macos and std.builtin.cpu.arch == std.Target.Cpu.Arch.aarch64) {
+            exe.subsystem = .Posix;
+        }
+    }
+
     const aftersun_package = std.build.Pkg {
         .name = "game",
-        .path = "src/aftersun.zig",
+        .path = .{ .path = "src/aftersun.zig"},
     };
 
     const run_cmd = exe.run();
-    const exe_step = b.step(name, b.fmt("run {s}.zig", .{name}));
+    const exe_step = b.step("run", b.fmt("run {s}.zig", .{name}));
+    run_cmd.step.dependOn(b.getInstallStep());
     exe_step.dependOn(&run_cmd.step);
     exe.addPackage(aftersun_package);
 

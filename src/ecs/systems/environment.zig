@@ -8,7 +8,7 @@ const components = game.components;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var environments = it.column(components.Environment, 1);
 
-    var world = flecs.World{ .world = it.world.? };
+    //var world = flecs.World{ .world = it.world.? };
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

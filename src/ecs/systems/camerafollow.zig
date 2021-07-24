@@ -5,7 +5,7 @@ const game = @import("game");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var cameras = it.column(components.Camera, 1);
+    //var cameras = it.column(components.Camera, 1);
     var follows = it.column(components.Follow, 2);
     var positions = it.column(components.Position, 3);
     var velocities = it.column(components.Velocity, 4);
@@ -13,7 +13,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        var target_direction_ptr = world.get(follows[i].target, components.BodyDirection);
+        //var target_direction_ptr = world.get(follows[i].target, components.BodyDirection);
 
         if (world.get(follows[i].target, components.Position)) |tp| {
             var camera_position = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y};
