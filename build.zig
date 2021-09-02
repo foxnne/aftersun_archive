@@ -14,9 +14,6 @@ const ProcessAssetsStep = @import("src/deps/zia/src/utils/process_assets.zig").P
 pub fn build(b: *Builder) !void {
     const target = b.standardTargetOptions(.{});
 
-    // use a different cache folder for macos arm builds
-    //b.cache_root = if (std.builtin.os.tag == .macos and std.builtin.cpu.arch == std.Target.Cpu.Arch.aarch64) "zig-arm-cache" else "zig-cache";
-
     var exe = createExe(b, target, "run", "src/aftersun.zig");
     b.default_step.dependOn(&exe.step);
 
@@ -34,20 +31,19 @@ pub fn build(b: *Builder) !void {
     });
 
     const comple_shaders_step = b.step("compile-shaders", "compiles all shaders");
-    b.default_step.dependOn(comple_shaders_step);
+    //b.default_step.dependOn(comple_shaders_step);
     comple_shaders_step.dependOn(&res.step);
 
     const assets = ProcessAssetsStep.init(b, "assets", "src/assets.zig");
 
     const process_assets_step = b.step("process-assets", "generates struct for all assets");
-    b.default_step.dependOn(process_assets_step);
+    //b.default_step.dependOn(process_assets_step);
     process_assets_step.dependOn(&assets.step);
 }
 
 fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []const u8) *std.build.LibExeObjStep {
     var exe = b.addExecutable(name, source);
     exe.setBuildMode(b.standardReleaseOptions());
-    //exe.setOutputDir(std.fs.path.join(b.allocator, &[_][]const u8{ b.cache_root, "bin" }) catch unreachable);
 
     zia_build.addZiaToArtifact(b, exe, target, "src/deps/zia/");
 
@@ -67,6 +63,8 @@ fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []
         .name = "game",
         .path = .{ .path = "src/aftersun.zig"},
     };
+
+    exe.install();
 
     const run_cmd = exe.run();
     const exe_step = b.step("run", b.fmt("run {s}.zig", .{name}));

@@ -7,7 +7,8 @@ const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
 const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
 pub var gizmos: Gizmos = undefined;
 
-pub const enable_imgui = @import("build_options").enable_imgui;
+pub const enable_imgui = true;
+
 pub const editor = @import("editor/editor.zig");
 pub var enable_editor = false;
 
@@ -174,9 +175,9 @@ fn init() !void {
     world.setSingleton(&components.Grid{});
     world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
 
-    const treeSpawnWidth = 5000;
-    const treeSpawnHeight = 5000;
-    const treeSpawnCount = 2000;
+    const treeSpawnWidth = 10000;
+    const treeSpawnHeight = 10000;
+    const treeSpawnCount = 3000;
 
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 1234567890;
