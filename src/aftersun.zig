@@ -175,12 +175,12 @@ fn init() !void {
     world.setSingleton(&components.Grid{});
     world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
 
-    const treeSpawnWidth = 10000;
-    const treeSpawnHeight = 10000;
+    const treeSpawnWidth = 6000;
+    const treeSpawnHeight = 6000;
     const treeSpawnCount = 3000;
 
     var prng = std.rand.DefaultPrng.init(blk: {
-        var seed: u64 = 1234567890;
+        var seed: u64 = 12345678900;
         //std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
         break :blk seed;
     });

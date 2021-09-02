@@ -110,22 +110,22 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                             var direction = zia.math.Direction.find(4, difference.x, difference.y);
 
                                             switch (direction) {
-                                                .E => {
+                                                .e => {
                                                     var penetration = colliders[i].shape.circle.radius - @fabs(difference.x);
 
                                                     velocities[i].x -= penetration;
                                                 },
-                                                .W => {
+                                                .w => {
                                                     var penetration = colliders[i].shape.circle.radius - @fabs(difference.x);
 
                                                     velocities[i].x += penetration;
                                                 },
-                                                .N => {
+                                                .n => {
                                                     var penetration = colliders[i].shape.circle.radius - @fabs(difference.y);
 
                                                     velocities[i].y += penetration;
                                                 },
-                                                .S, .None => {
+                                                .s, .none => {
                                                     var penetration = colliders[i].shape.circle.radius - @fabs(difference.y);
 
                                                     velocities[i].y -= penetration;

@@ -39,10 +39,10 @@ pub const CharacterRenderer = struct {
 };
 
 pub const BodyDirection = struct {
-    direction: zia.math.Direction = .S,
+    direction: zia.math.Direction = .s,
 };
 
 pub const HeadDirection = struct {
-    direction: zia.math.Direction = .S,
+    direction: zia.math.Direction = .s,
 };
 

@@ -18,9 +18,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (world.get(follows[i].target, components.Position)) |tp| {
             var camera_position = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y};
             var target_position = zia.math.Vector2{ .x = tp.x, .y = tp.y };
-            var velocity_direction: zia.math.Direction = zia.math.Direction.None;
-            var body_direction: zia.math.Direction = zia.math.Direction.None;
-            var head_direction: zia.math.Direction = zia.math.Direction.None;
+            var velocity_direction: zia.math.Direction = zia.math.Direction.none;
+            var body_direction: zia.math.Direction = zia.math.Direction.none;
+            var head_direction: zia.math.Direction = zia.math.Direction.none;
 
             if (world.get(follows[i].target, components.Velocity)) |tv| {
                 velocity_direction = zia.math.Direction.find(8, tv.x, tv.y);
@@ -34,7 +34,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 head_direction = hd.direction;
             }
 
-            if (velocity_direction != .None) {
+            if (velocity_direction != .none) {
                 var vec = body_direction.normalized();
 
                 var forward_target = target_position.add(vec.scale(follows[i].max_distance));

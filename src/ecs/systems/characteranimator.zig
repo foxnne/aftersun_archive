@@ -25,7 +25,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         var head = zia.math.Direction.find(8, mousePos.x - positions[i].x, mousePos.y - positions[i].y);
 
-        if (body != .None) { //moving
+        if (body != .none) { //moving
             bodies[i].direction = body;
 
             if (head == bodies[i].direction or head == bodies[i].direction.rotateCW() or head == bodies[i].direction.rotateCCW()) {
@@ -35,59 +35,59 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
 
             animators[i].bodyAnimation = switch (bodies[i].direction) {
-                .S => &animations.walkBodyS,
-                .SE, .SW => &animations.walkBodySE,
-                .E, .W => &animations.walkBodyE,
-                .NE, .NW => &animations.walkBodyNE,
-                .N => &animations.walkBodyN,
-                .None => unreachable,
+                .s => &animations.walkBodyS,
+                .se, .sw => &animations.walkBodySE,
+                .e, .w => &animations.walkBodyE,
+                .ne, .nw => &animations.walkBodyNE,
+                .n => &animations.walkBodyN,
+                .none => unreachable,
             };
 
             animators[i].bottomAnimation = switch (bodies[i].direction) {
-                .S => &animations.walkBottomF01S,
-                .SE, .SW => &animations.walkBottomF01SE,
-                .E, .W => &animations.walkBottomF01E,
-                .NE, .NW => &animations.walkBottomF01NE,
-                .N => &animations.walkBottomF01N,
-                .None => unreachable,
+                .s => &animations.walkBottomF01S,
+                .se, .sw => &animations.walkBottomF01SE,
+                .e, .w => &animations.walkBottomF01E,
+                .ne, .nw => &animations.walkBottomF01NE,
+                .n => &animations.walkBottomF01N,
+                .none => unreachable,
             };
 
             animators[i].topAnimation = switch (bodies[i].direction) {
-                .S => &animations.walkTopF01S,
-                .SE, .SW => &animations.walkTopF01SE,
-                .E, .W => &animations.walkTopF01E,
-                .NE, .NW => &animations.walkTopF01NE,
-                .N => &animations.walkTopF01N,
-                .None => unreachable,
+                .s => &animations.walkTopF01S,
+                .se, .sw => &animations.walkTopF01SE,
+                .e, .w => &animations.walkTopF01E,
+                .ne, .nw => &animations.walkTopF01NE,
+                .n => &animations.walkTopF01N,
+                .none => unreachable,
             };
 
             animators[i].headAnimation = switch (heads[i].direction) {
-                .S => &animations.walkHeadS,
-                .SE, .SW => &animations.walkHeadSE,
-                .E, .W => &animations.walkHeadE,
-                .NE, .NW => &animations.walkHeadNE,
-                .N => &animations.walkHeadN,
-                .None => unreachable,
+                .s => &animations.walkHeadS,
+                .se, .sw => &animations.walkHeadSE,
+                .e, .w => &animations.walkHeadE,
+                .ne, .nw => &animations.walkHeadNE,
+                .n => &animations.walkHeadN,
+                .none => unreachable,
             };
 
             animators[i].hairAnimation = switch (heads[i].direction) {
-                .S => &animations.walkHairF01S,
-                .SE, .SW => &animations.walkHairF01SE,
-                .E, .W => &animations.walkHairF01E,
-                .NE, .NW => &animations.walkHairF01NE,
-                .N => &animations.walkHairF01N,
-                .None => unreachable,
+                .s => &animations.walkHairF01S,
+                .se, .sw => &animations.walkHairF01SE,
+                .e, .w => &animations.walkHairF01E,
+                .ne, .nw => &animations.walkHairF01NE,
+                .n => &animations.walkHairF01N,
+                .none => unreachable,
             };
 
             animators[i].fps = 10;
             renderers[i].flipBody = body.flippedHorizontally();
 
             switch (heads[i].direction) {
-                .SW,
-                .W,
-                .NW,
+                .sw,
+                .w,
+                .nw,
                 => renderers[i].flipHead = true,
-                .N, .S => renderers[i].flipHead = renderers[i].flipBody,
+                .n, .s => renderers[i].flipHead = renderers[i].flipBody,
                 else => renderers[i].flipHead = false,
             }
         } else { //idle
@@ -103,29 +103,29 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             var r = rand.intRangeAtMost(usize, 0, 100);
 
             switch (bodies[i].direction) {
-                .S => if (r > 50) {
-                    bodies[i].direction = .SE;
+                .s => if (r > 50) {
+                    bodies[i].direction = .se;
                 } else {
-                    bodies[i].direction = .SW;
+                    bodies[i].direction = .sw;
                     renderers[i].flipBody = true;
                     renderers[i].flipHead = true;
                 },
-                .E => if (r > 50) {
-                    bodies[i].direction = .SE;
+                .e => if (r > 50) {
+                    bodies[i].direction = .se;
                 } else {
-                    bodies[i].direction = .NE;
+                    bodies[i].direction = .ne;
                 },
-                .N => if (r > 50) {
-                    bodies[i].direction = .NE;
+                .n => if (r > 50) {
+                    bodies[i].direction = .ne;
                 } else {
-                    bodies[i].direction = .NW;
+                    bodies[i].direction = .nw;
                     renderers[i].flipBody = true;
                     renderers[i].flipHead = true;
                 },
-                .W => if (r > 50) {
-                    bodies[i].direction = .NW;
+                .w => if (r > 50) {
+                    bodies[i].direction = .nw;
                 } else {
-                    bodies[i].direction = .SW;
+                    bodies[i].direction = .sw;
                 },
                 else => {},
             }
@@ -134,49 +134,49 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 heads[i].direction = head;
 
             animators[i].bodyAnimation = switch (bodies[i].direction) {
-                .SE, .SW => &animations.idleBodySE,
-                .NE, .NW => &animations.idleBodyNE,
-                .None => &animations.idleBodySE,
+                .se, .sw => &animations.idleBodySE,
+                .ne, .nw => &animations.idleBodyNE,
+                .none => &animations.idleBodySE,
                 else => &animations.idleBodySE,
             };
 
             animators[i].headAnimation = switch (heads[i].direction) {
-                .S => &animations.idleHeadS,
-                .SE, .SW => &animations.idleHeadSE,
-                .E, .W => &animations.idleHeadE,
-                .NE, .NW => &animations.idleHeadNE,
-                .N => &animations.idleHeadN,
-                .None => &animations.idleHeadS,
+                .s => &animations.idleHeadS,
+                .se, .sw => &animations.idleHeadSE,
+                .e, .w => &animations.idleHeadE,
+                .ne, .nw => &animations.idleHeadNE,
+                .n => &animations.idleHeadN,
+                .none => &animations.idleHeadS,
             };
 
             animators[i].bottomAnimation = switch (bodies[i].direction) {
-                .SE, .SW => &animations.idleBottomF01SE,
-                .NE, .NW => &animations.idleBottomF01NE,
-                .None => &animations.idleBottomF01SE,
+                .se, .sw => &animations.idleBottomF01SE,
+                .ne, .nw => &animations.idleBottomF01NE,
+                .none => &animations.idleBottomF01SE,
                 else => &animations.idleBottomF01SE,
             };
 
             animators[i].topAnimation = switch (bodies[i].direction) {
-                .SE, .SW => &animations.idleTopF01SE,
-                .NE, .NW => &animations.idleTopF01NE,
-                .None => &animations.idleTopF01SE,
+                .se, .sw => &animations.idleTopF01SE,
+                .ne, .nw => &animations.idleTopF01NE,
+                .none => &animations.idleTopF01SE,
                 else => &animations.idleTopF01SE,
             };
 
             animators[i].hairAnimation = switch (heads[i].direction) {
-                .S => &animations.idleHairF01S,
-                .SE, .SW => &animations.idleHairF01SE,
-                .E, .W => &animations.idleHairF01E,
-                .NE, .NW => &animations.idleHairF01NE,
-                .N => &animations.idleHairF01N,
-                .None => unreachable,
+                .s => &animations.idleHairF01S,
+                .se, .sw => &animations.idleHairF01SE,
+                .e, .w => &animations.idleHairF01E,
+                .ne, .nw => &animations.idleHairF01NE,
+                .n => &animations.idleHairF01N,
+                .none => unreachable,
             };
 
             animators[i].fps = 8;
 
             switch (heads[i].direction) {
-                .SW, .W, .NW => renderers[i].flipHead = true,
-                .N, .S => renderers[i].flipHead = renderers[i].flipBody,
+                .sw, .w, .nw => renderers[i].flipHead = true,
+                .n, .s => renderers[i].flipHead = renderers[i].flipBody,
                 else => renderers[i].flipHead = false,
             }
         }
