@@ -99,7 +99,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
                 break :blk seed;
             });
-            const rand = &prng.random;
+            const rand = &prng.random();
+    
             var r = rand.intRangeAtMost(usize, 0, 100);
 
             switch (bodies[i].direction) {

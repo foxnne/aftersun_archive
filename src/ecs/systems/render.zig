@@ -391,3 +391,19 @@ fn sort(world: *flecs.World, lhs: flecs.Entity, rhs: flecs.Entity) bool {
         return pos1.?.z < pos2.?.z;
     }
 }
+
+// top down sort
+fn reverseSort(world: *flecs.World, lhs: flecs.Entity, rhs: flecs.Entity) bool {
+    const pos1 = world.get(lhs, components.Position);
+    const pos2 = world.get(rhs, components.Position);
+
+    if (pos1.?.z == pos2.?.z) {
+        if (pos1.?.y == pos2.?.y) {
+            return pos1.?.x < pos2.?.x;
+        } else {
+            return pos1.?.y > pos2.?.y;
+        }
+    } else {
+        return pos1.?.z < pos2.?.z;
+    }
+}

@@ -117,8 +117,8 @@ fn init() !void {
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
-        .topColor = zia.math.Color.fromRgbBytes(13, 0, 0),
-        .hairColor = zia.math.Color.fromRgbBytes(1, 0, 0),
+        .topColor = zia.math.Color.fromRgbBytes(12, 0, 0),
+        .hairColor = zia.math.Color.fromRgbBytes(4, 0, 0),
     });
     world.set(player, &components.CharacterAnimator{
         .bodyAnimation = &animations.idleBodySE,
@@ -178,13 +178,12 @@ fn init() !void {
     const treeSpawnWidth = 6000;
     const treeSpawnHeight = 6000;
     const treeSpawnCount = 3000;
-
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 12345678900;
         //std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
         break :blk seed;
     });
-    const rand = &prng.random;
+    const rand = &prng.random();
 
     var i: usize = 0;
     while (i < treeSpawnCount) : (i += 1) {

@@ -1,4 +1,5 @@
 const std = @import("std");
+const builtin = @import("builtin");
 
 const LibExeObjStep = std.build.LibExeObjStep;
 const Builder = std.build.Builder;
@@ -41,7 +42,7 @@ pub fn build(b: *Builder) !void {
     process_assets_step.dependOn(&assets.step);
 }
 
-fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []const u8) *std.build.LibExeObjStep {
+fn createExe(b: *Builder, target: std.zig.CrossTarget, name: []const u8, source: []const u8) *std.build.LibExeObjStep {
     var exe = b.addExecutable(name, source);
     exe.setBuildMode(b.standardReleaseOptions());
 
@@ -54,7 +55,7 @@ fn createExe(b: *Builder, target: std.build.Target, name: []const u8, source: []
             exe.subsystem = .Windows;
         }
 
-        if (std.builtin.os.tag == .macos and std.builtin.cpu.arch == std.Target.Cpu.Arch.aarch64) {
+        if (builtin.os.tag == .macos and builtin.cpu.arch == std.Target.Cpu.Arch.aarch64) {
             exe.subsystem = .Posix;
         }
     }
