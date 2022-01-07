@@ -1,3 +1,4 @@
+zig-out
 zig-cache
 zig-arm-cache
 buildrunner.zig
