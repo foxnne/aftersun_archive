@@ -5,6 +5,10 @@ pub const MovementInput = struct {
     direction: zia.math.Direction = .none,
 };
 
+pub const MovementCooldown = struct {
+    value: f32 = 0,
+};
+
 pub const MouseInput = struct {
     position: zia.math.Vector2 = .{},
     camera: flecs.Entity,

@@ -1,35 +1,24 @@
 const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
-const components = @import("../components/components.zig");
 
-// adds all structs in this file to the world as new components
+/// adds all structs in this file to the world as new components
 pub fn register(world: *flecs.World) void {
-    const decls = @typeInfo(@import("components.zig")).Struct.decls;
-    comptime var count: usize = 0;
-
+    const decls = @typeInfo(@This()).Struct.decls;
     inline for (decls) |decl| {
         if (decl.data == .Type and decl.is_pub)
-            count += 1;
-    }
-    comptime var types: [count]type = undefined;
-    comptime var i: usize = 0;
-    inline for (decls) |decl| {
-        if (decl.data == .Type and decl.is_pub) {
-            types[i] = decl.data.Type;
-            i += 1;
-        }
-    }
-    inline for (types) |t| {
-        _ = world.newComponent(t);
+            _ = world.newComponent(decl.data.Type);
     }
 }
 
 // generic
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
+pub const Tile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0 };
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
 pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0 };
+pub const Speed = struct { value: f32 = 0 };
 
+// imports
 pub usingnamespace @import("camera.zig");
 pub usingnamespace @import("material.zig");
 pub usingnamespace @import("input.zig");
@@ -39,4 +28,3 @@ pub usingnamespace @import("collision.zig");
 pub usingnamespace @import("postprocess.zig");
 pub usingnamespace @import("environment.zig");
 pub usingnamespace @import("light.zig");
-

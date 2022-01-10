@@ -75,14 +75,14 @@ fn init() !void {
     //_ = world.newSystem("GizmoInputSystem", flecs.Phase.on_update, "$Gizmos", @import("ecs/systems/gizmos.zig").progress);
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
-    _ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Player", @import("ecs/systems/inputvelocity.zig").progress);
+    _ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Speed, Player", @import("ecs/systems/inputvelocity.zig").progress);
 
     // physics
-    _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
-    _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, Position, Velocity, $Broadphase", @import("ecs/systems/narrowphase.zig").progress);
-    _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
+    // _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
+    // _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, Position, Velocity, $Broadphase", @import("ecs/systems/narrowphase.zig").progress);
+    // _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
 
-    // correction
+    // movement
     _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity", @import("ecs/systems/move.zig").progress);
 
     // animation
@@ -104,6 +104,7 @@ fn init() !void {
     world.setName(player, "Player");
     world.set(player, &components.Position{});
     world.set(player, &components.Velocity{});
+    world.set(player, &components.Speed{ .value = 80 });
     world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&aftersun_palette} });
     world.set(player, &components.CharacterRenderer{
         .texture = aftersun_texture,
@@ -141,7 +142,7 @@ fn init() !void {
     var camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{
-        .size = .{.x = design_w, .y = design_h},
+        .size = .{ .x = design_w, .y = design_h },
         .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
@@ -169,7 +170,6 @@ fn init() !void {
     });
     world.set(camera, &components.Follow{ .target = player });
 
-    //world.setSingleton(&components.Gizmos{.gizmos = std.ArrayList(components.Gizmo).init(std.testing.allocator)});
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Grid{});
@@ -209,7 +209,7 @@ fn init() !void {
     }
 
     var campfire = world.new();
-    world.set(campfire, &components.Position{ .x = 0, .y = 50 });
+    world.set(campfire, &components.Position{ .x = 0, .y = 32 });
     world.set(campfire, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -237,7 +237,7 @@ fn update() !void {
             enable_editor = !enable_editor;
     }
 
-    if (enable_editor) {        
+    if (enable_editor) {
         editor.drawMenuBar();
         editor.drawDebugWindow();
     }
