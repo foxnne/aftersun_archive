@@ -35,47 +35,47 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             }
 
             animators[i].bodyAnimation = switch (bodies[i].direction) {
-                .s => &animations.walkBodyS,
-                .se, .sw => &animations.walkBodySE,
-                .e, .w => &animations.walkBodyE,
-                .ne, .nw => &animations.walkBodyNE,
-                .n => &animations.walkBodyN,
+                .s => &animations.Walk_S_Body,
+                .se, .sw => &animations.Walk_SE_Body,
+                .e, .w => &animations.Walk_E_Body,
+                .ne, .nw => &animations.Walk_NE_Body,
+                .n => &animations.Walk_N_Body,
                 .none => unreachable,
             };
 
             animators[i].bottomAnimation = switch (bodies[i].direction) {
-                .s => &animations.walkBottomF01S,
-                .se, .sw => &animations.walkBottomF01SE,
-                .e, .w => &animations.walkBottomF01E,
-                .ne, .nw => &animations.walkBottomF01NE,
-                .n => &animations.walkBottomF01N,
+                .s => &animations.Walk_S_BottomF01,
+                .se, .sw => &animations.Walk_SE_BottomF01,
+                .e, .w => &animations.Walk_E_BottomF01,
+                .ne, .nw => &animations.Walk_NE_BottomF01,
+                .n => &animations.Walk_N_BottomF01,
                 .none => unreachable,
             };
 
             animators[i].topAnimation = switch (bodies[i].direction) {
-                .s => &animations.walkTopF01S,
-                .se, .sw => &animations.walkTopF01SE,
-                .e, .w => &animations.walkTopF01E,
-                .ne, .nw => &animations.walkTopF01NE,
-                .n => &animations.walkTopF01N,
+                .s => &animations.Walk_S_TopF01,
+                .se, .sw => &animations.Walk_SE_TopF01,
+                .e, .w => &animations.Walk_E_TopF01,
+                .ne, .nw => &animations.Walk_NE_TopF01,
+                .n => &animations.Walk_N_TopF01,
                 .none => unreachable,
             };
 
             animators[i].headAnimation = switch (heads[i].direction) {
-                .s => &animations.walkHeadS,
-                .se, .sw => &animations.walkHeadSE,
-                .e, .w => &animations.walkHeadE,
-                .ne, .nw => &animations.walkHeadNE,
-                .n => &animations.walkHeadN,
+                .s => &animations.Walk_S_Head,
+                .se, .sw => &animations.Walk_SE_Head,
+                .e, .w => &animations.Walk_E_Head,
+                .ne, .nw => &animations.Walk_NE_Head,
+                .n => &animations.Walk_N_Head,
                 .none => unreachable,
             };
 
             animators[i].hairAnimation = switch (heads[i].direction) {
-                .s => &animations.walkHairF01S,
-                .se, .sw => &animations.walkHairF01SE,
-                .e, .w => &animations.walkHairF01E,
-                .ne, .nw => &animations.walkHairF01NE,
-                .n => &animations.walkHairF01N,
+                .s => &animations.Walk_S_HairF01,
+                .se, .sw => &animations.Walk_SE_HairF01,
+                .e, .w => &animations.Walk_E_HairF01,
+                .ne, .nw => &animations.Walk_NE_HairF01,
+                .n => &animations.Walk_N_HairF01,
                 .none => unreachable,
             };
 
@@ -135,41 +135,41 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 heads[i].direction = head;
 
             animators[i].bodyAnimation = switch (bodies[i].direction) {
-                .se, .sw => &animations.idleBodySE,
-                .ne, .nw => &animations.idleBodyNE,
-                .none => &animations.idleBodySE,
-                else => &animations.idleBodySE,
+                .se, .sw => &animations.Idle_SE_Body,
+                .ne, .nw => &animations.Idle_NE_Body,
+                .none => &animations.Idle_SE_Body,
+                else => &animations.Idle_SE_Body,
             };
 
             animators[i].headAnimation = switch (heads[i].direction) {
-                .s => &animations.idleHeadS,
-                .se, .sw => &animations.idleHeadSE,
-                .e, .w => &animations.idleHeadE,
-                .ne, .nw => &animations.idleHeadNE,
-                .n => &animations.idleHeadN,
-                .none => &animations.idleHeadS,
+                .s => &animations.Idle_S_Head,
+                .se, .sw => &animations.Idle_SE_Head,
+                .e, .w => &animations.Idle_E_Head,
+                .ne, .nw => &animations.Idle_NE_Head,
+                .n => &animations.Idle_N_Head,
+                .none => &animations.Idle_S_Head,
             };
 
             animators[i].bottomAnimation = switch (bodies[i].direction) {
-                .se, .sw => &animations.idleBottomF01SE,
-                .ne, .nw => &animations.idleBottomF01NE,
-                .none => &animations.idleBottomF01SE,
-                else => &animations.idleBottomF01SE,
+                .se, .sw => &animations.Idle_SE_BottomF01,
+                .ne, .nw => &animations.Idle_NE_BottomF01,
+                .none => &animations.Idle_SE_BottomF01,
+                else => &animations.Idle_SE_BottomF01,
             };
 
             animators[i].topAnimation = switch (bodies[i].direction) {
-                .se, .sw => &animations.idleTopF01SE,
-                .ne, .nw => &animations.idleTopF01NE,
-                .none => &animations.idleTopF01SE,
-                else => &animations.idleTopF01SE,
+                .se, .sw => &animations.Idle_SE_TopF01,
+                .ne, .nw => &animations.Idle_NE_TopF01,
+                .none => &animations.Idle_SE_TopF01,
+                else => &animations.Idle_SE_TopF01,
             };
 
             animators[i].hairAnimation = switch (heads[i].direction) {
-                .s => &animations.idleHairF01S,
-                .se, .sw => &animations.idleHairF01SE,
-                .e, .w => &animations.idleHairF01E,
-                .ne, .nw => &animations.idleHairF01NE,
-                .n => &animations.idleHairF01N,
+                .s => &animations.Idle_S_HairF01,
+                .se, .sw => &animations.Idle_SE_HairF01,
+                .e, .w => &animations.Idle_E_HairF01,
+                .ne, .nw => &animations.Idle_NE_HairF01,
+                .n => &animations.Idle_N_HairF01,
                 .none => unreachable,
             };
 

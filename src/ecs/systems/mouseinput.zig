@@ -1,3 +1,4 @@
+const std = @import("std");
 const flecs = @import("flecs");
 const game = @import("game");
 const imgui = @import("imgui");
@@ -6,11 +7,25 @@ const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var input = it.column(components.MouseInput, 1);
-
+    var tile = it.column(components.Tile, 2);
     var world = flecs.World{ .world = it.world.? };
 
     var camera_ptr = world.get(input.*.camera, components.Camera);
     if (camera_ptr) |camera| {
         input.*.position = camera.matrix.invert().transformVec2(zia.input.mousePos());
-    } 
+
+        // hack because the first frame we are getting nan, nan for mouse position :(
+        if (std.math.isNan(input.*.position.x))
+            input.*.position.x = 0;
+
+        if (std.math.isNan(input.*.position.y))
+            input.*.position.y = 0;
+
+        tile.*.x = @floatToInt(i32, @round(input.*.position.x / @intToFloat(f32, game.ppu)));
+        tile.*.y = @floatToInt(i32, @round(input.*.position.y / @intToFloat(f32, game.ppu)));
+
+        if (game.enable_editor) {
+            game.gizmos.box(.{ .x = @intToFloat(f32, tile.*.x * game.ppu), .y = @intToFloat(f32, tile.*.y * game.ppu) }, game.ppu, game.ppu, zia.math.Color.gray, 1);
+        }
+    }
 }

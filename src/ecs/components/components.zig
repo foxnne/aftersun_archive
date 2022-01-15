@@ -14,6 +14,7 @@ pub fn register(world: *flecs.World) void {
 // generic
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
 pub const Tile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0 };
+pub const PreviousTile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0 };
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
 pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0 };
 pub const Speed = struct { value: f32 = 0 };

@@ -22,18 +22,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             broadphase.*.entities.append(colliders[i].cell, it.entities[i]);
 
-            // if (world.getSingletonMut(components.Gizmos)) |gizmos| {
-            //     gizmos.testAdd();
-            // }
-
             if (game.gizmos.enabled) {
-                switch (colliders[i].shape) {
-                    //.circle => gizmos.circle(.{.x = positions[i].x, .y = positions[i].y}, colliders[i].shape.circle.radius, zia.math.Color.green, 1),
-                    .circle => game.gizmos.circle(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.circle.radius,  zia.math.Color.green, 1 ),
-                    .box => game.gizmos.box(.{ .x = positions[i].x, .y = positions[i].y }, colliders[i].shape.box.width, colliders[i].shape.box.height,  zia.math.Color.green, 1 ),
-                    
-                    // else => {},
-                }
+                
             }
         }
     }

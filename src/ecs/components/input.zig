@@ -6,7 +6,8 @@ pub const MovementInput = struct {
 };
 
 pub const MovementCooldown = struct {
-    value: f32 = 0,
+    current: f32 = 0,
+    end: f32 = 0,
 };
 
 pub const MouseInput = struct {

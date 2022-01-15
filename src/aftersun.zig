@@ -3,6 +3,9 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const imgui = @import("imgui");
 
+/// pixels per unit
+pub const ppu: i32 = 32;
+
 const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
 const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
 pub var gizmos: Gizmos = undefined;
@@ -17,9 +20,10 @@ pub const assets = @import("assets.zig");
 pub const shaders = @import("shaders.zig");
 
 // manual
-pub const animations = @import("animations/animations.zig");
+pub const animations = @import("animations.zig");
 pub const components = @import("ecs/components/components.zig");
 
+// shaders and textures
 var aftersun_palette: zia.gfx.Texture = undefined;
 var aftersun_texture: zia.gfx.Texture = undefined;
 var aftersun_heightmap: zia.gfx.Texture = undefined;
@@ -74,8 +78,9 @@ fn init() !void {
     // input
     //_ = world.newSystem("GizmoInputSystem", flecs.Phase.on_update, "$Gizmos", @import("ecs/systems/gizmos.zig").progress);
     _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
-    _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput", @import("ecs/systems/mouseinput.zig").progress);
-    _ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Speed, Player", @import("ecs/systems/inputvelocity.zig").progress);
+    _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
+    _ = world.newSystem("InputTileSystem", flecs.Phase.on_update, "Tile, MovementCooldown, PreviousTile", @import("ecs/systems/inputtile.zig").progress);
+    //_ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Speed, Player", @import("ecs/systems/inputvelocity.zig").progress);
 
     // physics
     // _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
@@ -83,7 +88,8 @@ fn init() !void {
     // _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
 
     // movement
-    _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity", @import("ecs/systems/move.zig").progress);
+    _ = world.newSystem("MoveToTileSystem", flecs.Phase.on_update, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
+    _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
 
     // animation
     _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
@@ -103,6 +109,9 @@ fn init() !void {
     var player = world.new();
     world.setName(player, "Player");
     world.set(player, &components.Position{});
+    world.set(player, &components.Tile{});
+    world.set(player, &components.PreviousTile{});
+    world.set(player, &components.MovementCooldown{});
     world.set(player, &components.Velocity{});
     world.set(player, &components.Speed{ .value = 80 });
     world.set(player, &components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&aftersun_palette} });
@@ -110,11 +119,11 @@ fn init() !void {
         .texture = aftersun_texture,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
-        .body = assets.aftersun_atlas.Body_Idle_SE_0,
-        .head = assets.aftersun_atlas.Head_Idle_SE_0,
-        .bottom = assets.aftersun_atlas.BottomF01_Idle_SE_0,
-        .top = assets.aftersun_atlas.TopF01_Idle_SE_0,
-        .hair = assets.aftersun_atlas.HairF01_Idle_S_0,
+        .body = assets.aftersun_atlas.Idle_SE_0_Body,
+        .head = assets.aftersun_atlas.Idle_S_0_Head,
+        .bottom = assets.aftersun_atlas.Idle_SE_0_BottomF01,
+        .top = assets.aftersun_atlas.Idle_SE_0_TopF01,
+        .hair = assets.aftersun_atlas.Idle_S_0_HairF01,
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
@@ -122,17 +131,17 @@ fn init() !void {
         .hairColor = zia.math.Color.fromRgbBytes(4, 0, 0),
     });
     world.set(player, &components.CharacterAnimator{
-        .bodyAnimation = &animations.idleBodySE,
-        .headAnimation = &animations.idleHeadS,
-        .bottomAnimation = &animations.idleBottomF01SE,
-        .topAnimation = &animations.idleTopF01SE,
-        .hairAnimation = &animations.idleHairF01SE,
+        .bodyAnimation = &animations.Idle_SE_Body,
+        .headAnimation = &animations.Idle_SE_Head,
+        .bottomAnimation = &animations.Idle_SE_BottomF01,
+        .topAnimation = &animations.Idle_SE_TopF01,
+        .hairAnimation = &animations.Idle_SE_HairF01,
         .state = .idle,
     });
     world.set(player, &components.BodyDirection{});
     world.set(player, &components.HeadDirection{});
     world.add(player, components.Player);
-    world.set(player, &components.Collider{ .shape = .{ .circle = .{ .radius = 8 } } });
+    world.set(player, &components.Collider{});
     // world.set(player, &components.LightRenderer{
     //     .texture = light_texture,
     //     .atlas = light_atlas,
@@ -172,40 +181,41 @@ fn init() !void {
 
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
+    world.setSingleton(&components.Tile{}); //mouse input tile
     world.setSingleton(&components.Grid{});
-    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Collider.Cell, flecs.Entity).init(std.testing.allocator) });
+    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Grid.Cell, flecs.Entity).init(std.testing.allocator) });
 
-    const treeSpawnWidth = 6000;
-    const treeSpawnHeight = 6000;
+    const treeSpawnWidth = 200;
+    const treeSpawnHeight = 200;
     const treeSpawnCount = 3000;
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 12345678900;
-        //std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
         break :blk seed;
     });
     const rand = &prng.random();
 
     var i: usize = 0;
     while (i < treeSpawnCount) : (i += 1) {
-        var x = @intToFloat(f32, rand.intRangeAtMost(i32, -@divTrunc(treeSpawnWidth, 2), @divTrunc(treeSpawnWidth, 2)));
-        var y = @intToFloat(f32, rand.intRangeAtMost(i32, -@divTrunc(treeSpawnHeight, 2), @divTrunc(treeSpawnHeight, 2)));
+        var x = rand.intRangeAtMost(i32, -@divTrunc(treeSpawnWidth, 2), @divTrunc(treeSpawnWidth, 2));
+        var y = rand.intRangeAtMost(i32, -@divTrunc(treeSpawnHeight, 2), @divTrunc(treeSpawnHeight, 2));
         var e = world.new();
 
-        world.set(e, &components.Position{ .x = x, .y = y });
+        world.set(e, &components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
+        world.set(e, &components.Tile{ .x = x, .y = y });
         world.set(e, &components.SpriteRenderer{
             .texture = aftersun_texture,
             .heightmap = aftersun_heightmap,
             .atlas = aftersun_atlas,
-            .index = assets.aftersun_atlas.Trees_PineWind_6,
+            .index = assets.aftersun_atlas.PineWind_0_Layer_0,
         });
 
         world.set(e, &components.SpriteAnimator{
-            .animation = &animations.pineWind,
+            .animation = &animations.PineWind_Layer_0,
             .state = .play,
             .frame = rand.intRangeAtMost(usize, 0, 7),
             .fps = 8,
         });
-        world.set(e, &components.Collider{ .shape = .{ .box = .{ .width = 16, .height = 16 } } });
+        world.set(e, &components.Collider{});
     }
 
     var campfire = world.new();
@@ -214,16 +224,16 @@ fn init() !void {
         .texture = light_texture,
         .atlas = light_atlas,
         .color = zia.math.Color.orange,
-        .index = assets.lights_atlas.point256,
+        .index = assets.lights_atlas.point256_png,
     });
     world.set(campfire, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
         .atlas = aftersun_atlas,
-        .index = assets.aftersun_atlas.Campfire_Flame_0,
+        .index = assets.aftersun_atlas.Campfire_0_Layer_0,
     });
     world.set(campfire, &components.SpriteAnimator{
-        .animation = &animations.campfireFlame,
+        .animation = &animations.Campfire_Layer_0,
         .state = .play,
         .fps = 16,
     });

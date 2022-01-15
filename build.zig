@@ -35,7 +35,7 @@ pub fn build(b: *Builder) !void {
     //b.default_step.dependOn(comple_shaders_step);
     comple_shaders_step.dependOn(&res.step);
 
-    const assets = ProcessAssetsStep.init(b, "assets", "src/assets.zig");
+    const assets = ProcessAssetsStep.init(b, "assets", "src/assets.zig", "src/animations.zig");
 
     const process_assets_step = b.step("process-assets", "generates struct for all assets");
     //b.default_step.dependOn(process_assets_step);
