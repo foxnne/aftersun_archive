@@ -10,6 +10,12 @@ pub const MovementCooldown = struct {
     end: f32 = 0,
 };
 
+pub const MoveRequest = struct {
+    x: i32 = 0,
+    y: i32 = 0,
+    z: i32 = 0,
+};
+
 pub const MouseInput = struct {
     position: zia.math.Vector2 = .{},
     camera: flecs.Entity,

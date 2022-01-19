@@ -13,9 +13,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-
         if (cooldowns[i].current > 0) {
-
             var f = cooldowns[i].current / cooldowns[i].end;
 
             var start = zia.math.Vector2{ .x = @intToFloat(f32, prevtiles[i].x * 32), .y = @intToFloat(f32, prevtiles[i].y * 32) };
@@ -26,11 +24,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             velocities[i].y = velocity.y;
 
             //lerp
-            var position = start.add(end.subtract(start).scale(f));
+            var position = start.add(velocity.scale(f));
 
             positions[i].x = position.x;
             positions[i].y = position.y;
-
         }
     }
 }

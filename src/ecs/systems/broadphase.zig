@@ -9,22 +9,20 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
 
     var colliders = it.column(components.Collider, 1);
-    var positions = it.column(components.Position, 2);
+    var tiles = it.column(components.Tile, 2);
     var broadphase = it.column(components.Broadphase, 3);
 
-    if (world.getSingleton(components.Grid)) |grid| {
+    if (world.getSingleton(components.Grid)) |grid| { 
         var i: usize = 0;
         while (i < it.count) : (i += 1) {
-            var x = @floatToInt(i32, @trunc(positions[i].x / @intToFloat(f32, (grid.pixelsPerUnit * grid.cellSize))));
-            var y = @floatToInt(i32, @trunc(positions[i].y / @intToFloat(f32, (grid.pixelsPerUnit * grid.cellSize))));
+            var x = @divTrunc(tiles[i].x, grid.cellTiles);
+            var y = @divTrunc(tiles[i].y, grid.cellTiles);
 
             colliders[i].cell = .{ .x = x, .y = y };
 
             broadphase.*.entities.append(colliders[i].cell, it.entities[i]);
 
-            if (game.gizmos.enabled) {
-                
-            }
+            
         }
     }
 }

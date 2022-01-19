@@ -5,7 +5,7 @@ const components = @import("game").components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var input = it.column(components.MovementInput, 1);
-
+ 
     input.*.direction = zia.math.Direction.write(
         zia.input.keyDown(.w) or zia.input.keyDown(.up),
         zia.input.keyDown(.s) or zia.input.keyDown(.down),

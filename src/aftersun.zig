@@ -77,17 +77,18 @@ fn init() !void {
 
     // input
     //_ = world.newSystem("GizmoInputSystem", flecs.Phase.on_update, "$Gizmos", @import("ecs/systems/gizmos.zig").progress);
-    _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
-    _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
-    _ = world.newSystem("InputTileSystem", flecs.Phase.on_update, "Tile, MovementCooldown, PreviousTile", @import("ecs/systems/inputtile.zig").progress);
+    _ = world.newSystem("MovementInputSystem", flecs.Phase.pre_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
+    _ = world.newSystem("MouseInputSystem", flecs.Phase.pre_update, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
+    _ = world.newSystem("MoveRequestSystem", flecs.Phase.pre_update, "$MovementInput, MovementCooldown, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
     //_ = world.newSystem("InputVelocitySystem", flecs.Phase.on_update, "Velocity, Speed, Player", @import("ecs/systems/inputvelocity.zig").progress);
 
     // physics
-    // _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Position, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
-    // _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, Position, Velocity, $Broadphase", @import("ecs/systems/narrowphase.zig").progress);
-    // _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
+    _ = world.newSystem("BroadphaseSystem", flecs.Phase.pre_update, "Collider, Tile, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
+    _ = world.newSystem("NarrowphaseSystem", flecs.Phase.pre_update, "Collider, $Broadphase, MoveRequest, MovementCooldown, Tile",  @import("ecs/systems/narrowphase.zig").progress);
+    _ = world.newSystem("EndphaseSystem", flecs.Phase.pre_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
 
     // movement
+    _ = world.newSystem("MoveTileSystem", flecs.Phase.on_update, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
     _ = world.newSystem("MoveToTileSystem", flecs.Phase.on_update, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
     _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
 
