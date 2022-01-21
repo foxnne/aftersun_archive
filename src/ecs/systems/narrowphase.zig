@@ -49,6 +49,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                             if (world.get(other, components.Tile)) |otherTile| {
                                 // collision
                                 if (tiles[i].x + move_requests[i].x == otherTile.x and tiles[i].y + move_requests[i].y == otherTile.y) {
+                                    // zero out move request and cooldown
                                     move_requests[i].x = 0;
                                     move_requests[i].y = 0;
                                     cooldowns[i].current = 0;
