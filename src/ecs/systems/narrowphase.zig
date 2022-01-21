@@ -51,7 +51,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                 if (tiles[i].x + move_requests[i].x == otherTile.x and tiles[i].y + move_requests[i].y == otherTile.y) {
                                     move_requests[i].x = 0;
                                     move_requests[i].y = 0;
-                                    cooldowns[i].current = cooldowns[i].end;
+                                    cooldowns[i].current = 0;
+                                    cooldowns[i].end = 0;
                                 }
                             }
                         }
