@@ -19,11 +19,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     while (i < it.count) : (i += 1) {
         var body = zia.math.Direction.find(8, velocities[i].x, velocities[i].y);
 
-        // get camera matrix to find mouse position
-        var mouseInput = world.getSingleton(components.MouseInput);
-        var mousePos = mouseInput.?.position;
+        var head = zia.math.Direction.s;
 
-        var head = zia.math.Direction.find(8, mousePos.x - positions[i].x, mousePos.y - positions[i].y);
+        if (world.getSingleton(components.MouseInput)) |mouse_input| {
+            var mousePos = mouse_input.position;
+            head = zia.math.Direction.find(8, mousePos.x - positions[i].x, mousePos.y - positions[i].y);
+        }
 
         if (body != .none) { //moving
             bodies[i].direction = body;
@@ -79,7 +80,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .none => unreachable,
             };
 
-            animators[i].fps = 10;
+            animators[i].fps = 8;
             renderers[i].flipBody = body.flippedHorizontally();
 
             switch (heads[i].direction) {
@@ -100,7 +101,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 break :blk seed;
             });
             const rand = &prng.random();
-    
+
             var r = rand.intRangeAtMost(usize, 0, 100);
 
             switch (bodies[i].direction) {
@@ -181,11 +182,5 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 else => renderers[i].flipHead = false,
             }
         }
-
-        // if (game.gizmos.enabled) {
-        //     //const pos_ptr = world.get(it.entities[i], components.Position);
-        //     game.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, bodies[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.red, 2);
-        //     game.gizmos.line(.{ .x = positions[i].x, .y = positions[i].y }, heads[i].direction.normalized().scale(20).add(.{ .x = positions[i].x, .y = positions[i].y }), zia.math.Color.blue, 2);
-        // }
     }
 }

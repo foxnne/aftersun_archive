@@ -87,9 +87,6 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 
 
-
-
-
 @fs environment_fs
 @include_block sprite_fs_main
 

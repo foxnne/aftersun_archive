@@ -38,7 +38,8 @@ var bloom_shader: shaders.BloomShader = undefined;
 var tiltshift_shader: shaders.TiltshiftShader = undefined;
 var finalize_shader: shaders.FinalizeShader = undefined;
 
-var world: flecs.World = undefined;
+pub var world: flecs.World = undefined;
+pub var player: flecs.Entity = undefined;
 
 pub fn main() !void {
     try zia.run(.{
@@ -83,6 +84,9 @@ fn init() !void {
     // physics
     _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Tile, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
     _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, $Broadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/narrowphase.zig").progress);
+
+    _ = world.newSystem("MouseDragSystem", flecs.Phase.on_update, "MouseDrag, $Broadphase", @import("ecs/systems/mousedrag.zig").progress);
+
     _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
 
     // movement
@@ -105,7 +109,7 @@ fn init() !void {
     _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
     _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, PostProcess, RenderQueue, Environment", @import("ecs/systems/render.zig").progress);
 
-    var player = world.new();
+    player = world.new();
     world.setName(player, "Player");
     world.set(player, &components.Position{});
     world.set(player, &components.Tile{});
@@ -152,7 +156,7 @@ fn init() !void {
     world.set(camera, &components.Camera{
         .size = .{ .x = design_w, .y = design_h },
         .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
-        .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
+        .pass_1 = zia.gfx.OffscreenPass.initWithStencil(design_w, design_h, .nearest, .clamp),
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
@@ -236,6 +240,29 @@ fn init() !void {
         .state = .play,
         .fps = 16,
     });
+
+    var torch = world.new();
+    world.set(torch, &components.Tile{ .x = 0, .y = 4 });
+    world.set(torch, &components.Position{ .x = 0, .y = 4 * ppu });
+    world.set(torch, &components.LightRenderer{
+        .texture = light_texture,
+        .atlas = light_atlas,
+        .color = zia.math.Color.orange,
+        .index = assets.lights_atlas.point128_png,
+    });
+    world.set(torch, &components.SpriteRenderer{
+        .texture = aftersun_texture,
+        .emissionmap = aftersun_emissionmap,
+        .atlas = aftersun_atlas,
+        .index = assets.aftersun_atlas.Torch_0_Layer,
+    });
+    world.set(torch, &components.SpriteAnimator{
+        .animation = &animations.Torch_Layer,
+        .state = .play,
+        .fps = 16,
+    });
+    world.set(torch, &components.Collider{ .trigger = true });
+    world.add(torch, components.Moveable);
 }
 
 fn update() !void {

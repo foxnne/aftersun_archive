@@ -24,6 +24,29 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         tile.*.x = @floatToInt(i32, @round(input.*.position.x / @intToFloat(f32, game.ppu)));
         tile.*.y = @floatToInt(i32, @round(input.*.position.y / @intToFloat(f32, game.ppu)));
 
+        if (zia.input.mousePressed(.left)) {
+            world.setSingleton(&components.MouseDown{
+                .x = tile.*.x,
+                .y = tile.*.y,
+            });
+        }
+
+        if (zia.input.mouseUp(.left)) {
+            if (world.getSingleton(components.MouseDown)) |mouse_down| {
+                if (mouse_down.x != tile.*.x or mouse_down.y != tile.*.y) {
+                    //drag
+
+                    world.setSingleton(&components.MouseDrag{
+                        .prev_x = mouse_down.x,
+                        .prev_y = mouse_down.y,
+                        .x = tile.*.x,
+                        .y = tile.*.y,
+                    });
+                }
+            }
+        }
+
+        // draw the hovered tile
         if (game.enable_editor) {
             game.gizmos.box(.{ .x = @intToFloat(f32, tile.*.x * game.ppu), .y = @intToFloat(f32, tile.*.y * game.ppu) }, game.ppu, game.ppu, zia.math.Color.gray, 1);
         }
