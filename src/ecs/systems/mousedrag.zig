@@ -8,7 +8,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
 
     const mousedrags = it.column(components.MouseDrag, 1);
-    const broadphase = it.column(components.Broadphase, 2);
+    const broadphase = it.column(components.CollisionBroadphase, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
@@ -17,13 +17,12 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             var distance_y = std.math.absInt(mousedrags[i].prev_y - player_tile.y) catch unreachable;
 
             if (distance_x <= 1 and distance_y <= 1) {
-                if (world.get(game.player, components.Collider)) |self_collider| {
-
-                    // get all possible cells around the entity
-                    const current_cell = self_collider.cell;
-
+                if (world.get(game.player, components.Cell)) |self_cell| {
                     // collect all cells around the current_cell cell
-                    var cells = [_]components.Grid.Cell{
+
+                    const current_cell = self_cell.*;
+
+                    var cells = [_]components.Cell{
                         current_cell,
                         .{ .x = current_cell.x + 1, .y = current_cell.y }, //east
                         .{ .x = current_cell.x - 1, .y = current_cell.y }, //west
@@ -37,10 +36,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
                     var move: bool = false;
                     var index: usize = 0;
-                    var cell: components.Grid.Cell = .{};
+                    var cell: components.Cell = .{};
 
                     for (cells) |c| {
                         if (broadphase.*.entities.get(c)) |entities| {
+                            
                             for (entities.items) |other, j| {
                                 if (other == game.player)
                                     continue;
@@ -83,6 +83,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                             if (world.getMut(entities.items[index], components.Tile)) |moveTile| {
                                 moveTile.x = mousedrags[i].x;
                                 moveTile.y = mousedrags[i].y;
+                                moveTile.counter = game.getCounter();
 
                                 if (world.getMut(entities.items[index], components.Position)) |movePosition| {
                                     movePosition.x = @intToFloat(f32, moveTile.x * game.ppu);

@@ -3,6 +3,7 @@ const flecs = @import("flecs");
 const game = @import("game");
 const imgui = @import("imgui");
 const zia = @import("zia");
+const sdl = @import("sdl");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
@@ -29,7 +30,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .x = tile.*.x,
                 .y = tile.*.y,
             });
+
+            
         }
+
+        if (zia.input.mouseDown(.left)) {
+            sdl.SDL_SetCursor(game.cursors.crosshair);
+            
+        }
+
 
         if (zia.input.mouseUp(.left)) {
             if (world.getSingleton(components.MouseDown)) |mouse_down| {
@@ -42,8 +51,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .x = tile.*.x,
                         .y = tile.*.y,
                     });
+    
                 }
             }
+            sdl.SDL_SetCursor(game.cursors.normal);
         }
 
         // draw the hovered tile

@@ -1,4 +1,5 @@
 const std = @import("std");
+const sdl = @import("sdl");
 const zia = @import("zia");
 const flecs = @import("flecs");
 const imgui = @import("imgui");
@@ -40,6 +41,33 @@ var finalize_shader: shaders.FinalizeShader = undefined;
 
 pub var world: flecs.World = undefined;
 pub var player: flecs.Entity = undefined;
+pub var cursors: Cursors = undefined;
+
+var counter: i32 = 0;
+
+const Cursors = struct {
+    normal: ?*sdl.SDL_Cursor = null,
+    crosshair: ?*sdl.SDL_Cursor = null,
+
+    pub fn init () Cursors {
+        return .{
+            .normal = null,
+            .crosshair = sdl.SDL_CreateSystemCursor(sdl.SDL_SystemCursor.SDL_SYSTEM_CURSOR_CROSSHAIR),
+        };
+    }
+};
+
+pub fn getCounter() i32 {
+    var c = counter;
+
+    if (c == std.math.maxInt(i32)) {
+        counter = 0;
+    } else {
+        counter += 1;
+    }
+
+    return c;
+}
 
 pub fn main() !void {
     try zia.run(.{
@@ -50,6 +78,8 @@ pub fn main() !void {
     });
 }
 fn init() !void {
+    cursors = Cursors.init();
+
     // initialize gizmos
     gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator) };
 
@@ -82,12 +112,12 @@ fn init() !void {
     _ = world.newSystem("MoveRequestSystem", flecs.Phase.on_update, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
 
     // physics
-    _ = world.newSystem("BroadphaseSystem", flecs.Phase.on_update, "Collider, Tile, $Broadphase", @import("ecs/systems/broadphase.zig").progress);
-    _ = world.newSystem("NarrowphaseSystem", flecs.Phase.on_update, "Collider, $Broadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/narrowphase.zig").progress);
+    _ = world.newSystem("CollisionBroadphaseSystem", flecs.Phase.on_update, "$CollisionBroadphase", @import("ecs/systems/collisionbroadphase.zig").progress);
+    _ = world.newSystem("CollisionNarrowphaseSystem", flecs.Phase.on_update, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
 
-    _ = world.newSystem("MouseDragSystem", flecs.Phase.on_update, "MouseDrag, $Broadphase", @import("ecs/systems/mousedrag.zig").progress);
+    _ = world.newSystem("MouseDragSystem", flecs.Phase.on_update, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
 
-    _ = world.newSystem("EndphaseSystem", flecs.Phase.on_update, "$Broadphase", @import("ecs/systems/endphase.zig").progress);
+    _ = world.newSystem("CollisionEndphaseSystem", flecs.Phase.on_update, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
 
     // movement
     _ = world.newSystem("MoveTileSystem", flecs.Phase.on_update, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
@@ -112,7 +142,8 @@ fn init() !void {
     player = world.new();
     world.setName(player, "Player");
     world.set(player, &components.Position{});
-    world.set(player, &components.Tile{});
+    world.set(player, &components.Tile{ .counter = getCounter() });
+    world.set(player, &components.Cell{});
     world.set(player, &components.PreviousTile{});
     world.set(player, &components.MovementCooldown{});
     world.set(player, &components.Velocity{});
@@ -186,7 +217,12 @@ fn init() !void {
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Tile{}); //mouse input tile
     world.setSingleton(&components.Grid{});
-    world.setSingleton(&components.Broadphase{ .entities = zia.utils.MultiHashMap(components.Grid.Cell, flecs.Entity).init(std.testing.allocator) });
+    var broadphaseQuery = world.newQuery("Cell, Tile");
+    flecs.ecs_query_order_by(world.world, broadphaseQuery, world.newComponent(components.Tile), sortTile);
+    world.setSingleton(&components.CollisionBroadphase{
+        .query = broadphaseQuery,
+        .entities = zia.utils.MultiHashMap(components.Cell, flecs.Entity).init(std.testing.allocator),
+    });
 
     const treeSpawnWidth = 200;
     const treeSpawnHeight = 200;
@@ -205,6 +241,7 @@ fn init() !void {
 
         world.set(e, &components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
         world.set(e, &components.Tile{ .x = x, .y = y });
+        world.set(e, &components.Cell{});
         world.set(e, &components.SpriteRenderer{
             .texture = aftersun_texture,
             .heightmap = aftersun_heightmap,
@@ -222,7 +259,9 @@ fn init() !void {
     }
 
     var campfire = world.new();
-    world.set(campfire, &components.Position{ .x = 0, .y = 32 });
+    world.set(campfire, &components.Tile{ .x = 0, .y = 1 });
+    world.set(campfire, &components.Position{ .x = 0, .y = 1 * ppu });
+    world.set(campfire, &components.Cell{});
     world.set(campfire, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -244,6 +283,8 @@ fn init() !void {
     var torch = world.new();
     world.set(torch, &components.Tile{ .x = 0, .y = 4 });
     world.set(torch, &components.Position{ .x = 0, .y = 4 * ppu });
+    world.set(torch, &components.Cell{});
+    world.add(torch, components.Moveable);
     world.set(torch, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -261,8 +302,49 @@ fn init() !void {
         .state = .play,
         .fps = 16,
     });
-    world.set(torch, &components.Collider{ .trigger = true });
-    world.add(torch, components.Moveable);
+
+    var ham = world.new();
+    world.set(ham, &components.Tile{ .x = 1, .y = 4 });
+    world.set(ham, &components.Position{ .x = 1 * ppu, .y = 4 * ppu });
+    world.set(ham, &components.Cell{});
+    world.add(ham, components.Moveable);
+    
+    world.set(ham, &components.SpriteRenderer{
+        .texture = aftersun_texture,
+        .emissionmap = aftersun_emissionmap,
+        .atlas = aftersun_atlas,
+        .index = assets.aftersun_atlas.Ham_0_Layer,
+    });
+
+    var apple = world.new();
+    world.set(apple, &components.Tile{ .x = 1, .y = 5 });
+    world.set(apple, &components.Position{ .x = 1 * ppu, .y = 5 * ppu });
+    world.set(apple, &components.Cell{});
+    world.add(apple, components.Moveable);
+    
+    world.set(apple, &components.SpriteRenderer{
+        .texture = aftersun_texture,
+        .emissionmap = aftersun_emissionmap,
+        .atlas = aftersun_atlas,
+        .index = assets.aftersun_atlas.Vial_0_Layer,
+    });
+    
+}
+
+fn sortTile(entity1: flecs.ecs_entity_t, tile1_ptr: ?*const anyopaque, entity2: flecs.ecs_entity_t, tile2_ptr: ?*const anyopaque) callconv(.C) c_int {
+    _ = tile1_ptr;
+    _ = tile2_ptr;
+    if (world.get(entity1, components.Tile)) |t1| {
+        if (world.get(entity2, components.Tile)) |t2| {
+            //return (p1->x > p2->x) - (p1->x < p2->x);
+            var result1: c_int = if (t1.counter > t2.counter) 1 else 0;
+            var result2: c_int = if (t1.counter < t2.counter) 1 else 0;
+
+            return result2 - result1;
+        }
+    }
+
+    return 0;
 }
 
 fn update() !void {

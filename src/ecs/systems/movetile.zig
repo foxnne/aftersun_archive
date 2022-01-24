@@ -18,6 +18,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         tiles[i].x += move_requests[i].x;
         tiles[i].y += move_requests[i].y;
         tiles[i].z += move_requests[i].z;
+        tiles[i].counter = game.getCounter();
         world.remove(it.entities[i], components.MoveRequest);
     }
 }

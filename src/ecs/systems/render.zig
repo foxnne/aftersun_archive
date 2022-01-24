@@ -178,12 +178,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             if (world.get(entity, components.CharacterRenderer)) |renderer| {
                 if (renderer.heightmap) |heightmap| {
-                    
                     zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
-                        
                         .flipX = renderer.flipBody,
                     });
 
@@ -191,7 +189,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
-                        
                         .flipX = renderer.flipHead,
                     });
 
@@ -199,7 +196,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
-                       
                         .flipX = renderer.flipBody,
                     });
 
@@ -207,7 +203,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
-                        
                         .flipX = renderer.flipBody,
                     });
 
@@ -215,7 +210,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                         .x = position.?.x,
                         .y = position.?.y,
                     }, .{
-                        
                         .flipX = renderer.flipHead,
                     });
                 }
@@ -382,6 +376,12 @@ fn sort(world: *flecs.World, lhs: flecs.Entity, rhs: flecs.Entity) bool {
     const pos2 = world.get(rhs, components.Position);
 
     if (pos1.?.z == pos2.?.z) {
+        if (world.get(lhs, components.Tile)) |tile1| {
+            if (world.get(rhs, components.Tile)) |tile2| {
+                if (tile1.y == tile2.y)
+                    return tile1.counter < tile2.counter;
+            }
+        }
         if (pos1.?.y == pos2.?.y) {
             return pos1.?.x < pos2.?.x;
         } else {
