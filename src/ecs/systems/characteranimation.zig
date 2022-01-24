@@ -4,8 +4,8 @@ const flecs = @import("flecs");
 const components = @import("game").components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var animators = it.column(components.CharacterAnimator, 1);
-    var renderers = it.column(components.CharacterRenderer, 2);
+    var animators = it.term(components.CharacterAnimator, 1);
+    var renderers = it.term(components.CharacterRenderer, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

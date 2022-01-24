@@ -6,7 +6,7 @@ const zia = @import("zia");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var environments = it.column(components.Environment, 1);
+    var environments = it.term(components.Environment, 1);
 
     //var world = flecs.World{ .world = it.world.? };
 

@@ -107,37 +107,37 @@ fn init() !void {
     components.register(&world);
 
     // input
-    _ = world.newSystem("MovementInputSystem", flecs.Phase.on_update, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
-    _ = world.newSystem("MouseInputSystem", flecs.Phase.on_update, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
-    _ = world.newSystem("MoveRequestSystem", flecs.Phase.on_update, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
+    _ = world.newSystem("MovementInputSystem", flecs.EcsOnUpdate, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
+    _ = world.newSystem("MouseInputSystem", flecs.EcsOnUpdate, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
+    _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
 
     // physics
-    _ = world.newSystem("CollisionBroadphaseSystem", flecs.Phase.on_update, "$CollisionBroadphase", @import("ecs/systems/collisionbroadphase.zig").progress);
-    _ = world.newSystem("CollisionNarrowphaseSystem", flecs.Phase.on_update, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
+    _ = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionbroadphase.zig").progress);
+    _ = world.newSystem("CollisionNarrowphaseSystem", flecs.EcsOnUpdate, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
 
-    _ = world.newSystem("MouseDragSystem", flecs.Phase.on_update, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
+    _ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
 
-    _ = world.newSystem("CollisionEndphaseSystem", flecs.Phase.on_update, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
+    _ = world.newSystem("CollisionEndphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
 
-    // movement
-    _ = world.newSystem("MoveTileSystem", flecs.Phase.on_update, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
-    _ = world.newSystem("MoveToTileSystem", flecs.Phase.on_update, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
-    _ = world.newSystem("MoveSystem", flecs.Phase.on_update, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
+    // // movement
+    _ = world.newSystem("MoveTileSystem", flecs.EcsOnUpdate, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
+    _ = world.newSystem("MoveToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
+    _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
 
     // animation
-    _ = world.newSystem("CharacterAnimatorSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
-    _ = world.newSystem("CharacterAnimationSystem", flecs.Phase.on_update, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
-    _ = world.newSystem("SpriteAnimationSystem", flecs.Phase.on_update, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
+    _ = world.newSystem("CharacterAnimatorSystem", flecs.EcsOnUpdate, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
+    _ = world.newSystem("CharacterAnimationSystem", flecs.EcsOnUpdate, "CharacterAnimator, CharacterRenderer", @import("ecs/systems/characteranimation.zig").progress);
+    _ = world.newSystem("SpriteAnimationSystem", flecs.EcsOnUpdate, "SpriteAnimator, SpriteRenderer", @import("ecs/systems/spriteanimation.zig").progress);
 
     // camera
-    _ = world.newSystem("CameraZoomSystem", flecs.Phase.post_update, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
-    _ = world.newSystem("CameraFollowSystem", flecs.Phase.post_update, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
+    _ = world.newSystem("CameraZoomSystem", flecs.EcsOnUpdate, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
+    _ = world.newSystem("CameraFollowSystem", flecs.EcsOnUpdate, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
 
-    _ = world.newSystem("EnvironmentSystem", flecs.Phase.post_update, "Environment", @import("ecs/systems/environment.zig").progress);
+    _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment", @import("ecs/systems/environment.zig").progress);
 
     // rendering
-    _ = world.newSystem("RenderQuerySystem", flecs.Phase.post_update, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
-    _ = world.newSystem("RenderSystem", flecs.Phase.post_update, "Position, Camera, PostProcess, RenderQueue, Environment", @import("ecs/systems/render.zig").progress);
+    _ = world.newSystem("RenderQuerySystem", flecs.EcsOnUpdate, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
+    _ = world.newSystem("RenderSystem", flecs.EcsOnUpdate, "Position, Camera, PostProcess, RenderQueue, Environment", @import("ecs/systems/render.zig").progress);
 
     player = world.new();
     world.setName(player, "Player");

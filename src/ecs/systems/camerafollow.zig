@@ -5,10 +5,10 @@ const game = @import("game");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    //var cameras = it.column(components.Camera, 1);
-    var follows = it.column(components.Follow, 2);
-    var positions = it.column(components.Position, 3);
-    var velocities = it.column(components.Velocity, 4);
+    //var cameras = it.term(components.Camera, 1);
+    var follows = it.term(components.Follow, 2);
+    var positions = it.term(components.Position, 3);
+    var velocities = it.term(components.Velocity, 4);
     var world = flecs.World{ .world = it.world.? };
 
     var i: usize = 0;

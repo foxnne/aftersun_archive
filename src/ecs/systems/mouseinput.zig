@@ -7,8 +7,8 @@ const sdl = @import("sdl");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var input = it.column(components.MouseInput, 1);
-    var tile = it.column(components.Tile, 2);
+    var input = it.term(components.MouseInput, 1);
+    var tile = it.term(components.Tile, 2);
     var world = flecs.World{ .world = it.world.? };
 
     var camera_ptr = world.get(input.*.camera, components.Camera);
@@ -55,6 +55,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 }
             }
             sdl.SDL_SetCursor(game.cursors.normal);
+            world.removeSingleton(components.MouseDown);
         }
 
         // draw the hovered tile

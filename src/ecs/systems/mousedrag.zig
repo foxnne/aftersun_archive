@@ -7,8 +7,8 @@ const components = game.components;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
 
-    const mousedrags = it.column(components.MouseDrag, 1);
-    const broadphase = it.column(components.CollisionBroadphase, 2);
+    const mousedrags = it.term(components.MouseDrag, 1);
+    const broadphase = it.term(components.CollisionBroadphase, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

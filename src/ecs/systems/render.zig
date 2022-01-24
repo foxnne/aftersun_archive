@@ -9,11 +9,11 @@ const actions = game.actions;
 const sorters = game.sorters;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var positions = it.column(components.Position, 1);
-    var cameras = it.column(components.Camera, 2);
-    var postprocesses = it.column(components.PostProcess, 3);
-    var renderqueues = it.column(components.RenderQueue, 4);
-    var environments = it.column(components.Environment, 5);
+    var positions = it.term(components.Position, 1);
+    var cameras = it.term(components.Camera, 2);
+    var postprocesses = it.term(components.PostProcess, 3);
+    var renderqueues = it.term(components.RenderQueue, 4);
+    var environments = it.term(components.Environment, 5);
 
     var world = flecs.World{ .world = it.world.? };
 

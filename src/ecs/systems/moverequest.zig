@@ -7,10 +7,10 @@ const components = game.components;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
 
-    const movement_input = it.column(components.MovementInput, 1);
-    const cooldowns = it.column(components.MovementCooldown, 2);
-    const tiles = it.column(components.Tile, 3);
-    const prev_tiles = it.column(components.PreviousTile, 4);
+    const movement_input = it.term(components.MovementInput, 1);
+    const cooldowns = it.term(components.MovementCooldown, 2);
+    const tiles = it.term(components.Tile, 3);
+    const prev_tiles = it.term(components.PreviousTile, 4);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

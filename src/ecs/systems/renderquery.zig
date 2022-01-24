@@ -8,8 +8,8 @@ const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     //var positions = it.column(components.Position, 1);
-    var cameras = it.column(components.Camera, 2);
-    var renderqueues = it.column(components.RenderQueue, 3);
+    var cameras = it.term(components.Camera, 2);
+    var renderqueues = it.term(components.RenderQueue, 3);
 
     var world = flecs.World{ .world = it.world.? };
 

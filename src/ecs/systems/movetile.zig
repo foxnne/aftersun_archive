@@ -6,9 +6,10 @@ const components = @import("game").components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
-    var move_requests = it.column(components.MoveRequest, 1);
-    var tiles = it.column(components.Tile, 2);
-    var prevtiles = it.column(components.PreviousTile, 3);
+
+    var move_requests = it.term(components.MoveRequest, 1);
+    var tiles = it.term(components.Tile, 2);
+    var prevtiles = it.term(components.PreviousTile, 3);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
