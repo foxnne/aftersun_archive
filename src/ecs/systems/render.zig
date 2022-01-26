@@ -176,7 +176,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 }
             }
 
-            if (world.get(entity, components.CharacterRenderer)) |renderer| {
+            if (world.get(entity, components.Cha23racterRenderer)) |renderer| {
                 if (renderer.heightmap) |heightmap| {
                     zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
                         .x = position.?.x,

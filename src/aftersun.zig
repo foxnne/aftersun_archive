@@ -40,6 +40,7 @@ var tiltshift_shader: shaders.TiltshiftShader = undefined;
 var finalize_shader: shaders.FinalizeShader = undefined;
 
 pub var world: flecs.World = undefined;
+pub var camera: flecs.Entity = undefined;
 pub var player: flecs.Entity = undefined;
 pub var cursors: Cursors = undefined;
 
@@ -49,7 +50,7 @@ const Cursors = struct {
     normal: ?*sdl.SDL_Cursor = null,
     crosshair: ?*sdl.SDL_Cursor = null,
 
-    pub fn init () Cursors {
+    pub fn init() Cursors {
         return .{
             .normal = null,
             .crosshair = sdl.SDL_CreateSystemCursor(sdl.SDL_SystemCursor.SDL_SYSTEM_CURSOR_CROSSHAIR),
@@ -136,8 +137,29 @@ fn init() !void {
     _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment", @import("ecs/systems/environment.zig").progress);
 
     // rendering
-    _ = world.newSystem("RenderQuerySystem", flecs.EcsOnUpdate, "Position, Camera, RenderQueue", @import("ecs/systems/renderquery.zig").progress);
-    _ = world.newSystem("RenderSystem", flecs.EcsOnUpdate, "Position, Camera, PostProcess, RenderQueue, Environment", @import("ecs/systems/render.zig").progress);
+
+    _ = world.newSystem("PreRenderSystem", flecs.EcsOnUpdate, "Position, Camera, Zoom", @import("ecs/systems/prerender.zig").progress);
+
+    const renderPass0System = world.newSystem("RenderPass0System", flecs.EcsOnUpdate, "Position, Tile, ?Material, ?CharacterRenderer, ?SpriteRenderer, Visible", @import("ecs/systems/renderpass0.zig").progress);
+    const renderPass0Query = flecs.ecs_get_system_query(world.world, renderPass0System);
+    flecs.ecs_query_order_by(world.world, renderPass0Query, world.newComponent(components.Tile), sortTile);
+
+    _ = world.newSystem("RenderPassEnd0System", flecs.EcsOnUpdate, "Camera", @import("ecs/systems/renderpassend0.zig").progress);
+
+    const renderPass1System = world.newSystem("RenderPass1System", flecs.EcsOnUpdate, "Position, Tile, ?CharacterRenderer, ?SpriteRenderer, Visible", @import("ecs/systems/renderpass1.zig").progress);
+    const renderPass1Query = flecs.ecs_get_system_query(world.world, renderPass1System);
+    flecs.ecs_query_order_by(world.world, renderPass1Query, world.newComponent(components.Tile), sortTile);
+
+    _ = world.newSystem("RenderPassEnd1System", flecs.EcsOnUpdate, "Camera", @import("ecs/systems/renderpassend1.zig").progress);
+    _ = world.newSystem("RenderPass2System", flecs.EcsOnUpdate, "Position, LightRenderer, Visible", @import("ecs/systems/renderpass2.zig").progress);
+    _ = world.newSystem("RenderPassEnd2System", flecs.EcsOnUpdate, "Camera, Environment", @import("ecs/systems/renderpassend2.zig").progress);
+
+    const renderPass3System = world.newSystem("RenderPass3System", flecs.EcsOnUpdate, "Position, Tile, ?CharacterRenderer, ?SpriteRenderer, Visible", @import("ecs/systems/renderpass3.zig").progress);
+    const renderPass3Query = flecs.ecs_get_system_query(world.world, renderPass3System);
+    flecs.ecs_query_order_by(world.world, renderPass3Query, world.newComponent(components.Tile), sortTile);
+
+    _ = world.newSystem("RenderPassEnd3System", flecs.EcsOnUpdate, "Camera, PostProcess", @import("ecs/systems/renderpassend3.zig").progress);
+    _ = world.newSystem("RenderCullingSystem", flecs.EcsOnUpdate, "Position, ?CharacterRenderer, ?SpriteRenderer, ?LightRenderer", @import("ecs/systems/renderculling.zig").progress);
 
     player = world.new();
     world.setName(player, "Player");
@@ -182,7 +204,7 @@ fn init() !void {
     //     .color = zia.math.Color.fromRgbBytes(50, 50, 50),
     // });
 
-    var camera = world.new();
+    camera = world.new();
     world.setName(camera, "Camera");
     world.set(camera, &components.Camera{
         .size = .{ .x = design_w, .y = design_h },
@@ -197,10 +219,10 @@ fn init() !void {
     world.set(camera, &components.Position{});
     world.set(camera, &components.Velocity{});
     // create a query for renderers we want to draw using this camera
-    world.set(camera, &components.RenderQueue{
-        .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer || LightRenderer"),
-        .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
-    });
+    // world.set(camera, &components.RenderQueue{
+    //     .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer || LightRenderer"),
+    //     .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
+    // });
     world.set(camera, &components.Environment{
         .environment_shader = &environment_shader,
     });
@@ -218,7 +240,7 @@ fn init() !void {
     world.setSingleton(&components.Tile{}); //mouse input tile
     world.setSingleton(&components.Grid{});
     var broadphaseQuery = world.newQuery("Cell, Tile");
-    flecs.ecs_query_order_by(world.world, broadphaseQuery, world.newComponent(components.Tile), sortTile);
+    flecs.ecs_query_order_by(world.world, broadphaseQuery, world.newComponent(components.Tile), sortReverseTile);
     world.setSingleton(&components.CollisionBroadphase{
         .query = broadphaseQuery,
         .entities = zia.utils.MultiHashMap(components.Cell, flecs.Entity).init(std.testing.allocator),
@@ -308,7 +330,7 @@ fn init() !void {
     world.set(ham, &components.Position{ .x = 1 * ppu, .y = 4 * ppu });
     world.set(ham, &components.Cell{});
     world.add(ham, components.Moveable);
-    
+
     world.set(ham, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
@@ -321,30 +343,43 @@ fn init() !void {
     world.set(apple, &components.Position{ .x = 1 * ppu, .y = 5 * ppu });
     world.set(apple, &components.Cell{});
     world.add(apple, components.Moveable);
-    
+
     world.set(apple, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Vial_0_Layer,
     });
-    
 }
 
 fn sortTile(entity1: flecs.ecs_entity_t, tile1_ptr: ?*const anyopaque, entity2: flecs.ecs_entity_t, tile2_ptr: ?*const anyopaque) callconv(.C) c_int {
-    _ = tile1_ptr;
-    _ = tile2_ptr;
-    if (world.get(entity1, components.Tile)) |t1| {
-        if (world.get(entity2, components.Tile)) |t2| {
-            //return (p1->x > p2->x) - (p1->x < p2->x);
-            var result1: c_int = if (t1.counter > t2.counter) 1 else 0;
-            var result2: c_int = if (t1.counter < t2.counter) 1 else 0;
 
-            return result2 - result1;
-        }
+    _ = entity1;
+    _ = entity2;
+
+    const tile1 = @ptrCast(*const components.Tile, @alignCast(@alignOf(components.Tile), tile1_ptr));
+    const tile2 = @ptrCast(*const components.Tile, @alignCast(@alignOf(components.Tile), tile2_ptr));
+
+    if (tile1.y == tile2.y) {
+        return @intCast(c_int, @boolToInt(tile1.counter > tile2.counter)) - @intCast(c_int, @boolToInt(tile1.counter < tile2.counter));
+    } else {
+        return @intCast(c_int, @boolToInt(tile1.y > tile2.y)) - @intCast(c_int, @boolToInt(tile1.y < tile2.y));
     }
+}
 
-    return 0;
+fn sortReverseTile(entity1: flecs.ecs_entity_t, tile1_ptr: ?*const anyopaque, entity2: flecs.ecs_entity_t, tile2_ptr: ?*const anyopaque) callconv(.C) c_int {
+
+    _ = entity1;
+    _ = entity2;
+
+    const tile1 = @ptrCast(*const components.Tile, @alignCast(@alignOf(components.Tile), tile1_ptr));
+    const tile2 = @ptrCast(*const components.Tile, @alignCast(@alignOf(components.Tile), tile2_ptr));
+
+    if (tile1.y == tile2.y) {
+        return @intCast(c_int, @boolToInt(tile2.counter > tile1.counter)) - @intCast(c_int, @boolToInt(tile2.counter < tile1.counter));
+    } else {
+        return @intCast(c_int, @boolToInt(tile2.y > tile1.y)) - @intCast(c_int, @boolToInt(tile2.y < tile1.y));
+    }
 }
 
 fn update() !void {
