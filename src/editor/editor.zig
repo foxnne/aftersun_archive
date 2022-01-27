@@ -3,6 +3,7 @@ const imgui = @import("imgui");
 const game = @import("game");
 const flecs = @import("flecs");
 const zia = @import("zia");
+const components = @import("../ecs/components/components.zig");
 
 var world: *flecs.World = undefined;
 
@@ -36,6 +37,15 @@ pub fn drawDebugWindow() void {
     if (imgui.igBegin("Debug", &enable_debug_window, imgui.ImGuiWindowFlags_None)) {
         _ = imgui.igValueUint("FPS", @intCast(c_uint, zia.time.fps()));
         //_ = imgui.igValueUint("Entities", @intCast(c_uint,  ));
+
+        if (game.world.getMut(game.player, components.Position)) |position| {
+           
+            _ = imgui.ogDrag(i32, "Height", &position.z, 1, 0, 128);
+            
+
+        }
+
+        
 
     
 

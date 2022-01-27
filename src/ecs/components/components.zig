@@ -19,6 +19,8 @@ pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
 pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0 };
 pub const Speed = struct { value: f32 = 0 };
 
+pub const TossCooldown = struct { current: f32 = 0, end: f32 = 0 };
+
 // tags
 
 pub const Moveable = struct{};

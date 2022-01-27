@@ -29,7 +29,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (sprite_renderers_optional) |renderers| {
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].index], renderers[i].texture, .{
                 .x = positions[i].x,
-                .y = positions[i].y,
+                .y = positions[i].y - @intToFloat(f32, positions[i].z),
             }, .{
                 .color = renderers[i].color,
                 .flipX = renderers[i].flipX,
@@ -40,7 +40,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (character_renderers_optional) |renderers| {
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].body], renderers[i].texture, .{
                 .x = positions[i].x,
-                .y = positions[i].y,
+                .y = positions[i].y - @intToFloat(f32, positions[i].z),
             }, .{
                 .color = renderers[i].headColor,
                 .flipX = renderers[i].flipBody,
@@ -48,7 +48,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].head], renderers[i].texture, .{
                 .x = positions[i].x,
-                .y = positions[i].y,
+                .y = positions[i].y - @intToFloat(f32, positions[i].z),
             }, .{
                 .color = renderers[i].bodyColor,
                 .flipX = renderers[i].flipHead,
@@ -56,7 +56,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].bottom], renderers[i].texture, .{
                 .x = positions[i].x,
-                .y = positions[i].y,
+                .y = positions[i].y - @intToFloat(f32, positions[i].z),
             }, .{
                 .color = renderers[i].bottomColor,
                 .flipX = renderers[i].flipBody,
@@ -64,7 +64,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].top], renderers[i].texture, .{
                 .x = positions[i].x,
-                .y = positions[i].y,
+                .y = positions[i].y - @intToFloat(f32, positions[i].z),
             }, .{
                 .color = renderers[i].topColor,
                 .flipX = renderers[i].flipBody,
@@ -72,7 +72,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].hair], renderers[i].texture, .{
                 .x = positions[i].x,
-                .y = positions[i].y,
+                .y = positions[i].y - @intToFloat(f32, positions[i].z),
             }, .{
                 .color = renderers[i].hairColor,
                 .flipX = renderers[i].flipHead,
