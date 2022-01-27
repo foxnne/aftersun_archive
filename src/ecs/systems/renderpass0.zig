@@ -14,7 +14,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var character_renderers_optional = it.term_optional(components.CharacterRenderer, 4);
     var sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 5);
 
-
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
         if (materials_optional) |materials| {
@@ -39,7 +38,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
 
         if (character_renderers_optional) |renderers| {
-
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].body], renderers[i].texture, .{
                 .x = positions[i].x,
                 .y = positions[i].y,
@@ -91,5 +89,23 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 }
             }
         }
+    }
+
+    if (game.gizmos.enabled) {
+        for (game.gizmos.gizmos.items) |gizmo| {
+            switch (gizmo.shape) {
+                .line => {
+                    zia.gfx.draw.line(gizmo.shape.line.start, gizmo.shape.line.end, gizmo.shape.line.thickness, gizmo.shape.line.color);
+                },
+                .box => {
+                    zia.gfx.draw.hollowRect(gizmo.shape.box.position, gizmo.shape.box.width, gizmo.shape.box.height, gizmo.shape.box.thickness, gizmo.shape.box.color);
+                },
+                .circle => {
+                    zia.gfx.draw.circle(gizmo.shape.circle.position, gizmo.shape.circle.radius, gizmo.shape.circle.thickness, 10, gizmo.shape.circle.color);
+                },
+                // else => {},
+            }
+        }
+        game.gizmos.gizmos.shrinkAndFree(0);
     }
 }
