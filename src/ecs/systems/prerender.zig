@@ -47,6 +47,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         cameras[i].rt_position = .{ .x = -cameras[i].size.x * 0.5, .y = -cameras[i].size.y * 0.5 };
 
         // render the camera to the render texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.dark_gray, .pass = cameras[i].pass_0, .trans_mat = cameras[i].transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(70, 84, 72), .pass = cameras[i].pass_0, .trans_mat = cameras[i].transform });
     }
 }

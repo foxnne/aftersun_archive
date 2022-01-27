@@ -57,6 +57,16 @@ pub var Torch_Layer = [_]usize {
     assets.aftersun_atlas.Torch_6_Layer,
     assets.aftersun_atlas.Torch_7_Layer,
 };
+pub var Campfire_Layer_0 = [_]usize {
+    assets.aftersun_atlas.Campfire_0_Layer_0,
+    assets.aftersun_atlas.Campfire_1_Layer_0,
+    assets.aftersun_atlas.Campfire_2_Layer_0,
+    assets.aftersun_atlas.Campfire_3_Layer_0,
+    assets.aftersun_atlas.Campfire_4_Layer_0,
+    assets.aftersun_atlas.Campfire_5_Layer_0,
+    assets.aftersun_atlas.Campfire_6_Layer_0,
+    assets.aftersun_atlas.Campfire_7_Layer_0,
+};
 pub var PineWind_Layer_0 = [_]usize {
     assets.aftersun_atlas.PineWind_0_Layer_0,
     assets.aftersun_atlas.PineWind_1_Layer_0,
@@ -476,14 +486,4 @@ pub var Walk_S_Body = [_]usize {
     assets.aftersun_atlas.Walk_S_5_Body,
     assets.aftersun_atlas.Walk_S_6_Body,
     assets.aftersun_atlas.Walk_S_7_Body,
-};
-pub var Campfire_Layer_0 = [_]usize {
-    assets.aftersun_atlas.Campfire_0_Layer_0,
-    assets.aftersun_atlas.Campfire_1_Layer_0,
-    assets.aftersun_atlas.Campfire_2_Layer_0,
-    assets.aftersun_atlas.Campfire_3_Layer_0,
-    assets.aftersun_atlas.Campfire_4_Layer_0,
-    assets.aftersun_atlas.Campfire_5_Layer_0,
-    assets.aftersun_atlas.Campfire_6_Layer_0,
-    assets.aftersun_atlas.Campfire_7_Layer_0,
 };

@@ -316,6 +316,7 @@ fn init() !void {
     world.set(torch, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
+        .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Torch_0_Layer,
     });
@@ -334,6 +335,7 @@ fn init() !void {
     world.set(ham, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
+        .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Ham_0_Layer,
     });
@@ -347,6 +349,7 @@ fn init() !void {
     world.set(apple, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
+        .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Vial_0_Layer,
     });
