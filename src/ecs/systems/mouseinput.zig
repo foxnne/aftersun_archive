@@ -35,7 +35,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
 
         if (zia.input.mouseDown(.left)) {
-            sdl.SDL_SetCursor(game.cursors.crosshair);
+            sdl.SDL_SetCursor(game.cursors.hand);
             
         }
 

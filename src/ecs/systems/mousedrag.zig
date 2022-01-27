@@ -40,7 +40,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
                     for (cells) |c| {
                         if (broadphase.*.entities.get(c)) |entities| {
-                            
                             for (entities.items) |other, j| {
                                 if (other == game.player)
                                     continue;
@@ -81,14 +80,19 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     if (move) {
                         if (broadphase.*.entities.get(cell)) |entities| {
                             if (world.getMut(entities.items[index], components.Tile)) |moveTile| {
+
+                                if (world.getMut(entities.items[index], components.PreviousTile)) |prev_tile| {
+                                    prev_tile.x = moveTile.x;
+                                    prev_tile.y = moveTile.y;
+                                    if (world.getMut(entities.items[index], components.TossCooldown)) |cooldown| {
+                                        cooldown.current = 0;
+                                        cooldown.end = 0.4;
+                                    }
+                                }
+
                                 moveTile.x = mousedrags[i].x;
                                 moveTile.y = mousedrags[i].y;
                                 moveTile.counter = game.getCounter();
-
-                                if (world.getMut(entities.items[index], components.Position)) |movePosition| {
-                                    movePosition.x = @intToFloat(f32, moveTile.x * game.ppu);
-                                    movePosition.y = @intToFloat(f32, moveTile.y * game.ppu);
-                                }
                             }
                         }
                     }

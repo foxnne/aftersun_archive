@@ -48,12 +48,12 @@ var counter: i32 = 0;
 
 const Cursors = struct {
     normal: ?*sdl.SDL_Cursor = null,
-    crosshair: ?*sdl.SDL_Cursor = null,
+    hand: ?*sdl.SDL_Cursor = null,
 
     pub fn init() Cursors {
         return .{
             .normal = null,
-            .crosshair = sdl.SDL_CreateSystemCursor(sdl.SDL_SystemCursor.SDL_SYSTEM_CURSOR_CROSSHAIR),
+            .hand = sdl.SDL_CreateSystemCursor(sdl.SDL_SystemCursor.SDL_SYSTEM_CURSOR_SIZEALL),
         };
     }
 };
@@ -118,12 +118,14 @@ fn init() !void {
 
     _ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
 
+
     _ = world.newSystem("CollisionEndphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
 
     // // movement
     _ = world.newSystem("MoveTileSystem", flecs.EcsOnUpdate, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
     _ = world.newSystem("MoveToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
     _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
+    _ = world.newSystem("TossToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, TossCooldown", @import("ecs/systems/tosstotile.zig").progress);
 
     // animation
     _ = world.newSystem("CharacterAnimatorSystem", flecs.EcsOnUpdate, "CharacterAnimator, CharacterRenderer, Position, Velocity, BodyDirection, HeadDirection", @import("ecs/systems/characteranimator.zig").progress);
@@ -304,9 +306,11 @@ fn init() !void {
 
     var torch = world.new();
     world.set(torch, &components.Tile{ .x = 0, .y = 4 });
+    world.set(torch, &components.PreviousTile{.x = 0, .y = 4});
     world.set(torch, &components.Position{ .x = 0, .y = 4 * ppu });
     world.set(torch, &components.Cell{});
     world.add(torch, components.Moveable);
+    world.set(torch, &components.TossCooldown{});
     world.set(torch, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -325,13 +329,15 @@ fn init() !void {
         .state = .play,
         .fps = 16,
     });
+    
 
     var ham = world.new();
     world.set(ham, &components.Tile{ .x = 1, .y = 4 });
+    world.set(ham, &components.PreviousTile{.x = 1, .y = 4 });
     world.set(ham, &components.Position{ .x = 1 * ppu, .y = 4 * ppu });
     world.set(ham, &components.Cell{});
     world.add(ham, components.Moveable);
-
+    world.set(ham, &components.TossCooldown{});
     world.set(ham, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
@@ -340,13 +346,14 @@ fn init() !void {
         .index = assets.aftersun_atlas.Ham_0_Layer,
     });
 
-    var apple = world.new();
-    world.set(apple, &components.Tile{ .x = 1, .y = 5 });
-    world.set(apple, &components.Position{ .x = 1 * ppu, .y = 5 * ppu });
-    world.set(apple, &components.Cell{});
-    world.add(apple, components.Moveable);
-
-    world.set(apple, &components.SpriteRenderer{
+    var vial = world.new();
+    world.set(vial, &components.Tile{ .x = 1, .y = 5 });
+    world.set(vial, &components.PreviousTile{.x = 1, .y = 5 });
+    world.set(vial, &components.Position{ .x = 1 * ppu, .y = 5 * ppu });
+    world.set(vial, &components.Cell{});
+    world.add(vial, components.Moveable);
+    world.set(vial, &components.TossCooldown{});
+    world.set(vial, &components.SpriteRenderer{
         .texture = aftersun_texture,
         .emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
