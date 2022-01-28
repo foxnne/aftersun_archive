@@ -36,8 +36,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (f >= 1 or cooldowns[i].end == 0) {
             prevtiles[i].x = tiles[i].x;
             prevtiles[i].y = tiles[i].y;
-            //cooldowns[i].current = 0;
-
         }
     }
 }

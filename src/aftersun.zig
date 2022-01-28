@@ -118,7 +118,6 @@ fn init() !void {
 
     _ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
 
-
     _ = world.newSystem("CollisionEndphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
 
     // // movement
@@ -250,7 +249,7 @@ fn init() !void {
 
     const treeSpawnWidth = 200;
     const treeSpawnHeight = 200;
-    const treeSpawnCount = 3000;
+    const treeSpawnCount = 5000;
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 12345678900;
         break :blk seed;
@@ -270,16 +269,18 @@ fn init() !void {
             .texture = aftersun_texture,
             .heightmap = aftersun_heightmap,
             .atlas = aftersun_atlas,
-            .index = assets.aftersun_atlas.PineWind_0_Layer_0,
+            .index = assets.aftersun_atlas.Reeds_0_Layer,
         });
 
-        world.set(e, &components.SpriteAnimator{
-            .animation = &animations.PineWind_Layer_0,
-            .state = .play,
-            .frame = rand.intRangeAtMost(usize, 0, 7),
-            .fps = 8,
-        });
-        world.set(e, &components.Collider{});
+        if (@mod(x, 2) != 0) {
+            world.set(e, &components.SpriteAnimator{
+                .animation = &animations.PineWind_Layer_0,
+                .state = .play,
+                .frame = rand.intRangeAtMost(usize, 0, 7),
+                .fps = 8,
+            });
+            world.set(e, &components.Collider{});
+        }
     }
 
     var campfire = world.new();
@@ -306,7 +307,7 @@ fn init() !void {
 
     var torch = world.new();
     world.set(torch, &components.Tile{ .x = 0, .y = 4 });
-    world.set(torch, &components.PreviousTile{.x = 0, .y = 4});
+    world.set(torch, &components.PreviousTile{ .x = 0, .y = 4 });
     world.set(torch, &components.Position{ .x = 0, .y = 4 * ppu });
     world.set(torch, &components.Cell{});
     world.add(torch, components.Moveable);
@@ -329,11 +330,10 @@ fn init() !void {
         .state = .play,
         .fps = 16,
     });
-    
 
     var ham = world.new();
     world.set(ham, &components.Tile{ .x = 1, .y = 4 });
-    world.set(ham, &components.PreviousTile{.x = 1, .y = 4 });
+    world.set(ham, &components.PreviousTile{ .x = 1, .y = 4 });
     world.set(ham, &components.Position{ .x = 1 * ppu, .y = 4 * ppu });
     world.set(ham, &components.Cell{});
     world.add(ham, components.Moveable);
@@ -348,7 +348,7 @@ fn init() !void {
 
     var vial = world.new();
     world.set(vial, &components.Tile{ .x = 1, .y = 5 });
-    world.set(vial, &components.PreviousTile{.x = 1, .y = 5 });
+    world.set(vial, &components.PreviousTile{ .x = 1, .y = 5 });
     world.set(vial, &components.Position{ .x = 1 * ppu, .y = 5 * ppu });
     world.set(vial, &components.Cell{});
     world.add(vial, components.Moveable);
@@ -363,7 +363,6 @@ fn init() !void {
 }
 
 fn sortTile(entity1: flecs.ecs_entity_t, tile1_ptr: ?*const anyopaque, entity2: flecs.ecs_entity_t, tile2_ptr: ?*const anyopaque) callconv(.C) c_int {
-
     _ = entity1;
     _ = entity2;
 
@@ -378,7 +377,6 @@ fn sortTile(entity1: flecs.ecs_entity_t, tile1_ptr: ?*const anyopaque, entity2: 
 }
 
 fn sortReverseTile(entity1: flecs.ecs_entity_t, tile1_ptr: ?*const anyopaque, entity2: flecs.ecs_entity_t, tile2_ptr: ?*const anyopaque) callconv(.C) c_int {
-
     _ = entity1;
     _ = entity2;
 

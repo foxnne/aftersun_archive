@@ -86,7 +86,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                                     prev_tile.y = moveTile.y;
                                     if (world.getMut(entities.items[index], components.TossCooldown)) |cooldown| {
                                         cooldown.current = 0;
-                                        cooldown.end = 0.4;
+                                        cooldown.end = 0.2;
                                     }
                                 }
 
