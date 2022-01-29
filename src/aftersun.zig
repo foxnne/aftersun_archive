@@ -107,6 +107,8 @@ fn init() !void {
     // register all components
     components.register(&world);
 
+    _ = world.newSystem("TimeSystem", flecs.EcsOnUpdate, "Time", @import("ecs/systems/time.zig").progress);
+
     // input
     _ = world.newSystem("MovementInputSystem", flecs.EcsOnUpdate, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.EcsOnUpdate, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
@@ -135,7 +137,7 @@ fn init() !void {
     _ = world.newSystem("CameraZoomSystem", flecs.EcsOnUpdate, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.EcsOnUpdate, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
 
-    _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment", @import("ecs/systems/environment.zig").progress);
+    _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment, $Time", @import("ecs/systems/environment.zig").progress);
 
     // rendering
 
@@ -236,6 +238,7 @@ fn init() !void {
     });
     world.set(camera, &components.Follow{ .target = player });
 
+    world.setSingleton(&components.Time{});
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Tile{}); //mouse input tile

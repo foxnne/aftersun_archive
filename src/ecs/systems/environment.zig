@@ -7,24 +7,21 @@ const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var environments = it.term(components.Environment, 1);
-
-    //var world = flecs.World{ .world = it.world.? };
+    var times = it.term(components.Time, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
 
         //advance the ambient angle
-        environments[i].ambient_xy_angle += environments[i].timescale * zia.time.dt();
+        environments[i].ambient_xy_angle = (times[i].time / components.Time.day) * 360;
         if (environments[i].ambient_xy_angle > 360)
-            environments[i].ambient_xy_angle = 0;
-    
+            environments[i].ambient_xy_angle = 0; 
 
         const ambient_morning_color = zia.math.Color.fromBytes(150, 140, 150, 255).asArray();
         const ambient_noon_color = zia.math.Color.fromBytes(255, 255, 255, 255).asArray();
         const ambient_night_color = zia.math.Color.fromBytes(150, 140, 150, 255).asArray();
         const ambient_midnight_color = zia.math.Color.fromBytes(70, 70, 120, 255).asArray();
 
-        // set shadow shape, length and fade
         // between morning and noon
         if (environments[i].ambient_xy_angle > 0 and environments[i].ambient_xy_angle <= 90) {
             var f = environments[i].ambient_xy_angle / 90;
