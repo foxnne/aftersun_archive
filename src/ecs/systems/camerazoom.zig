@@ -7,8 +7,8 @@ const actions = game.actions;
 const sorters = game.sorters;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var cameras = it.term(components.Camera, 1);
-    var zooms = it.term(components.Zoom, 2);
+    const cameras = it.term(components.Camera, 1);
+    const zooms = it.term(components.Zoom, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

@@ -8,11 +8,11 @@ const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     //var world = flecs.World{ .world = it.world.? };
-    var positions = it.term(components.Position, 1);
+    const positions = it.term(components.Position, 1);
     //var tiles = it.term(components.Tile, 2);
-    var materials_optional = it.term_optional(components.Material, 3);
-    var character_renderers_optional = it.term_optional(components.CharacterRenderer, 4);
-    var sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 5);
+    const materials_optional = it.term_optional(components.Material, 3);
+    const character_renderers_optional = it.term_optional(components.CharacterRenderer, 4);
+    const sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 5);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

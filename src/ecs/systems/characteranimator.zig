@@ -8,12 +8,13 @@ const animations = game.animations;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
-    var animators = it.term(components.CharacterAnimator, 1);
-    var renderers = it.term(components.CharacterRenderer, 2);
-    var positions = it.term(components.Position, 3);
-    var velocities = it.term(components.Velocity, 4);
-    var bodies = it.term(components.BodyDirection, 5);
-    var heads = it.term(components.HeadDirection, 6);
+    
+    const animators = it.term(components.CharacterAnimator, 1);
+    const renderers = it.term(components.CharacterRenderer, 2);
+    const positions = it.term(components.Position, 3);
+    const velocities = it.term(components.Velocity, 4);
+    const bodies = it.term(components.BodyDirection, 5);
+    const heads = it.term(components.HeadDirection, 6);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

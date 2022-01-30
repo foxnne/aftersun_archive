@@ -7,11 +7,12 @@ const sdl = @import("sdl");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var input = it.term(components.MouseInput, 1);
-    var tile = it.term(components.Tile, 2);
     var world = flecs.World{ .world = it.world.? };
+    
+    const input = it.term(components.MouseInput, 1);
+    const tile = it.term(components.Tile, 2);
 
-    var camera_ptr = world.get(input.*.camera, components.Camera);
+    const camera_ptr = world.get(input.*.camera, components.Camera);
     if (camera_ptr) |camera| {
         input.*.position = camera.matrix.invert().transformVec2(zia.input.mousePos());
 

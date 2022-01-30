@@ -7,8 +7,8 @@ const imgui = @import("imgui");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var cameras = it.term(components.Camera, 1);
-    var environments = it.term(components.Environment, 2);
+    const cameras = it.term(components.Camera, 1);
+    const environments = it.term(components.Environment, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

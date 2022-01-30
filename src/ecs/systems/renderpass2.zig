@@ -7,8 +7,8 @@ const imgui = @import("imgui");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var positions = it.term(components.Position, 1);
-    var renderers = it.term(components.LightRenderer, 2);
+    const positions = it.term(components.Position, 1);
+    const renderers = it.term(components.LightRenderer, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

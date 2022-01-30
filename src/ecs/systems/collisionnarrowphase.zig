@@ -8,12 +8,12 @@ const actions = game.actions;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
 
-    var colliders = it.term(components.Collider, 1);
-    var cells = it.term(components.Cell, 2);
-    var broadphase = it.term(components.CollisionBroadphase, 3);
-    var move_requests = it.term(components.MoveRequest, 4);
-    var cooldowns = it.term(components.MovementCooldown, 5);
-    var tiles = it.term(components.Tile, 6);
+    const colliders = it.term(components.Collider, 1);
+    const cells = it.term(components.Cell, 2);
+    const broadphase = it.term(components.CollisionBroadphase, 3);
+    const move_requests = it.term(components.MoveRequest, 4);
+    const cooldowns = it.term(components.MovementCooldown, 5);
+    const tiles = it.term(components.Tile, 6);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

@@ -6,6 +6,6 @@ const components = game.components;
 const actions = game.actions;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var broadphase = it.term(components.CollisionBroadphase, 1);
+    const broadphase = it.term(components.CollisionBroadphase, 1);
     broadphase.*.entities.clear();
 }

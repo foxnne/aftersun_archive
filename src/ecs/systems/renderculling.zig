@@ -9,14 +9,14 @@ const components = game.components;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var world = flecs.World{ .world = it.world.? };
 
-    var positions = it.term(components.Position, 1);
-    var character_renderers_optional = it.term_optional(components.CharacterRenderer, 2);
-    var sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 3);
-    var light_renderers_optional = it.term_optional(components.LightRenderer, 4);
+    const positions = it.term(components.Position, 1);
+    const character_renderers_optional = it.term_optional(components.CharacterRenderer, 2);
+    const sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 3);
+    const light_renderers_optional = it.term_optional(components.LightRenderer, 4);
 
     if (world.get(game.camera, components.Camera)) |camera| {
-        var cam_br = camera.matrix.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camera.margin), .y = @intToFloat(f32, zia.window.height() + camera.margin) });
-        var cam_tl = camera.matrix.invert().transformVec2(.{ .x = -@intToFloat(f32, camera.margin), .y = -@intToFloat(f32, camera.margin) });
+        const cam_br = camera.matrix.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camera.margin), .y = @intToFloat(f32, zia.window.height() + camera.margin) });
+        const cam_tl = camera.matrix.invert().transformVec2(.{ .x = -@intToFloat(f32, camera.margin), .y = -@intToFloat(f32, camera.margin) });
 
         var i: usize = 0;
         while (i < it.count) : (i += 1) {

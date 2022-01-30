@@ -6,9 +6,9 @@ const components = game.components;
 const actions = game.actions;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var world = flecs.World{ .world = it.world.? };
+    const world = flecs.World{ .world = it.world.? };
 
-    var broadphase = it.term(components.CollisionBroadphase, 1);
+    const broadphase = it.term(components.CollisionBroadphase, 1);
 
     if (world.getSingleton(components.Grid)) |grid| {
         var broadphaseIt = flecs.ecs_query_iter(broadphase.*.query.?);

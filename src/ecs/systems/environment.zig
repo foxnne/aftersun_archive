@@ -6,8 +6,8 @@ const zia = @import("zia");
 const components = game.components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var environments = it.term(components.Environment, 1);
-    var times = it.term(components.Time, 2);
+    const environments = it.term(components.Environment, 1);
+    const times = it.term(components.Time, 2);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
