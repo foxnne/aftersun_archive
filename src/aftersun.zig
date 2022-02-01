@@ -293,6 +293,7 @@ fn init() !void {
     world.set(campfire, &components.Tile{ .x = 0, .y = 1 });
     world.set(campfire, &components.Position{ .x = 0, .y = 1 * ppu });
     world.set(campfire, &components.Cell{});
+    world.set(campfire, &components.Collider{.trigger = true});
     world.set(campfire, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -311,11 +312,13 @@ fn init() !void {
         .fps = 16,
     });
     world.set(campfire, &components.ParticleRenderer{
+        .position_offset = .{.x = 0, .y = ppu/2},
         .texture = aftersun_texture,
         .atlas = aftersun_atlas,
         .active = true,
-        .lifetime = 3.0,
-        .particles = std.testing.allocator.alloc(components.Particle, 1000) catch unreachable,
+        .lifetime = 2.0,
+        .rate = 5,
+        .particles = std.testing.allocator.alloc(components.Particle, 100) catch unreachable,
         .animation = &animations.Smoke_Layer,
         .callback = components.ParticleRenderer.campfireSmokeCallback,
     });

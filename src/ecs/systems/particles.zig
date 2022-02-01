@@ -32,28 +32,38 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         for (particle_renderers[i].particles) |*particle| {
             if (particle.alive) {
-                particle.life_remaining -= zia.time.dt();
 
-                if (particle.life_remaining <= 0) {
+                    particle.life += zia.time.dt();
+
+                if (particle.life >= particle.lifetime) {
                     particle.alive = false;
                     particle.position = .{};
                     particle.velocity = .{};
                     continue;
                 }
                 particle.position = particle.position.add(particle.velocity.scale(zia.time.dt()));
-                
 
+                if (particle_renderers[i].animation) |animation| {
+                    const f = particle.life / particle.lifetime;
+                    const count = animation.len - 1;
+
+                    const index = @floatToInt(usize, @floor(@intToFloat(f32, count) * f));
+
+                    particle.sprite_index = animation[index];
+
+                }
 
             } else if (particles_to_emit > 0) {
                 particle.alive = true;
-                particle.life_remaining = particle_renderers[i].lifetime;
+                particle.life = 0;
+                
 
                 if (particle_renderers[i].callback) |c| {
                     c(&particle_renderers[i], particle);
                 }
 
                 if (!particle_renderers[i].worldspace)
-                    particle.position = particle.position.add(.{ .x = positions[i].x, .y = positions[i].y });
+                    particle.position = particle.position.add(particle_renderers[i].position_offset).add(.{ .x = positions[i].x, .y = positions[i].y });
 
                 particles_to_emit -= 1;
                 particle_renderers[i].time_since_emit = 0;
