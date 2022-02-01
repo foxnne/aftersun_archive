@@ -115,7 +115,9 @@ fn init() !void {
     _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
 
     // physics
-    _ = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionbroadphase.zig").progress);
+    const collisionBroadphaseSystem = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase, $Grid, Cell, Tile", @import("ecs/systems/collisionbroadphase.zig").progress);
+    const collisionBroadphaseQuery = flecs.ecs_get_system_query(world.world, collisionBroadphaseSystem);
+    flecs.ecs_query_order_by(world.world, collisionBroadphaseQuery, world.newComponent(components.Tile), sortReverseTile);
     _ = world.newSystem("CollisionNarrowphaseSystem", flecs.EcsOnUpdate, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
 
     _ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
@@ -223,11 +225,6 @@ fn init() !void {
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
     world.set(camera, &components.Velocity{});
-    // create a query for renderers we want to draw using this camera
-    // world.set(camera, &components.RenderQueue{
-    //     .query = world.newQuery("Position, SpriteRenderer || CharacterRenderer || LightRenderer"),
-    //     .entities = std.ArrayList(flecs.Entity).init(std.testing.allocator),
-    // });
     world.set(camera, &components.Environment{
         .environment_shader = &environment_shader,
     });
@@ -245,10 +242,7 @@ fn init() !void {
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Tile{}); //mouse input tile
     world.setSingleton(&components.Grid{});
-    var broadphaseQuery = world.newQuery("Cell, Tile");
-    flecs.ecs_query_order_by(world.world, broadphaseQuery, world.newComponent(components.Tile), sortReverseTile);
     world.setSingleton(&components.CollisionBroadphase{
-        .query = broadphaseQuery,
         .entities = zia.utils.MultiHashMap(components.Cell, flecs.Entity).init(std.testing.allocator),
     });
 
@@ -345,7 +339,7 @@ fn init() !void {
         .index = assets.aftersun_atlas.Torch_0_Layer,
     });
     world.set(torch, &components.SpriteAnimator{
-        .animation = &animations.Torch_Layer,
+        .animation = &animations.Torch_Flame_Layer,
         .state = .play,
         .fps = 16,
     });

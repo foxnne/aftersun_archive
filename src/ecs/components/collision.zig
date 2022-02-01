@@ -18,11 +18,6 @@ pub const Collider = struct {
 };
 
 pub const CollisionBroadphase = struct {
-    query: ?*flecs.Query,
-    entities: zia.utils.MultiHashMap(components.Cell, flecs.Entity),
-};
-
-pub const TileBroadphase = struct {
     entities: zia.utils.MultiHashMap(components.Cell, flecs.Entity),
 };
 
