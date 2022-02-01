@@ -16,6 +16,5 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (times[i].time >= components.Time.day)
             times[i].time = 0;
 
-        std.log.debug("Hour: {d}", .{ times[i].time / components.Time.hour});
     }
 }

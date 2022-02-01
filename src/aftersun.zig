@@ -115,12 +115,12 @@ fn init() !void {
     _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
 
     // physics
-    //_ = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionbroadphase.zig").progress);
-    //_ = world.newSystem("CollisionNarrowphaseSystem", flecs.EcsOnUpdate, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
+    _ = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionbroadphase.zig").progress);
+    _ = world.newSystem("CollisionNarrowphaseSystem", flecs.EcsOnUpdate, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
 
-    //_ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
+    _ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
 
-    //_ = world.newSystem("CollisionEndphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
+    _ = world.newSystem("CollisionEndphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
 
     // // movement
     _ = world.newSystem("MoveTileSystem", flecs.EcsOnUpdate, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
@@ -139,11 +139,14 @@ fn init() !void {
 
     _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment, $Time", @import("ecs/systems/environment.zig").progress);
 
+
+    _ = world.newSystem("ParticleSystem", flecs.EcsOnUpdate, "Position, ParticleRenderer", @import("ecs/systems/particles.zig").progress);
+
     // rendering
 
     _ = world.newSystem("PreRenderSystem", flecs.EcsOnUpdate, "Position, Camera, Zoom", @import("ecs/systems/prerender.zig").progress);
 
-    const renderPass0System = world.newSystem("RenderPass0System", flecs.EcsOnUpdate, "Position, Tile, ?Material, ?CharacterRenderer, ?SpriteRenderer, Visible", @import("ecs/systems/renderpass0.zig").progress);
+    const renderPass0System = world.newSystem("RenderPass0System", flecs.EcsOnUpdate, "Position, Tile, ?Material, ?CharacterRenderer, ?SpriteRenderer, ?ParticleRenderer, Visible", @import("ecs/systems/renderpass0.zig").progress);
     const renderPass0Query = flecs.ecs_get_system_query(world.world, renderPass0System);
     flecs.ecs_query_order_by(world.world, renderPass0Query, world.newComponent(components.Tile), sortTile);
 
@@ -306,6 +309,15 @@ fn init() !void {
         .animation = &animations.Campfire_Layer_0,
         .state = .play,
         .fps = 16,
+    });
+    world.set(campfire, &components.ParticleRenderer{
+        .texture = aftersun_texture,
+        .atlas = aftersun_atlas,
+        .active = true,
+        .lifetime = 3.0,
+        .particles = std.testing.allocator.alloc(components.Particle, 1000) catch unreachable,
+        .animation = &animations.Smoke_Layer,
+        .callback = components.ParticleRenderer.campfireSmokeCallback,
     });
 
     var torch = world.new();

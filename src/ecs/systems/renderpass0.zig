@@ -13,6 +13,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     const materials_optional = it.term_optional(components.Material, 3);
     const character_renderers_optional = it.term_optional(components.CharacterRenderer, 4);
     const sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 5);
+    const particle_renderers_optional = it.term_optional(components.ParticleRenderer, 6);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
@@ -77,6 +78,14 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .color = renderers[i].hairColor,
                 .flipX = renderers[i].flipHead,
             });
+        }
+
+        if (particle_renderers_optional) |renderers| {
+            for (renderers[i].particles) |particle| {
+                if (particle.alive) {
+                    zia.gfx.draw.sprite(renderers[i].atlas.sprites[particle.sprite_index], renderers[i].texture, particle.position, .{});
+                }
+            }
         }
 
         if (materials_optional) |materials| {

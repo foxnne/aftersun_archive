@@ -2,6 +2,38 @@
 const std = @import("std");
 const assets = @import("assets.zig");
 
+pub var Smoke_Layer = [_]usize {
+    assets.aftersun_atlas.Smoke_0_Layer,
+    assets.aftersun_atlas.Smoke_1_Layer,
+    assets.aftersun_atlas.Smoke_2_Layer,
+    assets.aftersun_atlas.Smoke_3_Layer,
+    assets.aftersun_atlas.Smoke_4_Layer,
+    assets.aftersun_atlas.Smoke_5_Layer,
+    assets.aftersun_atlas.Smoke_6_Layer,
+    assets.aftersun_atlas.Smoke_7_Layer,
+};
+pub var Blueberry_Layer = [_]usize {
+    assets.aftersun_atlas.Blueberry_0_Layer,
+    assets.aftersun_atlas.Blueberry_1_Layer,
+    assets.aftersun_atlas.Blueberry_2_Layer,
+};
+pub var Apple_Layer = [_]usize {
+    assets.aftersun_atlas.Apple_0_Layer,
+    assets.aftersun_atlas.Apple_1_Layer,
+    assets.aftersun_atlas.Apple_2_Layer,
+    assets.aftersun_atlas.Apple_3_Layer,
+    assets.aftersun_atlas.Apple_4_Layer,
+};
+pub var Gold_Layer = [_]usize {
+    assets.aftersun_atlas.Gold_0_Layer,
+    assets.aftersun_atlas.Gold_1_Layer,
+    assets.aftersun_atlas.Gold_2_Layer,
+    assets.aftersun_atlas.Gold_3_Layer,
+    assets.aftersun_atlas.Gold_4_Layer,
+};
+pub var Torch_Layer = [_]usize {
+    assets.aftersun_atlas.Torch_0_Layer,
+};
 pub var Reeds_Layer = [_]usize {
     assets.aftersun_atlas.Reeds_0_Layer,
 };
@@ -47,15 +79,15 @@ pub var Ham_Layer = [_]usize {
     assets.aftersun_atlas.Ham_3_Layer,
     assets.aftersun_atlas.Ham_4_Layer,
 };
-pub var Torch_Layer = [_]usize {
-    assets.aftersun_atlas.Torch_0_Layer,
-    assets.aftersun_atlas.Torch_1_Layer,
-    assets.aftersun_atlas.Torch_2_Layer,
-    assets.aftersun_atlas.Torch_3_Layer,
-    assets.aftersun_atlas.Torch_4_Layer,
-    assets.aftersun_atlas.Torch_5_Layer,
-    assets.aftersun_atlas.Torch_6_Layer,
-    assets.aftersun_atlas.Torch_7_Layer,
+pub var Torch_Flame_Layer = [_]usize {
+    assets.aftersun_atlas.Torch_Flame_0_Layer,
+    assets.aftersun_atlas.Torch_Flame_1_Layer,
+    assets.aftersun_atlas.Torch_Flame_2_Layer,
+    assets.aftersun_atlas.Torch_Flame_3_Layer,
+    assets.aftersun_atlas.Torch_Flame_4_Layer,
+    assets.aftersun_atlas.Torch_Flame_5_Layer,
+    assets.aftersun_atlas.Torch_Flame_6_Layer,
+    assets.aftersun_atlas.Torch_Flame_7_Layer,
 };
 pub var Campfire_Layer_0 = [_]usize {
     assets.aftersun_atlas.Campfire_0_Layer_0,
