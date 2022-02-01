@@ -139,7 +139,6 @@ fn init() !void {
 
     _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment, $Time", @import("ecs/systems/environment.zig").progress);
 
-
     _ = world.newSystem("ParticleSystem", flecs.EcsOnUpdate, "Position, ParticleRenderer", @import("ecs/systems/particles.zig").progress);
 
     // rendering
@@ -293,7 +292,7 @@ fn init() !void {
     world.set(campfire, &components.Tile{ .x = 0, .y = 1 });
     world.set(campfire, &components.Position{ .x = 0, .y = 1 * ppu });
     world.set(campfire, &components.Cell{});
-    world.set(campfire, &components.Collider{.trigger = true});
+    world.set(campfire, &components.Collider{ .trigger = true });
     world.set(campfire, &components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -312,12 +311,14 @@ fn init() !void {
         .fps = 16,
     });
     world.set(campfire, &components.ParticleRenderer{
-        .position_offset = .{.x = 0, .y = ppu/2},
+        .position_offset = .{ .x = 0, .y = 16 },
         .texture = aftersun_texture,
         .atlas = aftersun_atlas,
         .active = true,
         .lifetime = 2.0,
         .rate = 5,
+        .start_color = zia.math.Color.gray,
+        .end_color = zia.math.Color.fromRgba(1, 1, 1, 0.5),
         .particles = std.testing.allocator.alloc(components.Particle, 100) catch unreachable,
         .animation = &animations.Smoke_Layer,
         .callback = components.ParticleRenderer.campfireSmokeCallback,

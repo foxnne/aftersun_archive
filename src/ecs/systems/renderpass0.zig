@@ -83,7 +83,9 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         if (particle_renderers_optional) |renderers| {
             for (renderers[i].particles) |particle| {
                 if (particle.alive) {
-                    zia.gfx.draw.sprite(renderers[i].atlas.sprites[particle.sprite_index], renderers[i].texture, particle.position, .{});
+                    zia.gfx.draw.sprite(renderers[i].atlas.sprites[particle.sprite_index], renderers[i].texture, particle.position, .{
+                        .color = particle.color,
+                    });
                 }
             }
         }
