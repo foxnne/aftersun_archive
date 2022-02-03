@@ -52,6 +52,16 @@ pub var Idle_NE_TopF01 = [_]usize {
     assets.aftersun_atlas.Idle_NE_6_TopF01,
     assets.aftersun_atlas.Idle_NE_7_TopF01,
 };
+pub var Idle_NE_TopF02 = [_]usize {
+    assets.aftersun_atlas.Idle_NE_0_TopF02,
+    assets.aftersun_atlas.Idle_NE_1_TopF02,
+    assets.aftersun_atlas.Idle_NE_2_TopF02,
+    assets.aftersun_atlas.Idle_NE_3_TopF02,
+    assets.aftersun_atlas.Idle_NE_4_TopF02,
+    assets.aftersun_atlas.Idle_NE_5_TopF02,
+    assets.aftersun_atlas.Idle_NE_6_TopF02,
+    assets.aftersun_atlas.Idle_NE_7_TopF02,
+};
 pub var Idle_NE_BottomF01 = [_]usize {
     assets.aftersun_atlas.Idle_NE_0_BottomF01,
     assets.aftersun_atlas.Idle_NE_1_BottomF01,
@@ -131,6 +141,16 @@ pub var Idle_SE_TopF01 = [_]usize {
     assets.aftersun_atlas.Idle_SE_5_TopF01,
     assets.aftersun_atlas.Idle_SE_6_TopF01,
     assets.aftersun_atlas.Idle_SE_7_TopF01,
+};
+pub var Idle_SE_TopF02 = [_]usize {
+    assets.aftersun_atlas.Idle_SE_0_TopF02,
+    assets.aftersun_atlas.Idle_SE_1_TopF02,
+    assets.aftersun_atlas.Idle_SE_2_TopF02,
+    assets.aftersun_atlas.Idle_SE_3_TopF02,
+    assets.aftersun_atlas.Idle_SE_4_TopF02,
+    assets.aftersun_atlas.Idle_SE_5_TopF02,
+    assets.aftersun_atlas.Idle_SE_6_TopF02,
+    assets.aftersun_atlas.Idle_SE_7_TopF02,
 };
 pub var Idle_SE_BottomF01 = [_]usize {
     assets.aftersun_atlas.Idle_SE_0_BottomF01,
@@ -212,6 +232,16 @@ pub var Walk_N_TopF01 = [_]usize {
     assets.aftersun_atlas.Walk_N_6_TopF01,
     assets.aftersun_atlas.Walk_N_7_TopF01,
 };
+pub var Walk_N_TopF02 = [_]usize {
+    assets.aftersun_atlas.Walk_N_0_TopF02,
+    assets.aftersun_atlas.Walk_N_1_TopF02,
+    assets.aftersun_atlas.Walk_N_2_TopF02,
+    assets.aftersun_atlas.Walk_N_3_TopF02,
+    assets.aftersun_atlas.Walk_N_4_TopF02,
+    assets.aftersun_atlas.Walk_N_5_TopF02,
+    assets.aftersun_atlas.Walk_N_6_TopF02,
+    assets.aftersun_atlas.Walk_N_7_TopF02,
+};
 pub var Walk_N_BottomF01 = [_]usize {
     assets.aftersun_atlas.Walk_N_0_BottomF01,
     assets.aftersun_atlas.Walk_N_1_BottomF01,
@@ -261,6 +291,16 @@ pub var Walk_NE_TopF01 = [_]usize {
     assets.aftersun_atlas.Walk_NE_5_TopF01,
     assets.aftersun_atlas.Walk_NE_6_TopF01,
     assets.aftersun_atlas.Walk_NE_7_TopF01,
+};
+pub var Walk_NE_TopF02 = [_]usize {
+    assets.aftersun_atlas.Walk_NE_0_TopF02,
+    assets.aftersun_atlas.Walk_NE_1_TopF02,
+    assets.aftersun_atlas.Walk_NE_2_TopF02,
+    assets.aftersun_atlas.Walk_NE_3_TopF02,
+    assets.aftersun_atlas.Walk_NE_4_TopF02,
+    assets.aftersun_atlas.Walk_NE_5_TopF02,
+    assets.aftersun_atlas.Walk_NE_6_TopF02,
+    assets.aftersun_atlas.Walk_NE_7_TopF02,
 };
 pub var Walk_NE_BottomF01 = [_]usize {
     assets.aftersun_atlas.Walk_NE_0_BottomF01,
@@ -312,6 +352,16 @@ pub var Walk_E_TopF01 = [_]usize {
     assets.aftersun_atlas.Walk_E_6_TopF01,
     assets.aftersun_atlas.Walk_E_7_TopF01,
 };
+pub var Walk_E_TopF02 = [_]usize {
+    assets.aftersun_atlas.Walk_E_0_TopF02,
+    assets.aftersun_atlas.Walk_E_1_TopF02,
+    assets.aftersun_atlas.Walk_E_2_TopF02,
+    assets.aftersun_atlas.Walk_E_3_TopF02,
+    assets.aftersun_atlas.Walk_E_4_TopF02,
+    assets.aftersun_atlas.Walk_E_5_TopF02,
+    assets.aftersun_atlas.Walk_E_6_TopF02,
+    assets.aftersun_atlas.Walk_E_7_TopF02,
+};
 pub var Walk_E_BottomF01 = [_]usize {
     assets.aftersun_atlas.Walk_E_0_BottomF01,
     assets.aftersun_atlas.Walk_E_1_BottomF01,
@@ -362,6 +412,16 @@ pub var Walk_SE_TopF01 = [_]usize {
     assets.aftersun_atlas.Walk_SE_6_TopF01,
     assets.aftersun_atlas.Walk_SE_7_TopF01,
 };
+pub var Walk_SE_TopF02 = [_]usize {
+    assets.aftersun_atlas.Walk_SE_0_TopF02,
+    assets.aftersun_atlas.Walk_SE_1_TopF02,
+    assets.aftersun_atlas.Walk_SE_2_TopF02,
+    assets.aftersun_atlas.Walk_SE_3_TopF02,
+    assets.aftersun_atlas.Walk_SE_4_TopF02,
+    assets.aftersun_atlas.Walk_SE_5_TopF02,
+    assets.aftersun_atlas.Walk_SE_6_TopF02,
+    assets.aftersun_atlas.Walk_SE_7_TopF02,
+};
 pub var Walk_SE_BottomF01 = [_]usize {
     assets.aftersun_atlas.Walk_SE_0_BottomF01,
     assets.aftersun_atlas.Walk_SE_1_BottomF01,
@@ -411,6 +471,16 @@ pub var Walk_S_TopF01 = [_]usize {
     assets.aftersun_atlas.Walk_S_5_TopF01,
     assets.aftersun_atlas.Walk_S_6_TopF01,
     assets.aftersun_atlas.Walk_S_7_TopF01,
+};
+pub var Walk_S_TopF02 = [_]usize {
+    assets.aftersun_atlas.Walk_S_0_TopF02,
+    assets.aftersun_atlas.Walk_S_1_TopF02,
+    assets.aftersun_atlas.Walk_S_2_TopF02,
+    assets.aftersun_atlas.Walk_S_3_TopF02,
+    assets.aftersun_atlas.Walk_S_4_TopF02,
+    assets.aftersun_atlas.Walk_S_5_TopF02,
+    assets.aftersun_atlas.Walk_S_6_TopF02,
+    assets.aftersun_atlas.Walk_S_7_TopF02,
 };
 pub var Walk_S_BottomF01 = [_]usize {
     assets.aftersun_atlas.Walk_S_0_BottomF01,

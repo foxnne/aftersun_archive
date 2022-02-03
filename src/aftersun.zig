@@ -183,19 +183,19 @@ fn init() !void {
         .body = assets.aftersun_atlas.Idle_SE_0_Body,
         .head = assets.aftersun_atlas.Idle_S_0_Head,
         .bottom = assets.aftersun_atlas.Idle_SE_0_BottomF01,
-        .top = assets.aftersun_atlas.Idle_SE_0_TopF01,
+        .top = assets.aftersun_atlas.Idle_SE_0_TopF02,
         .hair = assets.aftersun_atlas.Idle_S_0_HairF01,
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
-        .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
+        .bottomColor = zia.math.Color.fromRgbBytes(2, 0, 0),
         .topColor = zia.math.Color.fromRgbBytes(13, 0, 0),
-        .hairColor = zia.math.Color.fromRgbBytes(4, 0, 0),
+        .hairColor = zia.math.Color.fromRgbBytes(1, 0, 0),
     });
     world.set(player, &components.CharacterAnimator{
         .bodyAnimation = &animations.Idle_SE_Body,
         .headAnimation = &animations.Idle_SE_Head,
         .bottomAnimation = &animations.Idle_SE_BottomF01,
-        .topAnimation = &animations.Idle_SE_TopF01,
+        .topAnimation = &animations.Idle_SE_TopF02,
         .hairAnimation = &animations.Idle_SE_HairF01,
         .state = .idle,
     });

@@ -55,11 +55,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             };
 
             animators[i].topAnimation = switch (bodies[i].direction) {
-                .s => &animations.Walk_S_TopF01,
-                .se, .sw => &animations.Walk_SE_TopF01,
-                .e, .w => &animations.Walk_E_TopF01,
-                .ne, .nw => &animations.Walk_NE_TopF01,
-                .n => &animations.Walk_N_TopF01,
+                .s => &animations.Walk_S_TopF02,
+                .se, .sw => &animations.Walk_SE_TopF02,
+                .e, .w => &animations.Walk_E_TopF02,
+                .ne, .nw => &animations.Walk_NE_TopF02,
+                .n => &animations.Walk_N_TopF02,
                 .none => unreachable,
             };
 
@@ -160,10 +160,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             };
 
             animators[i].topAnimation = switch (bodies[i].direction) {
-                .se, .sw => &animations.Idle_SE_TopF01,
-                .ne, .nw => &animations.Idle_NE_TopF01,
-                .none => &animations.Idle_SE_TopF01,
-                else => &animations.Idle_SE_TopF01,
+                .se, .sw => &animations.Idle_SE_TopF02,
+                .ne, .nw => &animations.Idle_NE_TopF02,
+                .none => &animations.Idle_SE_TopF02,
+                else => &animations.Idle_SE_TopF02,
             };
 
             animators[i].hairAnimation = switch (heads[i].direction) {

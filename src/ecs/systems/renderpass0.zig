@@ -62,7 +62,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .color = renderers[i].bottomColor,
                 .flipX = renderers[i].flipBody,
             });
-
+ 
             zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].top], renderers[i].texture, .{
                 .x = positions[i].x,
                 .y = positions[i].y - @intToFloat(f32, positions[i].z),
