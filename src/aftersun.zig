@@ -93,9 +93,9 @@ fn init() !void {
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
-    emission_shader = shaders.createEmissionShader() catch unreachable;
+    //emission_shader = shaders.createEmissionShader() catch unreachable;
     environment_shader = shaders.createEnvironmentShader();
-    bloom_shader = shaders.createBloomShader();
+    //bloom_shader = shaders.createBloomShader();
     tiltshift_shader = shaders.createTiltshiftShader();
     finalize_shader = shaders.createFinalizeShader();
 
@@ -107,6 +107,7 @@ fn init() !void {
     // register all components
     components.register(&world);
 
+    // time 
     _ = world.newSystem("TimeSystem", flecs.EcsOnUpdate, "Time", @import("ecs/systems/time.zig").progress);
 
     // input
@@ -114,17 +115,15 @@ fn init() !void {
     _ = world.newSystem("MouseInputSystem", flecs.EcsOnUpdate, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
     _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
 
-    // physics
+    // collision and interaction
     const collisionBroadphaseSystem = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase, $Grid, Cell, Tile", @import("ecs/systems/collisionbroadphase.zig").progress);
     const collisionBroadphaseQuery = flecs.ecs_get_system_query(world.world, collisionBroadphaseSystem);
     flecs.ecs_query_order_by(world.world, collisionBroadphaseQuery, world.newComponent(components.Tile), sortReverseTile);
     _ = world.newSystem("CollisionNarrowphaseSystem", flecs.EcsOnUpdate, "Collider, Cell, $CollisionBroadphase, MoveRequest, MovementCooldown, Tile", @import("ecs/systems/collisionnarrowphase.zig").progress);
-
     _ = world.newSystem("MouseDragSystem", flecs.EcsOnUpdate, "MouseDrag, $CollisionBroadphase", @import("ecs/systems/mousedrag.zig").progress);
-
     _ = world.newSystem("CollisionEndphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase", @import("ecs/systems/collisionendphase.zig").progress);
 
-    // // movement
+    // movement
     _ = world.newSystem("MoveTileSystem", flecs.EcsOnUpdate, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
     _ = world.newSystem("MoveToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
     _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
@@ -139,12 +138,11 @@ fn init() !void {
     _ = world.newSystem("CameraZoomSystem", flecs.EcsOnUpdate, "Camera, Zoom", @import("ecs/systems/camerazoom.zig").progress);
     _ = world.newSystem("CameraFollowSystem", flecs.EcsOnUpdate, "Camera, Follow, Position, Velocity", @import("ecs/systems/camerafollow.zig").progress);
 
+    // environment
     _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment, $Time", @import("ecs/systems/environment.zig").progress);
-
     _ = world.newSystem("ParticleSystem", flecs.EcsOnUpdate, "Position, ParticleRenderer", @import("ecs/systems/particles.zig").progress);
 
     // rendering
-
     _ = world.newSystem("PreRenderSystem", flecs.EcsOnUpdate, "Position, Camera, Zoom", @import("ecs/systems/prerender.zig").progress);
 
     const renderPass0System = world.newSystem("RenderPass0System", flecs.EcsOnUpdate, "Position, Tile, ?Material, ?CharacterRenderer, ?SpriteRenderer, ?ParticleRenderer, Visible", @import("ecs/systems/renderpass0.zig").progress);
@@ -161,9 +159,9 @@ fn init() !void {
     _ = world.newSystem("RenderPass2System", flecs.EcsOnUpdate, "Position, LightRenderer, Visible", @import("ecs/systems/renderpass2.zig").progress);
     _ = world.newSystem("RenderPassEnd2System", flecs.EcsOnUpdate, "Camera, Environment", @import("ecs/systems/renderpassend2.zig").progress);
 
-    const renderPass3System = world.newSystem("RenderPass3System", flecs.EcsOnUpdate, "Position, Tile, ?CharacterRenderer, ?SpriteRenderer, Visible", @import("ecs/systems/renderpass3.zig").progress);
-    const renderPass3Query = flecs.ecs_get_system_query(world.world, renderPass3System);
-    flecs.ecs_query_order_by(world.world, renderPass3Query, world.newComponent(components.Tile), sortTile);
+    //const renderPass3System = world.newSystem("RenderPass3System", flecs.EcsOnUpdate, "Position, Tile, ?CharacterRenderer, ?SpriteRenderer, Visible", @import("ecs/systems/renderpass3.zig").progress);
+    //const renderPass3Query = flecs.ecs_get_system_query(world.world, renderPass3System);
+    //flecs.ecs_query_order_by(world.world, renderPass3Query, world.newComponent(components.Tile), sortTile);
 
     _ = world.newSystem("RenderPassEnd3System", flecs.EcsOnUpdate, "Camera, PostProcess", @import("ecs/systems/renderpassend3.zig").progress);
     _ = world.newSystem("RenderCullingSystem", flecs.EcsOnUpdate, "Position, ?CharacterRenderer, ?SpriteRenderer, ?LightRenderer", @import("ecs/systems/renderculling.zig").progress);
@@ -190,7 +188,7 @@ fn init() !void {
         .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
         .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
-        .topColor = zia.math.Color.fromRgbBytes(12, 0, 0),
+        .topColor = zia.math.Color.fromRgbBytes(13, 0, 0),
         .hairColor = zia.math.Color.fromRgbBytes(4, 0, 0),
     });
     world.set(player, &components.CharacterAnimator{
@@ -229,10 +227,10 @@ fn init() !void {
         .environment_shader = &environment_shader,
     });
     world.set(camera, &components.PostProcess{
-        .bloom_shader = &bloom_shader,
+        //.bloom_shader = &bloom_shader,
         .finalize_shader = &finalize_shader,
         .tiltshift_shader = &tiltshift_shader,
-        .emission_shader = &emission_shader,
+        //.emission_shader = &emission_shader,
         .textures = null,
     });
     world.set(camera, &components.Follow{ .target = player });

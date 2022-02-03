@@ -159,69 +159,66 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 
 
-@fs emission_fs
-@include_block sprite_fs_main
-uniform sampler2D main_texture;
+// @fs emission_fs
+// @include_block sprite_fs_main
+// uniform sampler2D color_tex;
 
-vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+// vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
-	return texture(tex, tex_coord) * texture(main_texture, tex_coord) * vert_color;
-}
-@end
+// 	return texture(tex, tex_coord) * texture(color_tex, tex_coord);
+// }
+// @end
 
-@program emission sprite_vs emission_fs
-
-
+// @program emission sprite_vs emission_fs
 
 
-// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
-@fs bloom_fs
-@include_block sprite_fs_main
-//uniform sampler2D previous_bloom_tex;
 
-uniform BloomParams {
-	float horizontal;
-	float multiplier;
-	float tex_size_x;
-	float tex_size_y;
 
-};
+// @fs bloom_fs
+// @include_block sprite_fs_main
 
-const float weight[10] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216, 0.0111343, 0.00849020, 0.0040293, 0.0021293, 0.00011234);
+// uniform BloomParams {
+// 	float horizontal;
+// 	float multiplier;
+// 	float tex_size_x;
+// 	float tex_size_y;
 
-vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+// };
 
-	vec2 tex_offset = 1.0 / vec2(tex_size_x, tex_size_y); // gets size of single texel
-    vec3 result = texture(tex, tex_coord).rgb * weight[0]; // current fragment's contribution
-    if(horizontal > 0)
-    {
-        for(int i = 1; i < 10; ++i)
-        {
-            result += texture(tex, tex_coord + vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
-            result += texture(tex, tex_coord - vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
-        }
-    }
-    else
-    {
-        for(int i = 1; i < 10; ++i)
-        {
-            result += texture(tex, tex_coord + vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
-            result += texture(tex, tex_coord - vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
-        }
+// const float weight[10] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216, 0.0111343, 0.00849020, 0.0040293, 0.0021293, 0.00011234);
+
+// vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+
+// 	vec2 tex_offset = 1.0 / vec2(tex_size_x, tex_size_y); // gets size of single texel
+//     vec3 result = texture(tex, tex_coord).rgb * weight[0]; // current fragment's contribution
+//     if(horizontal > 0)
+//     {
+//         for(int i = 1; i < 10; ++i)
+//         {
+//             result += texture(tex, tex_coord + vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
+//             result += texture(tex, tex_coord - vec2(tex_offset.x * i, 0.0)).rgb * (weight[i] * multiplier);
+//         }
+//     }
+//     else
+//     {
+//         for(int i = 1; i < 10; ++i)
+//         {
+//             result += texture(tex, tex_coord + vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
+//             result += texture(tex, tex_coord - vec2(0.0, tex_offset.y * i)).rgb * (weight[i] * multiplier);
+//         }
 		
-    }
-    return vec4(result, 1.0);
+//     }
+//     return vec4(result, 1.0);
 
-}
-@end
+// }
+// @end
 
-@program bloom sprite_vs bloom_fs
-
-
+// @program bloom sprite_vs bloom_fs
 
 
 
-// RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
+
+
 @fs tiltshift_fs
 @include_block sprite_fs_main
 
@@ -299,7 +296,7 @@ vec2 interpolate (vec2 tex_coord, vec2 tex_size, float texelsPerPixel) {
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	vec2 tex_size = vec2(tex_size_x, tex_size_y);
-	float texelsPerPixel = texel_size;
+	float texelsPerPixel = max(1 / tex_size.x, 1/ tex_size.y);
 	
   	vec2 interpolated_tex_coords =  interpolate(tex_coord, tex_size, texelsPerPixel);
 

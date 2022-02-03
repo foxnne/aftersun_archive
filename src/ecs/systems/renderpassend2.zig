@@ -9,6 +9,7 @@ const components = game.components;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     const cameras = it.term(components.Camera, 1);
     const environments = it.term(components.Environment, 2);
+    //const postprocesses = it.term(components.PostProcess, 3);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
@@ -29,11 +30,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.unbindTexture(2);
 
         // render the emission maps to the emission texture
-        zia.gfx.beginPass(.{
-            .color = zia.math.Color.black,
-            .pass = cameras[i].pass_1,
-            .trans_mat = cameras[i].transform,
-        });
+        // zia.gfx.beginPass(.{
+        //     .color = zia.math.Color.black,
+        //     .pass = cameras[i].pass_1,
+        //     .trans_mat = cameras[i].transform,
+        //     .shader = postprocesses[i].emission_shader,
+        // });
+        //zia.gfx.draw.bindTexture(cameras[i].pass_0.color_texture, 1);
 
     }
 }

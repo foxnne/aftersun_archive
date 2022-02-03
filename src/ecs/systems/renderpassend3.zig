@@ -14,29 +14,30 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     while (i < it.count) : (i += 1) {
         
         // end pass 3
-        zia.gfx.endPass();
+        //zia.gfx.draw.unbindTexture(1);
+        //zia.gfx.endPass();
 
-        postprocesses[i].bloom_shader.frag_uniform.tex_size_x = cameras[i].size.x;
-        postprocesses[i].bloom_shader.frag_uniform.tex_size_y = cameras[i].size.y;
-        postprocesses[i].bloom_shader.frag_uniform.horizontal = 1;
-        postprocesses[i].bloom_shader.frag_uniform.multiplier = 1.2;
+        // postprocesses[i].bloom_shader.frag_uniform.tex_size_x = cameras[i].size.x;
+        // postprocesses[i].bloom_shader.frag_uniform.tex_size_y = cameras[i].size.y;
+        // postprocesses[i].bloom_shader.frag_uniform.horizontal = 1;
+        // postprocesses[i].bloom_shader.frag_uniform.multiplier = 1.2;
 
-        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_2, .shader = &postprocesses[i].bloom_shader.shader });
-        zia.gfx.draw.texture(cameras[i].pass_1.color_texture, .{}, .{});
-        zia.gfx.endPass();
+        // zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_2, .shader = &postprocesses[i].bloom_shader.shader });
+        // zia.gfx.draw.texture(cameras[i].pass_1.color_texture, .{}, .{});
+        // zia.gfx.endPass();
 
-        postprocesses[i].bloom_shader.frag_uniform.horizontal = 0;
+        // postprocesses[i].bloom_shader.frag_uniform.horizontal = 0;
 
-        zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_4, .shader = &postprocesses[i].bloom_shader.shader });
-        zia.gfx.draw.texture(cameras[i].pass_2.color_texture, .{}, .{});
-        zia.gfx.endPass();
+        // zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = cameras[i].pass_4, .shader = &postprocesses[i].bloom_shader.shader });
+        // zia.gfx.draw.texture(cameras[i].pass_2.color_texture, .{}, .{});
+        // zia.gfx.endPass();
 
         postprocesses[i].finalize_shader.frag_uniform.texel_size = 8;
         postprocesses[i].finalize_shader.frag_uniform.tex_size_x = cameras[i].size.x;
         postprocesses[i].finalize_shader.frag_uniform.tex_size_y = cameras[i].size.y;
 
         zia.gfx.beginPass(.{ .pass = cameras[i].pass_5, .shader = &postprocesses[i].finalize_shader.shader });
-        zia.gfx.draw.bindTexture(cameras[i].pass_4.color_texture, 1);
+        //zia.gfx.draw.bindTexture(cameras[i].pass_4.color_texture, 1);
         zia.gfx.draw.bindTexture(cameras[i].pass_3.color_texture, 2);
         zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{});
         zia.gfx.endPass();
