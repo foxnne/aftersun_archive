@@ -3,8 +3,8 @@
         {
             "name": "Walk_S_0_HairF01",
             "source": {
-                "x": 483,
-                "y": 265,
+                "x": 406,
+                "y": 301,
                 "width": 12,
                 "height": 15
             },
@@ -16,8 +16,8 @@
         {
             "name": "Walk_S_1_HairF01",
             "source": {
-                "x": 11,
-                "y": 273,
+                "x": 272,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -29,8 +29,8 @@
         {
             "name": "Walk_S_2_HairF01",
             "source": {
-                "x": 394,
-                "y": 270,
+                "x": 291,
+                "y": 310,
                 "width": 12,
                 "height": 15
             },
@@ -42,8 +42,8 @@
         {
             "name": "Walk_S_3_HairF01",
             "source": {
-                "x": 214,
-                "y": 271,
+                "x": 392,
+                "y": 309,
                 "width": 12,
                 "height": 15
             },
@@ -55,8 +55,8 @@
         {
             "name": "Walk_S_4_HairF01",
             "source": {
-                "x": 355,
-                "y": 270,
+                "x": 224,
+                "y": 299,
                 "width": 13,
                 "height": 15
             },
@@ -68,8 +68,8 @@
         {
             "name": "Walk_S_5_HairF01",
             "source": {
-                "x": 226,
-                "y": 271,
+                "x": 380,
+                "y": 309,
                 "width": 12,
                 "height": 15
             },
@@ -81,8 +81,8 @@
         {
             "name": "Walk_S_6_HairF01",
             "source": {
-                "x": 368,
-                "y": 270,
+                "x": 237,
+                "y": 299,
                 "width": 13,
                 "height": 15
             },
@@ -94,8 +94,8 @@
         {
             "name": "Walk_S_7_HairF01",
             "source": {
-                "x": 238,
-                "y": 271,
+                "x": 368,
+                "y": 309,
                 "width": 12,
                 "height": 15
             },
@@ -107,8 +107,8 @@
         {
             "name": "Idle_S_0_HairF01",
             "source": {
-                "x": 250,
-                "y": 271,
+                "x": 356,
+                "y": 309,
                 "width": 12,
                 "height": 15
             },
@@ -120,8 +120,8 @@
         {
             "name": "Idle_S_1_HairF01",
             "source": {
-                "x": 0,
-                "y": 273,
+                "x": 103,
+                "y": 298,
                 "width": 11,
                 "height": 15
             },
@@ -133,8 +133,8 @@
         {
             "name": "Idle_S_2_HairF01",
             "source": {
-                "x": 262,
-                "y": 271,
+                "x": 430,
+                "y": 301,
                 "width": 12,
                 "height": 15
             },
@@ -146,8 +146,8 @@
         {
             "name": "Idle_S_3_HairF01",
             "source": {
-                "x": 274,
-                "y": 271,
+                "x": 418,
+                "y": 301,
                 "width": 12,
                 "height": 15
             },
@@ -159,8 +159,8 @@
         {
             "name": "Idle_S_4_HairF01",
             "source": {
-                "x": 302,
-                "y": 270,
+                "x": 185,
+                "y": 299,
                 "width": 13,
                 "height": 15
             },
@@ -172,8 +172,8 @@
         {
             "name": "Idle_S_5_HairF01",
             "source": {
-                "x": 38,
-                "y": 272,
+                "x": 478,
+                "y": 308,
                 "width": 12,
                 "height": 15
             },
@@ -185,8 +185,8 @@
         {
             "name": "Idle_S_6_HairF01",
             "source": {
-                "x": 381,
-                "y": 270,
+                "x": 211,
+                "y": 299,
                 "width": 13,
                 "height": 15
             },
@@ -198,8 +198,8 @@
         {
             "name": "Idle_S_7_HairF01",
             "source": {
-                "x": 50,
-                "y": 272,
+                "x": 442,
+                "y": 300,
                 "width": 12,
                 "height": 15
             },
@@ -211,8 +211,8 @@
         {
             "name": "Walk_SE_0_HairF01",
             "source": {
-                "x": 267,
-                "y": 286,
+                "x": 478,
+                "y": 323,
                 "width": 12,
                 "height": 12
             },
@@ -225,7 +225,7 @@
             "name": "Walk_SE_1_HairF01",
             "source": {
                 "x": 11,
-                "y": 288,
+                "y": 328,
                 "width": 11,
                 "height": 12
             },
@@ -237,8 +237,8 @@
         {
             "name": "Walk_SE_2_HairF01",
             "source": {
-                "x": 130,
-                "y": 287,
+                "x": 238,
+                "y": 327,
                 "width": 11,
                 "height": 12
             },
@@ -250,8 +250,8 @@
         {
             "name": "Walk_SE_3_HairF01",
             "source": {
-                "x": 141,
-                "y": 287,
+                "x": 227,
+                "y": 327,
                 "width": 11,
                 "height": 12
             },
@@ -263,8 +263,8 @@
         {
             "name": "Walk_SE_4_HairF01",
             "source": {
-                "x": 152,
-                "y": 287,
+                "x": 127,
+                "y": 327,
                 "width": 11,
                 "height": 12
             },
@@ -276,8 +276,8 @@
         {
             "name": "Walk_SE_5_HairF01",
             "source": {
-                "x": 33,
-                "y": 287,
+                "x": 466,
+                "y": 323,
                 "width": 12,
                 "height": 12
             },
@@ -289,8 +289,8 @@
         {
             "name": "Walk_SE_6_HairF01",
             "source": {
-                "x": 255,
-                "y": 286,
+                "x": 389,
+                "y": 324,
                 "width": 12,
                 "height": 12
             },
@@ -302,8 +302,8 @@
         {
             "name": "Walk_SE_7_HairF01",
             "source": {
-                "x": 45,
-                "y": 287,
+                "x": 430,
+                "y": 316,
                 "width": 12,
                 "height": 12
             },
@@ -315,8 +315,8 @@
         {
             "name": "Idle_SE_0_HairF01",
             "source": {
-                "x": 57,
-                "y": 287,
+                "x": 377,
+                "y": 324,
                 "width": 12,
                 "height": 12
             },
@@ -328,8 +328,8 @@
         {
             "name": "Idle_SE_1_HairF01",
             "source": {
-                "x": 0,
-                "y": 288,
+                "x": 45,
+                "y": 328,
                 "width": 11,
                 "height": 12
             },
@@ -341,8 +341,8 @@
         {
             "name": "Idle_SE_2_HairF01",
             "source": {
-                "x": 196,
-                "y": 287,
+                "x": 0,
+                "y": 328,
                 "width": 11,
                 "height": 12
             },
@@ -354,8 +354,8 @@
         {
             "name": "Idle_SE_3_HairF01",
             "source": {
-                "x": 185,
-                "y": 287,
+                "x": 22,
+                "y": 328,
                 "width": 11,
                 "height": 12
             },
@@ -367,8 +367,8 @@
         {
             "name": "Idle_SE_4_HairF01",
             "source": {
-                "x": 174,
-                "y": 287,
+                "x": 56,
+                "y": 328,
                 "width": 11,
                 "height": 12
             },
@@ -380,8 +380,8 @@
         {
             "name": "Idle_SE_5_HairF01",
             "source": {
-                "x": 94,
-                "y": 287,
+                "x": 490,
+                "y": 323,
                 "width": 12,
                 "height": 12
             },
@@ -393,8 +393,8 @@
         {
             "name": "Idle_SE_6_HairF01",
             "source": {
-                "x": 106,
-                "y": 287,
+                "x": 353,
+                "y": 324,
                 "width": 12,
                 "height": 12
             },
@@ -406,8 +406,8 @@
         {
             "name": "Idle_SE_7_HairF01",
             "source": {
-                "x": 118,
-                "y": 287,
+                "x": 365,
+                "y": 324,
                 "width": 12,
                 "height": 12
             },
@@ -419,8 +419,8 @@
         {
             "name": "Walk_E_0_HairF01",
             "source": {
-                "x": 263,
-                "y": 218,
+                "x": 150,
+                "y": 261,
                 "width": 13,
                 "height": 18
             },
@@ -432,8 +432,8 @@
         {
             "name": "Walk_E_1_HairF01",
             "source": {
-                "x": 276,
-                "y": 218,
+                "x": 137,
+                "y": 261,
                 "width": 13,
                 "height": 18
             },
@@ -445,8 +445,8 @@
         {
             "name": "Walk_E_2_HairF01",
             "source": {
-                "x": 165,
-                "y": 254,
+                "x": 432,
+                "y": 266,
                 "width": 11,
                 "height": 18
             },
@@ -458,8 +458,8 @@
         {
             "name": "Walk_E_3_HairF01",
             "source": {
-                "x": 265,
-                "y": 254,
+                "x": 407,
+                "y": 284,
                 "width": 12,
                 "height": 17
             },
@@ -471,8 +471,8 @@
         {
             "name": "Walk_E_4_HairF01",
             "source": {
-                "x": 271,
-                "y": 236,
+                "x": 491,
+                "y": 273,
                 "width": 12,
                 "height": 18
             },
@@ -484,8 +484,8 @@
         {
             "name": "Walk_E_5_HairF01",
             "source": {
-                "x": 241,
-                "y": 254,
+                "x": 313,
+                "y": 284,
                 "width": 12,
                 "height": 17
             },
@@ -497,8 +497,8 @@
         {
             "name": "Walk_E_6_HairF01",
             "source": {
-                "x": 349,
-                "y": 234,
+                "x": 35,
+                "y": 261,
                 "width": 13,
                 "height": 18
             },
@@ -510,8 +510,8 @@
         {
             "name": "Walk_E_7_HairF01",
             "source": {
-                "x": 228,
-                "y": 254,
+                "x": 457,
+                "y": 283,
                 "width": 13,
                 "height": 17
             },
@@ -523,8 +523,8 @@
         {
             "name": "Idle_E_0_HairF01",
             "source": {
-                "x": 154,
-                "y": 254,
+                "x": 366,
+                "y": 275,
                 "width": 11,
                 "height": 18
             },
@@ -536,8 +536,8 @@
         {
             "name": "Idle_E_1_HairF01",
             "source": {
-                "x": 143,
-                "y": 254,
+                "x": 377,
+                "y": 275,
                 "width": 11,
                 "height": 18
             },
@@ -549,8 +549,8 @@
         {
             "name": "Idle_E_2_HairF01",
             "source": {
-                "x": 132,
-                "y": 254,
+                "x": 388,
+                "y": 275,
                 "width": 11,
                 "height": 18
             },
@@ -562,8 +562,8 @@
         {
             "name": "Idle_E_3_HairF01",
             "source": {
-                "x": 121,
-                "y": 254,
+                "x": 291,
+                "y": 276,
                 "width": 11,
                 "height": 18
             },
@@ -575,8 +575,8 @@
         {
             "name": "Idle_E_4_HairF01",
             "source": {
-                "x": 110,
-                "y": 254,
+                "x": 302,
+                "y": 276,
                 "width": 11,
                 "height": 18
             },
@@ -588,8 +588,8 @@
         {
             "name": "Idle_E_5_HairF01",
             "source": {
-                "x": 87,
-                "y": 237,
+                "x": 479,
+                "y": 273,
                 "width": 12,
                 "height": 18
             },
@@ -601,8 +601,8 @@
         {
             "name": "Idle_E_6_HairF01",
             "source": {
-                "x": 375,
-                "y": 234,
+                "x": 420,
+                "y": 266,
                 "width": 12,
                 "height": 18
             },
@@ -614,8 +614,8 @@
         {
             "name": "Idle_E_7_HairF01",
             "source": {
-                "x": 139,
-                "y": 236,
+                "x": 408,
+                "y": 266,
                 "width": 12,
                 "height": 18
             },
@@ -627,8 +627,8 @@
         {
             "name": "Walk_NE_0_HairF01",
             "source": {
-                "x": 151,
-                "y": 236,
+                "x": 316,
+                "y": 266,
                 "width": 12,
                 "height": 18
             },
@@ -640,8 +640,8 @@
         {
             "name": "Walk_NE_1_HairF01",
             "source": {
-                "x": 99,
-                "y": 254,
+                "x": 25,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -653,8 +653,8 @@
         {
             "name": "Walk_NE_2_HairF01",
             "source": {
-                "x": 250,
-                "y": 218,
+                "x": 383,
+                "y": 257,
                 "width": 13,
                 "height": 18
             },
@@ -666,8 +666,8 @@
         {
             "name": "Walk_NE_3_HairF01",
             "source": {
-                "x": 163,
-                "y": 236,
+                "x": 467,
+                "y": 265,
                 "width": 12,
                 "height": 18
             },
@@ -679,8 +679,8 @@
         {
             "name": "Walk_NE_4_HairF01",
             "source": {
-                "x": 175,
-                "y": 236,
+                "x": 455,
+                "y": 265,
                 "width": 12,
                 "height": 18
             },
@@ -692,8 +692,8 @@
         {
             "name": "Walk_NE_5_HairF01",
             "source": {
-                "x": 187,
-                "y": 236,
+                "x": 396,
+                "y": 257,
                 "width": 12,
                 "height": 18
             },
@@ -705,8 +705,8 @@
         {
             "name": "Walk_NE_6_HairF01",
             "source": {
-                "x": 199,
-                "y": 236,
+                "x": 247,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -718,8 +718,8 @@
         {
             "name": "Walk_NE_7_HairF01",
             "source": {
-                "x": 397,
-                "y": 252,
+                "x": 36,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -731,8 +731,8 @@
         {
             "name": "Idle_NE_0_HairF01",
             "source": {
-                "x": 211,
-                "y": 236,
+                "x": 235,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -744,8 +744,8 @@
         {
             "name": "Idle_NE_1_HairF01",
             "source": {
-                "x": 386,
-                "y": 252,
+                "x": 115,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -757,8 +757,8 @@
         {
             "name": "Idle_NE_2_HairF01",
             "source": {
-                "x": 224,
-                "y": 218,
+                "x": 370,
+                "y": 257,
                 "width": 13,
                 "height": 18
             },
@@ -770,8 +770,8 @@
         {
             "name": "Idle_NE_3_HairF01",
             "source": {
-                "x": 127,
-                "y": 236,
+                "x": 223,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -783,8 +783,8 @@
         {
             "name": "Idle_NE_4_HairF01",
             "source": {
-                "x": 51,
-                "y": 237,
+                "x": 211,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -796,8 +796,8 @@
         {
             "name": "Idle_NE_5_HairF01",
             "source": {
-                "x": 39,
-                "y": 237,
+                "x": 199,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -809,8 +809,8 @@
         {
             "name": "Idle_NE_6_HairF01",
             "source": {
-                "x": 283,
-                "y": 236,
+                "x": 187,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -822,8 +822,8 @@
         {
             "name": "Idle_NE_7_HairF01",
             "source": {
-                "x": 501,
-                "y": 227,
+                "x": 126,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -835,8 +835,8 @@
         {
             "name": "Walk_N_0_HairF01",
             "source": {
-                "x": 433,
-                "y": 248,
+                "x": 137,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -848,8 +848,8 @@
         {
             "name": "Walk_N_1_HairF01",
             "source": {
-                "x": 422,
-                "y": 248,
+                "x": 148,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -861,8 +861,8 @@
         {
             "name": "Walk_N_2_HairF01",
             "source": {
-                "x": 259,
-                "y": 236,
+                "x": 175,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -874,8 +874,8 @@
         {
             "name": "Walk_N_3_HairF01",
             "source": {
-                "x": 247,
-                "y": 236,
+                "x": 163,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -887,8 +887,8 @@
         {
             "name": "Walk_N_4_HairF01",
             "source": {
-                "x": 411,
-                "y": 248,
+                "x": 328,
+                "y": 279,
                 "width": 11,
                 "height": 18
             },
@@ -900,8 +900,8 @@
         {
             "name": "Walk_N_5_HairF01",
             "source": {
-                "x": 315,
-                "y": 248,
+                "x": 0,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -913,8 +913,8 @@
         {
             "name": "Walk_N_6_HairF01",
             "source": {
-                "x": 235,
-                "y": 236,
+                "x": 72,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -926,8 +926,8 @@
         {
             "name": "Walk_N_7_HairF01",
             "source": {
-                "x": 223,
-                "y": 236,
+                "x": 60,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -939,8 +939,8 @@
         {
             "name": "Idle_N_0_HairF01",
             "source": {
-                "x": 484,
-                "y": 247,
+                "x": 11,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -952,8 +952,8 @@
         {
             "name": "Idle_N_1_HairF01",
             "source": {
-                "x": 473,
-                "y": 247,
+                "x": 84,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -965,8 +965,8 @@
         {
             "name": "Idle_N_2_HairF01",
             "source": {
-                "x": 462,
-                "y": 247,
+                "x": 95,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -978,8 +978,8 @@
         {
             "name": "Idle_N_3_HairF01",
             "source": {
-                "x": 0,
-                "y": 240,
+                "x": 48,
+                "y": 263,
                 "width": 12,
                 "height": 18
             },
@@ -991,8 +991,8 @@
         {
             "name": "Idle_N_4_HairF01",
             "source": {
-                "x": 451,
-                "y": 247,
+                "x": 259,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -1004,8 +1004,8 @@
         {
             "name": "Idle_N_5_HairF01",
             "source": {
-                "x": 501,
-                "y": 245,
+                "x": 270,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -1017,8 +1017,8 @@
         {
             "name": "Idle_N_6_HairF01",
             "source": {
-                "x": 63,
-                "y": 237,
+                "x": 354,
+                "y": 262,
                 "width": 12,
                 "height": 18
             },
@@ -1030,8 +1030,8 @@
         {
             "name": "Idle_N_7_HairF01",
             "source": {
-                "x": 331,
-                "y": 240,
+                "x": 339,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -1043,8 +1043,8 @@
         {
             "name": "Walk_S_0_TopF01",
             "source": {
-                "x": 269,
-                "y": 320,
+                "x": 0,
+                "y": 351,
                 "width": 8,
                 "height": 10
             },
@@ -1056,8 +1056,8 @@
         {
             "name": "Walk_S_1_TopF01",
             "source": {
-                "x": 351,
-                "y": 320,
+                "x": 457,
+                "y": 350,
                 "width": 8,
                 "height": 10
             },
@@ -1069,8 +1069,8 @@
         {
             "name": "Walk_S_2_TopF01",
             "source": {
-                "x": 114,
-                "y": 321,
+                "x": 395,
+                "y": 351,
                 "width": 8,
                 "height": 9
             },
@@ -1082,8 +1082,8 @@
         {
             "name": "Walk_S_3_TopF01",
             "source": {
-                "x": 389,
-                "y": 320,
+                "x": 8,
+                "y": 351,
                 "width": 7,
                 "height": 10
             },
@@ -1095,8 +1095,8 @@
         {
             "name": "Walk_S_4_TopF01",
             "source": {
-                "x": 14,
-                "y": 321,
+                "x": 29,
+                "y": 351,
                 "width": 7,
                 "height": 10
             },
@@ -1108,8 +1108,8 @@
         {
             "name": "Walk_S_5_TopF01",
             "source": {
-                "x": 367,
-                "y": 320,
+                "x": 441,
+                "y": 350,
                 "width": 8,
                 "height": 10
             },
@@ -1121,8 +1121,8 @@
         {
             "name": "Walk_S_6_TopF01",
             "source": {
-                "x": 359,
-                "y": 320,
+                "x": 449,
+                "y": 350,
                 "width": 8,
                 "height": 10
             },
@@ -1134,8 +1134,8 @@
         {
             "name": "Walk_S_7_TopF01",
             "source": {
-                "x": 106,
-                "y": 321,
+                "x": 481,
+                "y": 357,
                 "width": 8,
                 "height": 9
             },
@@ -1147,8 +1147,8 @@
         {
             "name": "Walk_SE_0_TopF01",
             "source": {
-                "x": 306,
-                "y": 318,
+                "x": 327,
+                "y": 350,
                 "width": 9,
                 "height": 10
             },
@@ -1160,8 +1160,8 @@
         {
             "name": "Walk_SE_1_TopF01",
             "source": {
-                "x": 398,
-                "y": 318,
+                "x": 318,
+                "y": 350,
                 "width": 9,
                 "height": 10
             },
@@ -1173,8 +1173,8 @@
         {
             "name": "Walk_SE_2_TopF01",
             "source": {
-                "x": 233,
-                "y": 320,
+                "x": 405,
+                "y": 350,
                 "width": 9,
                 "height": 10
             },
@@ -1186,8 +1186,8 @@
         {
             "name": "Walk_SE_3_TopF01",
             "source": {
-                "x": 501,
-                "y": 316,
+                "x": 276,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1199,8 +1199,8 @@
         {
             "name": "Walk_SE_4_TopF01",
             "source": {
-                "x": 409,
-                "y": 317,
+                "x": 266,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1212,8 +1212,8 @@
         {
             "name": "Walk_SE_5_TopF01",
             "source": {
-                "x": 251,
-                "y": 320,
+                "x": 414,
+                "y": 350,
                 "width": 9,
                 "height": 10
             },
@@ -1225,8 +1225,8 @@
         {
             "name": "Walk_SE_6_TopF01",
             "source": {
-                "x": 260,
-                "y": 320,
+                "x": 423,
+                "y": 350,
                 "width": 9,
                 "height": 10
             },
@@ -1238,8 +1238,8 @@
         {
             "name": "Walk_SE_7_TopF01",
             "source": {
-                "x": 242,
-                "y": 320,
+                "x": 432,
+                "y": 350,
                 "width": 9,
                 "height": 10
             },
@@ -1251,8 +1251,8 @@
         {
             "name": "Idle_SE_0_TopF01",
             "source": {
-                "x": 419,
-                "y": 317,
+                "x": 236,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1264,8 +1264,8 @@
         {
             "name": "Idle_SE_1_TopF01",
             "source": {
-                "x": 429,
-                "y": 317,
+                "x": 226,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1277,8 +1277,8 @@
         {
             "name": "Idle_SE_2_TopF01",
             "source": {
-                "x": 439,
-                "y": 317,
+                "x": 216,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1290,8 +1290,8 @@
         {
             "name": "Idle_SE_3_TopF01",
             "source": {
-                "x": 449,
-                "y": 317,
+                "x": 206,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1303,8 +1303,8 @@
         {
             "name": "Idle_SE_4_TopF01",
             "source": {
-                "x": 459,
-                "y": 317,
+                "x": 196,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1316,8 +1316,8 @@
         {
             "name": "Idle_SE_5_TopF01",
             "source": {
-                "x": 491,
-                "y": 316,
+                "x": 256,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1329,8 +1329,8 @@
         {
             "name": "Idle_SE_6_TopF01",
             "source": {
-                "x": 481,
-                "y": 316,
+                "x": 246,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1342,8 +1342,8 @@
         {
             "name": "Idle_SE_7_TopF01",
             "source": {
-                "x": 469,
-                "y": 317,
+                "x": 308,
+                "y": 350,
                 "width": 10,
                 "height": 10
             },
@@ -1355,8 +1355,8 @@
         {
             "name": "Walk_E_0_TopF01",
             "source": {
-                "x": 401,
-                "y": 295,
+                "x": 502,
+                "y": 323,
                 "width": 9,
                 "height": 12
             },
@@ -1368,8 +1368,8 @@
         {
             "name": "Walk_E_1_TopF01",
             "source": {
-                "x": 498,
-                "y": 293,
+                "x": 85,
+                "y": 328,
                 "width": 9,
                 "height": 12
             },
@@ -1381,8 +1381,8 @@
         {
             "name": "Walk_E_2_TopF01",
             "source": {
-                "x": 380,
-                "y": 309,
+                "x": 339,
+                "y": 347,
                 "width": 9,
                 "height": 11
             },
@@ -1394,8 +1394,8 @@
         {
             "name": "Walk_E_3_TopF01",
             "source": {
-                "x": 489,
-                "y": 293,
+                "x": 76,
+                "y": 328,
                 "width": 9,
                 "height": 12
             },
@@ -1407,8 +1407,8 @@
         {
             "name": "Walk_E_4_TopF01",
             "source": {
-                "x": 0,
-                "y": 311,
+                "x": 118,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1420,8 +1420,8 @@
         {
             "name": "Walk_E_5_TopF01",
             "source": {
-                "x": 21,
-                "y": 321,
+                "x": 36,
+                "y": 351,
                 "width": 6,
                 "height": 10
             },
@@ -1433,8 +1433,8 @@
         {
             "name": "Walk_E_6_TopF01",
             "source": {
-                "x": 183,
-                "y": 310,
+                "x": 366,
+                "y": 347,
                 "width": 8,
                 "height": 11
             },
@@ -1446,8 +1446,8 @@
         {
             "name": "Walk_E_7_TopF01",
             "source": {
-                "x": 324,
-                "y": 288,
+                "x": 67,
+                "y": 328,
                 "width": 9,
                 "height": 12
             },
@@ -1459,8 +1459,8 @@
         {
             "name": "Walk_NE_0_TopF01",
             "source": {
-                "x": 382,
-                "y": 320,
+                "x": 22,
+                "y": 351,
                 "width": 7,
                 "height": 10
             },
@@ -1472,8 +1472,8 @@
         {
             "name": "Walk_NE_1_TopF01",
             "source": {
-                "x": 344,
-                "y": 310,
+                "x": 97,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1485,8 +1485,8 @@
         {
             "name": "Walk_NE_2_TopF01",
             "source": {
-                "x": 337,
-                "y": 310,
+                "x": 90,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1498,8 +1498,8 @@
         {
             "name": "Walk_NE_3_TopF01",
             "source": {
-                "x": 330,
-                "y": 310,
+                "x": 288,
+                "y": 348,
                 "width": 7,
                 "height": 11
             },
@@ -1511,8 +1511,8 @@
         {
             "name": "Walk_NE_4_TopF01",
             "source": {
-                "x": 299,
-                "y": 310,
+                "x": 388,
+                "y": 347,
                 "width": 7,
                 "height": 11
             },
@@ -1524,8 +1524,8 @@
         {
             "name": "Walk_NE_5_TopF01",
             "source": {
-                "x": 292,
-                "y": 310,
+                "x": 381,
+                "y": 347,
                 "width": 7,
                 "height": 11
             },
@@ -1537,8 +1537,8 @@
         {
             "name": "Walk_NE_6_TopF01",
             "source": {
-                "x": 285,
-                "y": 310,
+                "x": 160,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1550,8 +1550,8 @@
         {
             "name": "Walk_NE_7_TopF01",
             "source": {
-                "x": 279,
-                "y": 286,
+                "x": 316,
+                "y": 316,
                 "width": 7,
                 "height": 12
             },
@@ -1563,8 +1563,8 @@
         {
             "name": "Idle_NE_0_TopF01",
             "source": {
-                "x": 278,
-                "y": 310,
+                "x": 374,
+                "y": 347,
                 "width": 7,
                 "height": 11
             },
@@ -1576,8 +1576,8 @@
         {
             "name": "Idle_NE_1_TopF01",
             "source": {
-                "x": 226,
-                "y": 310,
+                "x": 111,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1589,8 +1589,8 @@
         {
             "name": "Idle_NE_2_TopF01",
             "source": {
-                "x": 219,
-                "y": 310,
+                "x": 167,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1602,8 +1602,8 @@
         {
             "name": "Idle_NE_3_TopF01",
             "source": {
-                "x": 474,
-                "y": 306,
+                "x": 132,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1615,8 +1615,8 @@
         {
             "name": "Idle_NE_4_TopF01",
             "source": {
-                "x": 212,
-                "y": 310,
+                "x": 104,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1628,8 +1628,8 @@
         {
             "name": "Idle_NE_5_TopF01",
             "source": {
-                "x": 205,
-                "y": 310,
+                "x": 125,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1641,8 +1641,8 @@
         {
             "name": "Idle_NE_6_TopF01",
             "source": {
-                "x": 198,
-                "y": 310,
+                "x": 139,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1654,8 +1654,8 @@
         {
             "name": "Idle_NE_7_TopF01",
             "source": {
-                "x": 191,
-                "y": 310,
+                "x": 146,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -1667,8 +1667,8 @@
         {
             "name": "Walk_N_0_TopF01",
             "source": {
-                "x": 375,
-                "y": 320,
+                "x": 15,
+                "y": 351,
                 "width": 7,
                 "height": 10
             },
@@ -1680,8 +1680,8 @@
         {
             "name": "Walk_N_1_TopF01",
             "source": {
-                "x": 82,
-                "y": 321,
+                "x": 489,
+                "y": 357,
                 "width": 8,
                 "height": 9
             },
@@ -1693,8 +1693,8 @@
         {
             "name": "Walk_N_2_TopF01",
             "source": {
-                "x": 136,
-                "y": 321,
+                "x": 497,
+                "y": 357,
                 "width": 7,
                 "height": 9
             },
@@ -1706,8 +1706,8 @@
         {
             "name": "Walk_N_3_TopF01",
             "source": {
-                "x": 129,
-                "y": 321,
+                "x": 336,
+                "y": 358,
                 "width": 7,
                 "height": 9
             },
@@ -1719,8 +1719,8 @@
         {
             "name": "Walk_N_4_TopF01",
             "source": {
-                "x": 143,
-                "y": 321,
+                "x": 343,
+                "y": 358,
                 "width": 7,
                 "height": 9
             },
@@ -1732,8 +1732,8 @@
         {
             "name": "Walk_N_5_TopF01",
             "source": {
-                "x": 122,
-                "y": 321,
+                "x": 504,
+                "y": 357,
                 "width": 7,
                 "height": 9
             },
@@ -1745,8 +1745,8 @@
         {
             "name": "Walk_N_6_TopF01",
             "source": {
-                "x": 98,
-                "y": 321,
+                "x": 465,
+                "y": 357,
                 "width": 8,
                 "height": 9
             },
@@ -1758,8 +1758,8 @@
         {
             "name": "Walk_N_7_TopF01",
             "source": {
-                "x": 90,
-                "y": 321,
+                "x": 473,
+                "y": 357,
                 "width": 8,
                 "height": 9
             },
@@ -1771,8 +1771,8 @@
         {
             "name": "Walk_S_0_TopF02",
             "source": {
-                "x": 295,
-                "y": 252,
+                "x": 350,
+                "y": 280,
                 "width": 11,
                 "height": 18
             },
@@ -1784,8 +1784,8 @@
         {
             "name": "Walk_S_1_TopF02",
             "source": {
-                "x": 342,
-                "y": 252,
+                "x": 47,
+                "y": 281,
                 "width": 11,
                 "height": 18
             },
@@ -1797,8 +1797,8 @@
         {
             "name": "Walk_S_2_TopF02",
             "source": {
-                "x": 75,
-                "y": 237,
+                "x": 342,
+                "y": 262,
                 "width": 12,
                 "height": 18
             },
@@ -1810,8 +1810,8 @@
         {
             "name": "Walk_S_3_TopF02",
             "source": {
-                "x": 253,
-                "y": 254,
+                "x": 419,
+                "y": 284,
                 "width": 12,
                 "height": 17
             },
@@ -1823,8 +1823,8 @@
         {
             "name": "Walk_S_4_TopF02",
             "source": {
-                "x": 353,
-                "y": 252,
+                "x": 280,
+                "y": 262,
                 "width": 11,
                 "height": 18
             },
@@ -1836,8 +1836,8 @@
         {
             "name": "Walk_S_5_TopF02",
             "source": {
-                "x": 26,
-                "y": 238,
+                "x": 268,
+                "y": 262,
                 "width": 12,
                 "height": 18
             },
@@ -1849,8 +1849,8 @@
         {
             "name": "Walk_S_6_TopF02",
             "source": {
-                "x": 364,
-                "y": 252,
+                "x": 58,
+                "y": 281,
                 "width": 11,
                 "height": 18
             },
@@ -1862,8 +1862,8 @@
         {
             "name": "Walk_S_7_TopF02",
             "source": {
-                "x": 12,
-                "y": 240,
+                "x": 103,
+                "y": 262,
                 "width": 12,
                 "height": 18
             },
@@ -1875,8 +1875,8 @@
         {
             "name": "Walk_SE_0_TopF02",
             "source": {
-                "x": 214,
-                "y": 254,
+                "x": 443,
+                "y": 283,
                 "width": 14,
                 "height": 17
             },
@@ -1888,8 +1888,8 @@
         {
             "name": "Walk_SE_1_TopF02",
             "source": {
-                "x": 289,
-                "y": 218,
+                "x": 329,
+                "y": 261,
                 "width": 13,
                 "height": 18
             },
@@ -1901,8 +1901,8 @@
         {
             "name": "Walk_SE_2_TopF02",
             "source": {
-                "x": 387,
-                "y": 234,
+                "x": 91,
+                "y": 262,
                 "width": 12,
                 "height": 18
             },
@@ -1914,8 +1914,8 @@
         {
             "name": "Walk_SE_3_TopF02",
             "source": {
-                "x": 91,
-                "y": 218,
+                "x": 13,
+                "y": 243,
                 "width": 12,
                 "height": 19
             },
@@ -1927,8 +1927,8 @@
         {
             "name": "Walk_SE_4_TopF02",
             "source": {
-                "x": 399,
-                "y": 234,
+                "x": 13,
+                "y": 262,
                 "width": 12,
                 "height": 18
             },
@@ -1940,8 +1940,8 @@
         {
             "name": "Walk_SE_5_TopF02",
             "source": {
-                "x": 375,
-                "y": 252,
+                "x": 69,
+                "y": 281,
                 "width": 11,
                 "height": 18
             },
@@ -1953,8 +1953,8 @@
         {
             "name": "Walk_SE_6_TopF02",
             "source": {
-                "x": 103,
-                "y": 236,
+                "x": 443,
+                "y": 265,
                 "width": 12,
                 "height": 18
             },
@@ -1966,8 +1966,8 @@
         {
             "name": "Walk_SE_7_TopF02",
             "source": {
-                "x": 115,
-                "y": 236,
+                "x": 304,
+                "y": 258,
                 "width": 12,
                 "height": 18
             },
@@ -1979,8 +1979,8 @@
         {
             "name": "Idle_SE_0_TopF02",
             "source": {
-                "x": 362,
-                "y": 234,
+                "x": 291,
+                "y": 258,
                 "width": 13,
                 "height": 18
             },
@@ -1992,8 +1992,8 @@
         {
             "name": "Idle_SE_1_TopF02",
             "source": {
-                "x": 211,
-                "y": 218,
+                "x": 124,
+                "y": 261,
                 "width": 13,
                 "height": 18
             },
@@ -2005,8 +2005,8 @@
         {
             "name": "Idle_SE_2_TopF02",
             "source": {
-                "x": 237,
-                "y": 218,
+                "x": 0,
+                "y": 262,
                 "width": 13,
                 "height": 18
             },
@@ -2018,8 +2018,8 @@
         {
             "name": "Idle_SE_3_TopF02",
             "source": {
-                "x": 302,
-                "y": 234,
+                "x": 316,
+                "y": 248,
                 "width": 13,
                 "height": 18
             },
@@ -2031,8 +2031,8 @@
         {
             "name": "Idle_SE_4_TopF02",
             "source": {
-                "x": 65,
-                "y": 218,
+                "x": 150,
+                "y": 242,
                 "width": 13,
                 "height": 19
             },
@@ -2044,8 +2044,8 @@
         {
             "name": "Idle_SE_5_TopF02",
             "source": {
-                "x": 52,
-                "y": 218,
+                "x": 137,
+                "y": 242,
                 "width": 13,
                 "height": 19
             },
@@ -2057,8 +2057,8 @@
         {
             "name": "Idle_SE_6_TopF02",
             "source": {
-                "x": 39,
-                "y": 218,
+                "x": 331,
+                "y": 242,
                 "width": 13,
                 "height": 19
             },
@@ -2070,8 +2070,8 @@
         {
             "name": "Idle_SE_7_TopF02",
             "source": {
-                "x": 78,
-                "y": 218,
+                "x": 0,
+                "y": 243,
                 "width": 13,
                 "height": 19
             },
@@ -2083,8 +2083,8 @@
         {
             "name": "Walk_E_0_TopF02",
             "source": {
-                "x": 196,
-                "y": 254,
+                "x": 199,
+                "y": 281,
                 "width": 10,
                 "height": 18
             },
@@ -2096,8 +2096,8 @@
         {
             "name": "Walk_E_1_TopF02",
             "source": {
-                "x": 176,
-                "y": 254,
+                "x": 209,
+                "y": 281,
                 "width": 10,
                 "height": 18
             },
@@ -2109,8 +2109,8 @@
         {
             "name": "Walk_E_2_TopF02",
             "source": {
-                "x": 186,
-                "y": 254,
+                "x": 281,
+                "y": 280,
                 "width": 10,
                 "height": 18
             },
@@ -2122,8 +2122,8 @@
         {
             "name": "Walk_E_3_TopF02",
             "source": {
-                "x": 306,
-                "y": 252,
+                "x": 503,
+                "y": 273,
                 "width": 9,
                 "height": 18
             },
@@ -2135,8 +2135,8 @@
         {
             "name": "Walk_E_4_TopF02",
             "source": {
-                "x": 277,
-                "y": 254,
+                "x": 470,
+                "y": 291,
                 "width": 11,
                 "height": 17
             },
@@ -2148,8 +2148,8 @@
         {
             "name": "Walk_E_5_TopF02",
             "source": {
-                "x": 206,
-                "y": 254,
+                "x": 399,
+                "y": 275,
                 "width": 8,
                 "height": 18
             },
@@ -2161,8 +2161,8 @@
         {
             "name": "Walk_E_6_TopF02",
             "source": {
-                "x": 60,
-                "y": 255,
+                "x": 492,
+                "y": 291,
                 "width": 9,
                 "height": 17
             },
@@ -2174,8 +2174,8 @@
         {
             "name": "Walk_E_7_TopF02",
             "source": {
-                "x": 501,
-                "y": 208,
+                "x": 25,
+                "y": 243,
                 "width": 10,
                 "height": 19
             },
@@ -2187,8 +2187,8 @@
         {
             "name": "Walk_NE_0_TopF02",
             "source": {
-                "x": 449,
-                "y": 280,
+                "x": 502,
+                "y": 308,
                 "width": 10,
                 "height": 15
             },
@@ -2200,8 +2200,8 @@
         {
             "name": "Walk_NE_1_TopF02",
             "source": {
-                "x": 62,
-                "y": 272,
+                "x": 311,
+                "y": 301,
                 "width": 12,
                 "height": 15
             },
@@ -2213,8 +2213,8 @@
         {
             "name": "Walk_NE_2_TopF02",
             "source": {
-                "x": 342,
-                "y": 270,
+                "x": 198,
+                "y": 299,
                 "width": 13,
                 "height": 15
             },
@@ -2226,8 +2226,8 @@
         {
             "name": "Walk_NE_3_TopF02",
             "source": {
-                "x": 94,
-                "y": 272,
+                "x": 454,
+                "y": 300,
                 "width": 12,
                 "height": 15
             },
@@ -2239,8 +2239,8 @@
         {
             "name": "Walk_NE_4_TopF02",
             "source": {
-                "x": 438,
-                "y": 280,
+                "x": 83,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -2252,8 +2252,8 @@
         {
             "name": "Walk_NE_5_TopF02",
             "source": {
-                "x": 200,
-                "y": 272,
+                "x": 94,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -2265,8 +2265,8 @@
         {
             "name": "Walk_NE_6_TopF02",
             "source": {
-                "x": 459,
-                "y": 280,
+                "x": 333,
+                "y": 313,
                 "width": 10,
                 "height": 15
             },
@@ -2278,8 +2278,8 @@
         {
             "name": "Walk_NE_7_TopF02",
             "source": {
-                "x": 315,
-                "y": 281,
+                "x": 36,
+                "y": 314,
                 "width": 9,
                 "height": 15
             },
@@ -2291,8 +2291,8 @@
         {
             "name": "Idle_NE_0_TopF02",
             "source": {
-                "x": 337,
-                "y": 285,
+                "x": 60,
+                "y": 314,
                 "width": 12,
                 "height": 14
             },
@@ -2304,8 +2304,8 @@
         {
             "name": "Idle_NE_1_TopF02",
             "source": {
-                "x": 298,
-                "y": 285,
+                "x": 195,
+                "y": 314,
                 "width": 12,
                 "height": 14
             },
@@ -2317,8 +2317,8 @@
         {
             "name": "Idle_NE_2_TopF02",
             "source": {
-                "x": 74,
-                "y": 285,
+                "x": 183,
+                "y": 314,
                 "width": 12,
                 "height": 14
             },
@@ -2330,8 +2330,8 @@
         {
             "name": "Idle_NE_3_TopF02",
             "source": {
-                "x": 286,
-                "y": 285,
+                "x": 171,
+                "y": 314,
                 "width": 12,
                 "height": 14
             },
@@ -2343,8 +2343,8 @@
         {
             "name": "Idle_NE_4_TopF02",
             "source": {
-                "x": 106,
-                "y": 272,
+                "x": 134,
+                "y": 312,
                 "width": 12,
                 "height": 15
             },
@@ -2356,8 +2356,8 @@
         {
             "name": "Idle_NE_5_TopF02",
             "source": {
-                "x": 118,
-                "y": 272,
+                "x": 0,
+                "y": 313,
                 "width": 12,
                 "height": 15
             },
@@ -2369,8 +2369,8 @@
         {
             "name": "Idle_NE_6_TopF02",
             "source": {
-                "x": 130,
-                "y": 272,
+                "x": 490,
+                "y": 308,
                 "width": 12,
                 "height": 15
             },
@@ -2382,8 +2382,8 @@
         {
             "name": "Idle_NE_7_TopF02",
             "source": {
-                "x": 142,
-                "y": 272,
+                "x": 24,
+                "y": 313,
                 "width": 12,
                 "height": 15
             },
@@ -2395,8 +2395,8 @@
         {
             "name": "Walk_N_0_TopF02",
             "source": {
-                "x": 469,
-                "y": 280,
+                "x": 343,
+                "y": 313,
                 "width": 10,
                 "height": 15
             },
@@ -2408,8 +2408,8 @@
         {
             "name": "Walk_N_1_TopF02",
             "source": {
-                "x": 22,
-                "y": 273,
+                "x": 105,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -2421,8 +2421,8 @@
         {
             "name": "Walk_N_2_TopF02",
             "source": {
-                "x": 315,
-                "y": 266,
+                "x": 261,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -2434,8 +2434,8 @@
         {
             "name": "Walk_N_3_TopF02",
             "source": {
-                "x": 178,
-                "y": 272,
+                "x": 250,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -2447,8 +2447,8 @@
         {
             "name": "Walk_N_4_TopF02",
             "source": {
-                "x": 479,
-                "y": 280,
+                "x": 323,
+                "y": 313,
                 "width": 10,
                 "height": 15
             },
@@ -2460,8 +2460,8 @@
         {
             "name": "Walk_N_5_TopF02",
             "source": {
-                "x": 69,
-                "y": 255,
+                "x": 375,
+                "y": 293,
                 "width": 11,
                 "height": 16
             },
@@ -2473,8 +2473,8 @@
         {
             "name": "Walk_N_6_TopF02",
             "source": {
-                "x": 154,
-                "y": 272,
+                "x": 12,
+                "y": 313,
                 "width": 12,
                 "height": 15
             },
@@ -2486,8 +2486,8 @@
         {
             "name": "Walk_N_7_TopF02",
             "source": {
-                "x": 189,
-                "y": 272,
+                "x": 116,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -2497,10 +2497,270 @@
             }
         },
         {
+            "name": "Walk_SE_0_FeetF01",
+            "source": {
+                "x": 218,
+                "y": 314,
+                "width": 9,
+                "height": 14
+            },
+            "origin": {
+                "x": 6,
+                "y": 8
+            }
+        },
+        {
+            "name": "Walk_SE_1_FeetF01",
+            "source": {
+                "x": 501,
+                "y": 291,
+                "width": 7,
+                "height": 17
+            },
+            "origin": {
+                "x": 2,
+                "y": 11
+            }
+        },
+        {
+            "name": "Walk_SE_2_FeetF01",
+            "source": {
+                "x": 106,
+                "y": 280,
+                "width": 8,
+                "height": 18
+            },
+            "origin": {
+                "x": 3,
+                "y": 12
+            }
+        },
+        {
+            "name": "Walk_SE_3_FeetF01",
+            "source": {
+                "x": 361,
+                "y": 293,
+                "width": 14,
+                "height": 16
+            },
+            "origin": {
+                "x": 7,
+                "y": 11
+            }
+        },
+        {
+            "name": "Idle_SE_0_FeetF01",
+            "source": {
+                "x": 124,
+                "y": 297,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_1_FeetF01",
+            "source": {
+                "x": 32,
+                "y": 297,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_2_FeetF01",
+            "source": {
+                "x": 114,
+                "y": 297,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_3_FeetF01",
+            "source": {
+                "x": 386,
+                "y": 293,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_4_FeetF01",
+            "source": {
+                "x": 396,
+                "y": 293,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_5_FeetF01",
+            "source": {
+                "x": 291,
+                "y": 294,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_6_FeetF01",
+            "source": {
+                "x": 301,
+                "y": 294,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_SE_7_FeetF01",
+            "source": {
+                "x": 22,
+                "y": 297,
+                "width": 10,
+                "height": 16
+            },
+            "origin": {
+                "x": 5,
+                "y": 10
+            }
+        },
+        {
+            "name": "Idle_NE_0_FeetF01",
+            "source": {
+                "x": 189,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_1_FeetF01",
+            "source": {
+                "x": 179,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_2_FeetF01",
+            "source": {
+                "x": 169,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_3_FeetF01",
+            "source": {
+                "x": 249,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_4_FeetF01",
+            "source": {
+                "x": 239,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_5_FeetF01",
+            "source": {
+                "x": 229,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_6_FeetF01",
+            "source": {
+                "x": 219,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
+            "name": "Idle_NE_7_FeetF01",
+            "source": {
+                "x": 159,
+                "y": 281,
+                "width": 10,
+                "height": 18
+            },
+            "origin": {
+                "x": 6,
+                "y": 12
+            }
+        },
+        {
             "name": "Walk_S_0_BottomF01",
             "source": {
-                "x": 191,
-                "y": 329,
+                "x": 454,
+                "y": 360,
                 "width": 7,
                 "height": 6
             },
@@ -2512,8 +2772,8 @@
         {
             "name": "Walk_S_1_BottomF01",
             "source": {
-                "x": 97,
-                "y": 330,
+                "x": 118,
+                "y": 366,
                 "width": 8,
                 "height": 4
             },
@@ -2525,8 +2785,8 @@
         {
             "name": "Walk_S_2_BottomF01",
             "source": {
-                "x": 88,
-                "y": 330,
+                "x": 92,
+                "y": 366,
                 "width": 9,
                 "height": 4
             },
@@ -2538,8 +2798,8 @@
         {
             "name": "Walk_S_3_BottomF01",
             "source": {
-                "x": 27,
-                "y": 330,
+                "x": 141,
+                "y": 361,
                 "width": 8,
                 "height": 5
             },
@@ -2551,8 +2811,8 @@
         {
             "name": "Walk_S_4_BottomF01",
             "source": {
-                "x": 159,
-                "y": 329,
+                "x": 430,
+                "y": 360,
                 "width": 8,
                 "height": 6
             },
@@ -2564,8 +2824,8 @@
         {
             "name": "Walk_S_5_BottomF01",
             "source": {
-                "x": 338,
-                "y": 329,
+                "x": 132,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2577,8 +2837,8 @@
         {
             "name": "Walk_S_6_BottomF01",
             "source": {
-                "x": 0,
-                "y": 330,
+                "x": 14,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2590,8 +2850,8 @@
         {
             "name": "Walk_S_7_BottomF01",
             "source": {
-                "x": 35,
-                "y": 330,
+                "x": 5,
+                "y": 366,
                 "width": 8,
                 "height": 5
             },
@@ -2603,8 +2863,8 @@
         {
             "name": "Walk_SE_0_BottomF01",
             "source": {
-                "x": 233,
-                "y": 286,
+                "x": 127,
+                "y": 313,
                 "width": 7,
                 "height": 13
             },
@@ -2616,8 +2876,8 @@
         {
             "name": "Walk_SE_1_BottomF01",
             "source": {
-                "x": 396,
-                "y": 328,
+                "x": 413,
+                "y": 360,
                 "width": 9,
                 "height": 6
             },
@@ -2629,8 +2889,8 @@
         {
             "name": "Walk_SE_2_BottomF01",
             "source": {
-                "x": 43,
-                "y": 330,
+                "x": 157,
+                "y": 361,
                 "width": 8,
                 "height": 5
             },
@@ -2642,8 +2902,8 @@
         {
             "name": "Walk_SE_3_BottomF01",
             "source": {
-                "x": 302,
-                "y": 328,
+                "x": 395,
+                "y": 360,
                 "width": 9,
                 "height": 6
             },
@@ -2655,8 +2915,8 @@
         {
             "name": "Walk_SE_4_BottomF01",
             "source": {
-                "x": 79,
-                "y": 330,
+                "x": 101,
+                "y": 366,
                 "width": 9,
                 "height": 4
             },
@@ -2668,8 +2928,8 @@
         {
             "name": "Walk_SE_5_BottomF01",
             "source": {
-                "x": 225,
-                "y": 329,
+                "x": 13,
+                "y": 366,
                 "width": 8,
                 "height": 5
             },
@@ -2681,8 +2941,8 @@
         {
             "name": "Walk_SE_6_BottomF01",
             "source": {
-                "x": 59,
-                "y": 330,
+                "x": 149,
+                "y": 361,
                 "width": 8,
                 "height": 5
             },
@@ -2694,8 +2954,8 @@
         {
             "name": "Walk_SE_7_BottomF01",
             "source": {
-                "x": 105,
-                "y": 330,
+                "x": 110,
+                "y": 366,
                 "width": 8,
                 "height": 4
             },
@@ -2707,8 +2967,8 @@
         {
             "name": "Idle_SE_0_BottomF01",
             "source": {
-                "x": 329,
-                "y": 329,
+                "x": 96,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2720,8 +2980,8 @@
         {
             "name": "Idle_SE_1_BottomF01",
             "source": {
-                "x": 320,
-                "y": 329,
+                "x": 87,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2733,8 +2993,8 @@
         {
             "name": "Idle_SE_2_BottomF01",
             "source": {
-                "x": 311,
-                "y": 329,
+                "x": 32,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2746,8 +3006,8 @@
         {
             "name": "Idle_SE_3_BottomF01",
             "source": {
-                "x": 286,
-                "y": 329,
+                "x": 105,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2759,8 +3019,8 @@
         {
             "name": "Idle_SE_4_BottomF01",
             "source": {
-                "x": 277,
-                "y": 329,
+                "x": 114,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2772,8 +3032,8 @@
         {
             "name": "Idle_SE_5_BottomF01",
             "source": {
-                "x": 198,
-                "y": 329,
+                "x": 123,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2785,8 +3045,8 @@
         {
             "name": "Idle_SE_6_BottomF01",
             "source": {
-                "x": 216,
-                "y": 329,
+                "x": 5,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2798,8 +3058,8 @@
         {
             "name": "Idle_SE_7_BottomF01",
             "source": {
-                "x": 207,
-                "y": 329,
+                "x": 23,
+                "y": 361,
                 "width": 9,
                 "height": 5
             },
@@ -2811,8 +3071,8 @@
         {
             "name": "Walk_E_0_BottomF01",
             "source": {
-                "x": 67,
-                "y": 330,
+                "x": 33,
+                "y": 366,
                 "width": 6,
                 "height": 5
             },
@@ -2824,8 +3084,8 @@
         {
             "name": "Walk_E_1_BottomF01",
             "source": {
-                "x": 113,
-                "y": 330,
+                "x": 126,
+                "y": 366,
                 "width": 6,
                 "height": 4
             },
@@ -2837,8 +3097,8 @@
         {
             "name": "Walk_E_2_BottomF01",
             "source": {
-                "x": 51,
-                "y": 330,
+                "x": 165,
+                "y": 361,
                 "width": 8,
                 "height": 5
             },
@@ -2850,8 +3110,8 @@
         {
             "name": "Walk_E_3_BottomF01",
             "source": {
-                "x": 465,
-                "y": 327,
+                "x": 404,
+                "y": 360,
                 "width": 9,
                 "height": 6
             },
@@ -2863,8 +3123,8 @@
         {
             "name": "Walk_E_4_BottomF01",
             "source": {
-                "x": 167,
-                "y": 329,
+                "x": 446,
+                "y": 360,
                 "width": 8,
                 "height": 6
             },
@@ -2876,8 +3136,8 @@
         {
             "name": "Walk_E_5_BottomF01",
             "source": {
-                "x": 175,
-                "y": 329,
+                "x": 422,
+                "y": 360,
                 "width": 8,
                 "height": 6
             },
@@ -2889,8 +3149,8 @@
         {
             "name": "Walk_E_6_BottomF01",
             "source": {
-                "x": 295,
-                "y": 329,
+                "x": 21,
+                "y": 366,
                 "width": 6,
                 "height": 5
             },
@@ -2902,8 +3162,8 @@
         {
             "name": "Walk_E_7_BottomF01",
             "source": {
-                "x": 73,
-                "y": 330,
+                "x": 27,
+                "y": 366,
                 "width": 6,
                 "height": 5
             },
@@ -2915,8 +3175,8 @@
         {
             "name": "Walk_NE_0_BottomF01",
             "source": {
-                "x": 422,
-                "y": 327,
+                "x": 272,
+                "y": 360,
                 "width": 7,
                 "height": 7
             },
@@ -2928,8 +3188,8 @@
         {
             "name": "Walk_NE_1_BottomF01",
             "source": {
-                "x": 294,
-                "y": 321,
+                "x": 214,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -2941,8 +3201,8 @@
         {
             "name": "Walk_NE_2_BottomF01",
             "source": {
-                "x": 286,
-                "y": 321,
+                "x": 206,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -2954,8 +3214,8 @@
         {
             "name": "Walk_NE_3_BottomF01",
             "source": {
-                "x": 315,
-                "y": 321,
+                "x": 198,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -2967,8 +3227,8 @@
         {
             "name": "Walk_NE_4_BottomF01",
             "source": {
-                "x": 407,
-                "y": 327,
+                "x": 230,
+                "y": 360,
                 "width": 7,
                 "height": 8
             },
@@ -2980,8 +3240,8 @@
         {
             "name": "Walk_NE_5_BottomF01",
             "source": {
-                "x": 494,
-                "y": 326,
+                "x": 251,
+                "y": 360,
                 "width": 7,
                 "height": 8
             },
@@ -2993,8 +3253,8 @@
         {
             "name": "Walk_NE_6_BottomF01",
             "source": {
-                "x": 487,
-                "y": 326,
+                "x": 244,
+                "y": 360,
                 "width": 7,
                 "height": 8
             },
@@ -3006,8 +3266,8 @@
         {
             "name": "Walk_NE_7_BottomF01",
             "source": {
-                "x": 414,
-                "y": 327,
+                "x": 264,
+                "y": 360,
                 "width": 8,
                 "height": 7
             },
@@ -3019,8 +3279,8 @@
         {
             "name": "Idle_NE_0_BottomF01",
             "source": {
-                "x": 0,
-                "y": 322,
+                "x": 190,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -3032,8 +3292,8 @@
         {
             "name": "Idle_NE_1_BottomF01",
             "source": {
-                "x": 331,
-                "y": 321,
+                "x": 182,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -3045,8 +3305,8 @@
         {
             "name": "Idle_NE_2_BottomF01",
             "source": {
-                "x": 339,
-                "y": 321,
+                "x": 174,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -3058,8 +3318,8 @@
         {
             "name": "Idle_NE_3_BottomF01",
             "source": {
-                "x": 323,
-                "y": 321,
+                "x": 387,
+                "y": 358,
                 "width": 8,
                 "height": 8
             },
@@ -3071,8 +3331,8 @@
         {
             "name": "Idle_NE_4_BottomF01",
             "source": {
-                "x": 196,
-                "y": 321,
+                "x": 60,
+                "y": 360,
                 "width": 9,
                 "height": 8
             },
@@ -3084,8 +3344,8 @@
         {
             "name": "Idle_NE_5_BottomF01",
             "source": {
-                "x": 187,
-                "y": 321,
+                "x": 51,
+                "y": 360,
                 "width": 9,
                 "height": 8
             },
@@ -3097,8 +3357,8 @@
         {
             "name": "Idle_NE_6_BottomF01",
             "source": {
-                "x": 178,
-                "y": 321,
+                "x": 369,
+                "y": 358,
                 "width": 9,
                 "height": 8
             },
@@ -3110,8 +3370,8 @@
         {
             "name": "Idle_NE_7_BottomF01",
             "source": {
-                "x": 169,
-                "y": 321,
+                "x": 78,
+                "y": 360,
                 "width": 9,
                 "height": 8
             },
@@ -3123,8 +3383,8 @@
         {
             "name": "Walk_N_0_BottomF01",
             "source": {
-                "x": 429,
-                "y": 327,
+                "x": 279,
+                "y": 360,
                 "width": 7,
                 "height": 7
             },
@@ -3136,8 +3396,8 @@
         {
             "name": "Walk_N_1_BottomF01",
             "source": {
-                "x": 160,
-                "y": 321,
+                "x": 378,
+                "y": 358,
                 "width": 9,
                 "height": 8
             },
@@ -3149,8 +3409,8 @@
         {
             "name": "Walk_N_2_BottomF01",
             "source": {
-                "x": 277,
-                "y": 321,
+                "x": 286,
+                "y": 359,
                 "width": 9,
                 "height": 8
             },
@@ -3162,8 +3422,8 @@
         {
             "name": "Walk_N_3_BottomF01",
             "source": {
-                "x": 214,
-                "y": 321,
+                "x": 42,
+                "y": 360,
                 "width": 9,
                 "height": 8
             },
@@ -3175,8 +3435,8 @@
         {
             "name": "Walk_N_4_BottomF01",
             "source": {
-                "x": 223,
-                "y": 321,
+                "x": 360,
+                "y": 358,
                 "width": 9,
                 "height": 8
             },
@@ -3188,8 +3448,8 @@
         {
             "name": "Walk_N_5_BottomF01",
             "source": {
-                "x": 150,
-                "y": 321,
+                "x": 350,
+                "y": 358,
                 "width": 10,
                 "height": 8
             },
@@ -3201,8 +3461,8 @@
         {
             "name": "Walk_N_6_BottomF01",
             "source": {
-                "x": 183,
-                "y": 329,
+                "x": 438,
+                "y": 360,
                 "width": 8,
                 "height": 6
             },
@@ -3214,8 +3474,8 @@
         {
             "name": "Walk_N_7_BottomF01",
             "source": {
-                "x": 150,
-                "y": 329,
+                "x": 324,
+                "y": 360,
                 "width": 9,
                 "height": 6
             },
@@ -3225,10 +3485,738 @@
             }
         },
         {
-            "name": "Walk_S_0_Head",
+            "name": "Walk_S_0_BottomF02",
+            "source": {
+                "x": 254,
+                "y": 218,
+                "width": 9,
+                "height": 23
+            },
+            "origin": {
+                "x": 5,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_S_1_BottomF02",
+            "source": {
+                "x": 205,
+                "y": 218,
+                "width": 10,
+                "height": 23
+            },
+            "origin": {
+                "x": 6,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_S_2_BottomF02",
+            "source": {
+                "x": 114,
+                "y": 242,
+                "width": 10,
+                "height": 20
+            },
+            "origin": {
+                "x": 6,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_S_3_BottomF02",
+            "source": {
+                "x": 140,
+                "y": 218,
+                "width": 10,
+                "height": 24
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_S_4_BottomF02",
             "source": {
                 "x": 120,
-                "y": 310,
+                "y": 218,
+                "width": 10,
+                "height": 24
+            },
+            "origin": {
+                "x": 5,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_S_5_BottomF02",
+            "source": {
+                "x": 178,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 6,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_S_6_BottomF02",
+            "source": {
+                "x": 58,
+                "y": 242,
+                "width": 10,
+                "height": 21
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_S_7_BottomF02",
+            "source": {
+                "x": 225,
+                "y": 218,
+                "width": 10,
+                "height": 23
+            },
+            "origin": {
+                "x": 6,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_SE_0_BottomF02",
+            "source": {
+                "x": 280,
+                "y": 218,
+                "width": 8,
+                "height": 23
+            },
+            "origin": {
+                "x": 4,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_SE_1_BottomF02",
+            "source": {
+                "x": 235,
+                "y": 218,
+                "width": 10,
+                "height": 23
+            },
+            "origin": {
+                "x": 5,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_SE_2_BottomF02",
+            "source": {
+                "x": 245,
+                "y": 218,
+                "width": 9,
+                "height": 23
+            },
+            "origin": {
+                "x": 4,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_SE_3_BottomF02",
+            "source": {
+                "x": 268,
+                "y": 241,
+                "width": 13,
+                "height": 21
+            },
+            "origin": {
+                "x": 6,
+                "y": 20
+            }
+        },
+        {
+            "name": "Walk_SE_4_BottomF02",
+            "source": {
+                "x": 124,
+                "y": 242,
+                "width": 13,
+                "height": 19
+            },
+            "origin": {
+                "x": 7,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_SE_5_BottomF02",
+            "source": {
+                "x": 281,
+                "y": 241,
+                "width": 10,
+                "height": 21
+            },
+            "origin": {
+                "x": 5,
+                "y": 20
+            }
+        },
+        {
+            "name": "Walk_SE_6_BottomF02",
+            "source": {
+                "x": 76,
+                "y": 242,
+                "width": 8,
+                "height": 21
+            },
+            "origin": {
+                "x": 4,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_SE_7_BottomF02",
+            "source": {
+                "x": 68,
+                "y": 242,
+                "width": 8,
+                "height": 21
+            },
+            "origin": {
+                "x": 4,
+                "y": 20
+            }
+        },
+        {
+            "name": "Idle_SE_0_BottomF02",
+            "source": {
+                "x": 258,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_1_BottomF02",
+            "source": {
+                "x": 188,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_2_BottomF02",
+            "source": {
+                "x": 198,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_3_BottomF02",
+            "source": {
+                "x": 208,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_4_BottomF02",
+            "source": {
+                "x": 218,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_5_BottomF02",
+            "source": {
+                "x": 228,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_6_BottomF02",
+            "source": {
+                "x": 238,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Idle_SE_7_BottomF02",
+            "source": {
+                "x": 352,
+                "y": 240,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_E_0_BottomF02",
+            "source": {
+                "x": 307,
+                "y": 236,
+                "width": 9,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_E_1_BottomF02",
+            "source": {
+                "x": 362,
+                "y": 240,
+                "width": 8,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_E_2_BottomF02",
+            "source": {
+                "x": 168,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_E_3_BottomF02",
+            "source": {
+                "x": 296,
+                "y": 236,
+                "width": 11,
+                "height": 22
+            },
+            "origin": {
+                "x": 6,
+                "y": 20
+            }
+        },
+        {
+            "name": "Walk_E_4_BottomF02",
+            "source": {
+                "x": 396,
+                "y": 235,
+                "width": 12,
+                "height": 22
+            },
+            "origin": {
+                "x": 7,
+                "y": 20
+            }
+        },
+        {
+            "name": "Walk_E_5_BottomF02",
+            "source": {
+                "x": 248,
+                "y": 241,
+                "width": 10,
+                "height": 22
+            },
+            "origin": {
+                "x": 6,
+                "y": 20
+            }
+        },
+        {
+            "name": "Walk_E_6_BottomF02",
+            "source": {
+                "x": 84,
+                "y": 242,
+                "width": 7,
+                "height": 21
+            },
+            "origin": {
+                "x": 4,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_E_7_BottomF02",
+            "source": {
+                "x": 104,
+                "y": 242,
+                "width": 10,
+                "height": 20
+            },
+            "origin": {
+                "x": 6,
+                "y": 19
+            }
+        },
+        {
+            "name": "Walk_NE_0_BottomF02",
+            "source": {
+                "x": 193,
+                "y": 218,
+                "width": 12,
+                "height": 23
+            },
+            "origin": {
+                "x": 6,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_NE_1_BottomF02",
+            "source": {
+                "x": 40,
+                "y": 218,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_NE_2_BottomF02",
+            "source": {
+                "x": 331,
+                "y": 210,
+                "width": 21,
+                "height": 32
+            },
+            "origin": {
+                "x": 18,
+                "y": 29
+            }
+        },
+        {
+            "name": "Walk_NE_3_BottomF02",
+            "source": {
+                "x": 50,
+                "y": 218,
+                "width": 8,
+                "height": 25
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_NE_4_BottomF02",
+            "source": {
+                "x": 288,
+                "y": 218,
+                "width": 8,
+                "height": 23
+            },
+            "origin": {
+                "x": 5,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_NE_5_BottomF02",
+            "source": {
+                "x": 272,
+                "y": 218,
+                "width": 8,
+                "height": 23
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_NE_6_BottomF02",
+            "source": {
+                "x": 501,
+                "y": 233,
+                "width": 11,
+                "height": 22
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_NE_7_BottomF02",
+            "source": {
+                "x": 181,
+                "y": 218,
+                "width": 12,
+                "height": 23
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_0_BottomF02",
+            "source": {
+                "x": 30,
+                "y": 218,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_1_BottomF02",
+            "source": {
+                "x": 20,
+                "y": 218,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_2_BottomF02",
+            "source": {
+                "x": 10,
+                "y": 218,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_3_BottomF02",
+            "source": {
+                "x": 501,
+                "y": 208,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_4_BottomF02",
+            "source": {
+                "x": 302,
+                "y": 211,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_5_BottomF02",
+            "source": {
+                "x": 400,
+                "y": 210,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_6_BottomF02",
+            "source": {
+                "x": 390,
+                "y": 210,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Idle_NE_7_BottomF02",
+            "source": {
+                "x": 380,
+                "y": 210,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_N_0_BottomF02",
+            "source": {
+                "x": 150,
+                "y": 218,
+                "width": 9,
+                "height": 24
+            },
+            "origin": {
+                "x": 5,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_N_1_BottomF02",
+            "source": {
+                "x": 130,
+                "y": 218,
+                "width": 10,
+                "height": 24
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_N_2_BottomF02",
+            "source": {
+                "x": 263,
+                "y": 218,
+                "width": 9,
+                "height": 23
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_N_3_BottomF02",
+            "source": {
+                "x": 159,
+                "y": 218,
+                "width": 9,
+                "height": 24
+            },
+            "origin": {
+                "x": 5,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_N_4_BottomF02",
+            "source": {
+                "x": 370,
+                "y": 210,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 5,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_N_5_BottomF02",
+            "source": {
+                "x": 0,
+                "y": 218,
+                "width": 10,
+                "height": 25
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_N_6_BottomF02",
+            "source": {
+                "x": 215,
+                "y": 218,
+                "width": 10,
+                "height": 23
+            },
+            "origin": {
+                "x": 6,
+                "y": 22
+            }
+        },
+        {
+            "name": "Walk_N_7_BottomF02",
+            "source": {
+                "x": 110,
+                "y": 218,
+                "width": 10,
+                "height": 24
+            },
+            "origin": {
+                "x": 6,
+                "y": 21
+            }
+        },
+        {
+            "name": "Walk_S_0_Head",
+            "source": {
+                "x": 243,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3240,8 +4228,8 @@
         {
             "name": "Walk_S_1_Head",
             "source": {
-                "x": 111,
-                "y": 310,
+                "x": 252,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3253,8 +4241,8 @@
         {
             "name": "Walk_S_2_Head",
             "source": {
-                "x": 102,
-                "y": 310,
+                "x": 261,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3266,8 +4254,8 @@
         {
             "name": "Walk_S_3_Head",
             "source": {
-                "x": 93,
-                "y": 310,
+                "x": 270,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3279,8 +4267,8 @@
         {
             "name": "Walk_S_4_Head",
             "source": {
-                "x": 84,
-                "y": 310,
+                "x": 279,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3292,8 +4280,8 @@
         {
             "name": "Walk_S_5_Head",
             "source": {
-                "x": 75,
-                "y": 310,
+                "x": 312,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3305,8 +4293,8 @@
         {
             "name": "Walk_S_6_Head",
             "source": {
-                "x": 66,
-                "y": 310,
+                "x": 321,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3318,8 +4306,8 @@
         {
             "name": "Walk_S_7_Head",
             "source": {
-                "x": 57,
-                "y": 310,
+                "x": 330,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3331,8 +4319,8 @@
         {
             "name": "Idle_S_0_Head",
             "source": {
-                "x": 465,
-                "y": 306,
+                "x": 411,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3344,8 +4332,8 @@
         {
             "name": "Idle_S_1_Head",
             "source": {
-                "x": 456,
-                "y": 306,
+                "x": 420,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3357,8 +4345,8 @@
         {
             "name": "Idle_S_2_Head",
             "source": {
-                "x": 438,
-                "y": 306,
+                "x": 429,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3370,8 +4358,8 @@
         {
             "name": "Idle_S_3_Head",
             "source": {
-                "x": 429,
-                "y": 306,
+                "x": 438,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3383,8 +4371,8 @@
         {
             "name": "Idle_S_4_Head",
             "source": {
-                "x": 30,
-                "y": 310,
+                "x": 447,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3396,8 +4384,8 @@
         {
             "name": "Idle_S_5_Head",
             "source": {
-                "x": 174,
-                "y": 310,
+                "x": 456,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -3409,8 +4397,8 @@
         {
             "name": "Idle_S_6_Head",
             "source": {
-                "x": 156,
-                "y": 310,
+                "x": 0,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -3422,8 +4410,8 @@
         {
             "name": "Idle_S_7_Head",
             "source": {
-                "x": 165,
-                "y": 310,
+                "x": 9,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -3435,8 +4423,8 @@
         {
             "name": "Walk_SE_0_Head",
             "source": {
-                "x": 501,
-                "y": 305,
+                "x": 386,
+                "y": 336,
                 "width": 10,
                 "height": 11
             },
@@ -3448,8 +4436,8 @@
         {
             "name": "Walk_SE_1_Head",
             "source": {
-                "x": 410,
-                "y": 306,
+                "x": 376,
+                "y": 336,
                 "width": 10,
                 "height": 11
             },
@@ -3461,8 +4449,8 @@
         {
             "name": "Walk_SE_2_Head",
             "source": {
-                "x": 250,
-                "y": 298,
+                "x": 174,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3474,8 +4462,8 @@
         {
             "name": "Walk_SE_3_Head",
             "source": {
-                "x": 193,
-                "y": 299,
+                "x": 164,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3487,8 +4475,8 @@
         {
             "name": "Walk_SE_4_Head",
             "source": {
-                "x": 203,
-                "y": 299,
+                "x": 154,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3500,8 +4488,8 @@
         {
             "name": "Walk_SE_5_Head",
             "source": {
-                "x": 213,
-                "y": 299,
+                "x": 144,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3513,8 +4501,8 @@
         {
             "name": "Walk_SE_6_Head",
             "source": {
-                "x": 223,
-                "y": 299,
+                "x": 134,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3526,8 +4514,8 @@
         {
             "name": "Walk_SE_7_Head",
             "source": {
-                "x": 280,
-                "y": 299,
+                "x": 124,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3539,8 +4527,8 @@
         {
             "name": "Idle_SE_0_Head",
             "source": {
-                "x": 290,
-                "y": 299,
+                "x": 114,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3552,8 +4540,8 @@
         {
             "name": "Idle_SE_1_Head",
             "source": {
-                "x": 300,
-                "y": 299,
+                "x": 104,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3565,8 +4553,8 @@
         {
             "name": "Idle_SE_2_Head",
             "source": {
-                "x": 333,
-                "y": 299,
+                "x": 94,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3578,8 +4566,8 @@
         {
             "name": "Idle_SE_3_Head",
             "source": {
-                "x": 343,
-                "y": 299,
+                "x": 289,
+                "y": 337,
                 "width": 10,
                 "height": 11
             },
@@ -3591,8 +4579,8 @@
         {
             "name": "Idle_SE_4_Head",
             "source": {
-                "x": 0,
-                "y": 300,
+                "x": 366,
+                "y": 336,
                 "width": 10,
                 "height": 11
             },
@@ -3604,8 +4592,8 @@
         {
             "name": "Idle_SE_5_Head",
             "source": {
-                "x": 10,
-                "y": 300,
+                "x": 184,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3617,8 +4605,8 @@
         {
             "name": "Idle_SE_6_Head",
             "source": {
-                "x": 20,
-                "y": 300,
+                "x": 194,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3630,8 +4618,8 @@
         {
             "name": "Idle_SE_7_Head",
             "source": {
-                "x": 320,
-                "y": 300,
+                "x": 214,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3643,8 +4631,8 @@
         {
             "name": "Walk_E_0_Head",
             "source": {
-                "x": 481,
-                "y": 305,
+                "x": 204,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3656,8 +4644,8 @@
         {
             "name": "Walk_E_1_Head",
             "source": {
-                "x": 491,
-                "y": 305,
+                "x": 224,
+                "y": 339,
                 "width": 10,
                 "height": 11
             },
@@ -3669,8 +4657,8 @@
         {
             "name": "Walk_E_2_Head",
             "source": {
-                "x": 421,
-                "y": 295,
+                "x": 105,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3682,8 +4670,8 @@
         {
             "name": "Walk_E_3_Head",
             "source": {
-                "x": 431,
-                "y": 295,
+                "x": 115,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3695,8 +4683,8 @@
         {
             "name": "Walk_E_4_Head",
             "source": {
-                "x": 441,
-                "y": 295,
+                "x": 149,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3708,8 +4696,8 @@
         {
             "name": "Walk_E_5_Head",
             "source": {
-                "x": 451,
-                "y": 295,
+                "x": 159,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3721,8 +4709,8 @@
         {
             "name": "Walk_E_6_Head",
             "source": {
-                "x": 461,
-                "y": 295,
+                "x": 169,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3734,8 +4722,8 @@
         {
             "name": "Walk_E_7_Head",
             "source": {
-                "x": 471,
-                "y": 295,
+                "x": 179,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3747,8 +4735,8 @@
         {
             "name": "Idle_E_0_Head",
             "source": {
-                "x": 310,
-                "y": 296,
+                "x": 189,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3760,8 +4748,8 @@
         {
             "name": "Idle_E_1_Head",
             "source": {
-                "x": 240,
-                "y": 298,
+                "x": 199,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3773,8 +4761,8 @@
         {
             "name": "Idle_E_2_Head",
             "source": {
-                "x": 183,
-                "y": 299,
+                "x": 209,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3786,8 +4774,8 @@
         {
             "name": "Idle_E_3_Head",
             "source": {
-                "x": 260,
-                "y": 298,
+                "x": 249,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3799,8 +4787,8 @@
         {
             "name": "Idle_E_4_Head",
             "source": {
-                "x": 270,
-                "y": 298,
+                "x": 259,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3812,8 +4800,8 @@
         {
             "name": "Idle_E_5_Head",
             "source": {
-                "x": 360,
-                "y": 298,
+                "x": 269,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3825,8 +4813,8 @@
         {
             "name": "Idle_E_6_Head",
             "source": {
-                "x": 370,
-                "y": 298,
+                "x": 279,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3838,8 +4826,8 @@
         {
             "name": "Idle_E_7_Head",
             "source": {
-                "x": 380,
-                "y": 298,
+                "x": 316,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3851,8 +4839,8 @@
         {
             "name": "Walk_NE_0_Head",
             "source": {
-                "x": 390,
-                "y": 298,
+                "x": 326,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3864,8 +4852,8 @@
         {
             "name": "Walk_NE_1_Head",
             "source": {
-                "x": 33,
-                "y": 299,
+                "x": 336,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3877,8 +4865,8 @@
         {
             "name": "Walk_NE_2_Head",
             "source": {
-                "x": 43,
-                "y": 299,
+                "x": 415,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3890,8 +4878,8 @@
         {
             "name": "Walk_NE_3_Head",
             "source": {
-                "x": 53,
-                "y": 299,
+                "x": 425,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3903,8 +4891,8 @@
         {
             "name": "Walk_NE_4_Head",
             "source": {
-                "x": 63,
-                "y": 299,
+                "x": 435,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3916,8 +4904,8 @@
         {
             "name": "Walk_NE_5_Head",
             "source": {
-                "x": 73,
-                "y": 299,
+                "x": 445,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3929,8 +4917,8 @@
         {
             "name": "Walk_NE_6_Head",
             "source": {
-                "x": 83,
-                "y": 299,
+                "x": 455,
+                "y": 328,
                 "width": 10,
                 "height": 11
             },
@@ -3942,8 +4930,8 @@
         {
             "name": "Walk_NE_7_Head",
             "source": {
-                "x": 93,
-                "y": 299,
+                "x": 33,
+                "y": 329,
                 "width": 10,
                 "height": 11
             },
@@ -3955,8 +4943,8 @@
         {
             "name": "Idle_NE_0_Head",
             "source": {
-                "x": 103,
-                "y": 299,
+                "x": 302,
+                "y": 329,
                 "width": 10,
                 "height": 11
             },
@@ -3968,8 +4956,8 @@
         {
             "name": "Idle_NE_1_Head",
             "source": {
-                "x": 113,
-                "y": 299,
+                "x": 401,
+                "y": 329,
                 "width": 10,
                 "height": 11
             },
@@ -3981,8 +4969,8 @@
         {
             "name": "Idle_NE_2_Head",
             "source": {
-                "x": 123,
-                "y": 299,
+                "x": 465,
+                "y": 335,
                 "width": 10,
                 "height": 11
             },
@@ -3994,8 +4982,8 @@
         {
             "name": "Idle_NE_3_Head",
             "source": {
-                "x": 133,
-                "y": 299,
+                "x": 475,
+                "y": 335,
                 "width": 10,
                 "height": 11
             },
@@ -4007,8 +4995,8 @@
         {
             "name": "Idle_NE_4_Head",
             "source": {
-                "x": 143,
-                "y": 299,
+                "x": 485,
+                "y": 335,
                 "width": 10,
                 "height": 11
             },
@@ -4020,8 +5008,8 @@
         {
             "name": "Idle_NE_5_Head",
             "source": {
-                "x": 153,
-                "y": 299,
+                "x": 495,
+                "y": 335,
                 "width": 10,
                 "height": 11
             },
@@ -4033,8 +5021,8 @@
         {
             "name": "Idle_NE_6_Head",
             "source": {
-                "x": 163,
-                "y": 299,
+                "x": 346,
+                "y": 336,
                 "width": 10,
                 "height": 11
             },
@@ -4046,8 +5034,8 @@
         {
             "name": "Idle_NE_7_Head",
             "source": {
-                "x": 173,
-                "y": 299,
+                "x": 356,
+                "y": 336,
                 "width": 10,
                 "height": 11
             },
@@ -4059,8 +5047,8 @@
         {
             "name": "Walk_N_0_Head",
             "source": {
-                "x": 147,
-                "y": 310,
+                "x": 18,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4072,8 +5060,8 @@
         {
             "name": "Walk_N_1_Head",
             "source": {
-                "x": 138,
-                "y": 310,
+                "x": 27,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4085,8 +5073,8 @@
         {
             "name": "Walk_N_2_Head",
             "source": {
-                "x": 129,
-                "y": 310,
+                "x": 36,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4098,8 +5086,8 @@
         {
             "name": "Walk_N_3_Head",
             "source": {
-                "x": 48,
-                "y": 310,
+                "x": 45,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4111,8 +5099,8 @@
         {
             "name": "Walk_N_4_Head",
             "source": {
-                "x": 39,
-                "y": 310,
+                "x": 54,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4124,8 +5112,8 @@
         {
             "name": "Walk_N_5_Head",
             "source": {
-                "x": 389,
-                "y": 309,
+                "x": 63,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4137,8 +5125,8 @@
         {
             "name": "Walk_N_6_Head",
             "source": {
-                "x": 371,
-                "y": 309,
+                "x": 72,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4150,8 +5138,8 @@
         {
             "name": "Walk_N_7_Head",
             "source": {
-                "x": 362,
-                "y": 309,
+                "x": 81,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4163,8 +5151,8 @@
         {
             "name": "Idle_N_0_Head",
             "source": {
-                "x": 269,
-                "y": 309,
+                "x": 299,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4176,8 +5164,8 @@
         {
             "name": "Idle_N_1_Head",
             "source": {
-                "x": 260,
-                "y": 309,
+                "x": 396,
+                "y": 340,
                 "width": 9,
                 "height": 11
             },
@@ -4189,8 +5177,8 @@
         {
             "name": "Idle_N_2_Head",
             "source": {
-                "x": 242,
-                "y": 309,
+                "x": 465,
+                "y": 346,
                 "width": 9,
                 "height": 11
             },
@@ -4202,8 +5190,8 @@
         {
             "name": "Idle_N_3_Head",
             "source": {
-                "x": 233,
-                "y": 309,
+                "x": 234,
+                "y": 339,
                 "width": 9,
                 "height": 11
             },
@@ -4215,8 +5203,8 @@
         {
             "name": "Idle_N_4_Head",
             "source": {
-                "x": 400,
-                "y": 307,
+                "x": 474,
+                "y": 346,
                 "width": 9,
                 "height": 11
             },
@@ -4228,8 +5216,8 @@
         {
             "name": "Idle_N_5_Head",
             "source": {
-                "x": 310,
-                "y": 307,
+                "x": 483,
+                "y": 346,
                 "width": 9,
                 "height": 11
             },
@@ -4241,8 +5229,8 @@
         {
             "name": "Idle_N_6_Head",
             "source": {
-                "x": 447,
-                "y": 306,
+                "x": 492,
+                "y": 346,
                 "width": 9,
                 "height": 11
             },
@@ -4254,8 +5242,8 @@
         {
             "name": "Idle_N_7_Head",
             "source": {
-                "x": 420,
-                "y": 306,
+                "x": 501,
+                "y": 346,
                 "width": 9,
                 "height": 11
             },
@@ -4267,8 +5255,8 @@
         {
             "name": "Walk_S_0_Body",
             "source": {
-                "x": 347,
-                "y": 46,
+                "x": 407,
+                "y": 45,
                 "width": 13,
                 "height": 42
             },
@@ -4280,7 +5268,7 @@
         {
             "name": "Walk_S_1_Body",
             "source": {
-                "x": 464,
+                "x": 477,
                 "y": 85,
                 "width": 13,
                 "height": 42
@@ -4293,7 +5281,7 @@
         {
             "name": "Walk_S_2_Body",
             "source": {
-                "x": 164,
+                "x": 108,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4319,7 +5307,7 @@
         {
             "name": "Walk_S_4_Body",
             "source": {
-                "x": 477,
+                "x": 464,
                 "y": 85,
                 "width": 13,
                 "height": 42
@@ -4345,7 +5333,7 @@
         {
             "name": "Walk_S_6_Body",
             "source": {
-                "x": 276,
+                "x": 289,
                 "y": 178,
                 "width": 13,
                 "height": 40
@@ -4371,7 +5359,7 @@
         {
             "name": "Idle_S_0_Body",
             "source": {
-                "x": 192,
+                "x": 206,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4384,7 +5372,7 @@
         {
             "name": "Idle_S_1_Body",
             "source": {
-                "x": 206,
+                "x": 220,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4397,7 +5385,7 @@
         {
             "name": "Idle_S_2_Body",
             "source": {
-                "x": 220,
+                "x": 122,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4410,7 +5398,7 @@
         {
             "name": "Idle_S_3_Body",
             "source": {
-                "x": 234,
+                "x": 94,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4423,7 +5411,7 @@
         {
             "name": "Idle_S_4_Body",
             "source": {
-                "x": 349,
+                "x": 405,
                 "y": 128,
                 "width": 14,
                 "height": 41
@@ -4436,8 +5424,8 @@
         {
             "name": "Idle_S_5_Body",
             "source": {
-                "x": 433,
-                "y": 168,
+                "x": 304,
+                "y": 129,
                 "width": 14,
                 "height": 41
             },
@@ -4462,8 +5450,8 @@
         {
             "name": "Idle_S_7_Body",
             "source": {
-                "x": 449,
-                "y": 127,
+                "x": 477,
+                "y": 167,
                 "width": 14,
                 "height": 41
             },
@@ -4488,8 +5476,8 @@
         {
             "name": "Walk_SE_1_Body",
             "source": {
-                "x": 389,
-                "y": 87,
+                "x": 490,
+                "y": 126,
                 "width": 15,
                 "height": 41
             },
@@ -4501,8 +5489,8 @@
         {
             "name": "Walk_SE_2_Body",
             "source": {
-                "x": 363,
-                "y": 128,
+                "x": 318,
+                "y": 129,
                 "width": 14,
                 "height": 41
             },
@@ -4553,8 +5541,8 @@
         {
             "name": "Walk_SE_6_Body",
             "source": {
-                "x": 473,
-                "y": 208,
+                "x": 411,
+                "y": 209,
                 "width": 14,
                 "height": 39
             },
@@ -4579,7 +5567,7 @@
         {
             "name": "Idle_SE_0_Body",
             "source": {
-                "x": 94,
+                "x": 262,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4592,7 +5580,7 @@
         {
             "name": "Idle_SE_1_Body",
             "source": {
-                "x": 262,
+                "x": 150,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4605,7 +5593,7 @@
         {
             "name": "Idle_SE_2_Body",
             "source": {
-                "x": 248,
+                "x": 178,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4618,7 +5606,7 @@
         {
             "name": "Idle_SE_3_Body",
             "source": {
-                "x": 178,
+                "x": 164,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4631,8 +5619,8 @@
         {
             "name": "Idle_SE_4_Body",
             "source": {
-                "x": 463,
-                "y": 127,
+                "x": 433,
+                "y": 168,
                 "width": 14,
                 "height": 41
             },
@@ -4644,8 +5632,8 @@
         {
             "name": "Idle_SE_5_Body",
             "source": {
-                "x": 419,
-                "y": 168,
+                "x": 391,
+                "y": 128,
                 "width": 14,
                 "height": 41
             },
@@ -4657,8 +5645,8 @@
         {
             "name": "Idle_SE_6_Body",
             "source": {
-                "x": 477,
-                "y": 167,
+                "x": 377,
+                "y": 128,
                 "width": 14,
                 "height": 41
             },
@@ -4670,8 +5658,8 @@
         {
             "name": "Idle_SE_7_Body",
             "source": {
-                "x": 318,
-                "y": 129,
+                "x": 363,
+                "y": 128,
                 "width": 14,
                 "height": 41
             },
@@ -4683,8 +5671,8 @@
         {
             "name": "Walk_E_0_Body",
             "source": {
-                "x": 404,
-                "y": 87,
+                "x": 319,
+                "y": 88,
                 "width": 15,
                 "height": 41
             },
@@ -4696,8 +5684,8 @@
         {
             "name": "Walk_E_1_Body",
             "source": {
-                "x": 407,
-                "y": 45,
+                "x": 347,
+                "y": 46,
                 "width": 13,
                 "height": 42
             },
@@ -4709,7 +5697,7 @@
         {
             "name": "Walk_E_2_Body",
             "source": {
-                "x": 372,
+                "x": 385,
                 "y": 169,
                 "width": 13,
                 "height": 41
@@ -4722,8 +5710,8 @@
         {
             "name": "Walk_E_3_Body",
             "source": {
-                "x": 491,
-                "y": 167,
+                "x": 349,
+                "y": 128,
                 "width": 14,
                 "height": 41
             },
@@ -4748,8 +5736,8 @@
         {
             "name": "Walk_E_5_Body",
             "source": {
-                "x": 447,
-                "y": 168,
+                "x": 398,
+                "y": 169,
                 "width": 13,
                 "height": 41
             },
@@ -4774,7 +5762,7 @@
         {
             "name": "Walk_E_7_Body",
             "source": {
-                "x": 289,
+                "x": 276,
                 "y": 178,
                 "width": 13,
                 "height": 40
@@ -4787,7 +5775,7 @@
         {
             "name": "Idle_E_0_Body",
             "source": {
-                "x": 150,
+                "x": 136,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4800,7 +5788,7 @@
         {
             "name": "Idle_E_1_Body",
             "source": {
-                "x": 136,
+                "x": 192,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4813,7 +5801,7 @@
         {
             "name": "Idle_E_2_Body",
             "source": {
-                "x": 122,
+                "x": 234,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4826,7 +5814,7 @@
         {
             "name": "Idle_E_3_Body",
             "source": {
-                "x": 108,
+                "x": 248,
                 "y": 178,
                 "width": 14,
                 "height": 40
@@ -4839,8 +5827,8 @@
         {
             "name": "Idle_E_4_Body",
             "source": {
-                "x": 377,
-                "y": 128,
+                "x": 463,
+                "y": 127,
                 "width": 14,
                 "height": 41
             },
@@ -4852,8 +5840,8 @@
         {
             "name": "Idle_E_5_Body",
             "source": {
-                "x": 391,
-                "y": 128,
+                "x": 449,
+                "y": 127,
                 "width": 14,
                 "height": 41
             },
@@ -4865,8 +5853,8 @@
         {
             "name": "Idle_E_6_Body",
             "source": {
-                "x": 405,
-                "y": 128,
+                "x": 419,
+                "y": 168,
                 "width": 14,
                 "height": 41
             },
@@ -4878,8 +5866,8 @@
         {
             "name": "Idle_E_7_Body",
             "source": {
-                "x": 304,
-                "y": 129,
+                "x": 491,
+                "y": 167,
                 "width": 14,
                 "height": 41
             },
@@ -4917,7 +5905,7 @@
         {
             "name": "Walk_NE_2_Body",
             "source": {
-                "x": 495,
+                "x": 478,
                 "y": 0,
                 "width": 17,
                 "height": 43
@@ -4930,7 +5918,7 @@
         {
             "name": "Walk_NE_3_Body",
             "source": {
-                "x": 478,
+                "x": 495,
                 "y": 0,
                 "width": 17,
                 "height": 43
@@ -4956,7 +5944,7 @@
         {
             "name": "Walk_NE_5_Body",
             "source": {
-                "x": 487,
+                "x": 473,
                 "y": 208,
                 "width": 14,
                 "height": 39
@@ -4995,8 +5983,8 @@
         {
             "name": "Idle_NE_0_Body",
             "source": {
-                "x": 419,
-                "y": 127,
+                "x": 334,
+                "y": 88,
                 "width": 15,
                 "height": 41
             },
@@ -5008,8 +5996,8 @@
         {
             "name": "Idle_NE_1_Body",
             "source": {
-                "x": 490,
-                "y": 85,
+                "x": 304,
+                "y": 88,
                 "width": 15,
                 "height": 41
             },
@@ -5021,7 +6009,7 @@
         {
             "name": "Idle_NE_2_Body",
             "source": {
-                "x": 434,
+                "x": 419,
                 "y": 127,
                 "width": 15,
                 "height": 41
@@ -5034,8 +6022,8 @@
         {
             "name": "Idle_NE_3_Body",
             "source": {
-                "x": 449,
-                "y": 86,
+                "x": 404,
+                "y": 87,
                 "width": 15,
                 "height": 41
             },
@@ -5046,6 +6034,32 @@
         },
         {
             "name": "Idle_NE_4_Body",
+            "source": {
+                "x": 362,
+                "y": 45,
+                "width": 15,
+                "height": 42
+            },
+            "origin": {
+                "x": 8,
+                "y": 36
+            }
+        },
+        {
+            "name": "Idle_NE_5_Body",
+            "source": {
+                "x": 420,
+                "y": 44,
+                "width": 15,
+                "height": 42
+            },
+            "origin": {
+                "x": 8,
+                "y": 36
+            }
+        },
+        {
+            "name": "Idle_NE_6_Body",
             "source": {
                 "x": 304,
                 "y": 46,
@@ -5058,35 +6072,9 @@
             }
         },
         {
-            "name": "Idle_NE_5_Body",
-            "source": {
-                "x": 392,
-                "y": 45,
-                "width": 15,
-                "height": 42
-            },
-            "origin": {
-                "x": 8,
-                "y": 36
-            }
-        },
-        {
-            "name": "Idle_NE_6_Body",
-            "source": {
-                "x": 377,
-                "y": 45,
-                "width": 15,
-                "height": 42
-            },
-            "origin": {
-                "x": 8,
-                "y": 36
-            }
-        },
-        {
             "name": "Idle_NE_7_Body",
             "source": {
-                "x": 362,
+                "x": 392,
                 "y": 45,
                 "width": 15,
                 "height": 42
@@ -5112,7 +6100,7 @@
         {
             "name": "Walk_N_1_Body",
             "source": {
-                "x": 359,
+                "x": 372,
                 "y": 169,
                 "width": 13,
                 "height": 41
@@ -5138,7 +6126,7 @@
         {
             "name": "Walk_N_3_Body",
             "source": {
-                "x": 346,
+                "x": 359,
                 "y": 169,
                 "width": 13,
                 "height": 41
@@ -5151,7 +6139,7 @@
         {
             "name": "Walk_N_4_Body",
             "source": {
-                "x": 398,
+                "x": 346,
                 "y": 169,
                 "width": 13,
                 "height": 41
@@ -5164,8 +6152,8 @@
         {
             "name": "Walk_N_5_Body",
             "source": {
-                "x": 385,
-                "y": 169,
+                "x": 460,
+                "y": 168,
                 "width": 13,
                 "height": 41
             },
@@ -5177,8 +6165,8 @@
         {
             "name": "Walk_N_6_Body",
             "source": {
-                "x": 411,
-                "y": 209,
+                "x": 487,
+                "y": 208,
                 "width": 14,
                 "height": 39
             },
@@ -5190,7 +6178,7 @@
         {
             "name": "Walk_N_7_Body",
             "source": {
-                "x": 460,
+                "x": 447,
                 "y": 168,
                 "width": 13,
                 "height": 41
@@ -5203,8 +6191,8 @@
         {
             "name": "Idle_N_0_Body",
             "source": {
-                "x": 490,
-                "y": 126,
+                "x": 389,
+                "y": 87,
                 "width": 15,
                 "height": 41
             },
@@ -5216,8 +6204,8 @@
         {
             "name": "Idle_N_1_Body",
             "source": {
-                "x": 334,
-                "y": 88,
+                "x": 449,
+                "y": 86,
                 "width": 15,
                 "height": 41
             },
@@ -5229,8 +6217,8 @@
         {
             "name": "Idle_N_2_Body",
             "source": {
-                "x": 319,
-                "y": 88,
+                "x": 490,
+                "y": 85,
                 "width": 15,
                 "height": 41
             },
@@ -5242,8 +6230,8 @@
         {
             "name": "Idle_N_3_Body",
             "source": {
-                "x": 304,
-                "y": 88,
+                "x": 434,
+                "y": 127,
                 "width": 15,
                 "height": 41
             },
@@ -5254,19 +6242,6 @@
         },
         {
             "name": "Idle_N_4_Body",
-            "source": {
-                "x": 420,
-                "y": 44,
-                "width": 15,
-                "height": 42
-            },
-            "origin": {
-                "x": 8,
-                "y": 36
-            }
-        },
-        {
-            "name": "Idle_N_5_Body",
             "source": {
                 "x": 494,
                 "y": 43,
@@ -5279,10 +6254,10 @@
             }
         },
         {
-            "name": "Idle_N_6_Body",
+            "name": "Idle_N_5_Body",
             "source": {
-                "x": 479,
-                "y": 43,
+                "x": 377,
+                "y": 45,
                 "width": 15,
                 "height": 42
             },
@@ -5292,7 +6267,7 @@
             }
         },
         {
-            "name": "Idle_N_7_Body",
+            "name": "Idle_N_6_Body",
             "source": {
                 "x": 464,
                 "y": 43,
@@ -5305,59 +6280,20 @@
             }
         },
         {
+            "name": "Idle_N_7_Body",
+            "source": {
+                "x": 479,
+                "y": 43,
+                "width": 15,
+                "height": 42
+            },
+            "origin": {
+                "x": 8,
+                "y": 36
+            }
+        },
+        {
             "name": "PineWind_0_Layer 0",
-            "source": {
-                "x": 76,
-                "y": 0,
-                "width": 38,
-                "height": 178
-            },
-            "origin": {
-                "x": 15,
-                "y": 175
-            }
-        },
-        {
-            "name": "PineWind_1_Layer 0",
-            "source": {
-                "x": 266,
-                "y": 0,
-                "width": 38,
-                "height": 178
-            },
-            "origin": {
-                "x": 15,
-                "y": 175
-            }
-        },
-        {
-            "name": "PineWind_2_Layer 0",
-            "source": {
-                "x": 0,
-                "y": 0,
-                "width": 38,
-                "height": 178
-            },
-            "origin": {
-                "x": 15,
-                "y": 175
-            }
-        },
-        {
-            "name": "PineWind_3_Layer 0",
-            "source": {
-                "x": 38,
-                "y": 0,
-                "width": 38,
-                "height": 178
-            },
-            "origin": {
-                "x": 15,
-                "y": 175
-            }
-        },
-        {
-            "name": "PineWind_4_Layer 0",
             "source": {
                 "x": 114,
                 "y": 0,
@@ -5370,9 +6306,61 @@
             }
         },
         {
-            "name": "PineWind_5_Layer 0",
+            "name": "PineWind_1_Layer 0",
             "source": {
                 "x": 152,
+                "y": 0,
+                "width": 38,
+                "height": 178
+            },
+            "origin": {
+                "x": 15,
+                "y": 175
+            }
+        },
+        {
+            "name": "PineWind_2_Layer 0",
+            "source": {
+                "x": 38,
+                "y": 0,
+                "width": 38,
+                "height": 178
+            },
+            "origin": {
+                "x": 15,
+                "y": 175
+            }
+        },
+        {
+            "name": "PineWind_3_Layer 0",
+            "source": {
+                "x": 0,
+                "y": 0,
+                "width": 38,
+                "height": 178
+            },
+            "origin": {
+                "x": 15,
+                "y": 175
+            }
+        },
+        {
+            "name": "PineWind_4_Layer 0",
+            "source": {
+                "x": 266,
+                "y": 0,
+                "width": 38,
+                "height": 178
+            },
+            "origin": {
+                "x": 15,
+                "y": 175
+            }
+        },
+        {
+            "name": "PineWind_5_Layer 0",
+            "source": {
+                "x": 228,
                 "y": 0,
                 "width": 38,
                 "height": 178
@@ -5398,7 +6386,7 @@
         {
             "name": "PineWind_7_Layer 0",
             "source": {
-                "x": 228,
+                "x": 76,
                 "y": 0,
                 "width": 38,
                 "height": 178
@@ -5411,7 +6399,7 @@
         {
             "name": "Campfire_0_Layer 0",
             "source": {
-                "x": 362,
+                "x": 391,
                 "y": 0,
                 "width": 29,
                 "height": 45
@@ -5424,7 +6412,7 @@
         {
             "name": "Campfire_1_Layer 0",
             "source": {
-                "x": 304,
+                "x": 333,
                 "y": 0,
                 "width": 29,
                 "height": 46
@@ -5437,7 +6425,7 @@
         {
             "name": "Campfire_2_Layer 0",
             "source": {
-                "x": 333,
+                "x": 304,
                 "y": 0,
                 "width": 29,
                 "height": 46
@@ -5463,7 +6451,7 @@
         {
             "name": "Campfire_4_Layer 0",
             "source": {
-                "x": 391,
+                "x": 362,
                 "y": 0,
                 "width": 29,
                 "height": 45
@@ -5515,8 +6503,8 @@
         {
             "name": "Ham_0_Layer",
             "source": {
-                "x": 72,
-                "y": 321,
+                "x": 77,
+                "y": 351,
                 "width": 10,
                 "height": 9
             },
@@ -5528,8 +6516,8 @@
         {
             "name": "Ham_1_Layer",
             "source": {
-                "x": 80,
-                "y": 270,
+                "x": 171,
+                "y": 299,
                 "width": 14,
                 "height": 15
             },
@@ -5541,8 +6529,8 @@
         {
             "name": "Ham_2_Layer",
             "source": {
-                "x": 326,
-                "y": 258,
+                "x": 0,
+                "y": 298,
                 "width": 16,
                 "height": 15
             },
@@ -5554,8 +6542,8 @@
         {
             "name": "Ham_3_Layer",
             "source": {
-                "x": 103,
-                "y": 218,
+                "x": 35,
+                "y": 243,
                 "width": 19,
                 "height": 18
             },
@@ -5567,8 +6555,8 @@
         {
             "name": "Ham_4_Layer",
             "source": {
-                "x": 0,
-                "y": 258,
+                "x": 134,
+                "y": 297,
                 "width": 23,
                 "height": 15
             },
@@ -5580,8 +6568,8 @@
         {
             "name": "Cooked_Ham_0_Layer",
             "source": {
-                "x": 52,
-                "y": 321,
+                "x": 295,
+                "y": 351,
                 "width": 10,
                 "height": 9
             },
@@ -5593,8 +6581,8 @@
         {
             "name": "Cooked_Ham_1_Layer",
             "source": {
-                "x": 288,
-                "y": 270,
+                "x": 157,
+                "y": 299,
                 "width": 14,
                 "height": 15
             },
@@ -5606,8 +6594,8 @@
         {
             "name": "Cooked_Ham_2_Layer",
             "source": {
-                "x": 467,
-                "y": 265,
+                "x": 325,
+                "y": 298,
                 "width": 16,
                 "height": 15
             },
@@ -5619,8 +6607,8 @@
         {
             "name": "Cooked_Ham_3_Layer",
             "source": {
-                "x": 122,
-                "y": 218,
+                "x": 408,
+                "y": 248,
                 "width": 19,
                 "height": 18
             },
@@ -5632,8 +6620,8 @@
         {
             "name": "Cooked_Ham_4_Layer",
             "source": {
-                "x": 444,
-                "y": 265,
+                "x": 80,
+                "y": 298,
                 "width": 23,
                 "height": 15
             },
@@ -5645,8 +6633,8 @@
         {
             "name": "Assorted_16_Layer",
             "source": {
-                "x": 353,
-                "y": 309,
+                "x": 348,
+                "y": 347,
                 "width": 9,
                 "height": 11
             },
@@ -5658,8 +6646,8 @@
         {
             "name": "Assorted_17_Layer",
             "source": {
-                "x": 38,
-                "y": 255,
+                "x": 481,
+                "y": 291,
                 "width": 11,
                 "height": 17
             },
@@ -5671,8 +6659,8 @@
         {
             "name": "Assorted_18_Layer",
             "source": {
-                "x": 495,
-                "y": 263,
+                "x": 275,
+                "y": 298,
                 "width": 16,
                 "height": 15
             },
@@ -5684,8 +6672,8 @@
         {
             "name": "Assorted_19_Layer",
             "source": {
-                "x": 179,
-                "y": 218,
+                "x": 427,
+                "y": 248,
                 "width": 16,
                 "height": 18
             },
@@ -5697,8 +6685,8 @@
         {
             "name": "Assorted_20_Layer",
             "source": {
-                "x": 141,
-                "y": 218,
+                "x": 470,
+                "y": 247,
                 "width": 19,
                 "height": 18
             },
@@ -5710,8 +6698,8 @@
         {
             "name": "Cooked_Meat_0_Layer",
             "source": {
-                "x": 251,
-                "y": 309,
+                "x": 357,
+                "y": 347,
                 "width": 9,
                 "height": 11
             },
@@ -5723,8 +6711,8 @@
         {
             "name": "Cooked_Meat_1_Layer",
             "source": {
-                "x": 49,
-                "y": 255,
+                "x": 431,
+                "y": 284,
                 "width": 11,
                 "height": 17
             },
@@ -5736,8 +6724,8 @@
         {
             "name": "Cooked_Meat_2_Layer",
             "source": {
-                "x": 80,
-                "y": 255,
+                "x": 259,
+                "y": 298,
                 "width": 16,
                 "height": 15
             },
@@ -5749,8 +6737,8 @@
         {
             "name": "Cooked_Meat_3_Layer",
             "source": {
-                "x": 195,
-                "y": 218,
+                "x": 489,
+                "y": 255,
                 "width": 16,
                 "height": 18
             },
@@ -5762,8 +6750,8 @@
         {
             "name": "Cooked_Meat_4_Layer",
             "source": {
-                "x": 160,
-                "y": 218,
+                "x": 451,
+                "y": 247,
                 "width": 19,
                 "height": 18
             },
@@ -5775,8 +6763,8 @@
         {
             "name": "Apple_0_Layer",
             "source": {
-                "x": 448,
-                "y": 327,
+                "x": 301,
+                "y": 360,
                 "width": 6,
                 "height": 7
             },
@@ -5788,8 +6776,8 @@
         {
             "name": "Apple_1_Layer",
             "source": {
-                "x": 14,
-                "y": 311,
+                "x": 185,
+                "y": 350,
                 "width": 11,
                 "height": 10
             },
@@ -5801,8 +6789,8 @@
         {
             "name": "Apple_2_Layer",
             "source": {
-                "x": 211,
-                "y": 286,
+                "x": 404,
+                "y": 316,
                 "width": 11,
                 "height": 13
             },
@@ -5814,8 +6802,8 @@
         {
             "name": "Apple_3_Layer",
             "source": {
-                "x": 495,
-                "y": 278,
+                "x": 72,
+                "y": 313,
                 "width": 11,
                 "height": 15
             },
@@ -5827,8 +6815,8 @@
         {
             "name": "Apple_4_Layer",
             "source": {
-                "x": 23,
-                "y": 258,
+                "x": 42,
+                "y": 299,
                 "width": 15,
                 "height": 15
             },
@@ -5840,8 +6828,8 @@
         {
             "name": "Plum_0_Layer",
             "source": {
-                "x": 436,
-                "y": 327,
+                "x": 307,
+                "y": 360,
                 "width": 6,
                 "height": 7
             },
@@ -5853,8 +6841,8 @@
         {
             "name": "Plum_1_Layer",
             "source": {
-                "x": 319,
-                "y": 311,
+                "x": 174,
+                "y": 350,
                 "width": 11,
                 "height": 10
             },
@@ -5866,8 +6854,8 @@
         {
             "name": "Plum_2_Layer",
             "source": {
-                "x": 222,
-                "y": 286,
+                "x": 455,
+                "y": 315,
                 "width": 11,
                 "height": 13
             },
@@ -5879,8 +6867,8 @@
         {
             "name": "Plum_3_Layer",
             "source": {
-                "x": 326,
-                "y": 273,
+                "x": 146,
+                "y": 312,
                 "width": 11,
                 "height": 15
             },
@@ -5892,8 +6880,8 @@
         {
             "name": "Plum_4_Layer",
             "source": {
-                "x": 423,
-                "y": 266,
+                "x": 341,
+                "y": 298,
                 "width": 15,
                 "height": 15
             },
@@ -5905,8 +6893,8 @@
         {
             "name": "Pear_0_Layer",
             "source": {
-                "x": 8,
-                "y": 322,
+                "x": 258,
+                "y": 360,
                 "width": 6,
                 "height": 8
             },
@@ -5918,8 +6906,8 @@
         {
             "name": "Pear_1_Layer",
             "source": {
-                "x": 86,
-                "y": 285,
+                "x": 283,
+                "y": 313,
                 "width": 8,
                 "height": 13
             },
@@ -5931,8 +6919,8 @@
         {
             "name": "Pear_2_Layer",
             "source": {
-                "x": 349,
-                "y": 285,
+                "x": 207,
+                "y": 314,
                 "width": 11,
                 "height": 14
             },
@@ -5944,8 +6932,8 @@
         {
             "name": "Pear_3_Layer",
             "source": {
-                "x": 166,
-                "y": 272,
+                "x": 466,
+                "y": 308,
                 "width": 12,
                 "height": 15
             },
@@ -5957,8 +6945,8 @@
         {
             "name": "Pear_4_Layer",
             "source": {
-                "x": 408,
-                "y": 266,
+                "x": 57,
+                "y": 299,
                 "width": 15,
                 "height": 15
             },
@@ -5970,8 +6958,8 @@
         {
             "name": "Blueberry_0_Layer",
             "source": {
-                "x": 501,
-                "y": 326,
+                "x": 237,
+                "y": 360,
                 "width": 7,
                 "height": 8
             },
@@ -5983,8 +6971,8 @@
         {
             "name": "Blueberry_1_Layer",
             "source": {
-                "x": 27,
-                "y": 321,
+                "x": 42,
+                "y": 351,
                 "width": 14,
                 "height": 9
             },
@@ -5996,8 +6984,8 @@
         {
             "name": "Blueberry_2_Layer",
             "source": {
-                "x": 240,
-                "y": 286,
+                "x": 415,
+                "y": 316,
                 "width": 15,
                 "height": 12
             },
@@ -6009,8 +6997,8 @@
         {
             "name": "Torch_Flame_0_Layer",
             "source": {
-                "x": 13,
-                "y": 218,
+                "x": 383,
+                "y": 235,
                 "width": 13,
                 "height": 22
             },
@@ -6022,8 +7010,8 @@
         {
             "name": "Torch_Flame_1_Layer",
             "source": {
-                "x": 362,
-                "y": 210,
+                "x": 58,
+                "y": 218,
                 "width": 13,
                 "height": 24
             },
@@ -6035,8 +7023,8 @@
         {
             "name": "Torch_Flame_2_Layer",
             "source": {
-                "x": 349,
-                "y": 210,
+                "x": 97,
+                "y": 218,
                 "width": 13,
                 "height": 24
             },
@@ -6048,8 +7036,8 @@
         {
             "name": "Torch_Flame_3_Layer",
             "source": {
-                "x": 388,
-                "y": 210,
+                "x": 84,
+                "y": 218,
                 "width": 13,
                 "height": 24
             },
@@ -6061,8 +7049,8 @@
         {
             "name": "Torch_Flame_4_Layer",
             "source": {
-                "x": 0,
-                "y": 218,
+                "x": 370,
+                "y": 235,
                 "width": 13,
                 "height": 22
             },
@@ -6074,8 +7062,8 @@
         {
             "name": "Torch_Flame_5_Layer",
             "source": {
-                "x": 302,
-                "y": 211,
+                "x": 168,
+                "y": 218,
                 "width": 13,
                 "height": 23
             },
@@ -6087,8 +7075,8 @@
         {
             "name": "Torch_Flame_6_Layer",
             "source": {
-                "x": 375,
-                "y": 210,
+                "x": 71,
+                "y": 218,
                 "width": 13,
                 "height": 24
             },
@@ -6100,8 +7088,8 @@
         {
             "name": "Torch_Flame_7_Layer",
             "source": {
-                "x": 26,
-                "y": 218,
+                "x": 91,
+                "y": 242,
                 "width": 13,
                 "height": 20
             },
@@ -6113,8 +7101,8 @@
         {
             "name": "Torch_0_Layer",
             "source": {
-                "x": 375,
-                "y": 285,
+                "x": 442,
+                "y": 315,
                 "width": 13,
                 "height": 13
             },
@@ -6126,8 +7114,8 @@
         {
             "name": "Bucket_0_Layer",
             "source": {
-                "x": 163,
-                "y": 287,
+                "x": 291,
+                "y": 325,
                 "width": 11,
                 "height": 12
             },
@@ -6139,8 +7127,8 @@
         {
             "name": "Bucket_1_Layer",
             "source": {
-                "x": 22,
-                "y": 288,
+                "x": 138,
+                "y": 327,
                 "width": 11,
                 "height": 12
             },
@@ -6152,8 +7140,8 @@
         {
             "name": "Vial_0_Layer",
             "source": {
-                "x": 7,
-                "y": 311,
+                "x": 153,
+                "y": 350,
                 "width": 7,
                 "height": 11
             },
@@ -6165,8 +7153,8 @@
         {
             "name": "Smoke_0_Layer",
             "source": {
-                "x": 474,
-                "y": 327,
+                "x": 0,
+                "y": 361,
                 "width": 5,
                 "height": 6
             },
@@ -6178,8 +7166,8 @@
         {
             "name": "Smoke_1_Layer",
             "source": {
-                "x": 442,
-                "y": 327,
+                "x": 295,
+                "y": 360,
                 "width": 6,
                 "height": 7
             },
@@ -6191,8 +7179,8 @@
         {
             "name": "Smoke_2_Layer",
             "source": {
-                "x": 205,
-                "y": 321,
+                "x": 69,
+                "y": 360,
                 "width": 9,
                 "height": 8
             },
@@ -6204,8 +7192,8 @@
         {
             "name": "Smoke_3_Layer",
             "source": {
-                "x": 410,
-                "y": 295,
+                "x": 94,
+                "y": 328,
                 "width": 11,
                 "height": 11
             },
@@ -6217,8 +7205,8 @@
         {
             "name": "Smoke_4_Layer",
             "source": {
-                "x": 388,
-                "y": 285,
+                "x": 303,
+                "y": 316,
                 "width": 13,
                 "height": 13
             },
@@ -6230,8 +7218,8 @@
         {
             "name": "Smoke_5_Layer",
             "source": {
-                "x": 406,
-                "y": 281,
+                "x": 45,
+                "y": 314,
                 "width": 15,
                 "height": 14
             },
@@ -6243,8 +7231,8 @@
         {
             "name": "Smoke_6_Layer",
             "source": {
-                "x": 421,
-                "y": 281,
+                "x": 157,
+                "y": 314,
                 "width": 14,
                 "height": 14
             },
@@ -6256,8 +7244,8 @@
         {
             "name": "Smoke_7_Layer",
             "source": {
-                "x": 360,
-                "y": 285,
+                "x": 227,
+                "y": 314,
                 "width": 15,
                 "height": 13
             },
@@ -6269,7 +7257,7 @@
         {
             "name": "Reeds_0_Layer",
             "source": {
-                "x": 331,
+                "x": 352,
                 "y": 210,
                 "width": 18,
                 "height": 30
@@ -6282,8 +7270,8 @@
         {
             "name": "Gold_0_Layer",
             "source": {
-                "x": 9,
-                "y": 330,
+                "x": 87,
+                "y": 366,
                 "width": 5,
                 "height": 5
             },
@@ -6295,8 +7283,8 @@
         {
             "name": "Gold_1_Layer",
             "source": {
-                "x": 479,
-                "y": 326,
+                "x": 222,
+                "y": 360,
                 "width": 8,
                 "height": 8
             },
@@ -6308,8 +7296,8 @@
         {
             "name": "Gold_2_Layer",
             "source": {
-                "x": 62,
-                "y": 321,
+                "x": 67,
+                "y": 351,
                 "width": 10,
                 "height": 9
             },
@@ -6321,8 +7309,8 @@
         {
             "name": "Gold_3_Layer",
             "source": {
-                "x": 454,
-                "y": 327,
+                "x": 313,
+                "y": 360,
                 "width": 11,
                 "height": 6
             },
@@ -6334,8 +7322,8 @@
         {
             "name": "Gold_4_Layer",
             "source": {
-                "x": 41,
-                "y": 321,
+                "x": 56,
+                "y": 351,
                 "width": 11,
                 "height": 9
             },
@@ -6363,28 +7351,28 @@
         {
             "name": "Idle_N_Head",
             "indexes": [
-                320,
-                321,
-                322,
-                323,
-                324,
-                325,
-                326,
-                327
+                396,
+                397,
+                398,
+                399,
+                400,
+                401,
+                402,
+                403
             ],
             "fps": 8
         },
         {
             "name": "Idle_N_Body",
             "indexes": [
-                400,
-                401,
-                402,
-                403,
-                404,
-                405,
-                406,
-                407
+                476,
+                477,
+                478,
+                479,
+                480,
+                481,
+                482,
+                483
             ],
             "fps": 8
         },
@@ -6431,44 +7419,72 @@
             "fps": 8
         },
         {
+            "name": "Idle_NE_FeetF01",
+            "indexes": [
+                204,
+                205,
+                206,
+                207,
+                208,
+                209,
+                210,
+                211
+            ],
+            "fps": 8
+        },
+        {
             "name": "Idle_NE_BottomF01",
             "indexes": [
-                232,
-                233,
-                234,
-                235,
-                236,
-                237,
-                238,
-                239
+                252,
+                253,
+                254,
+                255,
+                256,
+                257,
+                258,
+                259
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Idle_NE_BottomF02",
+            "indexes": [
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315
             ],
             "fps": 8
         },
         {
             "name": "Idle_NE_Head",
             "indexes": [
-                304,
-                305,
-                306,
-                307,
-                308,
-                309,
-                310,
-                311
+                380,
+                381,
+                382,
+                383,
+                384,
+                385,
+                386,
+                387
             ],
             "fps": 8
         },
         {
             "name": "Idle_NE_Body",
             "indexes": [
-                384,
-                385,
-                386,
-                387,
-                388,
-                389,
-                390,
-                391
+                460,
+                461,
+                462,
+                463,
+                464,
+                465,
+                466,
+                467
             ],
             "fps": 8
         },
@@ -6489,28 +7505,28 @@
         {
             "name": "Idle_E_Head",
             "indexes": [
-                288,
-                289,
-                290,
-                291,
-                292,
-                293,
-                294,
-                295
+                364,
+                365,
+                366,
+                367,
+                368,
+                369,
+                370,
+                371
             ],
             "fps": 8
         },
         {
             "name": "Idle_E_Body",
             "indexes": [
-                368,
-                369,
-                370,
-                371,
-                372,
-                373,
-                374,
-                375
+                444,
+                445,
+                446,
+                447,
+                448,
+                449,
+                450,
+                451
             ],
             "fps": 8
         },
@@ -6557,44 +7573,72 @@
             "fps": 8
         },
         {
+            "name": "Idle_SE_FeetF01",
+            "indexes": [
+                196,
+                197,
+                198,
+                199,
+                200,
+                201,
+                202,
+                203
+            ],
+            "fps": 8
+        },
+        {
             "name": "Idle_SE_BottomF01",
             "indexes": [
-                208,
-                209,
-                210,
-                211,
-                212,
-                213,
-                214,
-                215
+                228,
+                229,
+                230,
+                231,
+                232,
+                233,
+                234,
+                235
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Idle_SE_BottomF02",
+            "indexes": [
+                284,
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291
             ],
             "fps": 8
         },
         {
             "name": "Idle_SE_Head",
             "indexes": [
-                272,
-                273,
-                274,
-                275,
-                276,
-                277,
-                278,
-                279
+                348,
+                349,
+                350,
+                351,
+                352,
+                353,
+                354,
+                355
             ],
             "fps": 8
         },
         {
             "name": "Idle_SE_Body",
             "indexes": [
-                352,
-                353,
-                354,
-                355,
-                356,
-                357,
-                358,
-                359
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435
             ],
             "fps": 8
         },
@@ -6615,28 +7659,28 @@
         {
             "name": "Idle_S_Head",
             "indexes": [
-                256,
-                257,
-                258,
-                259,
-                260,
-                261,
-                262,
-                263
+                332,
+                333,
+                334,
+                335,
+                336,
+                337,
+                338,
+                339
             ],
             "fps": 8
         },
         {
             "name": "Idle_S_Body",
             "indexes": [
-                336,
-                337,
-                338,
-                339,
-                340,
-                341,
-                342,
-                343
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419
             ],
             "fps": 8
         },
@@ -6685,42 +7729,56 @@
         {
             "name": "Walk_N_BottomF01",
             "indexes": [
-                240,
-                241,
-                242,
-                243,
-                244,
-                245,
-                246,
-                247
+                260,
+                261,
+                262,
+                263,
+                264,
+                265,
+                266,
+                267
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Walk_N_BottomF02",
+            "indexes": [
+                316,
+                317,
+                318,
+                319,
+                320,
+                321,
+                322,
+                323
             ],
             "fps": 8
         },
         {
             "name": "Walk_N_Head",
             "indexes": [
-                312,
-                313,
-                314,
-                315,
-                316,
-                317,
-                318,
-                319
+                388,
+                389,
+                390,
+                391,
+                392,
+                393,
+                394,
+                395
             ],
             "fps": 8
         },
         {
             "name": "Walk_N_Body",
             "indexes": [
-                392,
-                393,
-                394,
-                395,
-                396,
-                397,
-                398,
-                399
+                468,
+                469,
+                470,
+                471,
+                472,
+                473,
+                474,
+                475
             ],
             "fps": 8
         },
@@ -6769,42 +7827,56 @@
         {
             "name": "Walk_NE_BottomF01",
             "indexes": [
-                224,
-                225,
-                226,
-                227,
-                228,
-                229,
-                230,
-                231
+                244,
+                245,
+                246,
+                247,
+                248,
+                249,
+                250,
+                251
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Walk_NE_BottomF02",
+            "indexes": [
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307
             ],
             "fps": 8
         },
         {
             "name": "Walk_NE_Head",
             "indexes": [
-                296,
-                297,
-                298,
-                299,
-                300,
-                301,
-                302,
-                303
+                372,
+                373,
+                374,
+                375,
+                376,
+                377,
+                378,
+                379
             ],
             "fps": 8
         },
         {
             "name": "Walk_NE_Body",
             "indexes": [
-                376,
-                377,
-                378,
-                379,
-                380,
-                381,
-                382,
-                383
+                452,
+                453,
+                454,
+                455,
+                456,
+                457,
+                458,
+                459
             ],
             "fps": 8
         },
@@ -6853,42 +7925,56 @@
         {
             "name": "Walk_E_BottomF01",
             "indexes": [
-                216,
-                217,
-                218,
-                219,
-                220,
-                221,
-                222,
-                223
+                236,
+                237,
+                238,
+                239,
+                240,
+                241,
+                242,
+                243
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Walk_E_BottomF02",
+            "indexes": [
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299
             ],
             "fps": 8
         },
         {
             "name": "Walk_E_Head",
             "indexes": [
-                280,
-                281,
-                282,
-                283,
-                284,
-                285,
-                286,
-                287
+                356,
+                357,
+                358,
+                359,
+                360,
+                361,
+                362,
+                363
             ],
             "fps": 8
         },
         {
             "name": "Walk_E_Body",
             "indexes": [
-                360,
-                361,
-                362,
-                363,
-                364,
-                365,
-                366,
-                367
+                436,
+                437,
+                438,
+                439,
+                440,
+                441,
+                442,
+                443
             ],
             "fps": 8
         },
@@ -6935,44 +8021,68 @@
             "fps": 8
         },
         {
+            "name": "Walk_SE_FeetF01",
+            "indexes": [
+                192,
+                193,
+                194,
+                195
+            ],
+            "fps": 8
+        },
+        {
             "name": "Walk_SE_BottomF01",
             "indexes": [
-                200,
-                201,
-                202,
-                203,
-                204,
-                205,
-                206,
-                207
+                220,
+                221,
+                222,
+                223,
+                224,
+                225,
+                226,
+                227
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Walk_SE_BottomF02",
+            "indexes": [
+                276,
+                277,
+                278,
+                279,
+                280,
+                281,
+                282,
+                283
             ],
             "fps": 8
         },
         {
             "name": "Walk_SE_Head",
             "indexes": [
-                264,
-                265,
-                266,
-                267,
-                268,
-                269,
-                270,
-                271
+                340,
+                341,
+                342,
+                343,
+                344,
+                345,
+                346,
+                347
             ],
             "fps": 8
         },
         {
             "name": "Walk_SE_Body",
             "indexes": [
-                344,
-                345,
-                346,
-                347,
-                348,
-                349,
-                350,
-                351
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427
             ],
             "fps": 8
         },
@@ -7021,213 +8131,227 @@
         {
             "name": "Walk_S_BottomF01",
             "indexes": [
-                192,
-                193,
-                194,
-                195,
-                196,
-                197,
-                198,
-                199
+                212,
+                213,
+                214,
+                215,
+                216,
+                217,
+                218,
+                219
+            ],
+            "fps": 8
+        },
+        {
+            "name": "Walk_S_BottomF02",
+            "indexes": [
+                268,
+                269,
+                270,
+                271,
+                272,
+                273,
+                274,
+                275
             ],
             "fps": 8
         },
         {
             "name": "Walk_S_Head",
             "indexes": [
-                248,
-                249,
-                250,
-                251,
-                252,
-                253,
-                254,
-                255
+                324,
+                325,
+                326,
+                327,
+                328,
+                329,
+                330,
+                331
             ],
             "fps": 8
         },
         {
             "name": "Walk_S_Body",
             "indexes": [
-                328,
-                329,
-                330,
-                331,
-                332,
-                333,
-                334,
-                335
+                404,
+                405,
+                406,
+                407,
+                408,
+                409,
+                410,
+                411
             ],
             "fps": 8
         },
         {
             "name": "PineWind_Layer 0",
             "indexes": [
-                408,
-                409,
-                410,
-                411,
-                412,
-                413,
-                414,
-                415
+                484,
+                485,
+                486,
+                487,
+                488,
+                489,
+                490,
+                491
             ],
             "fps": 8
         },
         {
             "name": "Campfire_Layer 0",
             "indexes": [
-                416,
-                417,
-                418,
-                419,
-                420,
-                421,
-                422,
-                423
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499
             ],
             "fps": 8
         },
         {
             "name": "Smoke_Layer",
             "indexes": [
-                474,
-                475,
-                476,
-                477,
-                478,
-                479,
-                480,
-                481
+                550,
+                551,
+                552,
+                553,
+                554,
+                555,
+                556,
+                557
             ],
             "fps": 8
         },
         {
             "name": "Blueberry_Layer",
             "indexes": [
-                459,
-                460,
-                461
+                535,
+                536,
+                537
             ],
             "fps": 8
         },
         {
             "name": "Apple_Layer",
             "indexes": [
-                444,
-                445,
-                446,
-                447,
-                448
+                520,
+                521,
+                522,
+                523,
+                524
             ],
             "fps": 8
         },
         {
             "name": "Gold_Layer",
             "indexes": [
-                483,
-                484,
-                485,
-                486,
-                487
+                559,
+                560,
+                561,
+                562,
+                563
             ],
             "fps": 8
         },
         {
             "name": "Torch_Layer",
             "indexes": [
-                470
+                546
             ],
             "fps": 8
         },
         {
             "name": "Reeds_Layer",
             "indexes": [
-                482
+                558
             ],
             "fps": 8
         },
         {
             "name": "Plum_Layer",
             "indexes": [
-                449,
-                450,
-                451,
-                452,
-                453
+                525,
+                526,
+                527,
+                528,
+                529
             ],
             "fps": 8
         },
         {
             "name": "Cooked_Meat_Layer",
             "indexes": [
-                439,
-                440,
-                441,
-                442,
-                443
+                515,
+                516,
+                517,
+                518,
+                519
             ],
             "fps": 8
         },
         {
             "name": "Cooked_Ham_Layer",
             "indexes": [
-                429,
-                430,
-                431,
-                432,
-                433
+                505,
+                506,
+                507,
+                508,
+                509
             ],
             "fps": 8
         },
         {
             "name": "Vial_Layer",
             "indexes": [
-                473
+                549
             ],
             "fps": 8
         },
         {
             "name": "Bucket_Layer",
             "indexes": [
-                471,
-                472
+                547,
+                548
             ],
             "fps": 8
         },
         {
             "name": "Pear_Layer",
             "indexes": [
-                454,
-                455,
-                456,
-                457,
-                458
+                530,
+                531,
+                532,
+                533,
+                534
             ],
             "fps": 8
         },
         {
             "name": "Ham_Layer",
             "indexes": [
-                424,
-                425,
-                426,
-                427,
-                428
+                500,
+                501,
+                502,
+                503,
+                504
             ],
             "fps": 5
         },
         {
             "name": "Torch_Flame_Layer",
             "indexes": [
-                462,
-                463,
-                464,
-                465,
-                466,
-                467,
-                468,
-                469
+                538,
+                539,
+                540,
+                541,
+                542,
+                543,
+                544,
+                545
             ],
             "fps": 8
         }
