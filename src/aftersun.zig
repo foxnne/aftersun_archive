@@ -113,7 +113,6 @@ fn init() !void {
     // input
     _ = world.newSystem("MovementInputSystem", flecs.EcsOnUpdate, "$MovementInput", @import("ecs/systems/movementinput.zig").progress);
     _ = world.newSystem("MouseInputSystem", flecs.EcsOnUpdate, "$MouseInput, $Tile", @import("ecs/systems/mouseinput.zig").progress);
-    _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile, !MoveRequest", @import("ecs/systems/moverequest.zig").progress);
 
     // collision and interaction
     const collisionBroadphaseSystem = world.newSystem("CollisionBroadphaseSystem", flecs.EcsOnUpdate, "$CollisionBroadphase, $Grid, Cell, Tile", @import("ecs/systems/collisionbroadphase.zig").progress);
@@ -126,7 +125,7 @@ fn init() !void {
     // movement
     _ = world.newSystem("MoveTileSystem", flecs.EcsOnUpdate, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
     _ = world.newSystem("MoveToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
-    _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
+    _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, ?Subpixel, !Tile", @import("ecs/systems/move.zig").progress);
     _ = world.newSystem("TossToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, TossCooldown", @import("ecs/systems/tosstotile.zig").progress);
 
     // animation
@@ -165,6 +164,8 @@ fn init() !void {
 
     _ = world.newSystem("RenderPassEnd3System", flecs.EcsOnUpdate, "Camera, PostProcess", @import("ecs/systems/renderpassend3.zig").progress);
     _ = world.newSystem("RenderCullingSystem", flecs.EcsOnUpdate, "Position, ?CharacterRenderer, ?SpriteRenderer, ?LightRenderer", @import("ecs/systems/renderculling.zig").progress);
+        _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile", @import("ecs/systems/moverequest.zig").progress);
+
 
     player = world.new();
     world.setName(player, "Player");
@@ -222,6 +223,7 @@ fn init() !void {
     });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
+    world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
     world.set(camera, &components.Environment{
         .environment_shader = &environment_shader,

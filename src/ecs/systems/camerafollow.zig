@@ -13,7 +13,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-
         if (world.get(follows[i].target, components.Position)) |tp| {
             var camera_position = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y};
             var target_position = zia.math.Vector2{ .x = tp.x, .y = tp.y };

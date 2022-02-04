@@ -5,7 +5,7 @@ const game = @import("game");
 const components = @import("game").components;
 
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const world = flecs.World{ .world = it.world.? };
+    //const world = flecs.World{ .world = it.world.? };
 
     const move_requests = it.term(components.MoveRequest, 1);
     const tiles = it.term(components.Tile, 2);
@@ -20,6 +20,5 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         tiles[i].y += move_requests[i].y;
         tiles[i].z += move_requests[i].z;
         tiles[i].counter = game.getCounter();
-        world.remove(it.entities[i], components.MoveRequest);
     }
 }

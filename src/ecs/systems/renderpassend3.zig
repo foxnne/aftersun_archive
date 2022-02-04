@@ -41,7 +41,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         zia.gfx.draw.bindTexture(cameras[i].pass_3.color_texture, 2);
         zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{});
         zia.gfx.endPass();
-        zia.gfx.draw.unbindTexture(1);
+        //zia.gfx.draw.unbindTexture(1);
         zia.gfx.draw.unbindTexture(2);
 
         postprocesses[i].tiltshift_shader.frag_uniform.blur_amount = 1;

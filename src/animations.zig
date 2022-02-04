@@ -497,6 +497,7 @@ pub var Walk_SE_FeetF01 = [_]usize {
     assets.aftersun_atlas.Walk_SE_1_FeetF01,
     assets.aftersun_atlas.Walk_SE_2_FeetF01,
     assets.aftersun_atlas.Walk_SE_3_FeetF01,
+    assets.aftersun_atlas.Walk_SE_4_FeetF01,
 };
 pub var Walk_SE_BottomF01 = [_]usize {
     assets.aftersun_atlas.Walk_SE_0_BottomF01,
