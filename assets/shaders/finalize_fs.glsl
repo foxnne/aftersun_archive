@@ -2,7 +2,6 @@
 
 uniform vec4 FinalizeParams[1];
 uniform sampler2D main_tex;
-uniform sampler2D bloom_t;
 uniform sampler2D envir_t;
 
 layout(location = 0) out vec4 frag_color;
@@ -22,7 +21,7 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
     vec2 param_1 = vec2(FinalizeParams[0].y, FinalizeParams[0].z);
     float param_2 = max(1.0 / FinalizeParams[0].y, 1.0 / FinalizeParams[0].z);
     vec2 _109 = interpolate(param, param_1, param_2);
-    return (texture(tex, _109) * texture(envir_t, _109)) + texture(bloom_t, tex_coord);
+    return texture(tex, _109) * texture(envir_t, _109);
 }
 
 void main()

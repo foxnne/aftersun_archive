@@ -20,7 +20,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 positions[i].x += velocities[i].x;
             }
         } else {
-            positions[i].x = @round(positions[i].x);
+            positions[i].x = @trunc(positions[i].x);
             if (subpixels_optional) |subpixels| {
                 subpixels[i].x = 0;
             }
@@ -37,7 +37,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 positions[i].y += velocities[i].y;
             }
         } else {
-            positions[i].y = @round(positions[i].y);
+            positions[i].y = @trunc(positions[i].y);
             if (subpixels_optional) |subpixels| {
                 subpixels[i].y = 0;
             }

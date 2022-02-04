@@ -32,7 +32,7 @@ pub fn createTiltshiftShader() TiltshiftShader {
 
 pub const FinalizeParams = extern struct {
     pub const metadata = .{
-        .images = .{ "main_tex", "bloom_t", "envir_t" },
+        .images = .{ "main_tex", "envir_t" },
         .uniforms = .{ .FinalizeParams = .{ .type = .float4, .array_count = 1 } },
     };
 

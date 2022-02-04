@@ -276,7 +276,7 @@ vec4 effect (sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 // RENDERS A LINEAR INTERPOLATED IMAGE AS NEAREST NEIGHBOR
 @fs finalize_fs
 @include_block sprite_fs_main
-uniform sampler2D bloom_t;
+//uniform sampler2D bloom_t;
 uniform sampler2D envir_t;
 
 uniform FinalizeParams {
@@ -300,11 +300,11 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	
   	vec2 interpolated_tex_coords =  interpolate(tex_coord, tex_size, texelsPerPixel);
 
-	vec4 bloom = texture(bloom_t, tex_coord);
+	//vec4 bloom = texture(bloom_t, tex_coord);
 	vec4 environment = texture(envir_t, interpolated_tex_coords);
 	vec4 main = texture(tex, interpolated_tex_coords);
 
-	return main * environment + bloom;  
+	return main * environment; //bloom;  
 }
 @end
 

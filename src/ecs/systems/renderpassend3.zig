@@ -38,11 +38,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         zia.gfx.beginPass(.{ .pass = cameras[i].pass_5, .shader = &postprocesses[i].finalize_shader.shader });
         //zia.gfx.draw.bindTexture(cameras[i].pass_4.color_texture, 1);
-        zia.gfx.draw.bindTexture(cameras[i].pass_3.color_texture, 2);
+        zia.gfx.draw.bindTexture(cameras[i].pass_3.color_texture, 1);
         zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{});
         zia.gfx.endPass();
         //zia.gfx.draw.unbindTexture(1);
-        zia.gfx.draw.unbindTexture(2);
+        zia.gfx.draw.unbindTexture(1);
 
         postprocesses[i].tiltshift_shader.frag_uniform.blur_amount = 1;
 
