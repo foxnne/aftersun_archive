@@ -13,7 +13,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
-        //var target_direction_ptr = world.get(follows[i].target, components.BodyDirection);
 
         if (world.get(follows[i].target, components.Position)) |tp| {
             var camera_position = zia.math.Vector2{ .x = positions[i].x, .y = positions[i].y};
@@ -45,10 +44,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 velocities[i].x = difference.x * follows[i].easing * 1.2;
                 velocities[i].y = difference.y * follows[i].easing * 1.2;
 
-                if (game.gizmos.enabled) {
-                    var color = zia.math.Color.fromBytes(255, 255, 255, 128);
-                    game.gizmos.circle(forward_target, 2, color, 1);
-                }
+                // if (game.gizmos.enabled) {
+                //     var color = zia.math.Color.fromBytes(255, 255, 255, 128);
+                //     game.gizmos.circle(forward_target, 2, color, 1);
+                // }
             } else {
                 var vec = head_direction.normalized();
                 var forward_target = target_position.add(vec.scale(follows[i].min_distance));
@@ -58,10 +57,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 velocities[i].x = difference.x * follows[i].easing * 2;
                 velocities[i].y = difference.y * follows[i].easing * 2;
 
-                if (game.gizmos.enabled) {
-                    var color = zia.math.Color.fromBytes(255, 255, 255, 128);
-                    game.gizmos.circle(forward_target, 2, color, 1);
-                }
+                // if (game.gizmos.enabled) {
+                //     var color = zia.math.Color.fromBytes(255, 255, 255, 128);
+                //     game.gizmos.circle(forward_target, 2, color, 1);
+                // }
             }
         }
     }

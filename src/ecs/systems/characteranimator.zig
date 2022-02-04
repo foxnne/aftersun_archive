@@ -19,7 +19,6 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
         var body = zia.math.Direction.find(8, velocities[i].x, velocities[i].y);
-
         var head = zia.math.Direction.s;
 
         if (world.getSingleton(components.MouseInput)) |mouse_input| {
@@ -81,7 +80,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 .none => unreachable,
             };
 
-            animators[i].fps = 8;
+            animators[i].fps = 12;
             renderers[i].flipBody = body.flippedHorizontally();
 
             switch (heads[i].direction) {
