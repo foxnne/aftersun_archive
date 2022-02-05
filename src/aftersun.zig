@@ -162,7 +162,7 @@ fn init() !void {
     //const renderPass3Query = flecs.ecs_get_system_query(world.world, renderPass3System);
     //flecs.ecs_query_order_by(world.world, renderPass3Query, world.newComponent(components.Tile), sortTile);
 
-    _ = world.newSystem("RenderPassEnd3System", flecs.EcsOnUpdate, "Camera, PostProcess", @import("ecs/systems/renderpassend3.zig").progress);
+    _ = world.newSystem("RenderPassEnd3System", flecs.EcsOnUpdate, "Camera, PostProcess, Zoom", @import("ecs/systems/renderpassend3.zig").progress);
     _ = world.newSystem("RenderCullingSystem", flecs.EcsOnUpdate, "Position, ?CharacterRenderer, ?SpriteRenderer, ?LightRenderer", @import("ecs/systems/renderculling.zig").progress);
         _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile", @import("ecs/systems/moverequest.zig").progress);
 
@@ -215,7 +215,7 @@ fn init() !void {
     world.set(camera, &components.Camera{
         .size = .{ .x = design_w, .y = design_h },
         .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
-        .pass_1 = zia.gfx.OffscreenPass.initWithStencil(design_w, design_h, .nearest, .clamp),
+        .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),

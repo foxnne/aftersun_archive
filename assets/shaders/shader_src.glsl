@@ -296,7 +296,7 @@ vec2 interpolate (vec2 tex_coord, vec2 tex_size, float texelsPerPixel) {
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	vec2 tex_size = vec2(tex_size_x, tex_size_y);
-	float texelsPerPixel = max(1 / tex_size.x, 1/ tex_size.y);
+	float texelsPerPixel = texel_size;
 	
   	vec2 interpolated_tex_coords =  interpolate(tex_coord, tex_size, texelsPerPixel);
 

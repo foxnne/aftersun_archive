@@ -1,5 +1,6 @@
 const std = @import("std");
 const zia = @import("zia");
+const sdl = @import("sdl");
 const flecs = @import("flecs");
 const game = @import("game");
 const imgui = @import("imgui");
@@ -9,6 +10,7 @@ const components = game.components;
 pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     const cameras = it.term(components.Camera, 1);
     const postprocesses = it.term(components.PostProcess, 2);
+    //const zooms = it.term(components.Zoom, 3);
 
     var i: usize = 0;
     while (i < it.count) : (i += 1) {

@@ -11,17 +11,17 @@ in vec4 color_out;
 vec2 interpolate(vec2 tex_coord, vec2 tex_size, float texelsPerPixel)
 {
     vec2 _43 = tex_coord * tex_size;
-    vec2 _46 = fract(_43);
-    return (floor(_43) + (clamp(_46 / vec2(texelsPerPixel), vec2(0.0), vec2(0.5)) + clamp(((_46 - vec2(1.0)) / vec2(texelsPerPixel)) + vec2(0.5), vec2(0.0), vec2(0.5)))) / tex_size;
+    vec2 _48 = fract(_43 * tex_size);
+    return (floor(_43) + (clamp(_48 / vec2(texelsPerPixel), vec2(0.0), vec2(0.5)) + clamp(((_48 - vec2(1.0)) / vec2(texelsPerPixel)) + vec2(0.5), vec2(0.0), vec2(0.5)))) / tex_size;
 }
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
 {
     vec2 param = tex_coord;
     vec2 param_1 = vec2(FinalizeParams[0].y, FinalizeParams[0].z);
-    float param_2 = max(1.0 / FinalizeParams[0].y, 1.0 / FinalizeParams[0].z);
-    vec2 _109 = interpolate(param, param_1, param_2);
-    return texture(tex, _109) * texture(envir_t, _109);
+    float param_2 = FinalizeParams[0].x;
+    vec2 _104 = interpolate(param, param_1, param_2);
+    return texture(tex, _104) * texture(envir_t, _104);
 }
 
 void main()
