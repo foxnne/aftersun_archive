@@ -38,7 +38,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         postprocesses[i].finalize_shader.frag_uniform.tex_size_x = cameras[i].size.x;
         postprocesses[i].finalize_shader.frag_uniform.tex_size_y = cameras[i].size.y;
 
-        zia.gfx.beginPass(.{ .pass = cameras[i].pass_5, .shader = &postprocesses[i].finalize_shader.shader });
+        zia.gfx.beginPass(.{ .pass = cameras[i].pass_4, .shader = &postprocesses[i].finalize_shader.shader });
         //zia.gfx.draw.bindTexture(cameras[i].pass_4.color_texture, 1);
         zia.gfx.draw.bindTexture(cameras[i].pass_3.color_texture, 1);
         zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{});
@@ -49,7 +49,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         postprocesses[i].tiltshift_shader.frag_uniform.blur_amount = 1;
 
         zia.gfx.beginPass(.{ .pass = cameras[i].pass_1, .shader = &postprocesses[i].tiltshift_shader.shader });
-        zia.gfx.draw.texture(cameras[i].pass_5.color_texture, .{}, .{});
+        zia.gfx.draw.texture(cameras[i].pass_4.color_texture, .{}, .{});
         zia.gfx.endPass();
 
         // render the result image to the back buffer

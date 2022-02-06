@@ -25,15 +25,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     particles_to_emit = @floatToInt(usize, @floor(particle_renderers[i].time_since_emit / emit_time));
                 }
             }
-
         } else {
             continue;
         }
 
         for (particle_renderers[i].particles) |*particle| {
             if (particle.alive) {
-
-                    particle.life += zia.time.dt();
+                particle.life += zia.time.dt();
 
                 if (particle.life >= particle.lifetime) {
                     particle.alive = false;
@@ -52,21 +50,13 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                     particle.sprite_index = animation[index];
                 }
 
-                const f  = particle.life / particle.lifetime;
+                const f = particle.life / particle.lifetime;
                 const color1 = particle_renderers[i].start_color.asArray();
                 const color2 = particle_renderers[i].end_color.asArray();
-                particle.color = zia.math.Color.fromRgba(
-                    lerp(color1[0], color2[0], f), 
-                    lerp(color1[1], color2[1], f), 
-                    lerp(color1[2], color2[2], f),
-                    lerp(color1[3], color2[3], f)
-                );
-                
-
+                particle.color = zia.math.Color.fromRgba(lerp(color1[0], color2[0], f), lerp(color1[1], color2[1], f), lerp(color1[2], color2[2], f), lerp(color1[3], color2[3], f));
             } else if (particles_to_emit > 0) {
                 particle.alive = true;
                 particle.life = 0;
-                
 
                 if (particle_renderers[i].callback) |c| {
                     c(&particle_renderers[i], particle);
@@ -80,12 +70,10 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
                 particles_to_emit -= 1;
                 particle_renderers[i].time_since_emit = 0;
             }
-
-            
         }
     }
 }
 
-fn lerp (a: f32, b: f32, f: f32) f32 {
+fn lerp(a: f32, b: f32, f: f32) f32 {
     return a + (b - a) * f;
 }

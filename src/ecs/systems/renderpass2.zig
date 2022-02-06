@@ -17,6 +17,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             .y = positions[i].y,
         }, .{
             .color = renderers[i].color,
+            .scaleX = renderers[i].size.x,
+            .scaleY = renderers[i].size.y,
         });
     }
 }

@@ -5,4 +5,5 @@ pub const LightRenderer = struct {
     atlas: zia.gfx.Atlas,
     index: usize = 0,
     color: zia.math.Color = zia.math.Color.white,
+    size: zia.math.Vector2 = .{.x = 1, .y = 1},
 };

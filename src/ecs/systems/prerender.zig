@@ -18,7 +18,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         // translate by the cameras position
         cameras[i].transform = zia.math.Matrix3x2.identity;
         var cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(-positions[i].x, -positions[i].y);
+        cam_tmp.translate(@trunc(-positions[i].x), @trunc(-positions[i].y));
         cameras[i].transform = cam_tmp.mul(cameras[i].transform);
 
         // center the camera viewport

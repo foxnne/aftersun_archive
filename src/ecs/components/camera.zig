@@ -14,15 +14,10 @@ pub const Camera = struct {
     pass_2: zia.gfx.OffscreenPass,
     pass_3: zia.gfx.OffscreenPass,
     pass_4: zia.gfx.OffscreenPass,
-    pass_5: zia.gfx.OffscreenPass,
+    //pass_5: zia.gfx.OffscreenPass,
 };
 
 pub const Visible = struct {};
-
-pub const RenderQueue = struct {
-    query: ?*flecs.Query,
-    entities: std.ArrayList(flecs.Entity),
-};
 
 pub const Zoom = struct {
     min: f32 = 1.0,

@@ -34,7 +34,7 @@ var light_texture: zia.gfx.Texture = undefined;
 var light_atlas: zia.gfx.Atlas = undefined;
 var character_shader: zia.gfx.Shader = undefined;
 var environment_shader: shaders.EnvironmentShader = undefined;
-var emission_shader: zia.gfx.Shader = undefined;
+//var emission_shader: zia.gfx.Shader = undefined;
 var bloom_shader: shaders.BloomShader = undefined;
 var tiltshift_shader: shaders.TiltshiftShader = undefined;
 var finalize_shader: shaders.FinalizeShader = undefined;
@@ -88,7 +88,7 @@ fn init() !void {
     aftersun_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
     aftersun_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
     aftersun_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
-    aftersun_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_e_png.path, .nearest) catch unreachable;
+    //aftersun_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_e_png.path, .nearest) catch unreachable;
     aftersun_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
@@ -107,7 +107,7 @@ fn init() !void {
     // register all components
     components.register(&world);
 
-    // time 
+    // time
     _ = world.newSystem("TimeSystem", flecs.EcsOnUpdate, "Time", @import("ecs/systems/time.zig").progress);
 
     // input
@@ -125,7 +125,7 @@ fn init() !void {
     // movement
     _ = world.newSystem("MoveTileSystem", flecs.EcsOnUpdate, "MoveRequest, Tile, PreviousTile", @import("ecs/systems/movetile.zig").progress);
     _ = world.newSystem("MoveToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, MovementCooldown, Velocity", @import("ecs/systems/movetotile.zig").progress);
-    _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, ?Subpixel, !Tile", @import("ecs/systems/move.zig").progress);
+    _ = world.newSystem("MoveSystem", flecs.EcsOnUpdate, "Position, Velocity, !Tile", @import("ecs/systems/move.zig").progress);
     _ = world.newSystem("TossToTileSystem", flecs.EcsOnUpdate, "Position, Tile, PreviousTile, TossCooldown", @import("ecs/systems/tosstotile.zig").progress);
 
     // animation
@@ -140,6 +140,7 @@ fn init() !void {
     // environment
     _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment, $Time", @import("ecs/systems/environment.zig").progress);
     _ = world.newSystem("ParticleSystem", flecs.EcsOnUpdate, "Position, ParticleRenderer", @import("ecs/systems/particles.zig").progress);
+    _ = world.newSystem("LightFlickerSystem", flecs.EcsOnUpdate, "Position, LightRenderer", @import("ecs/systems/lightflicker.zig").progress);
 
     // rendering
     _ = world.newSystem("PreRenderSystem", flecs.EcsOnUpdate, "Position, Camera, Zoom", @import("ecs/systems/prerender.zig").progress);
@@ -164,8 +165,7 @@ fn init() !void {
 
     _ = world.newSystem("RenderPassEnd3System", flecs.EcsOnUpdate, "Camera, PostProcess, Zoom", @import("ecs/systems/renderpassend3.zig").progress);
     _ = world.newSystem("RenderCullingSystem", flecs.EcsOnUpdate, "Position, ?CharacterRenderer, ?SpriteRenderer, ?LightRenderer", @import("ecs/systems/renderculling.zig").progress);
-        _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile", @import("ecs/systems/moverequest.zig").progress);
-
+    _ = world.newSystem("MoveRequestSystem", flecs.EcsOnUpdate, "$MovementInput, MovementCooldown, Tile, PreviousTile", @import("ecs/systems/moverequest.zig").progress);
 
     player = world.new();
     world.setName(player, "Player");
@@ -219,7 +219,7 @@ fn init() !void {
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
-        .pass_5 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        //.pass_5 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
     });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
@@ -295,7 +295,7 @@ fn init() !void {
     });
     world.set(campfire, &components.SpriteRenderer{
         .texture = aftersun_texture,
-        .emissionmap = aftersun_emissionmap,
+        //.emissionmap = aftersun_emissionmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Campfire_0_Layer_0,
     });
@@ -333,7 +333,7 @@ fn init() !void {
     });
     world.set(torch, &components.SpriteRenderer{
         .texture = aftersun_texture,
-        .emissionmap = aftersun_emissionmap,
+        //.emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Torch_0_Layer,
@@ -353,7 +353,7 @@ fn init() !void {
     world.set(ham, &components.TossCooldown{});
     world.set(ham, &components.SpriteRenderer{
         .texture = aftersun_texture,
-        .emissionmap = aftersun_emissionmap,
+        //.emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Ham_0_Layer,
@@ -368,7 +368,7 @@ fn init() !void {
     world.set(vial, &components.TossCooldown{});
     world.set(vial, &components.SpriteRenderer{
         .texture = aftersun_texture,
-        .emissionmap = aftersun_emissionmap,
+        //.emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Vial_0_Layer,
