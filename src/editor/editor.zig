@@ -5,14 +5,9 @@ const flecs = @import("flecs");
 const zia = @import("zia");
 const components = @import("../ecs/components/components.zig");
 
-var world: *flecs.World = undefined;
-
 var enable_debug_window: bool = false;
 
-pub fn init (_world: *flecs.World) void {
-    //frames = std.ArrayList(f32).initCapacity(std.testing.allocator, 20) catch unreachable;
-    world = _world;
-}
+
 
 pub fn drawMenuBar() void {
     if (imgui.igBeginMainMenuBar()) {

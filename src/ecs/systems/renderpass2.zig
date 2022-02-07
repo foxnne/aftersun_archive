@@ -13,8 +13,8 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
     var i: usize = 0;
     while (i < it.count) : (i += 1) {
         zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].index], renderers[i].texture, .{
-            .x = positions[i].x,
-            .y = positions[i].y,
+            .x = positions[i].x + renderers[i].offset.x,
+            .y = positions[i].y + renderers[i].offset.y,
         }, .{
             .color = renderers[i].color,
             .scaleX = renderers[i].size.x,

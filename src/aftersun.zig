@@ -140,7 +140,7 @@ fn init() !void {
     // environment
     _ = world.newSystem("EnvironmentSystem", flecs.EcsOnUpdate, "Environment, $Time", @import("ecs/systems/environment.zig").progress);
     _ = world.newSystem("ParticleSystem", flecs.EcsOnUpdate, "Position, ParticleRenderer", @import("ecs/systems/particles.zig").progress);
-    _ = world.newSystem("LightFlickerSystem", flecs.EcsOnUpdate, "Position, LightRenderer", @import("ecs/systems/lightflicker.zig").progress);
+    _ = world.newSystem("LightFlickerSystem", flecs.EcsOnUpdate, "LightRenderer", @import("ecs/systems/lightflicker.zig").progress);
 
     // rendering
     _ = world.newSystem("PreRenderSystem", flecs.EcsOnUpdate, "Position, Camera, Zoom", @import("ecs/systems/prerender.zig").progress);

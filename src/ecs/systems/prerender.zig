@@ -23,7 +23,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the camera viewport
         cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(cameras[i].size.x * 0.5, cameras[i].size.y * 0.5);
+        cam_tmp.translate(@trunc(cameras[i].size.x * 0.5), @trunc(cameras[i].size.y * 0.5));
         cameras[i].transform = cam_tmp.mul(cameras[i].transform);
 
         // scale the render texture by zoom
@@ -35,16 +35,16 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // center the render texture
         rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.translate(window_size.x * 0.5, window_size.y * 0.5);
+        rt_tmp.translate(@trunc(window_size.x * 0.5), @trunc(window_size.y * 0.5));
         cameras[i].rt_transform = rt_tmp.mul(cameras[i].rt_transform);
 
         // translate the camera matrix for converting screen to world
         rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.translate(-positions[i].x, -positions[i].y);
+        rt_tmp.translate(@trunc(-positions[i].x), @trunc(-positions[i].y));
         cameras[i].matrix = cameras[i].rt_transform.mul(rt_tmp);
 
         // center the render texture on the screen
-        cameras[i].rt_position = .{ .x = -cameras[i].size.x * 0.5, .y = -cameras[i].size.y * 0.5 };
+        cameras[i].rt_position = .{ .x = @trunc(-cameras[i].size.x * 0.5), .y = @trunc(-cameras[i].size.y * 0.5) };
 
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(70, 84, 72), .pass = cameras[i].pass_0, .trans_mat = cameras[i].transform });
