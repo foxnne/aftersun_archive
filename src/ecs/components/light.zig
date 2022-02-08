@@ -7,7 +7,6 @@ pub const LightRenderer = struct {
     color: zia.math.Color = zia.math.Color.white,
     offset: zia.math.Vector2 = .{.x = 0, .y = 0},
     size: zia.math.Vector2 = .{.x = 1, .y = 1},
-    flicker_speed: f32 = 1.0,
     flicker_max_offset: f32 = 10.0,
     flicker_duration: f32 = 0.0,
     flicker_end: zia.math.Vector2 = .{},
