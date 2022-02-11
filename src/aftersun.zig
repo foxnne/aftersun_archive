@@ -223,7 +223,6 @@ fn init() !void {
     });
     world.set(camera, &components.Zoom{});
     world.set(camera, &components.Position{});
-    world.set(camera, &components.Subpixel{});
     world.set(camera, &components.Velocity{});
     world.set(camera, &components.Environment{
         .environment_shader = &environment_shader,

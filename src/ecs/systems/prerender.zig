@@ -12,13 +12,15 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         var positions = it.term(components.Position, 1);
         var cameras = it.term(components.Camera, 2);
         var zooms = it.term(components.Zoom, 3);
-
+        
         const window_size = .{ .x = @intToFloat(f32, zia.window.size().w), .y = @intToFloat(f32, zia.window.size().h) };
+
+        var position = .{ .x = @round(positions[i].x), .y = @round(positions[i].y) };
 
         // translate by the cameras position
         cameras[i].transform = zia.math.Matrix3x2.identity;
         var cam_tmp = zia.math.Matrix3x2.identity;
-        cam_tmp.translate(@trunc(-positions[i].x), @trunc(-positions[i].y));
+        cam_tmp.translate(-position.x, -position.y);
         cameras[i].transform = cam_tmp.mul(cameras[i].transform);
 
         // center the camera viewport
@@ -40,7 +42,7 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
 
         // translate the camera matrix for converting screen to world
         rt_tmp = zia.math.Matrix3x2.identity;
-        rt_tmp.translate(@trunc(-positions[i].x), @trunc(-positions[i].y));
+        rt_tmp.translate(-position.x, -position.y);
         cameras[i].matrix = cameras[i].rt_transform.mul(rt_tmp);
 
         // center the render texture on the screen
