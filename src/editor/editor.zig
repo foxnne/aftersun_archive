@@ -33,12 +33,12 @@ pub fn drawDebugWindow() void {
         _ = imgui.igValueUint("FPS", @intCast(c_uint, zia.time.fps()));
         //_ = imgui.igValueUint("Entities", @intCast(c_uint,  ));
 
-        if (game.world.getMut(game.player, components.Position)) |position| {
+        // if (game.player.get( components.Position)) |position| {
            
-            _ = imgui.ogDrag(i32, "Height", &position.z, 1, 0, 128);
+        //     //_ = imgui.ogDrag(i32, "Height", &position.z, 1, 0, 128);
             
 
-        }
+        // }
 
         
 

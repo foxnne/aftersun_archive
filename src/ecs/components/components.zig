@@ -5,10 +5,7 @@ const flecs = @import("flecs");
 /// adds all structs in this file to the world as new components
 pub fn register(world: *flecs.World) void {
     const decls = @typeInfo(@This()).Struct.decls;
-    inline for (decls) |decl| {
-        if (decl.data == .Type and decl.is_pub)
-            _ = world.newComponent(decl.data.Type);
-    }
+    world.registerComponents(decls);
 }
 
 // generic

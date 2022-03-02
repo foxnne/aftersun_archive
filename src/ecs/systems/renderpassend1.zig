@@ -6,16 +6,20 @@ const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const cameras = it.term(components.Camera, 1);
+pub const Callback = struct {
+    camera: *const components.Camera,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
+    pub const name = "RenderPassEnd1System";
+    pub const run = progress;
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
 
         // end pass_0, begin the next pass
         zia.gfx.endPass();
 
         // render the lightmaps to the lightmap texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = cameras[i].pass_2, .trans_mat = cameras[i].transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = comps.camera.pass_2, .trans_mat = comps.camera.transform });
     }
 }

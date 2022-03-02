@@ -2,67 +2,79 @@ const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
 const game = @import("game");
-const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const positions = it.term(components.Position, 1);
-    //var tiles = it.term(components.Tile, 2);
-    const character_renderers_optional = it.term_optional(components.CharacterRenderer, 3);
-    const sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 4);
+pub const Callback = struct {
+    position: *const components.Position,
+    character_renderer: ?*const components.CharacterRenderer,
+    sprite_renderer: ?*const components.SpriteRenderer,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        if (sprite_renderers_optional) |renderers| {
-            if (renderers[i].heightmap) |heightmap| {
-                zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].index], heightmap, .{
-                    .x = positions[i].x,
-                    .y = positions[i].y,
+    pub const name = "RenderPass1System";
+    pub const run = progress;
+    pub const modifiers = .{ flecs.queries.Filter(components.Tile)};
+    pub const order_by = orderBy;
+};
+
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        if (comps.sprite_renderer) |renderer| {
+            if (renderer.heightmap) |heightmap| {
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], heightmap, .{
+                    .x = comps.position.x,
+                    .y = comps.position.y,
                 }, .{
-                    .flipX = renderers[i].flipX,
-                    .flipY = renderers[i].flipY,
+                    .flipX = renderer.flipX,
+                    .flipY = renderer.flipY,
                 });
             }
         }
 
-        if (character_renderers_optional) |renderers| {
-            if (renderers[i].heightmap) |heightmap| {
-                zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].body], heightmap, .{
-                    .x = positions[i].x,
-                    .y = positions[i].y,
+        if (comps.character_renderer) |renderer| {
+            if (renderer.heightmap) |heightmap| {
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
+                    .x = comps.position.x,
+                    .y = comps.position.y,
                 }, .{
-                    .flipX = renderers[i].flipBody,
+                    .flipX = renderer.flipBody,
                 });
 
-                zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].head], heightmap, .{
-                    .x = positions[i].x,
-                    .y = positions[i].y,
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], heightmap, .{
+                    .x = comps.position.x,
+                    .y = comps.position.y,
                 }, .{
-                    .flipX = renderers[i].flipHead,
+                    .flipX = renderer.flipHead,
                 });
 
-                zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].bottom], heightmap, .{
-                    .x = positions[i].x,
-                    .y = positions[i].y,
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.bottom], heightmap, .{
+                    .x = comps.position.x,
+                    .y = comps.position.y,
                 }, .{
-                    .flipX = renderers[i].flipBody,
+                    .flipX = renderer.flipBody,
                 });
 
-                zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].top], heightmap, .{
-                    .x = positions[i].x,
-                    .y = positions[i].y,
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], heightmap, .{
+                    .x = comps.position.x,
+                    .y = comps.position.y,
                 }, .{
-                    .flipX = renderers[i].flipBody,
+                    .flipX = renderer.flipBody,
                 });
 
-                zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].hair], heightmap, .{
-                    .x = positions[i].x,
-                    .y = positions[i].y,
+                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
+                    .x = comps.position.x,
+                    .y = comps.position.y,
                 }, .{
-                    .flipX = renderers[i].flipHead,
+                    .flipX = renderer.flipHead,
                 });
             }
         }
     }
+}
+
+fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
+    if (c1.y == c2.y){
+        return @intCast(c_int, @boolToInt(c1.counter > c2.counter)) - @intCast(c_int, @boolToInt(c1.counter < c2.counter));
+    } 
+    return @intCast(c_int, @boolToInt(c1.y > c2.y)) - @intCast(c_int, @boolToInt(c1.y < c2.y));
 }

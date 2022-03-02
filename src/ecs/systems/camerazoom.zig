@@ -3,53 +3,55 @@ const flecs = @import("flecs");
 const game = @import("game");
 
 const components = game.components;
-const actions = game.actions;
-const sorters = game.sorters;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const cameras = it.term(components.Camera, 1);
-    const zooms = it.term(components.Zoom, 2);
+pub const Callback = struct {
+    camera: *const components.Camera,
+    zoom: *components.Zoom,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
+    pub const name = "CameraZoomSystem";
+    pub const run = progress;
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
         const window_size = .{ .x = @intToFloat(f32, zia.window.size().w), .y = @intToFloat(f32, zia.window.size().h) };
 
         // reset the minimum zoom
-        zooms[i].min = 1.0;
+        comps.zoom.min = 1.0;
 
         // clamp zoom to always fill the screen
-        if (cameras[i].size.x * zooms[i].min < window_size.x or cameras[i].size.y * zooms[i].min < window_size.y) {
-            var zoom_w = @ceil(window_size.x / cameras[i].size.x);
-            var zoom_h = @ceil(window_size.y / cameras[i].size.y);
-            zooms[i].min = if (zoom_w > zoom_h) zoom_w else zoom_h;
+        if (comps.camera.size.x * comps.zoom.min < window_size.x or comps.camera.size.y * comps.zoom.min < window_size.y) {
+            var zoom_w = @ceil(window_size.x / comps.camera.size.x);
+            var zoom_h = @ceil(window_size.y / comps.camera.size.y);
+            comps.zoom.min = if (zoom_w > zoom_h) zoom_w else zoom_h;
         }
 
-        if (zia.input.mouse_wheel_y > 0 and zooms[i].current < zooms[i].max)
-            zooms[i].target = @round(zooms[i].current + 1.0);
+        if (zia.input.mouse_wheel_y > 0 and comps.zoom.current < comps.zoom.max)
+            comps.zoom.target = @round(comps.zoom.current + 1.0);
 
-        if (zia.input.mouse_wheel_y < 0 and zooms[i].current > zooms[i].min)
-            zooms[i].target = @round(zooms[i].current - 1.0);
+        if (zia.input.mouse_wheel_y < 0 and comps.zoom.current > comps.zoom.min)
+            comps.zoom.target = @round(comps.zoom.current - 1.0);
 
-        if (zooms[i].current < zooms[i].target) {
-            var increment = zia.time.dt() * zooms[i].speed;
+        if (comps.zoom.current < comps.zoom.target) {
+            var increment = zia.time.dt() * comps.zoom.speed;
 
-            if (zooms[i].target - zooms[i].current > increment) {
-                zooms[i].current += increment;
+            if (comps.zoom.target - comps.zoom.current > increment) {
+                comps.zoom.current += increment;
             } else {
-                zooms[i].current = zooms[i].target;
+                comps.zoom.current = comps.zoom.target;
             }
         } else {
-            var increment = zia.time.dt() * zooms[i].speed;
+            var increment = zia.time.dt() * comps.zoom.speed;
 
-            if (zooms[i].current - zooms[i].target > increment) {
-                zooms[i].current -= increment;
+            if (comps.zoom.current - comps.zoom.target > increment) {
+                comps.zoom.current -= increment;
             } else {
-                zooms[i].current = zooms[i].target;
+                comps.zoom.current = comps.zoom.target;
             }
         }
 
         // ensure that zoom is within bounds
-        if (zooms[i].current < zooms[i].min) zooms[i].current = zooms[i].min;
-        if (zooms[i].current > zooms[i].max) zooms[i].current = zooms[i].max;
+        if (comps.zoom.current < comps.zoom.min) comps.zoom.current = comps.zoom.min;
+        if (comps.zoom.current > comps.zoom.max) comps.zoom.current = comps.zoom.max;
     }
 }

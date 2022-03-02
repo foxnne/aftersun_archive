@@ -6,100 +6,100 @@ const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    var world = flecs.World{ .world = it.world.? };
+pub const Callback = struct {
+    position: *components.Position,
+    character_renderer: ?*components.CharacterRenderer,
+    sprite_renderer: ?*components.SpriteRenderer,
+    light_renderer: ?*components.LightRenderer,
 
-    const positions = it.term(components.Position, 1);
-    const character_renderers_optional = it.term_optional(components.CharacterRenderer, 2);
-    const sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 3);
-    const light_renderers_optional = it.term_optional(components.LightRenderer, 4);
+    pub const name = "RenderCullingSystem";
+    pub const run = progress;
+    pub const expr = "[out] Visible()";
+};
 
-    if (world.get(game.camera, components.Camera)) |camera| {
+fn progress(it: *flecs.Iterator(Callback)) void {
+    if (game.camera.get(components.Camera)) |camera| {
         const cam_br = camera.matrix.invert().transformVec2(.{ .x = @intToFloat(f32, zia.window.width() + camera.margin), .y = @intToFloat(f32, zia.window.height() + camera.margin) });
         const cam_tl = camera.matrix.invert().transformVec2(.{ .x = -@intToFloat(f32, camera.margin), .y = -@intToFloat(f32, camera.margin) });
 
-        var i: usize = 0;
-        while (i < it.count) : (i += 1) {
-            if (sprite_renderers_optional) |renderers| {
-                const source = renderers[i].atlas.sprites[renderers[i].index].source;
-                const origin = renderers[i].atlas.sprites[renderers[i].index].origin;
+        while (it.next()) |comps| {
+            if (comps.sprite_renderer) |renderer| {
+                const source = renderer.atlas.sprites[renderer.index].source;
+                const origin = renderer.atlas.sprites[renderer.index].origin;
                 const br = .{
-                    .x = positions[i].x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
-                    .y = positions[i].y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
+                    .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
+                    .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
                 };
                 const tl = .{
-                    .x = positions[i].x - @intToFloat(f32, origin.x),
-                    .y = positions[i].y - @intToFloat(f32, origin.y),
+                    .x = comps.position.x - @intToFloat(f32, origin.x),
+                    .y = comps.position.y - @intToFloat(f32, origin.y),
                 };
 
                 if (visible(cam_tl, cam_br, tl, br)) {
-                    world.add(it.entities[i], components.Visible);
+                    it.entity().add(components.Visible);
                     continue;
                 } else {
-                    world.remove(it.entities[i], components.Visible);
+                    it.entity().remove(components.Visible);
                     continue;
                 }
             }
 
-            if (character_renderers_optional) |renderers| {
-                var source = renderers[i].atlas.sprites[renderers[i].head].source;
-                var origin = renderers[i].atlas.sprites[renderers[i].head].origin;
+            if (comps.character_renderer) |renderer| {
+                var source = renderer.atlas.sprites[renderer.head].source;
+                var origin = renderer.atlas.sprites[renderer.head].origin;
                 var br = .{
-                    .x = positions[i].x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
-                    .y = positions[i].y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
+                    .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
+                    .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
                 };
                 var tl = .{
-                    .x = positions[i].x - @intToFloat(f32, origin.x),
-                    .y = positions[i].y - @intToFloat(f32, origin.y),
+                    .x = comps.position.x - @intToFloat(f32, origin.x),
+                    .y = comps.position.y - @intToFloat(f32, origin.y),
                 };
 
                 if (visible(cam_tl, cam_br, tl, br)) {
-                    world.add(it.entities[i], components.Visible);
+                    it.entity().add(components.Visible);
 
                     continue;
                 }
-                 
-                
-                
 
-                source = renderers[i].atlas.sprites[renderers[i].body].source;
-                origin = renderers[i].atlas.sprites[renderers[i].body].origin;
+                source = renderer.atlas.sprites[renderer.body].source;
+                origin = renderer.atlas.sprites[renderer.body].origin;
                 br = .{
-                    .x = positions[i].x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
-                    .y = positions[i].y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
+                    .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
+                    .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
                 };
                 tl = .{
-                    .x = positions[i].x - @intToFloat(f32, origin.x),
-                    .y = positions[i].y - @intToFloat(f32, origin.y),
+                    .x = comps.position.x - @intToFloat(f32, origin.x),
+                    .y = comps.position.y - @intToFloat(f32, origin.y),
                 };
 
                 if (visible(cam_tl, cam_br, tl, br)) {
-                    world.add(it.entities[i], components.Visible);
-                    
+                    it.entity().add(components.Visible);
+
                     continue;
                 } else {
-                    world.remove(it.entities[i], components.Visible);
+                    it.entity().remove(components.Visible);
                     continue;
                 }
             }
 
-            if (light_renderers_optional) |renderers| {
-                const source = renderers[i].atlas.sprites[renderers[i].index].source;
-                const origin = renderers[i].atlas.sprites[renderers[i].index].origin;
+            if (comps.light_renderer) |renderer| {
+                const source = renderer.atlas.sprites[renderer.index].source;
+                const origin = renderer.atlas.sprites[renderer.index].origin;
                 const br = .{
-                    .x = positions[i].x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
-                    .y = positions[i].y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
+                    .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
+                    .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
                 };
                 const tl = .{
-                    .x = positions[i].x - @intToFloat(f32, origin.x),
-                    .y = positions[i].y - @intToFloat(f32, origin.y),
+                    .x = comps.position.x - @intToFloat(f32, origin.x),
+                    .y = comps.position.y - @intToFloat(f32, origin.y),
                 };
 
                 if (visible(cam_tl, cam_br, tl, br)) {
-                    world.add(it.entities[i], components.Visible);
+                    it.entity().add(components.Visible);
                     continue;
                 } else {
-                    world.remove(it.entities[i], components.Visible);
+                    it.entity().remove(components.Visible);
                     continue;
                 }
             }

@@ -3,22 +3,27 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const components = @import("game").components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const positions = it.term(components.Position, 1);
-    const velocities = it.term(components.Velocity, 2);
+pub const Callback = struct {
+    position: *components.Position,
+    velocity: *const components.Velocity,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        if (velocities[i].x > 0 or velocities[i].x < 0) {
-            positions[i].x += velocities[i].x;
+    pub const name = "MoveSystem";
+    pub const run = progress;
+    pub const modifiers = .{ flecs.queries.Not(components.Tile) };
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        if (comps.velocity.x > 0 or comps.velocity.x < 0) {
+            comps.position.x += comps.velocity.x;
         } else {
-            positions[i].x = @round(positions[i].x);
+            comps.position.x = @round(comps.position.x);
         }
 
-        if (velocities[i].y > 0 or velocities[i].y < 0) {
-            positions[i].y += velocities[i].y;
+        if (comps.velocity.y > 0 or comps.velocity.y < 0) {
+            comps.position.y += comps.velocity.y;
         } else {
-            positions[i].y = @round(positions[i].y);
+            comps.position.y = @round(comps.position.y);
         }
     }
 }

@@ -26,9 +26,9 @@ pub const ParticleRenderer = struct {
     rate: f32 = 5, //particles emitted per second
     lifetime: f32 = 1.0, //time new particles should live
     time_since_emit: f32 = 0,
-    callback: ?fn (*ParticleRenderer, *Particle) void, // called when particle is about to be emitted
+    callback: ?fn (*const ParticleRenderer, *Particle) void, // called when particle is about to be emitted
 
-    pub fn campfireSmokeCallback(self: *ParticleRenderer, particle: *Particle) void {
+    pub fn campfireSmokeCallback(self: *const ParticleRenderer, particle: *Particle) void {
         _ = self;
 
         var prng = std.rand.DefaultPrng.init(blk: {

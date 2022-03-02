@@ -3,25 +3,29 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const components = @import("game").components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const animators = it.term(components.CharacterAnimator, 1);
-    const renderers = it.term(components.CharacterRenderer, 2);
+pub const Callback = struct {
+    animator: *components.CharacterAnimator,
+    renderer: *components.CharacterRenderer,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        animators[i].elapsed += zia.time.dt();
+    pub const name = "CharacterAnimationSystem";
+    pub const run = progress;
+};
 
-        if (animators[i].elapsed > (1 / @intToFloat(f32, animators[i].fps))) {
-            animators[i].elapsed = 0;
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        comps.animator.elapsed += zia.time.dt();
 
-            if (animators[i].frame < animators[i].bodyAnimation.len - 1) {
-                animators[i].frame += 1;
-            } else animators[i].frame = 0;
+        if (comps.animator.elapsed > (1 / @intToFloat(f32, comps.animator.fps))) {
+            comps.animator.elapsed = 0;
+
+            if (comps.animator.frame < comps.animator.bodyAnimation.len - 1) {
+                comps.animator.frame += 1;
+            } else comps.animator.frame = 0;
         }
-        renderers[i].head = animators[i].headAnimation[animators[i].frame];
-        renderers[i].body = animators[i].bodyAnimation[animators[i].frame];
-        renderers[i].bottom = animators[i].bottomAnimation[animators[i].frame];
-        renderers[i].top = animators[i].topAnimation[animators[i].frame];
-        renderers[i].hair = animators[i].hairAnimation[animators[i].frame];
+        comps.renderer.head = comps.animator.headAnimation[comps.animator.frame];
+        comps.renderer.body = comps.animator.bodyAnimation[comps.animator.frame];
+        comps.renderer.bottom = comps.animator.bottomAnimation[comps.animator.frame];
+        comps.renderer.top = comps.animator.topAnimation[comps.animator.frame];
+        comps.renderer.hair = comps.animator.hairAnimation[comps.animator.frame];
     }
 }

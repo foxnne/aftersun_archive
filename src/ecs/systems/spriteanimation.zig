@@ -3,23 +3,27 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const components = @import("game").components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const animators = it.term(components.SpriteAnimator, 1);
-    const renderers = it.term(components.SpriteRenderer, 2);
+pub const Callback = struct {
+    animator: *components.SpriteAnimator,
+    renderer: *components.SpriteRenderer,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        if (animators[i].state == components.SpriteAnimator.State.play) {
-            animators[i].elapsed += zia.time.dt();
+    pub const name = "SpriteAnimationSystem";
+    pub const run = progress;
+};
 
-            if (animators[i].elapsed > (1 / @intToFloat(f32, animators[i].fps))) {
-                animators[i].elapsed = 0;
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        if (comps.animator.state == components.SpriteAnimator.State.play) {
+            comps.animator.elapsed += zia.time.dt();
 
-                if (animators[i].frame < animators[i].animation.len - 1) {
-                    animators[i].frame += 1;
-                } else animators[i].frame = 0;
+            if (comps.animator.elapsed > (1 / @intToFloat(f32, comps.animator.fps))) {
+                comps.animator.elapsed = 0;
+
+                if (comps.animator.frame < comps.animator.animation.len - 1) {
+                    comps.animator.frame += 1;
+                } else comps.animator.frame = 0;
             }
         }
-        renderers[i].index = animators[i].animation[animators[i].frame];
+        comps.renderer.index = comps.animator.animation[comps.animator.frame];
     }
 }

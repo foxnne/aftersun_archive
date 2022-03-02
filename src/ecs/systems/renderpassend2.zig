@@ -6,37 +6,31 @@ const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const cameras = it.term(components.Camera, 1);
-    const environments = it.term(components.Environment, 2);
-    //const postprocesses = it.term(components.PostProcess, 3);
+pub const Callback = struct {
+    camera: *const components.Camera,
+    environment: *const components.Environment,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
+    pub const name = "RenderPassEnd2System";
+    pub const run = progress;
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
 
         zia.gfx.endPass();
 
-        environments[i].environment_shader.frag_uniform.tex_width = cameras[i].size.x;
-        environments[i].environment_shader.frag_uniform.tex_height = cameras[i].size.y;
+        comps.environment.environment_shader.frag_uniform.tex_width = comps.camera.size.x;
+        comps.environment.environment_shader.frag_uniform.tex_height = comps.camera.size.y;
 
         // render the environment, sun and sunshadows
-        zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = cameras[i].pass_3, .shader = &environments[i].environment_shader.shader });
-        zia.gfx.draw.bindTexture(cameras[i].pass_1.color_texture, 1);
-        zia.gfx.draw.bindTexture(cameras[i].pass_2.color_texture, 2);
-        zia.gfx.draw.texture(cameras[i].pass_0.color_texture, .{}, .{ .color = environments[i].ambient_color });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = comps.camera.pass_3, .shader = &comps.environment.environment_shader.shader });
+        zia.gfx.draw.bindTexture(comps.camera.pass_1.color_texture, 1);
+        zia.gfx.draw.bindTexture(comps.camera.pass_2.color_texture, 2);
+        zia.gfx.draw.texture(comps.camera.pass_0.color_texture, .{}, .{ .color = comps.environment.ambient_color });
         zia.gfx.endPass();
         zia.gfx.draw.batcher.flush();
         zia.gfx.draw.unbindTexture(1);
         zia.gfx.draw.unbindTexture(2);
-
-        // render the emission maps to the emission texture
-        // zia.gfx.beginPass(.{
-        //     .color = zia.math.Color.black,
-        //     .pass = cameras[i].pass_1,
-        //     .trans_mat = cameras[i].transform,
-        //     .shader = postprocesses[i].emission_shader,
-        // });
-        //zia.gfx.draw.bindTexture(cameras[i].pass_0.color_texture, 1);
 
     }
 }

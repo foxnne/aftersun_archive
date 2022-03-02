@@ -4,21 +4,24 @@ const flecs = @import("flecs");
 const game = @import("game");
 const components = @import("game").components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    //const world = flecs.World{ .world = it.world.? };
+pub const Callback = struct {
+    request: *const components.MoveRequest,
+    tile: *components.Tile,
+    prev_tile: *components.PreviousTile,
 
-    const move_requests = it.term(components.MoveRequest, 1);
-    const tiles = it.term(components.Tile, 2);
-    const prevtiles = it.term(components.PreviousTile, 3);
+    pub const name = "MoveTileSystem";
+    pub const run = progress;
+};  
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        prevtiles[i].x = tiles[i].x;
-        prevtiles[i].y = tiles[i].y;
-        prevtiles[i].z = tiles[i].z;
-        tiles[i].x += move_requests[i].x;
-        tiles[i].y += move_requests[i].y;
-        tiles[i].z += move_requests[i].z;
-        tiles[i].counter = game.getCounter();
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        comps.prev_tile.x = comps.tile.x;
+        comps.prev_tile.y = comps.tile.y;
+        comps.prev_tile.z = comps.tile.z;
+        comps.tile.x += comps.request.x;
+        comps.tile.y += comps.request.y;
+        comps.tile.z += comps.request.z;
+        comps.tile.counter = game.getCounter();
+        it.entity().remove(components.MoveRequest);
     }
 }

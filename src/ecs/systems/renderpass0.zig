@@ -2,99 +2,102 @@ const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
 const game = @import("game");
-const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    //var world = flecs.World{ .world = it.world.? };
-    const positions = it.term(components.Position, 1);
-    //var tiles = it.term(components.Tile, 2);
-    const materials_optional = it.term_optional(components.Material, 3);
-    const character_renderers_optional = it.term_optional(components.CharacterRenderer, 4);
-    const sprite_renderers_optional = it.term_optional(components.SpriteRenderer, 5);
-    const particle_renderers_optional = it.term_optional(components.ParticleRenderer, 6);
+pub const Callback = struct {
+    position: *const components.Position,
+    material: ?*const components.Material,
+    character_renderer: ?*const components.CharacterRenderer,
+    sprite_renderer: ?*const components.SpriteRenderer,
+    particle_renderer: ?*const components.ParticleRenderer,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        if (materials_optional) |materials| {
-            zia.gfx.setShader(materials[i].shader);
+    pub const name = "RenderPass0System";
+    pub const run = progress;
+    pub const modifiers = .{ flecs.queries.Filter(components.Tile) };
+    pub const order_by = orderBy;
+};
 
-            if (materials[i].textures) |textures| {
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        if (comps.material) |material| {
+            zia.gfx.setShader(material.shader);
+
+            if (material.textures) |textures| {
                 for (textures) |texture, k| {
                     zia.gfx.draw.bindTexture(texture.*, @intCast(c_uint, k + 1));
                 }
             }
         }
 
-        if (sprite_renderers_optional) |renderers| {
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].index], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y - @intToFloat(f32, positions[i].z),
+        if (comps.sprite_renderer) |renderer| {
+            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
+                .x = comps.position.x,
+                .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
-                .color = renderers[i].color,
-                .flipX = renderers[i].flipX,
-                .flipY = renderers[i].flipY,
+                .color = renderer.color,
+                .flipX = renderer.flipX,
+                .flipY = renderer.flipY,
             });
         }
 
-        if (character_renderers_optional) |renderers| {
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].body], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y - @intToFloat(f32, positions[i].z),
+        if (comps.character_renderer) |renderer| {
+            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+                .x = comps.position.x,
+                .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
-                .color = renderers[i].headColor,
-                .flipX = renderers[i].flipBody,
+                .color = renderer.headColor,
+                .flipX = renderer.flipBody,
             });
 
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].head], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y - @intToFloat(f32, positions[i].z),
+            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
+                .x = comps.position.x,
+                .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
-                .color = renderers[i].bodyColor,
-                .flipX = renderers[i].flipHead,
+                .color = renderer.bodyColor,
+                .flipX = renderer.flipHead,
             });
 
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].bottom], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y - @intToFloat(f32, positions[i].z),
+            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.bottom], renderer.texture, .{
+                .x = comps.position.x,
+                .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
-                .color = renderers[i].bottomColor,
-                .flipX = renderers[i].flipBody,
+                .color = renderer.bottomColor,
+                .flipX = renderer.flipBody,
             });
  
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].top], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y - @intToFloat(f32, positions[i].z),
+            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], renderer.texture, .{
+                .x = comps.position.x,
+                .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
-                .color = renderers[i].topColor,
-                .flipX = renderers[i].flipBody,
+                .color = renderer.topColor,
+                .flipX = renderer.flipBody,
             });
 
-            zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].hair], renderers[i].texture, .{
-                .x = positions[i].x,
-                .y = positions[i].y - @intToFloat(f32, positions[i].z),
+            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
+                .x = comps.position.x,
+                .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
-                .color = renderers[i].hairColor,
-                .flipX = renderers[i].flipHead,
+                .color = renderer.hairColor,
+                .flipX = renderer.flipHead,
             });
         }
 
-        if (particle_renderers_optional) |renderers| {
-            for (renderers[i].particles) |particle| {
+        if (comps.particle_renderer) |renderer| {
+            for (renderer.particles) |particle| {
                 if (particle.alive) {
-                    zia.gfx.draw.sprite(renderers[i].atlas.sprites[particle.sprite_index], renderers[i].texture, particle.position, .{
+                    zia.gfx.draw.sprite(renderer.atlas.sprites[particle.sprite_index], renderer.texture, particle.position, .{
                         .color = particle.color,
                     });
                 }
             }
         }
 
-        if (materials_optional) |materials| {
+        if (comps.material) |material| {
             zia.gfx.draw.batcher.flush();
             zia.gfx.setShader(null);
 
-            if (materials[i].textures) |textures| {
+            if (material.textures) |textures| {
                 for (textures) |_, k| {
                     zia.gfx.draw.unbindTexture(@intCast(c_uint, k + 1));
                 }
@@ -119,4 +122,11 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
         }
         game.gizmos.gizmos.shrinkAndFree(0);
     }
+}
+
+fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
+    if (c1.y == c2.y){
+        return @intCast(c_int, @boolToInt(c1.counter > c2.counter)) - @intCast(c_int, @boolToInt(c1.counter < c2.counter));
+    } 
+    return @intCast(c_int, @boolToInt(c1.y > c2.y)) - @intCast(c_int, @boolToInt(c1.y < c2.y));
 }

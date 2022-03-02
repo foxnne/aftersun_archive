@@ -6,15 +6,19 @@ const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const times = it.term(components.Time, 1);
+pub const Callback = struct {
+    time: *components.Time,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
+    pub const name = "TimeSystem";
+    pub const run = progress;
+};
 
-        times[i].time += times[i].timescale * components.Time.minute * zia.time.dt();
-        if (times[i].time >= components.Time.day)
-            times[i].time = 0;
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+
+        comps.time.time += comps.time.timescale * components.Time.minute * zia.time.dt();
+        if (comps.time.time >= components.Time.day)
+            comps.time.time = 0;
 
     }
 }

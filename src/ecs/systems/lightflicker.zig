@@ -4,13 +4,16 @@ const flecs = @import("flecs");
 const game = @import("game");
 const components = @import("game").components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    //const world = flecs.World{ .world = it.world.? };
-    const renderers = it.term(components.LightRenderer, 1);
+pub const Callback = struct {
+    renderer: *components.LightRenderer,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        if (renderers[i].flicker_duration >= 1) {
+    pub const name = "LightFlickerSystem";
+    pub const run = progress;
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        if (comps.renderer.flicker_duration >= 1) {
             var prng = std.rand.DefaultPrng.init(blk: {
                 var seed: u64 = undefined;
                 std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
@@ -18,14 +21,14 @@ pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
             });
             const random = &prng.random();
 
-            renderers[i].flicker_start = renderers[i].flicker_end;
-            renderers[i].flicker_end = .{ .x = random.float(f32) * renderers[i].flicker_max_offset, .y = random.float(f32) * renderers[i].flicker_max_offset };
-            renderers[i].flicker_duration = 0;
+            comps.renderer.flicker_start = comps.renderer.flicker_end;
+            comps.renderer.flicker_end = .{ .x = random.float(f32) * comps.renderer.flicker_max_offset, .y = random.float(f32) * comps.renderer.flicker_max_offset };
+            comps.renderer.flicker_duration = 0;
         } else {
-            var difference = renderers[i].flicker_end.subtract(renderers[i].flicker_start).scale(renderers[i].flicker_duration);
-            renderers[i].offset = renderers[i].flicker_start.add(difference);
+            var difference = comps.renderer.flicker_end.subtract(comps.renderer.flicker_start).scale(comps.renderer.flicker_duration);
+            comps.renderer.offset = comps.renderer.flicker_start.add(difference);
 
-            renderers[i].flicker_duration += zia.time.dt() * 10;
+            comps.renderer.flicker_duration += zia.time.dt() * 10;
         }
     }
 }

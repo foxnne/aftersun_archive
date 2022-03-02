@@ -6,19 +6,23 @@ const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const positions = it.term(components.Position, 1);
-    const renderers = it.term(components.LightRenderer, 2);
+pub const Callback = struct {
+    position: *const components.Position,
+    renderer: *const components.LightRenderer,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        zia.gfx.draw.sprite(renderers[i].atlas.sprites[renderers[i].index], renderers[i].texture, .{
-            .x = positions[i].x + renderers[i].offset.x,
-            .y = positions[i].y + renderers[i].offset.y,
+    pub const name = "RenderPass2System";
+    pub const run = progress;
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        zia.gfx.draw.sprite(comps.renderer.atlas.sprites[comps.renderer.index], comps.renderer.texture, .{
+            .x = comps.position.x + comps.renderer.offset.x,
+            .y = comps.position.y + comps.renderer.offset.y,
         }, .{
-            .color = renderers[i].color,
-            .scaleX = renderers[i].size.x,
-            .scaleY = renderers[i].size.y,
+            .color = comps.renderer.color,
+            .scaleX = comps.renderer.size.x,
+            .scaleY = comps.renderer.size.y,
         });
     }
 }

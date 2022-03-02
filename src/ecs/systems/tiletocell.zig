@@ -6,13 +6,17 @@ const imgui = @import("imgui");
 
 const components = game.components;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const tiles = it.term(components.Tile, 1);
-    const cells = it.term(components.Cell, 2);
+pub const Callback = struct {
+    tile: *const components.Tile,
+    cell: *components.Cell,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
-        cells[i].x = @divTrunc(tiles[i].x, game.ppu);
-        cells[i].y = @divTrunc(tiles[i].y, game.ppu);
+    pub const name = "TileToCellSystem";
+    pub const run = progress;
+};
+
+fn progress(it: *flecs.Iterator(Callback)) void {
+    while (it.next()) |comps| {
+        comps.cell.x = @divTrunc(comps.tile.x, game.ppu);
+        comps.cell.y = @divTrunc(comps.tile.y, game.ppu);
     }
 }

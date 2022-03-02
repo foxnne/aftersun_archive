@@ -3,20 +3,32 @@ const zia = @import("zia");
 const flecs = @import("flecs");
 const game = @import("game");
 const components = game.components;
-const actions = game.actions;
 
-pub fn progress(it: *flecs.ecs_iter_t) callconv(.C) void {
-    const broadphase = it.term(components.CollisionBroadphase, 1);
-    const grid = it.term(components.Grid, 2);
-    const cells = it.term(components.Cell, 3);
-    const tiles = it.term(components.Tile, 4);
+pub const Callback = struct {
+    cell: *components.Cell,
+    tile: *const components.Tile,
 
-    var i: usize = 0;
-    while (i < it.count) : (i += 1) {
+    pub const name = "CollisionBroadphaseSystem";
+    pub const run = progress;
+    pub const order_by = orderBy;
+};
 
-        cells[i].x = @divTrunc(tiles[i].x, grid.*.cellTiles);
-        cells[i].y = @divTrunc(tiles[i].y, grid.*.cellTiles);
+fn progress(it: *flecs.Iterator(Callback)) void {
+    if (it.world().getSingletonMut(components.CollisionBroadphase)) |broadphase| {
+        if (it.world().getSingleton(components.Grid)) |grid| {
+            while (it.next()) |comps| {
+                comps.cell.x = @divTrunc(comps.tile.x, grid.cellTiles);
+                comps.cell.y = @divTrunc(comps.tile.y, grid.cellTiles);
 
-        broadphase.*.entities.append(cells[i], it.entities[i]);
+                broadphase.entities.append(comps.cell.*, it.entity());
+            }
+        }
     }
+}
+
+fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
+    if (c1.y == c2.y){
+        return @intCast(c_int, @boolToInt(c2.counter > c1.counter)) - @intCast(c_int, @boolToInt(c2.counter < c1.counter));
+    } 
+    return @intCast(c_int, @boolToInt(c2.y > c1.y)) - @intCast(c_int, @boolToInt(c2.y < c1.y));
 }
