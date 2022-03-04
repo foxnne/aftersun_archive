@@ -4,7 +4,7 @@ const flecs = @import("flecs");
 const components = @import("components.zig");
 
 pub const Grid = struct {
-    cellTiles: i32 = 2, //tiles wide/tall per cell
+    cellTiles: i32 = 8, //tiles wide/tall per cell
 
 };
 

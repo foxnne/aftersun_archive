@@ -14,7 +14,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
     if (world.getSingleton(components.MouseDrag)) |mouse_drag| {
         if (world.getSingleton(components.CollisionBroadphase)) |broadphase| {
-            while (it.next()) |_| {
+            
                 if (game.player.get(components.Tile)) |player_tile| {
                     var distance_x = std.math.absInt(mouse_drag.prev_x - player_tile.x) catch unreachable;
                     var distance_y = std.math.absInt(mouse_drag.prev_y - player_tile.y) catch unreachable;
@@ -82,19 +82,18 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                             if (move) {
                                 if (broadphase.entities.get(cell)) |entities| {
-                                    if (entities.items[index].get(components.Tile)) |_| {
-                                        if (entities.items[index].get(components.PreviousTile)) |_| {
-                                            //prev_tile.x = moveTile.x;
-                                            //prev_tile.y = moveTile.y;
-                                            if (entities.items[index].get(components.TossCooldown)) |_| {
-                                                //cooldown.current = 0;
-                                                //cooldown.end = 0.2;
+                                    if (entities.items[index].getMut(components.Tile)) |moveTile| {
+                                        if (entities.items[index].getMut(components.PreviousTile)) |prev_tile| {
+                                            prev_tile.x = moveTile.x;
+                                            prev_tile.y = moveTile.y;
+                                            if (entities.items[index].getMut(components.TossCooldown)) |cooldown| {
+                                                cooldown.current = 0;
+                                                cooldown.end = 0.2;
                                             }
                                         }
-
-                                        //moveTile.x = mouse_drag.x;
-                                        //moveTile.y = mouse_drag.y;
-                                        //moveTile.counter = game.getCounter();
+                                        moveTile.x = mouse_drag.x;
+                                        moveTile.y = mouse_drag.y;
+                                        moveTile.counter = game.getCounter();
                                     }
                                 }
                             }
@@ -106,4 +105,4 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             world.removeSingleton(components.MouseDrag);
         }
     }
-}
+

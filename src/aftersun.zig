@@ -91,14 +91,11 @@ fn init() !void {
     aftersun_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
     aftersun_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
     aftersun_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
-    //aftersun_emissionmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_e_png.path, .nearest) catch unreachable;
     aftersun_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
     character_shader = shaders.createSpritePaletteShader() catch unreachable;
-    //emission_shader = shaders.createEmissionShader() catch unreachable;
     environment_shader = shaders.createEnvironmentShader();
-    //bloom_shader = shaders.createBloomShader();
     tiltshift_shader = shaders.createTiltshiftShader();
     finalize_shader = shaders.createFinalizeShader();
 
@@ -122,10 +119,10 @@ fn init() !void {
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
 
     // collision and interaction
-    //world.system(@import("ecs/systems/collisionbroadphase.zig").Callback, .on_update);
-    //world.system(@import("ecs/systems/collisionnarrowphase.zig").Callback, .on_update);
-    //world.system(@import("ecs/systems/mousedrag.zig").Callback, .on_update);
-    //world.system(@import("ecs/systems/collisionendphase.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/collisionbroadphase.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/collisionnarrowphase.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/mousedrag.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/collisionendphase.zig").Callback, .on_update);
 
     // movement
     world.system(@import("ecs/systems/movetile.zig").Callback, .on_update);
@@ -234,7 +231,7 @@ fn init() !void {
 
     const treeSpawnWidth = 200;
     const treeSpawnHeight = 200;
-    const treeSpawnCount = 6000;
+    const treeSpawnCount = 20000;
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 12345678900;
         break :blk seed;
@@ -359,6 +356,8 @@ fn init() !void {
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Vial_0_Layer,
     });
+
+    
 }
 
 fn update() !void {
