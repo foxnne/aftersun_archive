@@ -12,7 +12,7 @@ pub const Callback = struct {
 
     pub const name = "RenderPass1System";
     pub const run = progress;
-    pub const modifiers = .{ flecs.queries.Filter(components.Tile)};
+    pub const modifiers = .{ flecs.queries.Filter(components.Tile), flecs.queries.Filter(components.Visible)};
     pub const order_by = orderBy;
 };
 

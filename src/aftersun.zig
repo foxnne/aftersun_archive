@@ -231,7 +231,7 @@ fn init() !void {
 
     const treeSpawnWidth = 200;
     const treeSpawnHeight = 200;
-    const treeSpawnCount = 20000;
+    const treeSpawnCount = 6000;
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 12345678900;
         break :blk seed;
