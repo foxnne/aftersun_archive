@@ -14,70 +14,40 @@ pub const Callback = struct {
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         blk: {
-            var collider = it.entity().get(components.Collider);
-            var tile = it.entity().get(components.Tile);
-
-            if (collider) |c| {
-                if (c.trigger)
+            if (it.entity().get(components.Collider)) |self_collider| {
+                if (self_collider.trigger)
                     continue;
             }
 
-            if (tile) |t| {
-                const current_cell = components.Cell{ .x = @divTrunc(t.x, 8), .y = @divTrunc(t.y, 8) };
+            if (it.entity().get(components.Tile)) |self_tile| {
+                const target_cell = components.Cell{ .x = @divTrunc(self_tile.x + comps.move_request.x, 128), .y = @divTrunc(self_tile.y + comps.move_request.y, 128) };
 
-                const move_direction = zia.math.Direction.find(8, @intToFloat(f32, comps.move_request.x), @intToFloat(f32, comps.move_request.y));
+                var cell_term = flecs.Term(components.Cell).init(it.world());
+                var cell_it = cell_term.iterator();
 
-                const all_cells = switch (move_direction) {
-                    .none => [_]components.Cell{ current_cell, current_cell, current_cell, current_cell },
-                    .n => [_]components.Cell{ current_cell, current_cell, current_cell, .{ .x = current_cell.x, .y = current_cell.y - 1 } },
-                    .e => [_]components.Cell{ current_cell, current_cell, current_cell, .{ .x = current_cell.x + 1, .y = current_cell.y } },
-                    .s => [_]components.Cell{ current_cell, current_cell, current_cell, .{ .x = current_cell.x, .y = current_cell.y + 1 } },
-                    .w => [_]components.Cell{ current_cell, current_cell, current_cell, .{ .x = current_cell.x - 1, .y = current_cell.y } },
-                    .ne => [_]components.Cell{ current_cell, .{ .x = current_cell.x, .y = current_cell.y - 1 }, .{ .x = current_cell.x + 1, .y = current_cell.y }, .{ .x = current_cell.x + 1, .y = current_cell.y - 1 } },
-                    .se => [_]components.Cell{ current_cell, .{ .x = current_cell.x, .y = current_cell.y + 1 }, .{ .x = current_cell.x + 1, .y = current_cell.y }, .{ .x = current_cell.x + 1, .y = current_cell.y + 1 } },
-                    .sw => [_]components.Cell{ current_cell, .{ .x = current_cell.x, .y = current_cell.y + 1 }, .{ .x = current_cell.x - 1, .y = current_cell.y }, .{ .x = current_cell.x - 1, .y = current_cell.y + 1 } },
-                    .nw => [_]components.Cell{ current_cell, .{ .x = current_cell.x, .y = current_cell.y - 1 }, .{ .x = current_cell.x - 1, .y = current_cell.y }, .{ .x = current_cell.x - 1, .y = current_cell.y - 1 } },
-                };
+                while (cell_it.next()) |cell| {
+                    if (cell.x == target_cell.x and cell.y == target_cell.y) {
+                        const TileCallback = struct {
+                            tile: *const components.Tile,
+                            collider: *const components.Collider,
+                        };
 
-                for (all_cells) |cell| {
-                    const CellCallback = struct {
-                        cell: *const components.Cell,
-                    };
-                    var cell_filter = it.world().filter(CellCallback);
+                        var tile_filter = it.world().filterParent(TileCallback, cell_it.entity());
+                        defer tile_filter.deinit();
 
-                    var cell_it = cell_filter.iterator(CellCallback);
-                    defer cell_filter.deinit();
+                        var tile_it = tile_filter.iterator(TileCallback);
+                        while (tile_it.next()) |tiles| {
+                            if (self_tile.x + comps.move_request.x == tiles.tile.x and self_tile.y + comps.move_request.y == tiles.tile.y) {
+                                if (tiles.collider.trigger)
+                                    continue;
 
-                    while (cell_it.next()) |cells| {
-                        if (cells.cell.x == cell.x and cells.cell.y == cell.y) {
-                            const TileCallback = struct {
-                                tile: *const components.Tile,
-                                collider: *const components.Collider,
-                            };
-
-                            var tile_filter = it.world().filter(TileCallback);
-                            defer tile_filter.deinit();
-
-                            tile_filter.filter.terms[2].id = it.world().pair(flecs.c.EcsChildOf, cell_it.entity());
-
-                            var tile_it = tile_filterw.iterator(TileCallback);
-                            while (tile_it.next()) |tiles| {
-                                
-                                if (!tile_it.entity().hasPair(flecs.c.EcsChildOf, cell_it.entity()))
-                                    std.log.err("tile is not a child of parent cell", .{});
-
-                                if (t.x + comps.move_request.x == tiles.tile.x and t.y + comps.move_request.y == tiles.tile.y) {
-                                    if (tiles.collider.trigger)
-                                        continue;
-
-                                    //collision
-                                    comps.move_request.x = 0;
-                                    comps.move_request.y = 0;
-                                    if (it.entity().getMut(components.MovementCooldown)) |cooldown| {
-                                        cooldown.current = cooldown.end;
-                                    }
-                                    break :blk;
+                                //collision
+                                comps.move_request.x = 0;
+                                comps.move_request.y = 0;
+                                if (it.entity().getMut(components.MovementCooldown)) |cooldown| {
+                                    cooldown.current = cooldown.end;
                                 }
+                                break :blk;
                             }
                         }
                     }
