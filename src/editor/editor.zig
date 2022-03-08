@@ -31,20 +31,23 @@ pub fn drawDebugWindow() void {
     //imgui.igSetNextWindowPos(.{}, imgui.ImGuiCond_Always, .{});
     if (imgui.igBegin("Debug", &enable_debug_window, imgui.ImGuiWindowFlags_None)) {
         _ = imgui.igValueUint("FPS", @intCast(c_uint, zia.time.fps()));
-        //_ = imgui.igValueUint("Entities", @intCast(c_uint,  ));
 
-        // if (game.player.get( components.Position)) |position| {
-           
-        //     //_ = imgui.ogDrag(i32, "Height", &position.z, 1, 0, 128);
-            
+        const CellCallback = struct {
+            cell: *const components.Cell,
+        };
 
-        // }
+        var cell_filter = game.world.filter(CellCallback);
+        var cell_it = cell_filter.iterator(CellCallback);
 
-        
+        while (cell_it.next()) |cells| {
 
-    
+            if (game.player.hasPair(flecs.c.EcsChildOf, cell_it.entity())) {
 
+                _ = imgui.igValueInt("Player Cell X", @intCast(c_int, cells.cell.x));
+                _ = imgui.igValueInt("Player Cell Y", @intCast(c_int, cells.cell.y));
 
+            }
+        }
     }
     defer imgui.igEnd();
 }

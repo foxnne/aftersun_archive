@@ -5,19 +5,20 @@ const game = @import("game");
 const components = game.components;
 
 pub const Callback = struct {
-    cooldown: *components.MovementCooldown,
     tile: *const components.Tile,
     prev_tile: *components.PreviousTile,
 
     pub const name = "MoveRequestSystem";
     pub const run = progress;
-    pub const expr = "[out] MoveRequest()"; 
+    pub const modifiers = .{flecs.queries.Filter(components.Player)};
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         if (it.world().getSingleton(components.MovementInput)) |input| {
-            if (comps.cooldown.current >= comps.cooldown.end) {
+            var cooled = if (it.entity().get(components.MovementCooldown)) |cooldown| cooldown.current >= cooldown.end else true;
+
+            if (cooled) {
                 if (input.direction != .none) {
                     const directionVector = input.direction.vector2();
                     const x = @floatToInt(i32, directionVector.x);
@@ -29,19 +30,21 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     });
 
                     if (x != 0 and y != 0) {
-                        comps.cooldown.end = 0.4 * zia.math.sqrt2 - (comps.cooldown.end - comps.cooldown.current) - it.iter.delta_time;
-                        comps.cooldown.current = zia.time.dt();
+                        it.entity().set(&components.MovementCooldown{
+                            .end = 0.4 * zia.math.sqrt2 - it.iter.delta_time,
+                            .current = it.iter.delta_time,
+                        });
                     } else if (x != 0 or y != 0) {
-                        comps.cooldown.end = 0.4 - (comps.cooldown.end - comps.cooldown.current) - it.iter.delta_time;
-                        comps.cooldown.current = zia.time.dt();
+                        it.entity().set(&components.MovementCooldown{
+                            .end = 0.4 - it.iter.delta_time,
+                            .current = it.iter.delta_time,
+                        });
                     }
                 } else {
                     // zero velocity so animations stop
                     comps.prev_tile.x = comps.tile.x;
                     comps.prev_tile.y = comps.tile.y;
                 }
-            } else {
-                comps.cooldown.current += zia.time.dt();
             }
         }
     }

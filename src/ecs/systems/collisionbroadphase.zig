@@ -5,30 +5,43 @@ const game = @import("game");
 const components = game.components;
 
 pub const Callback = struct {
-    cell: *components.Cell,
     tile: *const components.Tile,
 
     pub const name = "CollisionBroadphaseSystem";
     pub const run = progress;
-    pub const order_by = orderBy;
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
-    if (it.world().getSingletonMut(components.CollisionBroadphase)) |broadphase| {
-        if (it.world().getSingleton(components.Grid)) |grid| {
-            while (it.next()) |comps| {
-                comps.cell.x = @divTrunc(comps.tile.x, grid.cellTiles);
-                comps.cell.y = @divTrunc(comps.tile.y, grid.cellTiles);
+    while (it.next()) |comps| {
+        var cell = components.Cell{ .x = @divTrunc(comps.tile.x, 8), .y = @divTrunc(comps.tile.y, 8) };
 
-                broadphase.entities.append(comps.cell.*, it.entity());
+        const CellCallback = struct {
+            cell: *const components.Cell,
+        };
+        var filter = it.world().filter(CellCallback);
+
+        var cell_it = filter.iterator(CellCallback);
+        defer filter.deinit();
+
+        var contains = false;
+
+        while (cell_it.next()) |cells| {
+            if (cells.cell.x == cell.x and cells.cell.y == cell.y) {
+                it.entity().childOf(cell_it.entity());
+                contains = true;
+            } else {
+                if (it.entity().hasPair(flecs.c.EcsChildOf, cell_it.entity())) {
+                    // parent but wrong/outdated cell
+                    it.entity().removePair(flecs.c.EcsChildOf, cell_it.entity());
+                }
             }
         }
-    }
-}
 
-fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
-    if (c1.y == c2.y){
-        return @intCast(c_int, @boolToInt(c2.counter > c1.counter)) - @intCast(c_int, @boolToInt(c2.counter < c1.counter));
-    } 
-    return @intCast(c_int, @boolToInt(c2.y > c1.y)) - @intCast(c_int, @boolToInt(c2.y < c1.y));
+        if (!contains) {
+            var parent = it.world().newEntity();
+            parent.add(components.Cell);
+            parent.set(&cell);
+            it.entity().addPair(flecs.c.EcsChildOf, parent);
+        }
+    }
 }

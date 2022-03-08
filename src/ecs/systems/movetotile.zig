@@ -8,9 +8,9 @@ pub const Callback = struct {
     position: *components.Position,
     tile: *const components.Tile,
     prev_tile: *const components.PreviousTile,
-    cooldown: *const components.MovementCooldown,
-    velocity: *components.Velocity,
-    
+    cooldown: ?*const components.MovementCooldown,
+    velocity: ?*components.Velocity,
+
     pub const name = "MoveToTileSystem";
     pub const run = progress;
 };
@@ -18,7 +18,7 @@ pub const Callback = struct {
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
 
-        var f = comps.cooldown.current / comps.cooldown.end;
+        var f = if (comps.cooldown) |cooldown| cooldown.current / cooldown.end else 1;
 
         // incase comps.cooldown.end is zero
         if (std.math.isNan(f))
@@ -28,8 +28,13 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         const end = zia.math.Vector2{ .x = @intToFloat(f32, comps.tile.x * 32), .y = @intToFloat(f32, comps.tile.y * 32) };
 
         var velocity = end.subtract(start);
-        comps.velocity.x = velocity.x;
-        comps.velocity.y = velocity.y;
+        if (comps.velocity) |vel| {
+            vel.x = velocity.x;
+            vel.y = velocity.y;
+        } else {
+            //toss
+            comps.position.z = @floatToInt(i32, std.math.sin(std.math.pi * f) * 10);
+        }
 
         // lerp towards final position
         const position = start.add(velocity.scale(f));

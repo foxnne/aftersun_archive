@@ -5,104 +5,54 @@ const game = @import("game");
 const components = game.components;
 
 pub const Callback = struct {
+    mouse_drag: *const components.MouseDrag,
+
     pub const name = "MouseDragSystem";
     pub const run = progress;
+    pub const expr = "[out] MoveRequest(), [out] Tile()";
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
-    var world = it.world();
+    while (it.next()) |comps| {
 
-    if (world.getSingleton(components.MouseDrag)) |mouse_drag| {
-        if (world.getSingleton(components.CollisionBroadphase)) |broadphase| {
-            
-                if (game.player.get(components.Tile)) |player_tile| {
-                    var distance_x = std.math.absInt(mouse_drag.prev_x - player_tile.x) catch unreachable;
-                    var distance_y = std.math.absInt(mouse_drag.prev_y - player_tile.y) catch unreachable;
+        // only allow moving items nearest the player
+        if (game.player.get(components.Tile)) |player_tile| {
+            const dist_x = comps.mouse_drag.prev_x - player_tile.x;
+            const dist_y = comps.mouse_drag.prev_y - player_tile.y;
 
-                    if (distance_x <= 1 and distance_y <= 1) {
-                        if (game.player.get(components.Cell)) |self_cell| {
-                            // collect all cells around the current_cell cell
+            if (dist_x > 1 or dist_y > 1)
+                return;
+        }        
 
-                            const current_cell = self_cell.*;
+        const TileCallback = struct {
+            tile: *const components.Tile,
+            prev_tile: *components.PreviousTile,
 
-                            var cells = [_]components.Cell{
-                                current_cell,
-                                .{ .x = current_cell.x + 1, .y = current_cell.y }, //east
-                                .{ .x = current_cell.x - 1, .y = current_cell.y }, //west
-                                .{ .x = current_cell.x, .y = current_cell.y - 1 }, //north
-                                .{ .x = current_cell.x, .y = current_cell.y + 1 }, //south
-                                .{ .x = current_cell.x + 1, .y = current_cell.y - 1 }, //ne
-                                .{ .x = current_cell.x + 1, .y = current_cell.y + 1 }, //se
-                                .{ .x = current_cell.x - 1, .y = current_cell.y + 1 }, //sw
-                                .{ .x = current_cell.x - 1, .y = current_cell.y - 1 }, //nw
-                            };
+            pub const order_by = orderBy;
+        };
 
-                            var move: bool = false;
-                            var index: usize = 0;
-                            var cell: components.Cell = .{};
+        var tile_query = it.world().query(TileCallback);
+        defer tile_query.deinit();
 
-                            for (cells) |c| {
-                                if (broadphase.entities.get(c)) |entities| {
-                                    for (entities.items) |other, j| {
-                                        if (other.id == game.player.id)
-                                            continue;
+        var tile_it = tile_query.iterator(TileCallback);
 
-                                        if (other.get(components.Tile)) |otherTile| {
-                                            // collision
-                                            if (mouse_drag.prev_x == otherTile.x and mouse_drag.prev_y == otherTile.y) {
-                                                if (other.has(components.Moveable)) {
-                                                    move = true;
-                                                    cell = c;
-                                                    index = j;
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (move) {
-                                for (cells) |c| {
-                                    if (broadphase.entities.get(c)) |entities| {
-                                        for (entities.items) |other| {
-                                            if (other.get(components.Tile)) |otherTile| {
-                                                if (other.get(components.Collider)) |otherCollider| {
-                                                    // collision
-                                                    if (mouse_drag.x == otherTile.x and mouse_drag.y == otherTile.y) {
-                                                        if (!otherCollider.trigger and other.id != game.player.id)
-                                                            move = false;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (move) {
-                                if (broadphase.entities.get(cell)) |entities| {
-                                    if (entities.items[index].getMut(components.Tile)) |moveTile| {
-                                        if (entities.items[index].getMut(components.PreviousTile)) |prev_tile| {
-                                            prev_tile.x = moveTile.x;
-                                            prev_tile.y = moveTile.y;
-                                            if (entities.items[index].getMut(components.TossCooldown)) |cooldown| {
-                                                cooldown.current = 0;
-                                                cooldown.end = 0.2;
-                                            }
-                                        }
-                                        moveTile.x = mouse_drag.x;
-                                        moveTile.y = mouse_drag.y;
-                                        moveTile.counter = game.getCounter();
-                                    }
-                                }
-                            }
-                        }
+        while (tile_it.next()) |tiles| {
+            if (tiles.tile.x == comps.mouse_drag.prev_x and tiles.tile.y == comps.mouse_drag.prev_y) {
+                if (tile_it.entity().has(components.Moveable)) {
+                    if (it.world().getSingleton(components.Tile)) |tile| {
+                        tile_it.entity().set(&components.MoveRequest{ .x = tile.x - tiles.tile.x, .y = tile.y - tiles.tile.y });
+                        tile_it.entity().set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
+                        break;
                     }
                 }
             }
-
-            world.removeSingleton(components.MouseDrag);
         }
     }
+}
 
+fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
+    if (c1.y == c2.y) {
+        return @intCast(c_int, @boolToInt(c2.counter > c1.counter)) - @intCast(c_int, @boolToInt(c2.counter < c1.counter));
+    }
+    return @intCast(c_int, @boolToInt(c2.y > c1.y)) - @intCast(c_int, @boolToInt(c2.y < c1.y));
+}

@@ -117,18 +117,17 @@ fn init() !void {
     world.system(@import("ecs/systems/movementinput.zig").Callback, .on_update);
     world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
+    world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
 
     // collision and interaction
-    world.system(@import("ecs/systems/collisionbroadphase.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/collisionnarrowphase.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/mousedrag.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/collisionendphase.zig").Callback, .on_update);
+    world.observer(@import("ecs/systems/collisionbroadphase.zig").Callback, .on_set);
+    world.observer(@import("ecs/systems/collisionnarrowphase.zig").Callback, .on_set);
 
     // movement
+    world.system(@import("ecs/systems/movementcooldown.zig").Callback, .on_update);
     world.system(@import("ecs/systems/movetile.zig").Callback, .on_update);
     world.system(@import("ecs/systems/movetotile.zig").Callback, .on_update);
     world.system(@import("ecs/systems/move.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/tosstotile.zig").Callback, .on_update);
 
     // animation
     world.system(@import("ecs/systems/characteranimator.zig").Callback, .on_update);
@@ -158,7 +157,6 @@ fn init() !void {
     player = world.newEntityWithName("Player");
     player.set(&components.Position{});
     player.set(&components.Tile{ .counter = getCounter() });
-    player.set(&components.Cell{});
     player.set(&components.PreviousTile{});
     player.set(&components.MovementCooldown{});
     player.set(&components.Velocity{});
@@ -191,11 +189,6 @@ fn init() !void {
     player.set(&components.HeadDirection{});
     player.add(components.Player);
     player.set(&components.Collider{});
-    // player.set( &components.LightRenderer{
-    //     .texture = light_texture,
-    //     .atlas = light_atlas,
-    //     .color = zia.math.Color.fromRgbBytes(50, 50, 50),
-    // });
 
     camera = world.newEntityWithName("Camera");
     camera.set(&components.Camera{
@@ -205,7 +198,6 @@ fn init() !void {
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
-        //.pass_5 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
     });
     camera.set(&components.Zoom{});
     camera.set(&components.Position{});
@@ -224,14 +216,11 @@ fn init() !void {
     world.setSingleton(&components.MovementInput{});
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Tile{}); //mouse input tile
-    world.setSingleton(&components.Grid{});
-    world.setSingleton(&components.CollisionBroadphase{
-        .entities = zia.utils.MultiHashMap(components.Cell, flecs.Entity).init(std.testing.allocator),
-    });
 
     const treeSpawnWidth = 200;
     const treeSpawnHeight = 200;
     const treeSpawnCount = 6000;
+    world.dim(treeSpawnCount);
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 12345678900;
         break :blk seed;
@@ -246,7 +235,6 @@ fn init() !void {
 
         e.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
         e.set(&components.Tile{ .x = x, .y = y });
-        e.set(&components.Cell{});
         e.set(&components.SpriteRenderer{
             .texture = aftersun_texture,
             .heightmap = aftersun_heightmap,
@@ -267,8 +255,8 @@ fn init() !void {
 
     var campfire = world.newEntityWithName("Campfire");
     campfire.set(&components.Tile{ .x = 0, .y = 1 });
+    campfire.set(&components.PreviousTile{ .x = 0, .y = 1});
     campfire.set(&components.Position{ .x = 0, .y = 1 * ppu });
-    campfire.set(&components.Cell{});
     campfire.set(&components.Collider{ .trigger = true });
     campfire.set(&components.LightRenderer{
         .texture = light_texture,
@@ -278,7 +266,6 @@ fn init() !void {
     });
     campfire.set(&components.SpriteRenderer{
         .texture = aftersun_texture,
-        //.emissionmap = aftersun_emissionmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Campfire_0_Layer_0,
     });
@@ -288,7 +275,8 @@ fn init() !void {
         .fps = 16,
     });
     campfire.set(&components.ParticleRenderer{
-        .position_offset = .{ .x = 0, .y = 16 },
+        .position_offset = .{ .x = 0, .y = -16 },
+        .worldspace = false,
         .texture = aftersun_texture,
         .atlas = aftersun_atlas,
         .active = true,
@@ -305,9 +293,7 @@ fn init() !void {
     torch.set(&components.Tile{ .x = 0, .y = 4 });
     torch.set(&components.PreviousTile{ .x = 0, .y = 4 });
     torch.set(&components.Position{ .x = 0, .y = 4 * ppu });
-    torch.set(&components.Cell{});
     torch.add(components.Moveable);
-    torch.set(&components.TossCooldown{});
     torch.set(&components.LightRenderer{
         .texture = light_texture,
         .atlas = light_atlas,
@@ -316,7 +302,6 @@ fn init() !void {
     });
     torch.set(&components.SpriteRenderer{
         .texture = aftersun_texture,
-        //.emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Torch_0_Layer,
@@ -331,12 +316,9 @@ fn init() !void {
     ham.set(&components.Tile{ .x = 1, .y = 4 });
     ham.set(&components.PreviousTile{ .x = 1, .y = 4 });
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
-    ham.set(&components.Cell{});
     ham.add(components.Moveable);
-    ham.set(&components.TossCooldown{});
     ham.set(&components.SpriteRenderer{
         .texture = aftersun_texture,
-        //.emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Ham_0_Layer,
@@ -346,18 +328,13 @@ fn init() !void {
     vial.set(&components.Tile{ .x = 1, .y = 5 });
     vial.set(&components.PreviousTile{ .x = 1, .y = 5 });
     vial.set(&components.Position{ .x = 1 * ppu, .y = 5 * ppu });
-    vial.set(&components.Cell{});
     vial.add(components.Moveable);
-    vial.set(&components.TossCooldown{});
     vial.set(&components.SpriteRenderer{
         .texture = aftersun_texture,
-        //.emissionmap = aftersun_emissionmap,
         .heightmap = aftersun_heightmap,
         .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Vial_0_Layer,
     });
-
-    
 }
 
 fn update() !void {
