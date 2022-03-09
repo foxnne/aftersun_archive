@@ -26,7 +26,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         comps.tile.z += comps.request.z;
         comps.tile.counter = game.getCounter();
 
-        //wit.entity().setModified(components.Tile);
+        it.entity().setModified(components.Tile);
 
         it.entity().remove(components.MoveRequest);
     }

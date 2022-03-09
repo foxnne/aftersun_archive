@@ -20,7 +20,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             }
 
             if (it.entity().get(components.Tile)) |self_tile| {
-                const target_cell = components.Cell{ .x = @divTrunc(self_tile.x + comps.move_request.x, 128), .y = @divTrunc(self_tile.y + comps.move_request.y, 128) };
+                const target_cell = components.Cell{ .x = @divTrunc(self_tile.x + comps.move_request.x, game.cell_size), .y = @divTrunc(self_tile.y + comps.move_request.y, game.cell_size) };
 
                 var cell_term = flecs.Term(components.Cell).init(it.world());
                 var cell_it = cell_term.iterator();

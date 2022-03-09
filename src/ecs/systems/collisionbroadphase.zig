@@ -13,7 +13,7 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        var cell = components.Cell{ .x = @divTrunc(comps.tile.x, 128), .y = @divTrunc(comps.tile.y, 128) };
+        var cell = components.Cell{ .x = @divTrunc(comps.tile.x, game.cell_size), .y = @divTrunc(comps.tile.y, game.cell_size) };
 
         const CellCallback = struct {
             cell: *const components.Cell,

@@ -10,6 +10,10 @@ pub const disable_reflection = true;
 /// pixels per unit
 pub const ppu: i32 = 32;
 
+/// tile dimensions of cell
+/// width and height
+pub const cell_size: i32 = 32;
+
 const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
 const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
 pub var gizmos: Gizmos = undefined;

@@ -9,50 +9,62 @@ pub const Callback = struct {
 
     pub const name = "MouseDragSystem";
     pub const run = progress;
-    pub const expr = "[out] MoveRequest(), [out] Tile()";
+    pub const expr = "[out] MoveRequest()";
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
 
-        // only allow moving items nearest the player
+        //only allow moving items nearest the player
         if (game.player.get(components.Tile)) |player_tile| {
             const dist_x = comps.mouse_drag.prev_x - player_tile.x;
             const dist_y = comps.mouse_drag.prev_y - player_tile.y;
 
             if (dist_x > 1 or dist_y > 1)
                 return;
-        }        
+        }
 
-        const TileCallback = struct {
-            tile: *const components.Tile,
-            prev_tile: *components.PreviousTile,
+        // get the cell we are dragging from
+        const grab_cell = components.Cell{ .x = @divTrunc(comps.mouse_drag.x, game.cell_size), .y = @divTrunc(comps.mouse_drag.y, game.cell_size) };
 
-            pub const order_by = orderBy;
-        };
+        var cell_term = flecs.Term(components.Cell).init(it.world());
+        var cell_it = cell_term.iterator();
 
-        var tile_query = it.world().query(TileCallback);
-        defer tile_query.deinit();
+        // iterate all cells
+        while (cell_it.next()) |cell| {
+            // match with dragging from cell
+            if (cell.x == grab_cell.x and cell.y == grab_cell.y) {
+                const TileCallback = struct {
+                    tile: *const components.Tile,
+                };
+                // iterate tiles that are children of the cell
+                var tile_filter = it.world().filterParent(TileCallback, cell_it.entity());
+                defer tile_filter.deinit();
+                var tile_it = tile_filter.iterator(TileCallback);
 
-        var tile_it = tile_query.iterator(TileCallback);
-
-        while (tile_it.next()) |tiles| {
-            if (tiles.tile.x == comps.mouse_drag.prev_x and tiles.tile.y == comps.mouse_drag.prev_y) {
-                if (tile_it.entity().has(components.Moveable)) {
-                    if (it.world().getSingleton(components.Tile)) |tile| {
-                        tile_it.entity().set(&components.MoveRequest{ .x = tile.x - tiles.tile.x, .y = tile.y - tiles.tile.y });
-                        tile_it.entity().set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
-                        break;
+                var counter: i32 = 0;
+                var entity: ?flecs.Entity = null;
+                var tile: components.Tile = .{};
+                while (tile_it.next()) |tiles| {
+                    // match grab tile
+                    if (tiles.tile.x == comps.mouse_drag.prev_x and tiles.tile.y == comps.mouse_drag.prev_y) {
+                        if (tile_it.entity().has(components.Moveable)) {
+                            // find the tile with the highest counter
+                            if (tiles.tile.counter >= counter) {
+                                counter = tiles.tile.counter;
+                                entity = tile_it.entity();
+                                tile = tiles.tile.*;
+                            }
+                        }
                     }
+                }
+
+                if (entity) |e| {
+                    std.log.debug("called", .{});
+                    e.set(&components.MoveRequest{ .x = comps.mouse_drag.x - tile.x, .y = comps.mouse_drag.y - tile.y });
+                    e.set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
                 }
             }
         }
     }
-}
-
-fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
-    if (c1.y == c2.y) {
-        return @intCast(c_int, @boolToInt(c2.counter > c1.counter)) - @intCast(c_int, @boolToInt(c2.counter < c1.counter));
-    }
-    return @intCast(c_int, @boolToInt(c2.y > c1.y)) - @intCast(c_int, @boolToInt(c2.y < c1.y));
 }
