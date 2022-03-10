@@ -17,8 +17,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
         //only allow moving items nearest the player
         if (game.player.get(components.Tile)) |player_tile| {
-            const dist_x = comps.mouse_drag.prev_x - player_tile.x;
-            const dist_y = comps.mouse_drag.prev_y - player_tile.y;
+            const dist_x = std.math.absInt(comps.mouse_drag.prev_x - player_tile.x) catch unreachable;
+            const dist_y = std.math.absInt(comps.mouse_drag.prev_y - player_tile.y) catch unreachable;
 
             if (dist_x > 1 or dist_y > 1)
                 return;
