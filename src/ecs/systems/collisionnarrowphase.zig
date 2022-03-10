@@ -45,7 +45,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                 comps.move_request.x = 0;
                                 comps.move_request.y = 0;
                                 if (it.entity().getMut(components.MovementCooldown)) |cooldown| {
-                                    cooldown.current = cooldown.end;
+                                    cooldown.current = 0;
+                                    cooldown.end = 0;
                                 }
                                 break :blk;
                             }
@@ -56,29 +57,3 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         }
     }
 }
-
-// // Create a hierarchical query to compute the global position from the local position and the parent position
-//     var query_t = std.mem.zeroes(flecs.c.ecs_query_desc_t);
-//     // Read from entity's Local position
-//     query_t.filter.terms[0] = std.mem.zeroInit(flecs.c.ecs_term_t, .{ .id = world.pair(Position, Local), .inout = flecs.c.EcsIn });
-//     // Write to entity's World position
-//     query_t.filter.terms[1] = std.mem.zeroInit(flecs.c.ecs_term_t, .{ .id = world.pair(Position, World), .inout = flecs.c.EcsOut });
-//     // Read from parent's World position
-//     query_t.filter.terms[2].id = world.pair(Position, World);
-//     query_t.filter.terms[2].inout = flecs.c.EcsIn;
-//     query_t.filter.terms[2].oper = flecs.c.EcsOptional;
-//     query_t.filter.terms[2].subj.set.mask = flecs.c.EcsParent | flecs.c.EcsCascade;
-
-//     const QCallback = struct { local: *const Position, world: *Position, parent: ?*const Position };
-//     var query = flecs.Query.init(world, &query_t);
-//     defer query.deinit();
-
-//     {
-//         // tester to show the same as above with struct query format
-//         const Funky = struct {
-//             pos_local: *const Position,
-//             pos_world: *Position,
-//             pos_parent: ?*const Position,
-
-//             pub var modifiers = .{ q.PairI(Position, Local, "pos_local"), q.WriteonlyI(q.Pair(Position, World), "pos_world"), q.MaskI(q.Pair(Position, World), flecs.c.EcsParent | flecs.c.EcsCascade, "pos_parent") };
-//         };
