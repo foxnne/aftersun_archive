@@ -16,7 +16,6 @@ pub const Callback = struct {
     pub const order_by = orderBy;
 };
 
-
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         if (comps.sprite_renderer) |renderer| {

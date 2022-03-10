@@ -7,6 +7,13 @@ const imgui = @import("imgui");
 //TODO: remove this and fix the reflection data
 pub const disable_reflection = true;
 
+pub const RenderMode = enum {
+    diffuse,
+    height,
+};
+/// currently displayed render texture
+pub var render_mode: RenderMode = .diffuse;
+
 /// pixels per unit
 pub const ppu: i32 = 32;
 
@@ -197,7 +204,7 @@ fn init() !void {
     camera = world.newEntityWithName("Camera");
     camera.set(&components.Camera{
         .size = .{ .x = design_w, .y = design_h },
-        .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
