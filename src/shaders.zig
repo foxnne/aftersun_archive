@@ -18,12 +18,6 @@ pub fn createFinalizeShader() FinalizeShader {
     return FinalizeShader.init(.{ .frag = frag, .onPostBind = FinalizeShader.onPostBind });
 }
 
-pub fn createSpritePaletteShader() !gfx.Shader {
-    const vert = @embedFile("../assets/shaders/sprite_vs.glsl");
-    const frag = @embedFile("../assets/shaders/spritePalette_fs.glsl");
-    return try gfx.Shader.initWithVertFrag(VertexParams, struct { pub const metadata = .{ .images = .{ "main_tex", "palette_tex" } }; }, .{ .frag = frag, .vert = vert });
-}
-
 pub fn createTiltshiftShader() TiltshiftShader {
     const frag = @embedFile("../assets/shaders/tiltshift_fs.glsl");
     return TiltshiftShader.init(.{ .frag = frag, .onPostBind = TiltshiftShader.onPostBind });
@@ -32,18 +26,16 @@ pub fn createTiltshiftShader() TiltshiftShader {
 pub fn createUberShader() !gfx.Shader {
     const vert = @embedFile("../assets/shaders/sprite_vs.glsl");
     const frag = @embedFile("../assets/shaders/uber_fs.glsl");
-    return try gfx.Shader.initWithVertFrag(VertexParams, struct { pub const metadata = .{ .images = .{ "main_tex", "palette_tex" } }; }, .{ .frag = frag, .vert = vert });
+    return try gfx.Shader.initWithVertFrag(VertexParams, struct { pub const metadata = .{ .images = .{ "main_tex", "height_tex", "palette_tex" } }; }, .{ .frag = frag, .vert = vert });
 }
 
 
-pub const TiltshiftParams = extern struct {
+pub const VertexParams = extern struct {
     pub const metadata = .{
-        .images = .{ "main_tex" },
-        .uniforms = .{ .TiltshiftParams = .{ .type = .float4, .array_count = 1 } },
+        .uniforms = .{ .VertexParams = .{ .type = .float4, .array_count = 2 } },
     };
 
-    blur_amount: f32 = 0,
-    _pad4_0_: [12]u8 = [_]u8{0} ** 12,
+    transform_matrix: [8]f32 = [_]f32{0} ** 8,
 };
 
 pub const LightParams = extern struct {
@@ -62,12 +54,14 @@ pub const LightParams = extern struct {
     shadow_steps: f32 = 0,
 };
 
-pub const VertexParams = extern struct {
+pub const TiltshiftParams = extern struct {
     pub const metadata = .{
-        .uniforms = .{ .VertexParams = .{ .type = .float4, .array_count = 2 } },
+        .images = .{ "main_tex" },
+        .uniforms = .{ .TiltshiftParams = .{ .type = .float4, .array_count = 1 } },
     };
 
-    transform_matrix: [8]f32 = [_]f32{0} ** 8,
+    blur_amount: f32 = 0,
+    _pad4_0_: [12]u8 = [_]u8{0} ** 12,
 };
 
 pub const FinalizeParams = extern struct {

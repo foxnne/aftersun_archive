@@ -16,13 +16,14 @@ pub const Callback = struct {
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
 
-
         // end pass_0, begin the next pass
         zia.gfx.endPass();
 
+        // unbind the heightmap and palette
         zia.gfx.draw.unbindTexture(1);
+        zia.gfx.draw.unbindTexture(2);
 
-        // render the heightmaps to the heightmap texture
+        // render the lightmaps to the lightmap texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(0, 0, 0), .pass = comps.camera.pass_1, .trans_mat = comps.camera.transform });
     }
 }

@@ -158,8 +158,6 @@ fn init() !void {
     world.system(@import("ecs/systems/renderpassend0.zig").Callback, .on_update);
     world.system(@import("ecs/systems/renderpass1.zig").Callback, .on_update);
     world.system(@import("ecs/systems/renderpassend1.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderpass2.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderpassend2.zig").Callback, .on_update);
     world.system(@import("ecs/systems/renderend.zig").Callback, .on_update);
 
     player = world.newEntityWithName("Player");
@@ -196,7 +194,7 @@ fn init() !void {
     camera = world.newEntityWithName("Camera");
     camera.set(&components.Camera{
         .size = .{ .x = design_w, .y = design_h },
-        .pass_0 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
+        .pass_0 = zia.gfx.OffscreenPass.initMrt(design_w, design_h, 2),
         .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
