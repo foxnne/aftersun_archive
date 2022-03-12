@@ -24,6 +24,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         zia.gfx.draw.unbindTexture(2);
 
         // render the lightmaps to the lightmap texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(0, 0, 0), .pass = comps.camera.pass_1, .trans_mat = comps.camera.transform });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = comps.camera.pass_1, .trans_mat = comps.camera.transform });
     }
 }

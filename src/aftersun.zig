@@ -113,6 +113,7 @@ fn init() !void {
     const design_h = 720;
 
     // register all components
+    // only components used in strings (DSL) are required to be registered
     world.registerComponents(.{
         components.MoveRequest,
         components.Visible,
@@ -157,7 +158,6 @@ fn init() !void {
     world.system(@import("ecs/systems/renderpass0.zig").Callback, .on_update);
     world.system(@import("ecs/systems/renderpassend0.zig").Callback, .on_update);
     world.system(@import("ecs/systems/renderpass1.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderpassend1.zig").Callback, .on_update);
     world.system(@import("ecs/systems/renderend.zig").Callback, .on_update);
 
     player = world.newEntityWithName("Player");
@@ -204,11 +204,6 @@ fn init() !void {
     camera.set(&components.Position{});
     camera.set(&components.Velocity{});
     camera.set(&components.Environment{});
-    // camera.set(&components.PostProcess{
-    //     .finalize_shader = &finalize_shader,
-    //     .tiltshift_shader = &tiltshift_shader,
-    //     .textures = null,
-    // });
     camera.set(&components.Follow{ .target = player });
 
     world.setSingleton(&components.Time{});

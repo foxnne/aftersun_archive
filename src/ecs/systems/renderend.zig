@@ -22,7 +22,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         // render the environment, sun and sunshadows
         zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = comps.camera.pass_3, .shader = &game.environment_shader.shader });
         zia.gfx.draw.bindTexture(comps.camera.pass_0.color_texture2.?, 1);
-        zia.gfx.draw.bindTexture(comps.camera.pass_2.color_texture, 2);
+        zia.gfx.draw.bindTexture(comps.camera.pass_1.color_texture, 2);
         zia.gfx.draw.texture(comps.camera.pass_0.color_texture, .{}, .{ .color = comps.environment.ambient_color });
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
