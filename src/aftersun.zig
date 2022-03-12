@@ -39,17 +39,15 @@ pub const animations = @import("animations.zig");
 pub const components = @import("ecs/components/components.zig");
 
 // shaders and textures
-var aftersun_palette: zia.gfx.Texture = undefined;
+pub var aftersun_palette: zia.gfx.Texture = undefined;
 var aftersun_texture: zia.gfx.Texture = undefined;
 var aftersun_heightmap: zia.gfx.Texture = undefined;
 var aftersun_emissionmap: zia.gfx.Texture = undefined;
 var aftersun_atlas: zia.gfx.Atlas = undefined;
 var light_texture: zia.gfx.Texture = undefined;
 var light_atlas: zia.gfx.Atlas = undefined;
-var character_shader: zia.gfx.Shader = undefined;
+pub var uber_shader: zia.gfx.Shader = undefined;
 var environment_shader: shaders.EnvironmentShader = undefined;
-//var emission_shader: zia.gfx.Shader = undefined;
-var bloom_shader: shaders.BloomShader = undefined;
 var tiltshift_shader: shaders.TiltshiftShader = undefined;
 var finalize_shader: shaders.FinalizeShader = undefined;
 
@@ -105,7 +103,7 @@ fn init() !void {
     aftersun_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
-    character_shader = shaders.createSpritePaletteShader() catch unreachable;
+    uber_shader = shaders.createUberShader() catch unreachable;
     environment_shader = shaders.createEnvironmentShader();
     tiltshift_shader = shaders.createTiltshiftShader();
     finalize_shader = shaders.createFinalizeShader();
@@ -166,13 +164,12 @@ fn init() !void {
     world.system(@import("ecs/systems/renderend.zig").Callback, .on_update);
 
     player = world.newEntityWithName("Player");
+    player.add(components.Player);
     player.set(&components.Position{});
     player.set(&components.Tile{ .counter = getCounter() });
     player.set(&components.PreviousTile{});
-    player.set(&components.MovementCooldown{});
     player.set(&components.Velocity{});
     player.set(&components.Speed{ .value = 80 });
-    player.set(&components.Material{ .shader = &character_shader, .textures = &[_]*zia.gfx.Texture{&aftersun_palette} });
     player.set(&components.CharacterRenderer{
         .texture = aftersun_texture,
         .heightmap = aftersun_heightmap,
@@ -182,11 +179,11 @@ fn init() !void {
         .bottom = assets.aftersun_atlas.Idle_SE_0_BottomF02,
         .top = assets.aftersun_atlas.Idle_SE_0_TopF02,
         .hair = assets.aftersun_atlas.Idle_S_0_HairF01,
-        .bodyColor = zia.math.Color.fromRgbBytes(5, 0, 0),
-        .headColor = zia.math.Color.fromRgbBytes(5, 0, 0),
-        .bottomColor = zia.math.Color.fromRgbBytes(13, 0, 0),
-        .topColor = zia.math.Color.fromRgbBytes(12, 0, 0),
-        .hairColor = zia.math.Color.fromRgbBytes(1, 0, 0),
+        .bodyColor = zia.math.Color.fromBytes(5, 0, 0, 1), 
+        .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
+        .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
+        .topColor = zia.math.Color.fromBytes(12, 0, 0, 1),
+        .hairColor = zia.math.Color.fromBytes(1, 0, 0, 1),
     });
     player.set(&components.CharacterAnimator{
         .bodyAnimation = &animations.Idle_SE_Body,
@@ -198,7 +195,6 @@ fn init() !void {
     });
     player.set(&components.BodyDirection{});
     player.set(&components.HeadDirection{});
-    player.add(components.Player);
     player.set(&components.Collider{});
 
     camera = world.newEntityWithName("Camera");
@@ -228,12 +224,12 @@ fn init() !void {
     world.setSingleton(&components.MouseInput{ .camera = camera });
     world.setSingleton(&components.Tile{}); //mouse input tile
 
-    const treeSpawnWidth = 200;
-    const treeSpawnHeight = 200;
+    const treeSpawnWidth = 220;
+    const treeSpawnHeight = 220;
     const treeSpawnCount = 6000;
     world.dim(treeSpawnCount);
     var prng = std.rand.DefaultPrng.init(blk: {
-        var seed: u64 = 12345678900;
+        var seed: u64 = 123456789900;
         break :blk seed;
     });
     const rand = &prng.random();
@@ -245,28 +241,38 @@ fn init() !void {
         var e = world.newEntity();
 
         e.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
-        e.set(&components.Tile{ .x = x, .y = y });
-        e.set(&components.SpriteRenderer{
-            .texture = aftersun_texture,
-            .heightmap = aftersun_heightmap,
-            .atlas = aftersun_atlas,
-            .index = assets.aftersun_atlas.Reeds_0_Layer,
-        });
+        e.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
 
         if (@mod(x, 2) != 0) {
-            e.set(&components.SpriteAnimator{
-                .animation = &animations.PineWind_Layer_0,
-                .state = .play,
-                .frame = rand.intRangeAtMost(usize, 0, 7),
-                .fps = 8,
+            e.set(&components.SpriteRenderer{
+                .texture = aftersun_texture,
+                .heightmap = aftersun_heightmap,
+                .atlas = aftersun_atlas,
+                .index = assets.aftersun_atlas.TX_Plant_0_Layer_0,
             });
             e.set(&components.Collider{});
+        } else {
+            e.set(&components.CharacterRenderer{
+                .texture = aftersun_texture,
+                .heightmap = aftersun_heightmap,
+                .atlas = aftersun_atlas,
+                .body = assets.aftersun_atlas.Idle_SE_0_Body,
+                .head = assets.aftersun_atlas.Idle_S_0_Head,
+                .bottom = assets.aftersun_atlas.Idle_SE_0_BottomF02,
+                .top = assets.aftersun_atlas.Idle_SE_0_TopF02,
+                .hair = assets.aftersun_atlas.Idle_S_0_HairF01,
+                .bodyColor = zia.math.Color.fromBytes(5, 0, 0 , 1),
+                .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
+                .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
+                .topColor = zia.math.Color.fromBytes(12, 0, 0, 1),
+                .hairColor = zia.math.Color.fromBytes(1, 0, 0, 1),
+            });
         }
     }
 
     var campfire = world.newEntityWithName("Campfire");
     campfire.set(&components.Tile{ .x = 0, .y = 1 });
-    campfire.set(&components.PreviousTile{ .x = 0, .y = 1});
+    campfire.set(&components.PreviousTile{ .x = 0, .y = 1 });
     campfire.set(&components.Position{ .x = 0, .y = 1 * ppu });
     campfire.set(&components.Collider{ .trigger = true });
     campfire.set(&components.LightRenderer{
@@ -294,7 +300,7 @@ fn init() !void {
         .lifetime = 2.0,
         .rate = 5,
         .start_color = zia.math.Color.gray,
-        .end_color = zia.math.Color.fromRgba(1, 1, 1, 0.5),
+        .end_color = zia.math.Color.fromRgb(1, 1, 1),
         .particles = std.testing.allocator.alloc(components.Particle, 100) catch unreachable,
         .animation = &animations.Smoke_Layer,
         .callback = components.ParticleRenderer.campfireSmokeCallback,
@@ -369,5 +375,5 @@ fn shutdown() !void {
     world.deinit();
     aftersun_texture.deinit();
     aftersun_palette.deinit();
-    character_shader.deinit();
+    //character_shader.deinit();
 }

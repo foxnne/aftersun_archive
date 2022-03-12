@@ -21,10 +21,14 @@ vec2 paletteCoord(vec3 base, vec3 vert)
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
 {
-    vec4 _112 = texture(tex, tex_coord);
-    vec3 param = _112.xyz;
-    vec3 param_1 = (vert_color.xyz * 255.0) / vec3(float(textureSize(palette_tex, 0).y - 1));
-    return (texture(palette_tex, paletteCoord(param, param_1)) * _112.w) * vert_color.w;
+    vec4 base_color = texture(tex, tex_coord);
+    if (int(vert_color.w * 255.0) == 1)
+    {
+        vec3 param = base_color.xyz;
+        vec3 param_1 = (vert_color.xyz * 255.0) / vec3(float(textureSize(palette_tex, 0).y - 1));
+        base_color = texture(palette_tex, paletteCoord(param, param_1)) * base_color.w;
+    }
+    return base_color;
 }
 
 void main()

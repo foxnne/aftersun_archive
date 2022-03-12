@@ -28,7 +28,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         zia.gfx.draw.bindTexture(comps.camera.pass_2.color_texture, 2);
         zia.gfx.draw.texture(comps.camera.pass_0.color_texture, .{}, .{ .color = comps.environment.ambient_color });
         zia.gfx.endPass();
-        zia.gfx.draw.batcher.flush();
         zia.gfx.draw.unbindTexture(1);
         zia.gfx.draw.unbindTexture(2);
 

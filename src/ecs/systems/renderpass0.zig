@@ -7,7 +7,7 @@ const components = game.components;
 
 pub const Callback = struct {
     position: *const components.Position,
-    material: ?*const components.Material,
+    //material: ?*const components.Material,
     character_renderer: ?*const components.CharacterRenderer,
     sprite_renderer: ?*const components.SpriteRenderer,
     particle_renderer: ?*const components.ParticleRenderer,
@@ -20,16 +20,7 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        if (comps.material) |material| {
-            zia.gfx.setShader(material.shader);
-
-            if (material.textures) |textures| {
-                for (textures) |texture, k| {
-                    zia.gfx.draw.bindTexture(texture.*, @intCast(c_uint, k + 1));
-                }
-            }
-        }
-
+        
         if (comps.sprite_renderer) |renderer| {
             zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
                 .x = comps.position.x,
@@ -42,6 +33,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         }
 
         if (comps.character_renderer) |renderer| {
+
             zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
@@ -65,7 +57,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .color = renderer.bottomColor,
                 .flipX = renderer.flipBody,
             });
- 
+
             zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], renderer.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
@@ -92,17 +84,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 }
             }
         }
-
-        if (comps.material) |material| {
-            zia.gfx.draw.batcher.flush();
-            zia.gfx.setShader(null);
-
-            if (material.textures) |textures| {
-                for (textures) |_, k| {
-                    zia.gfx.draw.unbindTexture(@intCast(c_uint, k + 1));
-                }
-            }
-        }
     }
 
     if (game.gizmos.enabled) {
@@ -125,8 +106,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 }
 
 fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
-    if (c1.y == c2.y){
+    if (c1.y == c2.y) {
         return @intCast(c_int, @boolToInt(c1.counter > c2.counter)) - @intCast(c_int, @boolToInt(c1.counter < c2.counter));
-    } 
+    }
     return @intCast(c_int, @boolToInt(c1.y > c2.y)) - @intCast(c_int, @boolToInt(c1.y < c2.y));
 }

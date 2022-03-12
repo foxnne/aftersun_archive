@@ -45,8 +45,46 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @end
 @program sprite sprite_vs sprite_fs
 
+// UBER SHADER
+@fs uber_fs
+@include_block sprite_fs_main
+uniform sampler2D palette_tex;
 
+int max3 (vec3 channels) {
+	return int(max(channels.z, max (channels.y, channels.x)));
+}
+vec2 paletteCoord (vec3 base, vec3 vert) {
+	// blue overwrites green which overwrites red
+	// arranged such that if all are 0, order is respected
+	vec3 channels = vec3(
+		//r
+		clamp(base.x * vert.x * 65025, 0.0, 1.0),
+		//g
+		clamp(base.y * vert.y * 65025, 0.0, 1.0) * 2,
+		//b
+		clamp(base.z * vert.z * 65025, 0.0, 1.0) * 3
+	);
 
+	int index = max3(channels);
+
+	return vec2(base.brgb[index], vert.brgb[index]);
+}
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+
+	int mode = int(vert_color.a * 255);
+
+	vec4 base_color = texture(tex, tex_coord);
+
+	if (mode == 1) {
+		ivec2 palette_size = textureSize(palette_tex, 0);
+		vec2 palette_coord = paletteCoord(base_color.rgb, (vert_color.rgb * 255) / (palette_size.y - 1));
+		base_color = texture(palette_tex, palette_coord) * base_color.a;
+	}
+
+	return base_color;
+}
+@end
+@program uber sprite_vs uber_fs
 
 // RENDERS INDEXED SPRITES USING A PALETTE, SPLITTING THE THREE
 // CHANNELS INTO "LAYERS", PALETTE INDEX IS CHANNEL COLOR (0-255)
