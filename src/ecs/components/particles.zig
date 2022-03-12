@@ -15,8 +15,6 @@ pub const Particle = struct {
 
 pub const ParticleRenderer = struct {
     position_offset: zia.math.Vector2 = .{},
-    texture: zia.gfx.Texture,
-    atlas: zia.gfx.Atlas,
     animation: ?[]usize = null,
     start_color: zia.math.Color = zia.math.Color.white,
     end_color: zia.math.Color = zia.math.Color.white,

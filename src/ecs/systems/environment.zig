@@ -65,12 +65,12 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
             // send ambient and shadow settings to light shader
             // ambient color is sent as vertex color!
-            comps.environment.environment_shader.frag_uniform.ambient_xy_angle = comps.environment.ambient_xy_angle;
-            comps.environment.environment_shader.frag_uniform.ambient_z_angle = comps.environment.ambient_z_angle;
-            comps.environment.environment_shader.frag_uniform.shadow_steps = comps.environment.shadow_steps;
-            comps.environment.environment_shader.frag_uniform.shadow_r = @intToFloat(f32, comps.environment.shadow_color.channels.r) / 255;
-            comps.environment.environment_shader.frag_uniform.shadow_g = @intToFloat(f32, comps.environment.shadow_color.channels.g) / 255;
-            comps.environment.environment_shader.frag_uniform.shadow_b = @intToFloat(f32, comps.environment.shadow_color.channels.b) / 255;
+            game.environment_shader.frag_uniform.ambient_xy_angle = comps.environment.ambient_xy_angle;
+            game.environment_shader.frag_uniform.ambient_z_angle = comps.environment.ambient_z_angle;
+            game.environment_shader.frag_uniform.shadow_steps = comps.environment.shadow_steps;
+            game.environment_shader.frag_uniform.shadow_r = @intToFloat(f32, comps.environment.shadow_color.channels.r) / 255;
+            game.environment_shader.frag_uniform.shadow_g = @intToFloat(f32, comps.environment.shadow_color.channels.g) / 255;
+            game.environment_shader.frag_uniform.shadow_b = @intToFloat(f32, comps.environment.shadow_color.channels.b) / 255;
         }
     }
 }

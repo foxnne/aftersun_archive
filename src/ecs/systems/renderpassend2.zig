@@ -19,11 +19,11 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
         zia.gfx.endPass();
 
-        comps.environment.environment_shader.frag_uniform.tex_width = comps.camera.size.x;
-        comps.environment.environment_shader.frag_uniform.tex_height = comps.camera.size.y;
+        game.environment_shader.frag_uniform.tex_width = comps.camera.size.x;
+        game.environment_shader.frag_uniform.tex_height = comps.camera.size.y;
 
         // render the environment, sun and sunshadows
-        zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = comps.camera.pass_3, .shader = &comps.environment.environment_shader.shader });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.white, .pass = comps.camera.pass_3, .shader = &game.environment_shader.shader });
         zia.gfx.draw.bindTexture(comps.camera.pass_1.color_texture, 1);
         zia.gfx.draw.bindTexture(comps.camera.pass_2.color_texture, 2);
         zia.gfx.draw.texture(comps.camera.pass_0.color_texture, .{}, .{ .color = comps.environment.ambient_color });

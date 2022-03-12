@@ -24,8 +24,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
         while (it.next()) |comps| {
             if (comps.sprite_renderer) |renderer| {
-                const source = renderer.atlas.sprites[renderer.index].source;
-                const origin = renderer.atlas.sprites[renderer.index].origin;
+                const source = game.atlas.sprites[renderer.index].source;
+                const origin = game.atlas.sprites[renderer.index].origin;
                 const br = .{
                     .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
                     .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
@@ -45,8 +45,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             }
 
             if (comps.character_renderer) |renderer| {
-                var source = renderer.atlas.sprites[renderer.head].source;
-                var origin = renderer.atlas.sprites[renderer.head].origin;
+                var source = game.atlas.sprites[renderer.headIndex].source;
+                var origin = game.atlas.sprites[renderer.headIndex].origin;
                 var br = .{
                     .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
                     .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
@@ -62,8 +62,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     continue;
                 }
 
-                source = renderer.atlas.sprites[renderer.body].source;
-                origin = renderer.atlas.sprites[renderer.body].origin;
+                source = game.atlas.sprites[renderer.bodyIndex].source;
+                origin = game.atlas.sprites[renderer.bodyIndex].origin;
                 br = .{
                     .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
                     .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),
@@ -84,8 +84,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             }
 
             if (comps.light_renderer) |renderer| {
-                const source = renderer.atlas.sprites[renderer.index].source;
-                const origin = renderer.atlas.sprites[renderer.index].origin;
+                const source = game.atlas.sprites[renderer.index].source;
+                const origin = game.atlas.sprites[renderer.index].origin;
                 const br = .{
                     .x = comps.position.x + @intToFloat(f32, source.width) - @intToFloat(f32, origin.x),
                     .y = comps.position.y + @intToFloat(f32, source.height) - @intToFloat(f32, origin.y),

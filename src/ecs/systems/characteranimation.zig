@@ -22,10 +22,10 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 comps.animator.frame += 1;
             } else comps.animator.frame = 0;
         }
-        comps.renderer.head = comps.animator.headAnimation[comps.animator.frame];
-        comps.renderer.body = comps.animator.bodyAnimation[comps.animator.frame];
-        comps.renderer.bottom = comps.animator.bottomAnimation[comps.animator.frame];
-        comps.renderer.top = comps.animator.topAnimation[comps.animator.frame];
-        comps.renderer.hair = comps.animator.hairAnimation[comps.animator.frame];
+        comps.renderer.headIndex = comps.animator.headAnimation[comps.animator.frame];
+        comps.renderer.bodyIndex = comps.animator.bodyAnimation[comps.animator.frame];
+        comps.renderer.bottomIndex = comps.animator.bottomAnimation[comps.animator.frame];
+        comps.renderer.topIndex = comps.animator.topAnimation[comps.animator.frame];
+        comps.renderer.hairIndex = comps.animator.hairAnimation[comps.animator.frame];
     }
 }

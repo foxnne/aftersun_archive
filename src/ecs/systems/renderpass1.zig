@@ -12,68 +12,70 @@ pub const Callback = struct {
 
     pub const name = "RenderPass1System";
     pub const run = progress;
-    pub const modifiers = .{ flecs.queries.Filter(components.Tile), flecs.queries.Filter(components.Visible)};
+    pub const modifiers = .{ flecs.queries.Filter(components.Tile), flecs.queries.Filter(components.Visible) };
     pub const order_by = orderBy;
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         if (comps.sprite_renderer) |renderer| {
-            if (renderer.heightmap) |heightmap| {
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], heightmap, .{
-                    .x = comps.position.x,
-                    .y = comps.position.y,
-                }, .{
-                    .flipX = renderer.flipX,
-                    .flipY = renderer.flipY,
-                });
-            }
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.index], game.heightmap, .{
+                .x = comps.position.x,
+                .y = comps.position.y,
+            }, .{
+                .flipX = renderer.flipX,
+                .flipY = renderer.flipY,
+            });
         }
 
         if (comps.character_renderer) |renderer| {
-            if (renderer.heightmap) |heightmap| {
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], heightmap, .{
-                    .x = comps.position.x,
-                    .y = comps.position.y,
-                }, .{
-                    .flipX = renderer.flipBody,
-                });
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.bodyIndex], game.heightmap, .{
+                .x = comps.position.x,
+                .y = comps.position.y,
+            }, .{
+                .flipX = renderer.flipBody,
+            });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], heightmap, .{
-                    .x = comps.position.x,
-                    .y = comps.position.y,
-                }, .{
-                    .flipX = renderer.flipHead,
-                });
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.headIndex], game.heightmap, .{
+                .x = comps.position.x,
+                .y = comps.position.y,
+            }, .{
+                .flipX = renderer.flipHead,
+            });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.bottom], heightmap, .{
-                    .x = comps.position.x,
-                    .y = comps.position.y,
-                }, .{
-                    .flipX = renderer.flipBody,
-                });
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.bottomIndex], game.heightmap, .{
+                .x = comps.position.x,
+                .y = comps.position.y,
+            }, .{
+                .flipX = renderer.flipBody,
+            });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], heightmap, .{
-                    .x = comps.position.x,
-                    .y = comps.position.y,
-                }, .{
-                    .flipX = renderer.flipBody,
-                });
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.topIndex], game.heightmap, .{
+                .x = comps.position.x,
+                .y = comps.position.y,
+            }, .{
+                .flipX = renderer.flipBody,
+            });
 
-                zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], heightmap, .{
-                    .x = comps.position.x,
-                    .y = comps.position.y,
-                }, .{
-                    .flipX = renderer.flipHead,
-                });
-            }
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.hairIndex], game.heightmap, .{
+                .x = comps.position.x,
+                .y = comps.position.y,
+            }, .{
+                .flipX = renderer.flipHead,
+            });
         }
     }
 }
 
-fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
-    if (c1.y == c2.y){
-        return @intCast(c_int, @boolToInt(c1.counter > c2.counter)) - @intCast(c_int, @boolToInt(c1.counter < c2.counter));
-    } 
+fn orderBy(id1: flecs.EntityId, c1: *const components.Position, id2: flecs.EntityId, c2: *const components.Position) c_int {
+    if (c1.y == c2.y) {
+        var e1 = flecs.Entity.init(game.world.world, id1);
+        var e2 = flecs.Entity.init(game.world.world, id2);
+
+        var counter1 = if (e1.get(components.Tile)) |tile| tile.counter else 0;
+        var counter2 = if (e2.get(components.Tile)) |tile| tile.counter else 0;
+        return @intCast(c_int, @boolToInt(counter1 > counter2)) - @intCast(c_int, @boolToInt(counter1 < counter2));
+
+    }
     return @intCast(c_int, @boolToInt(c1.y > c2.y)) - @intCast(c_int, @boolToInt(c1.y < c2.y));
 }

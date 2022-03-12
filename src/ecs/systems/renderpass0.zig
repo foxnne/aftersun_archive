@@ -7,7 +7,6 @@ const components = game.components;
 
 pub const Callback = struct {
     position: *const components.Position,
-    //material: ?*const components.Material,
     character_renderer: ?*const components.CharacterRenderer,
     sprite_renderer: ?*const components.SpriteRenderer,
     particle_renderer: ?*const components.ParticleRenderer,
@@ -22,7 +21,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         
         if (comps.sprite_renderer) |renderer| {
-            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.index], renderer.texture, .{
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.index], game.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
@@ -34,7 +33,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
         if (comps.character_renderer) |renderer| {
 
-            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.body], renderer.texture, .{
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.bodyIndex], game.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
@@ -42,7 +41,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .flipX = renderer.flipBody,
             });
 
-            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.head], renderer.texture, .{
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.headIndex], game.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
@@ -50,7 +49,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .flipX = renderer.flipHead,
             });
 
-            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.bottom], renderer.texture, .{
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.bottomIndex], game.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
@@ -58,7 +57,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .flipX = renderer.flipBody,
             });
 
-            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.top], renderer.texture, .{
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.topIndex], game.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
@@ -66,7 +65,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .flipX = renderer.flipBody,
             });
 
-            zia.gfx.draw.sprite(renderer.atlas.sprites[renderer.hair], renderer.texture, .{
+            zia.gfx.draw.sprite(game.atlas.sprites[renderer.hairIndex], game.texture, .{
                 .x = comps.position.x,
                 .y = comps.position.y - @intToFloat(f32, comps.position.z),
             }, .{
@@ -78,7 +77,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         if (comps.particle_renderer) |renderer| {
             for (renderer.particles) |particle| {
                 if (particle.alive) {
-                    zia.gfx.draw.sprite(renderer.atlas.sprites[particle.sprite_index], renderer.texture, particle.position, .{
+                    zia.gfx.draw.sprite(game.atlas.sprites[particle.sprite_index], game.texture, particle.position, .{
                         .color = particle.color,
                     });
                 }
@@ -98,16 +97,21 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .circle => {
                     zia.gfx.draw.circle(gizmo.shape.circle.position, gizmo.shape.circle.radius, gizmo.shape.circle.thickness, 10, gizmo.shape.circle.color);
                 },
-                // else => {},
             }
         }
         game.gizmos.gizmos.shrinkAndFree(0);
     }
 }
 
-fn orderBy(_: flecs.EntityId, c1: *const components.Tile, _: flecs.EntityId, c2: *const components.Tile) c_int {
+fn orderBy(id1: flecs.EntityId, c1: *const components.Position, id2: flecs.EntityId, c2: *const components.Position) c_int {
     if (c1.y == c2.y) {
-        return @intCast(c_int, @boolToInt(c1.counter > c2.counter)) - @intCast(c_int, @boolToInt(c1.counter < c2.counter));
+        var e1 = flecs.Entity.init(game.world.world, id1);
+        var e2 = flecs.Entity.init(game.world.world, id2);
+
+        var counter1 = if (e1.get(components.Tile)) |tile| tile.counter else 0;
+        var counter2 = if (e2.get(components.Tile)) |tile| tile.counter else 0;
+        return @intCast(c_int, @boolToInt(counter1 > counter2)) - @intCast(c_int, @boolToInt(counter1 < counter2));
+
     }
     return @intCast(c_int, @boolToInt(c1.y > c2.y)) - @intCast(c_int, @boolToInt(c1.y < c2.y));
 }

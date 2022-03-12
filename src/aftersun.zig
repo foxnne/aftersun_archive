@@ -39,17 +39,16 @@ pub const animations = @import("animations.zig");
 pub const components = @import("ecs/components/components.zig");
 
 // shaders and textures
-pub var aftersun_palette: zia.gfx.Texture = undefined;
-var aftersun_texture: zia.gfx.Texture = undefined;
-var aftersun_heightmap: zia.gfx.Texture = undefined;
-var aftersun_emissionmap: zia.gfx.Texture = undefined;
-var aftersun_atlas: zia.gfx.Atlas = undefined;
-var light_texture: zia.gfx.Texture = undefined;
-var light_atlas: zia.gfx.Atlas = undefined;
+pub var palette: zia.gfx.Texture = undefined;
+pub var texture: zia.gfx.Texture = undefined;
+pub var heightmap: zia.gfx.Texture = undefined;
+pub var atlas: zia.gfx.Atlas = undefined;
+pub var light_texture: zia.gfx.Texture = undefined;
+pub var light_atlas: zia.gfx.Atlas = undefined;
 pub var uber_shader: zia.gfx.Shader = undefined;
-var environment_shader: shaders.EnvironmentShader = undefined;
-var tiltshift_shader: shaders.TiltshiftShader = undefined;
-var finalize_shader: shaders.FinalizeShader = undefined;
+pub var environment_shader: shaders.EnvironmentShader = undefined;
+pub var tiltshift_shader: shaders.TiltshiftShader = undefined;
+pub var finalize_shader: shaders.FinalizeShader = undefined;
 
 pub var world: flecs.World = undefined;
 pub var camera: flecs.Entity = undefined;
@@ -97,10 +96,10 @@ fn init() !void {
     gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator) };
 
     // load textures, atlases and shaders
-    aftersun_palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
-    aftersun_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
-    aftersun_heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
-    aftersun_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
+    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
+    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
+    heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
+    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
     light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
     light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
     uber_shader = shaders.createUberShader() catch unreachable;
@@ -171,14 +170,11 @@ fn init() !void {
     player.set(&components.Velocity{});
     player.set(&components.Speed{ .value = 80 });
     player.set(&components.CharacterRenderer{
-        .texture = aftersun_texture,
-        .heightmap = aftersun_heightmap,
-        .atlas = aftersun_atlas,
-        .body = assets.aftersun_atlas.Idle_SE_0_Body,
-        .head = assets.aftersun_atlas.Idle_S_0_Head,
-        .bottom = assets.aftersun_atlas.Idle_SE_0_BottomF02,
-        .top = assets.aftersun_atlas.Idle_SE_0_TopF02,
-        .hair = assets.aftersun_atlas.Idle_S_0_HairF01,
+        .bodyIndex = assets.aftersun_atlas.Idle_SE_0_Body,
+        .headIndex = assets.aftersun_atlas.Idle_S_0_Head,
+        .bottomIndex = assets.aftersun_atlas.Idle_SE_0_BottomF02,
+        .topIndex = assets.aftersun_atlas.Idle_SE_0_TopF02,
+        .hairIndex = assets.aftersun_atlas.Idle_S_0_HairF01,
         .bodyColor = zia.math.Color.fromBytes(5, 0, 0, 1), 
         .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
         .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
@@ -209,14 +205,12 @@ fn init() !void {
     camera.set(&components.Zoom{});
     camera.set(&components.Position{});
     camera.set(&components.Velocity{});
-    camera.set(&components.Environment{
-        .environment_shader = &environment_shader,
-    });
-    camera.set(&components.PostProcess{
-        .finalize_shader = &finalize_shader,
-        .tiltshift_shader = &tiltshift_shader,
-        .textures = null,
-    });
+    camera.set(&components.Environment{});
+    // camera.set(&components.PostProcess{
+    //     .finalize_shader = &finalize_shader,
+    //     .tiltshift_shader = &tiltshift_shader,
+    //     .textures = null,
+    // });
     camera.set(&components.Follow{ .target = player });
 
     world.setSingleton(&components.Time{});
@@ -245,22 +239,16 @@ fn init() !void {
 
         if (@mod(x, 2) != 0) {
             e.set(&components.SpriteRenderer{
-                .texture = aftersun_texture,
-                .heightmap = aftersun_heightmap,
-                .atlas = aftersun_atlas,
                 .index = assets.aftersun_atlas.TX_Plant_0_Layer_0,
             });
             e.set(&components.Collider{});
         } else {
             e.set(&components.CharacterRenderer{
-                .texture = aftersun_texture,
-                .heightmap = aftersun_heightmap,
-                .atlas = aftersun_atlas,
-                .body = assets.aftersun_atlas.Idle_SE_0_Body,
-                .head = assets.aftersun_atlas.Idle_S_0_Head,
-                .bottom = assets.aftersun_atlas.Idle_SE_0_BottomF02,
-                .top = assets.aftersun_atlas.Idle_SE_0_TopF02,
-                .hair = assets.aftersun_atlas.Idle_S_0_HairF01,
+                .bodyIndex = assets.aftersun_atlas.Idle_SE_0_Body,
+                .headIndex = assets.aftersun_atlas.Idle_S_0_Head,
+                .bottomIndex = assets.aftersun_atlas.Idle_SE_0_BottomF02,
+                .topIndex = assets.aftersun_atlas.Idle_SE_0_TopF02,
+                .hairIndex = assets.aftersun_atlas.Idle_S_0_HairF01,
                 .bodyColor = zia.math.Color.fromBytes(5, 0, 0 , 1),
                 .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
                 .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
@@ -276,14 +264,10 @@ fn init() !void {
     campfire.set(&components.Position{ .x = 0, .y = 1 * ppu });
     campfire.set(&components.Collider{ .trigger = true });
     campfire.set(&components.LightRenderer{
-        .texture = light_texture,
-        .atlas = light_atlas,
         .color = zia.math.Color.orange,
         .index = assets.lights_atlas.point256_png,
     });
     campfire.set(&components.SpriteRenderer{
-        .texture = aftersun_texture,
-        .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Campfire_0_Layer_0,
     });
     campfire.set(&components.SpriteAnimator{
@@ -294,8 +278,6 @@ fn init() !void {
     campfire.set(&components.ParticleRenderer{
         .position_offset = .{ .x = 0, .y = -16 },
         .worldspace = false,
-        .texture = aftersun_texture,
-        .atlas = aftersun_atlas,
         .active = true,
         .lifetime = 2.0,
         .rate = 5,
@@ -312,15 +294,10 @@ fn init() !void {
     torch.set(&components.Position{ .x = 0, .y = 4 * ppu });
     torch.add(components.Moveable);
     torch.set(&components.LightRenderer{
-        .texture = light_texture,
-        .atlas = light_atlas,
         .color = zia.math.Color.orange,
         .index = assets.lights_atlas.point128_png,
     });
     torch.set(&components.SpriteRenderer{
-        .texture = aftersun_texture,
-        .heightmap = aftersun_heightmap,
-        .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Torch_0_Layer,
     });
     torch.set(&components.SpriteAnimator{
@@ -335,9 +312,6 @@ fn init() !void {
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
     ham.add(components.Moveable);
     ham.set(&components.SpriteRenderer{
-        .texture = aftersun_texture,
-        .heightmap = aftersun_heightmap,
-        .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Ham_0_Layer,
     });
 
@@ -347,9 +321,6 @@ fn init() !void {
     vial.set(&components.Position{ .x = 1 * ppu, .y = 5 * ppu });
     vial.add(components.Moveable);
     vial.set(&components.SpriteRenderer{
-        .texture = aftersun_texture,
-        .heightmap = aftersun_heightmap,
-        .atlas = aftersun_atlas,
         .index = assets.aftersun_atlas.Vial_0_Layer,
     });
 }
@@ -373,7 +344,7 @@ fn update() !void {
 
 fn shutdown() !void {
     world.deinit();
-    aftersun_texture.deinit();
-    aftersun_palette.deinit();
-    //character_shader.deinit();
+    texture.deinit();
+    palette.deinit();
+    heightmap.deinit();
 }

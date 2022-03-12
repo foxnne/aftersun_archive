@@ -52,7 +52,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         // center the render texture on the screen
         comps.camera.rt_position = .{ .x = @trunc(-comps.camera.size.x * 0.5), .y = @trunc(-comps.camera.size.y * 0.5) };
 
-        zia.gfx.draw.bindTexture(game.aftersun_palette, 1);
+        zia.gfx.draw.bindTexture(game.palette, 1);
         // render the camera to the render texture
         zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(70, 84, 72), .pass = comps.camera.pass_0, .trans_mat = comps.camera.transform, .shader = &game.uber_shader });
     }

@@ -1,10 +1,6 @@
 const zia = @import("zia");
 
 pub const SpriteRenderer = struct {
-    texture: zia.gfx.Texture,
-    heightmap: ?zia.gfx.Texture = null,
-    //emissionmap: ?zia.gfx.Texture = null,
-    atlas: zia.gfx.Atlas,
     index: usize = 0,
     flipX: bool = false,
     flipY: bool = false,
