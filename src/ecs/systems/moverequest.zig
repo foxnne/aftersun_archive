@@ -15,7 +15,7 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        if (it.world().getSingleton(components.MovementInput)) |input| {
+        if (it.world().getSingleton(components.DirectionalInput)) |input| {
             var cooled = if (it.entity().get(components.MovementCooldown)) |cooldown| cooldown.current >= cooldown.end else true;
 
             if (cooled) {

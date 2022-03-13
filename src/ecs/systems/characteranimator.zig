@@ -25,9 +25,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         var body = zia.math.Direction.find(8, comps.velocity.x, comps.velocity.y);
         var head = zia.math.Direction.s;
 
-        if (world.getSingleton(components.MouseInput)) |mouse_input| {
-            var mousePos = mouse_input.position;
-            head = zia.math.Direction.find(8, mousePos.x - comps.position.x, mousePos.y - comps.position.y);
+        if (world.getSingleton(components.MousePosition)) |mouse_position| {
+            head = zia.math.Direction.find(8, mouse_position.x - comps.position.x, mouse_position.y - comps.position.y);
         }
 
         if (body != .none) { //moving

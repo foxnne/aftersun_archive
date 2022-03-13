@@ -17,15 +17,15 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
         //only allow moving items nearest the player
         if (game.player.get(components.Tile)) |player_tile| {
-            const dist_x = std.math.absInt(comps.mouse_drag.prev_x - player_tile.x) catch unreachable;
-            const dist_y = std.math.absInt(comps.mouse_drag.prev_y - player_tile.y) catch unreachable;
+            const dist_x = std.math.absInt(comps.mouse_drag.start_x - player_tile.x) catch unreachable;
+            const dist_y = std.math.absInt(comps.mouse_drag.start_y - player_tile.y) catch unreachable;
 
             if (dist_x > 1 or dist_y > 1)
                 return;
         }
 
         // get the cell we are dragging from
-        const grab_cell = components.Cell{ .x = @divTrunc(comps.mouse_drag.x, game.cell_size), .y = @divTrunc(comps.mouse_drag.y, game.cell_size) };
+        const grab_cell = components.Cell{ .x = @divTrunc(comps.mouse_drag.start_x, game.cell_size), .y = @divTrunc(comps.mouse_drag.start_y, game.cell_size) };
 
         var cell_term = flecs.Term(components.Cell).init(it.world());
         var cell_it = cell_term.iterator();
@@ -47,7 +47,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 var tile: components.Tile = .{};
                 while (tile_it.next()) |tiles| {
                     // match grab tile
-                    if (tiles.tile.x == comps.mouse_drag.prev_x and tiles.tile.y == comps.mouse_drag.prev_y) {
+                    if (tiles.tile.x == comps.mouse_drag.start_x and tiles.tile.y == comps.mouse_drag.start_y) {
                         if (tile_it.entity().has(components.Moveable)) {
                             // find the tile with the highest counter
                             if (tiles.tile.counter >= counter) {
@@ -60,8 +60,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 }
 
                 if (entity) |e| {
-                    std.log.debug("called", .{});
-                    e.set(&components.MoveRequest{ .x = comps.mouse_drag.x - tile.x, .y = comps.mouse_drag.y - tile.y });
+                    e.set(&components.MoveRequest{ .x = comps.mouse_drag.end_x - tile.x, .y = comps.mouse_drag.end_y - tile.y });
                     e.set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
                 }
             }

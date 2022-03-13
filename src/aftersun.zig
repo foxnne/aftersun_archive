@@ -123,7 +123,7 @@ fn init() !void {
     world.system(@import("ecs/systems/time.zig").Callback, .on_update);
 
     // input
-    world.system(@import("ecs/systems/movementinput.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/directionalinput.zig").Callback, .on_update);
     world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
     world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
@@ -196,7 +196,7 @@ fn init() !void {
         .size = .{ .x = design_w, .y = design_h },
         .pass_0 = zia.gfx.OffscreenPass.initMrt(design_w, design_h, 2),
         .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
-        .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
         .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
         .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
     });
@@ -207,9 +207,9 @@ fn init() !void {
     camera.set(&components.Follow{ .target = player });
 
     world.setSingleton(&components.Time{});
-    world.setSingleton(&components.MovementInput{});
-    world.setSingleton(&components.MouseInput{ .camera = camera });
-    world.setSingleton(&components.Tile{}); //mouse input tile
+    world.setSingleton(&components.DirectionalInput{});
+    world.setSingleton(&components.MousePosition{});
+    world.setSingleton(&components.MouseTile{}); //mouse input tile
 
     const treeSpawnWidth = 220;
     const treeSpawnHeight = 220;

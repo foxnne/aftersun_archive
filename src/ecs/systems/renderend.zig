@@ -10,11 +10,31 @@ pub const Callback = struct {
 
     pub const name = "RenderEndSystem";
     pub const run = progress;
-};  
+};
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         zia.gfx.endPass();
+
+        if (game.gizmos.enabled) {
+            zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = comps.camera.pass_2, .trans_mat = comps.camera.transform });
+
+            for (game.gizmos.gizmos.items) |gizmo| {
+                switch (gizmo.shape) {
+                    .line => {
+                        zia.gfx.draw.line(gizmo.shape.line.start, gizmo.shape.line.end, gizmo.shape.line.thickness, gizmo.shape.line.color);
+                    },
+                    .box => {
+                        zia.gfx.draw.hollowRect(gizmo.shape.box.position, gizmo.shape.box.width, gizmo.shape.box.height, gizmo.shape.box.thickness, gizmo.shape.box.color);
+                    },
+                    .circle => {
+                        zia.gfx.draw.circle(gizmo.shape.circle.position, gizmo.shape.circle.radius, gizmo.shape.circle.thickness, 10, gizmo.shape.circle.color);
+                    },
+                }
+            }
+            game.gizmos.gizmos.shrinkAndFree(0);
+            zia.gfx.endPass();
+        }
 
         game.environment_shader.frag_uniform.tex_width = comps.camera.size.x;
         game.environment_shader.frag_uniform.tex_height = comps.camera.size.y;
@@ -48,10 +68,11 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         zia.gfx.beginPass(.{ .trans_mat = comps.camera.rt_transform });
         switch (game.render_mode) {
             .diffuse => zia.gfx.draw.texture(comps.camera.pass_1.color_texture, comps.camera.rt_position, .{}),
-            .height => zia.gfx.draw.texture(comps.camera.pass_0.color_texture2.?, comps.camera.rt_position, .{})
+            .height => zia.gfx.draw.texture(comps.camera.pass_0.color_texture2.?, comps.camera.rt_position, .{}),
         }
-
-        
+        if (game.enable_editor) {
+            zia.gfx.draw.texture(comps.camera.pass_2.color_texture, comps.camera.rt_position, .{});
+        }
         zia.gfx.endPass();
     }
 }

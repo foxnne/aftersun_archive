@@ -16,20 +16,35 @@ pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
 pub const Tile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0, counter: i32 = 0};
 pub const PreviousTile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0 };
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
-pub const Subpixel = struct { x: f32 = 0, y: f32 = 0, vx: f32 = 0, vy: f32 = 0 };
 pub const Speed = struct { value: f32 = 0 };
 
 // tags
 pub const Moveable = struct{};
+pub const Useable = struct{};
+
+pub const Toggleable = struct{
+    state: bool,
+};
+pub const ToggleAnimation = struct {
+    off_index: usize,
+};
+pub const ToggleTag = struct {
+    on_tag: type,
+    off_tag: type,
+};
+pub const Stackable = struct{
+    count: i32,
+    max: i32,
+};
 
 // imports
 pub usingnamespace @import("camera.zig");
-pub usingnamespace @import("material.zig");
 pub usingnamespace @import("input.zig");
 pub usingnamespace @import("sprite.zig");
 pub usingnamespace @import("character.zig");
 pub usingnamespace @import("collision.zig");
-pub usingnamespace @import("postprocess.zig");
 pub usingnamespace @import("environment.zig");
 pub usingnamespace @import("light.zig");
 pub usingnamespace @import("particles.zig");
+
+

@@ -1,7 +1,7 @@
 const zia = @import("zia");
 const flecs = @import("flecs");
 
-pub const MovementInput = struct {
+pub const DirectionalInput = struct {
     direction: zia.math.Direction = .none,
 };
 
@@ -16,9 +16,14 @@ pub const MoveRequest = struct {
     z: i32 = 0,
 };
 
-pub const MouseInput = struct {
-    position: zia.math.Vector2 = .{},
-    camera: flecs.Entity,
+pub const MousePosition = struct {
+    x: f32 = 0,
+    y: f32 = 0,
+};
+
+pub const MouseTile = struct {
+    x: i32 = 0,
+    y: i32 = 0,
 };
 
 pub const MouseDragRequest = struct {
@@ -30,10 +35,13 @@ pub const MouseDragRequest = struct {
 pub const MouseDown = struct {
     x: i32 = 0,
     y: i32 = 0,
+    button: Button = .left,
+
+    pub const Button = enum { left, right };
 };
 pub const MouseDrag = struct {
-    prev_x: i32 = 0,
-    prev_y: i32 = 0,
-    x: i32 = 0,
-    y: i32 = 0,
+    start_x: i32 = 0,
+    start_y: i32 = 0,
+    end_x: i32 = 0,
+    end_y: i32 = 0,
 };

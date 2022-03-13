@@ -14,25 +14,36 @@ pub const Callback = struct {
 fn progress(it: *flecs.Iterator(Callback)) void {
     var world = it.world();
 
-    if (world.getSingletonMut(components.MouseInput)) |input| {
-        if (world.getSingletonMut(components.Tile)) |tile| {
-            if (input.camera.get(components.Camera)) |camera| {
-                input.position = camera.matrix.invert().transformVec2(zia.input.mousePos());
+    if (world.getSingletonMut(components.MousePosition)) |position| {
+        if (world.getSingletonMut(components.MouseTile)) |tile| {
+            if (game.camera.get(components.Camera)) |camera| {
+                var mouse_pos = camera.matrix.invert().transformVec2(zia.input.mousePos());
+                position.x = mouse_pos.x;
+                position.y = mouse_pos.y;
 
                 // hack because the first frame we are getting nan, nan for mouse position :(
-                if (std.math.isNan(input.position.x))
-                    input.position.x = 0;
+                if (std.math.isNan(position.x))
+                    position.x = 0;
 
-                if (std.math.isNan(input.position.y))
-                    input.position.y = 0;
+                if (std.math.isNan(position.y))
+                    position.y = 0;
 
-                tile.x = @floatToInt(i32, @round(input.position.x / @intToFloat(f32, game.ppu)));
-                tile.y = @floatToInt(i32, @round(input.position.y / @intToFloat(f32, game.ppu)));
+                tile.x = @floatToInt(i32, @round(position.x / @intToFloat(f32, game.ppu)));
+                tile.y = @floatToInt(i32, @round(position.y / @intToFloat(f32, game.ppu)));
 
                 if (zia.input.mousePressed(.left)) {
                     world.setSingleton(&components.MouseDown{
                         .x = tile.x,
                         .y = tile.y,
+                        .button = .left,
+                    });
+                }
+
+                if (zia.input.mousePressed(.right)) {
+                    world.setSingleton(&components.MouseDown{
+                        .x = tile.x,
+                        .y = tile.y,
+                        .button = .right,
                     });
                 }
 
@@ -46,10 +57,10 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                             //drag
 
                             world.setSingleton(&components.MouseDrag{
-                                .prev_x = mouse_down.x,
-                                .prev_y = mouse_down.y,
-                                .x = tile.x,
-                                .y = tile.y,
+                                .start_x = mouse_down.x,
+                                .start_y = mouse_down.y,
+                                .end_x = tile.x,
+                                .end_y = tile.y,
                             });
                         }
                     }

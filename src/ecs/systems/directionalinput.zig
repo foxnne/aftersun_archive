@@ -4,9 +4,9 @@ const flecs = @import("flecs");
 const components = @import("game").components;
 
 pub const Callback = struct {
-    input: *components.MovementInput,
+    input: *components.DirectionalInput,
 
-    pub const name = "MovementInputSystem";
+    pub const name = "DirectionalInputSystem";
     pub const run = progress;
 };
 
