@@ -26,12 +26,6 @@ pub const MouseTile = struct {
     y: i32 = 0,
 };
 
-pub const MouseDragRequest = struct {
-    x: i32 = 0,
-    y: i32 = 0,
-    z: i32 = 0,
-};
-
 pub const MouseDown = struct {
     x: i32 = 0,
     y: i32 = 0,
@@ -39,9 +33,15 @@ pub const MouseDown = struct {
 
     pub const Button = enum { left, right };
 };
+
 pub const MouseDrag = struct {
     start_x: i32 = 0,
     start_y: i32 = 0,
     end_x: i32 = 0,
     end_y: i32 = 0,
+};
+
+pub const UseRequest = struct {
+    x: i32 = 0,
+    y: i32 = 0,
 };

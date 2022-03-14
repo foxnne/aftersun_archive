@@ -1,6 +1,7 @@
 const zia = @import("zia");
 
 pub const LightRenderer = struct {
+    active: bool = true,
     index: usize = 0,
     color: zia.math.Color = zia.math.Color.white,
     offset: zia.math.Vector2 = .{.x = 0, .y = 0},

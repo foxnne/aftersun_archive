@@ -42,7 +42,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 defer tile_filter.deinit();
                 var tile_it = tile_filter.iterator(TileCallback);
 
-                var counter: i32 = 0;
+                var counter: i32 = -1;
                 var entity: ?flecs.Entity = null;
                 var tile: components.Tile = .{};
                 while (tile_it.next()) |tiles| {
@@ -50,7 +50,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     if (tiles.tile.x == comps.mouse_drag.start_x and tiles.tile.y == comps.mouse_drag.start_y) {
                         if (tile_it.entity().has(components.Moveable)) {
                             // find the tile with the highest counter
-                            if (tiles.tile.counter >= counter) {
+                            if (tiles.tile.counter > counter) {
                                 counter = tiles.tile.counter;
                                 entity = tile_it.entity();
                                 tile = tiles.tile.*;

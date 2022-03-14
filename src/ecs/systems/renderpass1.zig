@@ -16,13 +16,14 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        zia.gfx.draw.sprite(game.light_atlas.sprites[comps.renderer.index], game.light_texture, .{
-            .x = comps.position.x + comps.renderer.offset.x,
-            .y = comps.position.y + comps.renderer.offset.y,
-        }, .{
-            .color = comps.renderer.color,
-            .scaleX = comps.renderer.size.x,
-            .scaleY = comps.renderer.size.y,
-        });
+        if (comps.renderer.active)
+            zia.gfx.draw.sprite(game.light_atlas.sprites[comps.renderer.index], game.light_texture, .{
+                .x = comps.position.x + comps.renderer.offset.x,
+                .y = comps.position.y + comps.renderer.offset.y,
+            }, .{
+                .color = comps.renderer.color,
+                .scaleX = comps.renderer.size.x,
+                .scaleY = comps.renderer.size.y,
+            });
     }
 }

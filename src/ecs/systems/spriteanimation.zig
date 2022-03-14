@@ -23,7 +23,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     comps.animator.frame += 1;
                 } else comps.animator.frame = 0;
             }
+            comps.renderer.index = comps.animator.animation[comps.animator.frame];
         }
-        comps.renderer.index = comps.animator.animation[comps.animator.frame];
+        
     }
 }

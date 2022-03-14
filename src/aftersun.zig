@@ -37,6 +37,7 @@ pub const shaders = @import("shaders.zig");
 // manual
 pub const animations = @import("animations.zig");
 pub const components = @import("ecs/components/components.zig");
+pub const relations = @import("ecs/relations/relations.zig");
 
 // shaders and textures
 pub var palette: zia.gfx.Texture = undefined;
@@ -119,6 +120,9 @@ fn init() !void {
         components.Visible,
     });
 
+    relations.init(world);
+    
+
     // time
     world.system(@import("ecs/systems/time.zig").Callback, .on_update);
 
@@ -127,14 +131,14 @@ fn init() !void {
     world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
     world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
+    world.observer(@import("ecs/systems/use.zig").Callback, .on_set);
 
-    // collision and interaction
+    // collision
     world.observer(@import("ecs/systems/collisionbroadphase.zig").Callback, .on_set);
     world.observer(@import("ecs/systems/collisionnarrowphase.zig").Callback, .on_set);
 
     // movement
     world.system(@import("ecs/systems/movementcooldown.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/movetile.zig").Callback, .on_update);
     world.system(@import("ecs/systems/movetotile.zig").Callback, .on_update);
     world.system(@import("ecs/systems/move.zig").Callback, .on_update);
 
@@ -255,67 +259,27 @@ fn init() !void {
     campfire.set(&components.Tile{ .x = 0, .y = 1 });
     campfire.set(&components.PreviousTile{ .x = 0, .y = 1 });
     campfire.set(&components.Position{ .x = 0, .y = 1 * ppu });
-    campfire.set(&components.Collider{ .trigger = true });
-    campfire.set(&components.LightRenderer{
-        .color = zia.math.Color.orange,
-        .index = assets.lights_atlas.point256_png,
-    });
-    campfire.set(&components.SpriteRenderer{
-        .index = assets.aftersun_atlas.Campfire_0_Layer_0,
-    });
-    campfire.set(&components.SpriteAnimator{
-        .animation = &animations.Campfire_Layer_0,
-        .state = .play,
-        .fps = 16,
-    });
-    campfire.set(&components.ParticleRenderer{
-        .position_offset = .{ .x = 0, .y = -16 },
-        .worldspace = false,
-        .active = true,
-        .lifetime = 2.0,
-        .rate = 5,
-        .start_color = zia.math.Color.gray,
-        .end_color = zia.math.Color.fromRgb(1, 1, 1),
-        .particles = std.testing.allocator.alloc(components.Particle, 100) catch unreachable,
-        .animation = &animations.Smoke_Layer,
-        .callback = components.ParticleRenderer.campfireSmokeCallback,
-    });
+    campfire.addPair(flecs.c.EcsIsA, relations.campfire);
 
     var torch = world.newEntityWithName("Torch");
     torch.set(&components.Tile{ .x = 0, .y = 4 });
     torch.set(&components.PreviousTile{ .x = 0, .y = 4 });
     torch.set(&components.Position{ .x = 0, .y = 4 * ppu });
-    torch.add(components.Moveable);
-    torch.set(&components.LightRenderer{
-        .color = zia.math.Color.orange,
-        .index = assets.lights_atlas.point128_png,
-    });
-    torch.set(&components.SpriteRenderer{
-        .index = assets.aftersun_atlas.Torch_0_Layer,
-    });
-    torch.set(&components.SpriteAnimator{
-        .animation = &animations.Torch_Flame_Layer,
-        .state = .play,
-        .fps = 16,
-    });
+    torch.addPair(flecs.c.EcsIsA, relations.torch);
 
     var ham = world.newEntityWithName("Ham");
     ham.set(&components.Tile{ .x = 1, .y = 4 });
     ham.set(&components.PreviousTile{ .x = 1, .y = 4 });
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
-    ham.add(components.Moveable);
-    ham.set(&components.SpriteRenderer{
-        .index = assets.aftersun_atlas.Ham_0_Layer,
-    });
+    ham.addPair(flecs.c.EcsIsA, relations.ham);
+    
 
     var vial = world.newEntityWithName("Vial");
     vial.set(&components.Tile{ .x = 1, .y = 5 });
     vial.set(&components.PreviousTile{ .x = 1, .y = 5 });
     vial.set(&components.Position{ .x = 1 * ppu, .y = 5 * ppu });
-    vial.add(components.Moveable);
-    vial.set(&components.SpriteRenderer{
-        .index = assets.aftersun_atlas.Vial_0_Layer,
-    });
+    vial.addPair(flecs.c.EcsIsA, relations.vial);
+    
 }
 
 fn update() !void {
