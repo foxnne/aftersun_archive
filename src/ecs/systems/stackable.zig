@@ -18,7 +18,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         if (it.entity().getMut(components.SpriteRenderer)) |renderer| {
             if (comps.stackable.indices.len > comps.stackable.count - 1 and comps.stackable.count > 0)
                 renderer.index = comps.stackable.indices[comps.stackable.count - 1];
-                renderer.flipX = false;
+                renderer.flipX = false; //why does this observer flip the
                 renderer.flipY = false;
         }
     }

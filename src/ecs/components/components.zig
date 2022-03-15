@@ -36,6 +36,11 @@ pub const Stackable = struct{
     count: usize,
     indices: []usize = undefined,
 };
+pub const StackRequest = struct {
+    count: i32,
+    other: ?flecs.Entity = null,
+};  
+
 
 // imports
 pub usingnamespace @import("camera.zig");

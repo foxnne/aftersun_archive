@@ -48,16 +48,16 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                         .y = tiles.tile.y,
                                     });
                                     continue;
+                                } else {
+                                    //collision
+                                    comps.move_request.x = 0;
+                                    comps.move_request.y = 0;
+                                    if (it.entity().getMut(components.MovementCooldown)) |cooldown| {
+                                        cooldown.current = 0;
+                                        cooldown.end = 0;
+                                    }
+                                    break;
                                 }
-
-                                //collision
-                                comps.move_request.x = 0;
-                                comps.move_request.y = 0;
-                                if (it.entity().getMut(components.MovementCooldown)) |cooldown| {
-                                    cooldown.current = 0;
-                                    cooldown.end = 0;
-                                }
-                                break;
                             } else {
                                 if (tile_it.entity().has(components.Stackable)) {
                                     if (tiles.tile.counter > counter) {
@@ -69,21 +69,36 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         }
                     }
 
-                    if (target) |stackable_entity| {
+                    if (target) |target_entity| {
+                        if (it.entity().get(components.Stackable)) |self_stackable| {
+                            if (target_entity.get(components.Stackable)) |other_stackable| {
+                                if(self_stackable.count + other_stackable.count <= self_stackable.indices.len) {
+                                    //can stack
+                                    it.entity().set(&components.StackRequest{
+                                        .count = @intCast(i32, other_stackable.count),
+                                    });
 
-                        //TODO: find a way to compare if these are the same type, but one has a moverequest?
-                        if (stackable_entity.hasPair(flecs.c.EcsIsA, relations.ham) and it.entity().hasPair(flecs.c.EcsIsA, relations.ham)) {
-                            //same type, delete one and stack
-                            if (it.entity().getMut(components.Stackable)) |self_stackable| {
-                                if (stackable_entity.get(components.Stackable)) |other_stackable| {
-                                    if (self_stackable.count + other_stackable.count <= self_stackable.indices.len) {
-                                        self_stackable.count += other_stackable.count;
-                                        it.entity().setModified(components.Stackable);
-                                        stackable_entity.delete();
-                                    }
+                                    target_entity.set(&components.StackRequest{
+                                        .count = -@intCast(i32, other_stackable.count),
+                                        .other = it.entity(),
+                                    });
                                 }
                             }
                         }
+
+                        //TODO: find a way to compare if these are the same type, but one has a moverequest?
+                        // if (stackable_entity.hasPair(flecs.c.EcsIsA, relations.ham) and it.entity().hasPair(flecs.c.EcsIsA, relations.ham)) {
+                        //     //same type, delete one and stack
+                        //     if (it.entity().getMut(components.Stackable)) |self_stackable| {
+                        //         if (stackable_entity.get(components.Stackable)) |other_stackable| {
+                        //             if (self_stackable.count + other_stackable.count <= self_stackable.indices.len) {
+                        //                 self_stackable.count += other_stackable.count;
+                        //                 it.entity().setModified(components.Stackable);
+                        //                 stackable_entity.delete();
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     }
 
                     if (it.entity().getMut(components.PreviousTile)) |prev_tile| {

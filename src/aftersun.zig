@@ -148,6 +148,7 @@ fn init() !void {
     world.system(@import("ecs/systems/spriteanimation.zig").Callback, .on_update);
     world.observer(@import("ecs/systems/use.zig").Callback, .on_set);
     world.observer(@import("ecs/systems/stackable.zig").Callback, .on_set);
+    world.system(@import("ecs/systems/stackrequest.zig").Callback, .on_update);
 
     // camera
     world.system(@import("ecs/systems/camerazoom.zig").Callback, .on_update);
