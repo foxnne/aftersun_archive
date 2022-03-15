@@ -39,6 +39,12 @@ pub const MouseDrag = struct {
     start_y: i32 = 0,
     end_x: i32 = 0,
     end_y: i32 = 0,
+    modifier: Modifier = .none,
+
+    pub const Modifier = enum {
+        none,
+        shift,
+    };
 };
 
 pub const UseRequest = struct {

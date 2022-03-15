@@ -146,6 +146,8 @@ fn init() !void {
     world.system(@import("ecs/systems/characteranimator.zig").Callback, .on_update);
     world.system(@import("ecs/systems/characteranimation.zig").Callback, .on_update);
     world.system(@import("ecs/systems/spriteanimation.zig").Callback, .on_update);
+    world.observer(@import("ecs/systems/use.zig").Callback, .on_set);
+    world.observer(@import("ecs/systems/stackable.zig").Callback, .on_set);
 
     // camera
     world.system(@import("ecs/systems/camerazoom.zig").Callback, .on_update);
@@ -240,17 +242,8 @@ fn init() !void {
             });
             e.set(&components.Collider{});
         } else {
-            e.set(&components.CharacterRenderer{
-                .bodyIndex = assets.aftersun_atlas.Idle_SE_0_Body,
-                .headIndex = assets.aftersun_atlas.Idle_S_0_Head,
-                .bottomIndex = assets.aftersun_atlas.Idle_SE_0_BottomF02,
-                .topIndex = assets.aftersun_atlas.Idle_SE_0_TopF02,
-                .hairIndex = assets.aftersun_atlas.Idle_S_0_HairF01,
-                .bodyColor = zia.math.Color.fromBytes(5, 0, 0 , 1),
-                .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
-                .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
-                .topColor = zia.math.Color.fromBytes(12, 0, 0, 1),
-                .hairColor = zia.math.Color.fromBytes(1, 0, 0, 1),
+            e.set(&components.SpriteRenderer{
+                .index = assets.aftersun_atlas.Reeds_0_Layer,
             });
         }
     }
@@ -271,7 +264,23 @@ fn init() !void {
     ham.set(&components.Tile{ .x = 1, .y = 4 });
     ham.set(&components.PreviousTile{ .x = 1, .y = 4 });
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
+    ham.set(&components.Stackable{ .count = 1 });
     ham.addPair(flecs.c.EcsIsA, relations.ham);
+    ham.set(&components.Stackable{
+        .count = 1,
+        .indices = &animations.Ham_Layer,
+    });
+
+    var ham2 = world.newEntityWithName("Ham2");
+    ham2.set(&components.Tile{ .x = 2, .y = 4 });
+    ham2.set(&components.PreviousTile{ .x = 2, .y = 4 });
+    ham2.set(&components.Position{ .x = 2 * ppu, .y = 4 * ppu });
+    ham2.set(&components.Stackable{ .count = 2 });
+    ham2.addPair(flecs.c.EcsIsA, relations.ham);
+    ham2.set(&components.Stackable{
+        .count = 4,
+        .indices = &animations.Ham_Layer,
+    });
     
 
     var vial = world.newEntityWithName("Vial");

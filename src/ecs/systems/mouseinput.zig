@@ -61,12 +61,14 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         if (world.getSingleton(components.MouseDown)) |mouse_down| {
                             if (mouse_down.x != tile.x or mouse_down.y != tile.y) {
                                 //drag
+                                var modifier: components.MouseDrag.Modifier = if (zia.input.keyDown(.lshift) or zia.input.keyDown(.rshift)) .shift else .none;
 
                                 world.setSingleton(&components.MouseDrag{
                                     .start_x = mouse_down.x,
                                     .start_y = mouse_down.y,
                                     .end_x = tile.x,
                                     .end_y = tile.y,
+                                    .modifier = modifier,
                                 });
                             }
                         }

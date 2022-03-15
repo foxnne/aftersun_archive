@@ -31,6 +31,10 @@ pub fn init(world: flecs.World) void {
     ham.setOverride(&components.PreviousTile{});
     ham.setOverride(&components.Position{});
     ham.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Ham_0_Layer });
+    ham.setOverride(&components.Stackable{
+        .count = 1,
+        .indices = &animations.Ham_Layer,
+    });
     ham.add(components.Moveable);
 
     vial = world.newPrefab("VialPrefab");

@@ -33,8 +33,8 @@ pub const ToggleTag = struct {
     off_tag: type,
 };
 pub const Stackable = struct{
-    count: i32,
-    max: i32,
+    count: usize,
+    indices: []usize = undefined,
 };
 
 // imports
