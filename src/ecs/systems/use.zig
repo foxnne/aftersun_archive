@@ -40,14 +40,14 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         defer tile_filter.deinit();
                         var tile_it = tile_filter.iterator(TileCallback);
 
-                        var counter: i32 = -1;
+                        var counter: u64 = 0;
                         var entity: ?flecs.Entity = null;
                         while (tile_it.next()) |tiles| {
                             // match use tile
                             if (tiles.tile.x == comps.request.x and tiles.tile.y == comps.request.y) {
 
                                 // find the tile with the highest counter
-                                if (tiles.tile.counter > counter) {
+                                if (tiles.tile.counter >= counter) {
                                     counter = tiles.tile.counter;
                                     entity = tile_it.entity();
                                 }

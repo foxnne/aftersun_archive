@@ -56,7 +56,7 @@ pub var camera: flecs.Entity = undefined;
 pub var player: flecs.Entity = undefined;
 pub var cursors: Cursors = undefined;
 
-var counter: i32 = 0;
+var counter: u64 = 0;
 
 const Cursors = struct {
     normal: ?*sdl.SDL_Cursor = null,
@@ -70,10 +70,10 @@ const Cursors = struct {
     }
 };
 
-pub fn getCounter() i32 {
+pub fn getCounter() u64 {
     var c = counter;
 
-    if (c == std.math.maxInt(i32)) {
+    if (c == std.math.maxInt(u64)) {
         counter = 0;
     } else {
         counter += 1;

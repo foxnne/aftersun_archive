@@ -35,7 +35,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     var tile_filter = it.world().filterParent(TileCallback, cell_it.entity());
                     defer tile_filter.deinit();
 
-                    var counter: i32 = -1;
+                    var counter: u64 = 0;
                     var target: ?flecs.Entity = null;
 
                     var tile_it = tile_filter.iterator(TileCallback);
@@ -60,7 +60,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                 }
                             } else {
                                 if (tile_it.entity().has(components.Stackable)) {
-                                    if (tiles.tile.counter > counter) {
+                                    if (tiles.tile.counter >= counter) {
                                         counter = tiles.tile.counter;
                                         target = tile_it.entity();
                                     }
