@@ -6,11 +6,11 @@ const components = game.components;
 
 pub const Callback = struct {
     tile: *const components.Tile,
-    prev_tile: *components.PreviousTile,
+    prev_tile: ?*components.PreviousTile,
 
     pub const name = "MoveRequestSystem";
     pub const run = progress;
-    pub const modifiers = .{flecs.queries.Filter(components.Player)};
+    pub const modifiers = .{ flecs.queries.Filter(components.Player)};
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
@@ -42,8 +42,10 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     }
                 } else {
                     // zero velocity so animations stop
-                    comps.prev_tile.x = comps.tile.x;
-                    comps.prev_tile.y = comps.tile.y;
+                    if (comps.prev_tile) |prev_tile| {
+                        prev_tile.x = comps.tile.x;
+                        prev_tile.y = comps.tile.y;
+                    }
                 }
             }
         }

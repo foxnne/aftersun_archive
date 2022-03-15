@@ -13,7 +13,7 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        blk: {
+        
             if (it.entity().get(components.Collider)) |self_collider| {
                 if (self_collider.trigger)
                     continue;
@@ -53,7 +53,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                     cooldown.current = 0;
                                     cooldown.end = 0;
                                 }
-                                break :blk;
+                                break;
                             }
                         }
 
@@ -75,4 +75,4 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
         it.entity().remove(components.MoveRequest);
     }
-}
+

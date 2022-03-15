@@ -131,7 +131,7 @@ fn init() !void {
     world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
     world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
-    world.observer(@import("ecs/systems/use.zig").Callback, .on_set);
+    world.system(@import("ecs/systems/use.zig").Callback, .on_update);
 
     // collision
     world.observer(@import("ecs/systems/collisionbroadphase.zig").Callback, .on_set);

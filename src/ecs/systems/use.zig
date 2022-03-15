@@ -13,6 +13,9 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
+
+        blk: {
+
         if (it.entity().get(components.Tile)) |from_tile| {
 
             //only allow using items nearest the user
@@ -54,7 +57,12 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                     if (entity) |use_entity| {
 
-                        it.entity().remove(components.UseRequest);
+                        if (use_entity.get(components.MovementCooldown)) |cooldown| {
+                            if (cooldown.current < cooldown.end)
+                                break :blk;    
+
+                        }
+
                         if (use_entity.has(components.Useable)) {
                             if (use_entity.getMut(components.Toggleable)) |toggleable| {
                                 toggleable.state = !toggleable.state;
@@ -82,6 +90,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     }
                 }
             }
+        }
+        it.entity().remove(components.UseRequest);
         }
     }
 }
