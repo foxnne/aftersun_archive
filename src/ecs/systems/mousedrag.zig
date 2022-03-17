@@ -61,22 +61,20 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                 if (entity) |e| {
                     if (comps.mouse_drag.modifier == .shift) {
-                        if (e.getMut(components.Stackable)) |stackable| {
-                            if (stackable.count > 1) {
-                                const new_entity = it.world().newEntity();
-                                _ = flecs.c.ecs_clone(it.world().world, new_entity.id, e.id, true);
-                                new_entity.set(&components.Stackable{
-                                    .indices = stackable.indices,
-                                    .count = 1,
-                                });
-                                stackable.count -= 1;
-                                new_entity.set(&components.MoveRequest{ .x = comps.mouse_drag.end_x - tile.x, .y = comps.mouse_drag.end_y - tile.y });
-                                new_entity.set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
-                                e.setModified(components.Stackable);
-
-                            } else {
-                                e.set(&components.MoveRequest{ .x = comps.mouse_drag.end_x - tile.x, .y = comps.mouse_drag.end_y - tile.y });
-                                e.set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
+                        if (e.has(components.Stackable)) {
+                            if (e.getMut(components.Count)) |count| {
+                                if (count.value > 1) {
+                                    const new_entity = it.world().newEntity();
+                                    _ = flecs.c.ecs_clone(it.world().world, new_entity.id, e.id, true);
+                                    count.value -= 1;
+                                    e.setModified(components.Count);
+                                    new_entity.set(&components.Count{ .value = 1});
+                                    new_entity.set(&components.MoveRequest{ .x = comps.mouse_drag.end_x - tile.x, .y = comps.mouse_drag.end_y - tile.y });
+                                    new_entity.set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
+                                } else {
+                                    e.set(&components.MoveRequest{ .x = comps.mouse_drag.end_x - tile.x, .y = comps.mouse_drag.end_y - tile.y });
+                                    e.set(&components.MovementCooldown{ .current = 0, .end = 0.2 });
+                                }
                             }
                         }
                     } else {

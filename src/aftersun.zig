@@ -146,7 +146,7 @@ fn init() !void {
     world.system(@import("ecs/systems/characteranimator.zig").Callback, .on_update);
     world.system(@import("ecs/systems/characteranimation.zig").Callback, .on_update);
     world.system(@import("ecs/systems/spriteanimation.zig").Callback, .on_update);
-    world.observer(@import("ecs/systems/use.zig").Callback, .on_set);
+    world.system(@import("ecs/systems/use.zig").Callback, .on_update);
     world.observer(@import("ecs/systems/stackable.zig").Callback, .on_set);
     world.system(@import("ecs/systems/stackrequest.zig").Callback, .on_update);
 
@@ -250,46 +250,35 @@ fn init() !void {
     }
 
     var campfire = world.newEntityWithName("Campfire");
+    campfire.isA(relations.campfire);
     campfire.set(&components.Tile{ .x = 0, .y = 1 });
     campfire.set(&components.PreviousTile{ .x = 0, .y = 1 });
     campfire.set(&components.Position{ .x = 0, .y = 1 * ppu });
-    campfire.addPair(flecs.c.EcsIsA, relations.campfire);
 
     var torch = world.newEntityWithName("Torch");
+    torch.isA(relations.torch);
     torch.set(&components.Tile{ .x = 0, .y = 4 });
     torch.set(&components.PreviousTile{ .x = 0, .y = 4 });
     torch.set(&components.Position{ .x = 0, .y = 4 * ppu });
-    torch.addPair(flecs.c.EcsIsA, relations.torch);
 
     var ham = world.newEntityWithName("Ham");
+    ham.isA(relations.ham);
     ham.set(&components.Tile{ .x = 1, .y = 4 });
     ham.set(&components.PreviousTile{ .x = 1, .y = 4 });
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
-    ham.set(&components.Stackable{ .count = 1 });
-    ham.addPair(flecs.c.EcsIsA, relations.ham);
-    ham.set(&components.Stackable{
-        .count = 1,
-        .indices = &animations.Ham_Layer,
-    });
-
+    
     var ham2 = world.newEntityWithName("Ham2");
+    ham2.isA(relations.ham);
     ham2.set(&components.Tile{ .x = 2, .y = 4 });
     ham2.set(&components.PreviousTile{ .x = 2, .y = 4 });
     ham2.set(&components.Position{ .x = 2 * ppu, .y = 4 * ppu });
-    ham2.set(&components.Stackable{ .count = 2 });
-    ham2.addPair(flecs.c.EcsIsA, relations.ham);
-    ham2.set(&components.Stackable{
-        .count = 4,
-        .indices = &animations.Ham_Layer,
-    });
+    ham2.set(&components.Count{ .value = 3});
     
-
     var vial = world.newEntityWithName("Vial");
+    vial.isA(relations.vial);
     vial.set(&components.Tile{ .x = 1, .y = 5 });
     vial.set(&components.PreviousTile{ .x = 1, .y = 5 });
     vial.set(&components.Position{ .x = 1 * ppu, .y = 5 * ppu });
-    vial.addPair(flecs.c.EcsIsA, relations.vial);
-    
 }
 
 fn update() !void {

@@ -7,7 +7,7 @@ const imgui = @import("imgui");
 const components = game.components;
 
 pub const Callback = struct {
-    stackable: *components.Stackable,
+    count: *components.Count,
 
     pub const name = "StackableSystem";
     pub const run = progress;
@@ -15,11 +15,13 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        if (it.entity().getMut(components.SpriteRenderer)) |renderer| {
-            if (comps.stackable.indices.len > comps.stackable.count - 1 and comps.stackable.count > 0)
-                renderer.index = comps.stackable.indices[comps.stackable.count - 1];
-                renderer.flipX = false; //why does this observer flip the
-                renderer.flipY = false;
+        if (it.entity().get(components.Stackable)) |stackable| {
+            if (it.entity().getMut(components.SpriteRenderer)) |renderer| {
+                if (stackable.indices.len > comps.count.value - 1 and comps.count.value > 0) {}
+                    renderer.index = stackable.indices[comps.count.value - 1];
+                //renderer.flipX = false; //why does this observer flip the
+                //renderer.flipY = false;
+            }
         }
     }
 }

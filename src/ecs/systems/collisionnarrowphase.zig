@@ -58,47 +58,40 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                     }
                                     break;
                                 }
-                            } else {
-                                if (tile_it.entity().has(components.Stackable)) {
-                                    if (tiles.tile.counter >= counter) {
-                                        counter = tiles.tile.counter;
-                                        target = tile_it.entity();
-                                    }
-                                }
+                            }
+                            if (tiles.tile.counter >= counter) {
+                                counter = tiles.tile.counter;
+                                target = tile_it.entity();
                             }
                         }
                     }
 
                     if (target) |target_entity| {
-                        if (it.entity().get(components.Stackable)) |self_stackable| {
-                            if (target_entity.get(components.Stackable)) |other_stackable| {
-                                if(self_stackable.count + other_stackable.count <= self_stackable.indices.len) {
-                                    //can stack
-                                    it.entity().set(&components.StackRequest{
-                                        .count = @intCast(i32, other_stackable.count),
-                                    });
+                        if (it.entity().get(components.Item)) |self_item| {
+                            if (target_entity.get(components.Item)) |other_item| {
+                                if (self_item.id == other_item.id) {
+                                    if (it.entity().get(components.Stackable)) |self_stackable| {
+                                        if (target_entity.has(components.Stackable)) {
+                                            if (it.entity().get(components.Count)) |self_count| {
+                                                if (target_entity.get(components.Count)) |other_count| {
+                                                    if (self_count.value + other_count.value <= self_stackable.indices.len) {
+                                                        //can stack
+                                                        it.entity().set(&components.StackRequest{
+                                                            .count = @intCast(i32, other_count.value),
+                                                        });
 
-                                    target_entity.set(&components.StackRequest{
-                                        .count = -@intCast(i32, other_stackable.count),
-                                        .other = it.entity(),
-                                    });
+                                                        target_entity.set(&components.StackRequest{
+                                                            .count = -@intCast(i32, other_count.value),
+                                                            .other = it.entity(),
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
-
-                        //TODO: find a way to compare if these are the same type, but one has a moverequest?
-                        // if (stackable_entity.hasPair(flecs.c.EcsIsA, relations.ham) and it.entity().hasPair(flecs.c.EcsIsA, relations.ham)) {
-                        //     //same type, delete one and stack
-                        //     if (it.entity().getMut(components.Stackable)) |self_stackable| {
-                        //         if (stackable_entity.get(components.Stackable)) |other_stackable| {
-                        //             if (self_stackable.count + other_stackable.count <= self_stackable.indices.len) {
-                        //                 self_stackable.count += other_stackable.count;
-                        //                 it.entity().setModified(components.Stackable);
-                        //                 stackable_entity.delete();
-                        //             }
-                        //         }
-                        //     }
-                        // }
                     }
 
                     if (it.entity().getMut(components.PreviousTile)) |prev_tile| {

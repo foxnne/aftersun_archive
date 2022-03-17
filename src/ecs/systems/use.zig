@@ -2,7 +2,8 @@ const std = @import("std");
 const zia = @import("zia");
 const flecs = @import("flecs");
 const game = @import("game");
-const components = @import("game").components;
+const components = game.components;
+const relations = game.relations;
 
 pub const Callback = struct {
     request: *const components.UseRequest,
@@ -55,9 +56,58 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         }
 
                         if (entity) |target| {
+
                             if (target.get(components.MovementCooldown)) |cooldown| {
                                 if (cooldown.current < cooldown.end)
                                     break :blk;
+                            }
+
+                            if (target.get(components.UseRecipe)) |recipe| {
+                                var meets_required: bool = true;
+
+                                // for (recipe.required) |required| {
+                                //     if (!it.entity().has(required)) {
+                                //         meets_required = false;
+                                //     }
+                                // }
+
+                                if (meets_required) {
+                                    if (target.getMut(components.Count)) |count| {
+                                        if (count.value > 1) {
+                                            count.value -= 1;
+                                        } else {
+                                            target.delete();
+                                        }
+                                    } else {
+                                        target.delete();
+                                    }
+
+                                    var new = it.world().newEntity();
+                                    new.isA(recipe.produces);
+
+                                    if (target.get(components.Tile)) |tile|
+                                        new.set(&components.Tile{
+                                            .x = tile.x,
+                                            .y = tile.y,
+                                            .z = tile.z,
+                                            .counter = game.getCounter(),
+                                        });
+
+                                    if (target.get(components.Position)) |position|
+                                        new.set(&components.Position{
+                                            .x = position.x,
+                                            .y = position.y,
+                                            .z = position.z,
+                                        });
+
+                                    if (target.get(components.PreviousTile)) |prev_tile| {
+                                        new.set(&components.PreviousTile{
+                                            .x = prev_tile.x,
+                                            .y = prev_tile.y,
+                                            .z = prev_tile.z,
+                                        });
+                                    }
+                                }
                             }
 
                             if (target.has(components.Useable)) {

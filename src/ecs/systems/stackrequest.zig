@@ -8,6 +8,8 @@ const components = game.components;
 
 pub const Callback = struct {
     request: *components.StackRequest,
+    stackable: *components.Stackable,
+    count: *components.Count,
 
     pub const name = "StackRequestSystem";
     pub const run = progress;
@@ -15,7 +17,6 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-
         if (it.entity().get(components.MovementCooldown)) |cooldown| {
             if (cooldown.current < cooldown.end) {
                 continue;
@@ -23,21 +24,19 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         }
 
         if (comps.request.count != 0) {
-            if (it.entity().getMut(components.Stackable)) |stackable| {
-                if (@intCast(i32, stackable.count) + comps.request.count <= 0) {
-                    if (comps.request.other) |other| {
-                        if (other.get(components.MovementCooldown)) |cooldown| {
-                            if (cooldown.current < cooldown.end) {
-                                continue;
-                            }
+            if (@intCast(i32, comps.count.value) + comps.request.count <= 0) {
+                if (comps.request.other) |other| {
+                    if (other.get(components.MovementCooldown)) |cooldown| {
+                        if (cooldown.current < cooldown.end) {
+                            continue;
                         }
                     }
-                    it.entity().delete();
-                }else {
-                    stackable.count = @intCast(usize, @intCast(i32, stackable.count) + comps.request.count);
-                    it.entity().setModified(components.Stackable);
                 }
-
+                it.entity().delete();
+                continue;
+            } else {
+                comps.count.value = @intCast(usize, @intCast(i32, comps.count.value) + comps.request.count);
+                it.entity().setModified(components.Count);
             }
         }
         it.entity().remove(components.StackRequest);
