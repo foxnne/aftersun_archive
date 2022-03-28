@@ -121,7 +121,6 @@ fn init() !void {
     });
 
     relations.init(world);
-    
 
     // time
     world.system(@import("ecs/systems/time.zig").Callback, .on_update);
@@ -147,8 +146,8 @@ fn init() !void {
     world.system(@import("ecs/systems/characteranimation.zig").Callback, .on_update);
     world.system(@import("ecs/systems/spriteanimation.zig").Callback, .on_update);
     world.system(@import("ecs/systems/use.zig").Callback, .on_update);
-    world.observer(@import("ecs/systems/stackable.zig").Callback, .on_set);
-    world.system(@import("ecs/systems/stackrequest.zig").Callback, .on_update);
+    world.observer(@import("ecs/systems/stack.zig").Callback, .on_set);
+    world.system(@import("ecs/systems/stackcount.zig").Callback, .on_update);
 
     // camera
     world.system(@import("ecs/systems/camerazoom.zig").Callback, .on_update);
@@ -180,7 +179,7 @@ fn init() !void {
         .bottomIndex = assets.aftersun_atlas.Idle_SE_0_BottomF02,
         .topIndex = assets.aftersun_atlas.Idle_SE_0_TopF02,
         .hairIndex = assets.aftersun_atlas.Idle_S_0_HairF01,
-        .bodyColor = zia.math.Color.fromBytes(5, 0, 0, 1), 
+        .bodyColor = zia.math.Color.fromBytes(5, 0, 0, 1),
         .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
         .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
         .topColor = zia.math.Color.fromBytes(12, 0, 0, 1),
@@ -266,14 +265,14 @@ fn init() !void {
     ham.set(&components.Tile{ .x = 1, .y = 4 });
     ham.set(&components.PreviousTile{ .x = 1, .y = 4 });
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
-    
+
     var ham2 = world.newEntityWithName("Ham2");
     ham2.isA(relations.ham);
     ham2.set(&components.Tile{ .x = 2, .y = 4 });
     ham2.set(&components.PreviousTile{ .x = 2, .y = 4 });
     ham2.set(&components.Position{ .x = 2 * ppu, .y = 4 * ppu });
-    ham2.set(&components.Count{ .value = 3});
-    
+    ham2.set(&components.Count{ .value = 3 });
+
     var vial = world.newEntityWithName("Vial");
     vial.isA(relations.vial);
     vial.set(&components.Tile{ .x = 1, .y = 5 });
@@ -295,7 +294,7 @@ fn update() !void {
     }
 
     // run all systems
-    world.progress(zia.time.dt());
+    world.progress(0);
 }
 
 fn shutdown() !void {

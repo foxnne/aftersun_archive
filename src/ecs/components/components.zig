@@ -60,8 +60,19 @@ pub const StackRequest = struct {
     other: ?flecs.Entity = null,
 };  
 pub const UseRecipe = struct {
-    required: []flecs.EntityId,
-    produces: flecs.Entity,
+    primary: flecs.EntityId,
+    secondary: ?flecs.EntityId = null,
+    tertiary: ?flecs.EntityId = null, 
+    not: ?flecs.EntityId = null,
+    produces: ?flecs.Entity = null,
+    consumes: Consumes = .none,
+    
+    pub const Consumes = enum {
+        none,
+        self,
+        other,
+        both,
+    };
 };
 
 

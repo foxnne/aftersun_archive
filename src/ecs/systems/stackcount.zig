@@ -11,7 +11,7 @@ pub const Callback = struct {
     stackable: *components.Stackable,
     count: *components.Count,
 
-    pub const name = "StackRequestSystem";
+    pub const name = "StackCountSystem";
     pub const run = progress;
 };
 

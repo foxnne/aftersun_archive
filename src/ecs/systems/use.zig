@@ -56,7 +56,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         }
 
                         if (entity) |target| {
-
                             if (target.get(components.MovementCooldown)) |cooldown| {
                                 if (cooldown.current < cooldown.end)
                                     break :blk;
@@ -65,46 +64,64 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                             if (target.get(components.UseRecipe)) |recipe| {
                                 var meets_required: bool = true;
 
-                                // for (recipe.required) |required| {
-                                //     if (!it.entity().has(required)) {
-                                //         meets_required = false;
-                                //     }
-                                // }
+                                if (!it.entity().has(recipe.primary))
+                                    meets_required = false;
+
+                                if (recipe.secondary) |secondary| {
+                                    if (!it.entity().has(secondary))
+                                        meets_required = false;
+                                }
+
+                                if (recipe.tertiary) |tertiary| {
+                                    if (!it.entity().has(tertiary))
+                                        meets_required = false;
+                                }
+
+                                if (recipe.not) |not| {
+                                    if (target.has(not))
+                                        meets_required = false;
+                                }
 
                                 if (meets_required) {
-                                    if (target.getMut(components.Count)) |count| {
-                                        if (count.value > 1) {
-                                            count.value -= 1;
+                                    if (recipe.consumes == .self or recipe.consumes == .both) {
+                                        if (target.getMut(components.Count)) |count| {
+                                            if (count.value > 1) {
+                                                count.value -= 1;
+                                                target.setModified(components.Count);
+                                            } else {
+                                                target.delete();
+                                            }
                                         } else {
                                             target.delete();
                                         }
-                                    } else {
-                                        target.delete();
                                     }
 
-                                    var new = it.world().newEntity();
-                                    new.isA(recipe.produces);
+                                    if (recipe.produces) |result| {
+                                        var new = it.world().newEntity();
+                                        new.isA(result);
 
-                                    if (target.get(components.Tile)) |tile|
-                                        new.set(&components.Tile{
-                                            .x = tile.x,
-                                            .y = tile.y,
-                                            .z = tile.z,
-                                            .counter = game.getCounter(),
-                                        });
+                                        if (target.get(components.Tile)) |tile| {
+                                            new.set(&components.Tile{
+                                                .x = tile.x,
+                                                .y = tile.y,
+                                                .z = tile.z,
+                                                .counter = game.getCounter(),
+                                            });
+                                            if (target.get(components.PreviousTile)) |_| {
+                                                new.set(&components.PreviousTile{
+                                                    .x = tile.x,
+                                                    .y = tile.y,
+                                                    .z = tile.z,
+                                                });
+                                            }
+                                        }
 
-                                    if (target.get(components.Position)) |position|
-                                        new.set(&components.Position{
-                                            .x = position.x,
-                                            .y = position.y,
-                                            .z = position.z,
-                                        });
+                                        if (target.get(components.Position)) |position|
+                                            new.set(position);
 
-                                    if (target.get(components.PreviousTile)) |prev_tile| {
-                                        new.set(&components.PreviousTile{
-                                            .x = prev_tile.x,
-                                            .y = prev_tile.y,
-                                            .z = prev_tile.z,
+                                        new.set(&components.MovementCooldown{
+                                            .current = 0,
+                                            .end = 0.2,
                                         });
                                     }
                                 }
@@ -112,26 +129,55 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                             if (target.has(components.Useable)) {
                                 if (target.getMut(components.Toggleable)) |toggleable| {
-                                    toggleable.state = !toggleable.state;
-                                    if (target.get(components.ToggleAnimation)) |toggle_animation| {
-                                        if (target.getMut(components.SpriteAnimator)) |animator| {
-                                            if (toggleable.state == false) {
-                                                animator.state = .pause;
-                                            } else {
-                                                animator.state = .play;
-                                            }
+                                    var meets_required: bool = true;
+                                    
+
+                                    if (target.get(components.UseRecipe)) |recipe| {
+                                        
+
+                                        if (!it.entity().has(recipe.primary))
+                                            meets_required = false;
+
+                                        if (recipe.secondary) |secondary| {
+                                            if (!it.entity().has(secondary))
+                                                meets_required = false;
                                         }
 
-                                        if (target.getMut(components.SpriteRenderer)) |renderer| {
-                                            if (toggleable.state == false) {
-                                                renderer.index = toggle_animation.off_index;
-                                            }
+                                        if (recipe.tertiary) |tertiary| {
+                                            if (!it.entity().has(tertiary))
+                                                meets_required = false;
                                         }
 
-                                        if (target.getMut(components.LightRenderer)) |renderer| {
-                                            renderer.active = toggleable.state;
+                                        if (recipe.not) |not| {
+                                            if (it.entity().has(not))
+                                                meets_required = false;
                                         }
+
+                                        
                                     }
+
+                                    if (meets_required) {
+                                        toggleable.state = !toggleable.state;
+                                            if (target.get(components.ToggleAnimation)) |toggle_animation| {
+                                                if (target.getMut(components.SpriteAnimator)) |animator| {
+                                                    if (toggleable.state == false) {
+                                                        animator.state = .pause;
+                                                    } else {
+                                                        animator.state = .play;
+                                                    }
+                                                }
+
+                                                if (target.getMut(components.SpriteRenderer)) |renderer| {
+                                                    if (toggleable.state == false) {
+                                                        renderer.index = toggle_animation.off_index;
+                                                    }
+                                                }
+
+                                                if (target.getMut(components.LightRenderer)) |renderer| {
+                                                    renderer.active = toggleable.state;
+                                                }
+                                            }
+                                        }
                                 }
                             }
                         }

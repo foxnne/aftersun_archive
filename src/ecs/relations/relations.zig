@@ -24,36 +24,8 @@ pub fn init(world: flecs.World) void {
     torch.setOverride(&components.Toggleable{ .state = false });
     torch.add(components.Moveable);
     torch.add(components.Useable);
+    torch.set(&components.UseRecipe{ .primary = world.componentId(components.Fire) });
     torch.set(&components.ToggleAnimation{ .off_index = assets.aftersun_atlas.Torch_0_Layer });
-
-    cooked_ham = world.newPrefab("CookedHamPrefab");
-    cooked_ham.set(&components.Item{ .id = game.getCounter() });
-    cooked_ham.setOverride(&components.Tile{});
-    cooked_ham.setOverride(&components.PreviousTile{});
-    cooked_ham.setOverride(&components.Position{});
-    cooked_ham.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Cooked_Ham_0_Layer });
-    cooked_ham.set(&components.Stackable{ .indices = &animations.Cooked_Ham_Layer });
-    cooked_ham.setOverride(&components.Count{ .value = 1});
-    cooked_ham.add(components.Moveable);
-
-    ham = world.newPrefab("HamPrefab");
-    ham.set(&components.Item{ .id = game.getCounter() });
-    ham.setOverride(&components.Tile{});
-    ham.setOverride(&components.PreviousTile{});
-    ham.setOverride(&components.Position{});
-    ham.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Ham_0_Layer });
-    ham.setOverride(&components.Stackable{ .indices = &animations.Ham_Layer });
-    ham.setOverride(&components.Count{ .value = 1});
-    ham.add(components.Moveable);
-    ham.set(&components.UseRecipe{ .required = &[_]flecs.EntityId{ world.componentId(components.Fire), world.componentId(components.Cook) }, .produces = cooked_ham });
-
-    vial = world.newPrefab("VialPrefab");
-    vial.set(&components.Item{ .id = game.getCounter() });
-    vial.setOverride(&components.Tile{});
-    vial.setOverride(&components.PreviousTile{});
-    vial.setOverride(&components.Position{});
-    vial.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Vial_0_Layer });
-    vial.add(components.Moveable);
 
     campfire = world.newPrefab("CampfirePrefab");
     campfire.set(&components.Item{ .id = game.getCounter() });
@@ -75,4 +47,35 @@ pub fn init(world: flecs.World) void {
     });
     campfire.add(components.Cook);
     campfire.add(components.Fire);
+
+    cooked_ham = world.newPrefab("CookedHamPrefab");
+    cooked_ham.set(&components.Item{ .id = game.getCounter() });
+    cooked_ham.setOverride(&components.Tile{});
+    cooked_ham.setOverride(&components.PreviousTile{});
+    cooked_ham.setOverride(&components.Position{});
+    cooked_ham.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Cooked_Ham_0_Layer });
+    cooked_ham.set(&components.Stackable{ .indices = &animations.Cooked_Ham_Layer });
+    cooked_ham.setOverride(&components.Count{ .value = 1});
+    cooked_ham.add(components.Moveable);
+
+    ham = world.newPrefab("HamPrefab");
+    ham.set(&components.Item{ .id = game.getCounter() });
+    ham.setOverride(&components.Tile{});
+    ham.setOverride(&components.PreviousTile{});
+    ham.setOverride(&components.Position{});
+    ham.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Ham_0_Layer });
+    ham.setOverride(&components.Stackable{ .indices = &animations.Ham_Layer });
+    ham.setOverride(&components.Count{ .value = 1});
+    ham.add(components.Moveable);
+    ham.set(&components.UseRecipe{ .primary = world.componentId(components.Fire), .secondary = world.componentId(components.Cook), .produces = cooked_ham, .consumes = .self });
+
+    vial = world.newPrefab("VialPrefab");
+    vial.set(&components.Item{ .id = game.getCounter() });
+    vial.setOverride(&components.Tile{});
+    vial.setOverride(&components.PreviousTile{});
+    vial.setOverride(&components.Position{});
+    vial.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Vial_0_Layer });
+    vial.add(components.Moveable);
+
+    
 }

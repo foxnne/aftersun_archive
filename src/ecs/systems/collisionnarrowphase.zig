@@ -66,6 +66,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         }
                     }
 
+                    // handle stackables
                     if (target) |target_entity| {
                         if (it.entity().get(components.Item)) |self_item| {
                             if (target_entity.get(components.Item)) |other_item| {
@@ -76,14 +77,16 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                                 if (target_entity.get(components.Count)) |other_count| {
                                                     if (self_count.value + other_count.value <= self_stackable.indices.len) {
                                                         //can stack
-                                                        it.entity().set(&components.StackRequest{
-                                                            .count = @intCast(i32, other_count.value),
-                                                        });
+                                                        if (other_count.value != 0) {
+                                                            it.entity().set(&components.StackRequest{
+                                                                .count = @intCast(i32, other_count.value),
+                                                            });
 
-                                                        target_entity.set(&components.StackRequest{
-                                                            .count = -@intCast(i32, other_count.value),
-                                                            .other = it.entity(),
-                                                        });
+                                                            target_entity.set(&components.StackRequest{
+                                                                .count = -@intCast(i32, other_count.value),
+                                                                .other = it.entity(),
+                                                            });
+                                                        }
                                                     }
                                                 }
                                             }
@@ -94,6 +97,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         }
                     }
 
+                    //process movement request
                     if (it.entity().getMut(components.PreviousTile)) |prev_tile| {
                         prev_tile.x = self_tile.x;
                         prev_tile.y = self_tile.y;
