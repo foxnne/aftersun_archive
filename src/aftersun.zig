@@ -3,6 +3,9 @@ const sdl = @import("sdl");
 const zia = @import("zia");
 const flecs = @import("flecs");
 const imgui = @import("imgui");
+const zenet = @import("zenet");
+
+pub const build_options = @import("build_options");
 
 //TODO: remove this and fix the reflection data
 pub const disable_reflection = true;
@@ -25,7 +28,7 @@ const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
 const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
 pub var gizmos: Gizmos = undefined;
 
-pub const enable_imgui = true;
+// pub const enable_imgui = true;
 
 pub const editor = @import("editor/editor.zig");
 pub var enable_editor = false;
@@ -64,7 +67,7 @@ const Cursors = struct {
 
     pub fn init() Cursors {
         return .{
-            .normal = null,
+            .normal = sdl.SDL_CreateSystemCursor(sdl.SDL_SystemCursor.SDL_SYSTEM_CURSOR_ARROW),
             .hand = sdl.SDL_CreateSystemCursor(sdl.SDL_SystemCursor.SDL_SYSTEM_CURSOR_SIZEALL),
         };
     }
@@ -91,27 +94,27 @@ pub fn main() !void {
     });
 }
 fn init() !void {
-    cursors = Cursors.init();
+    if (!zia.is_server) {
+        cursors = Cursors.init();
 
-    // initialize gizmos
-    gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator) };
+        // initialize gizmos
+        gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator) };
 
-    // load textures, atlases and shaders
-    palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
-    texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
-    heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
-    atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
-    light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
-    light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
-    uber_shader = shaders.createUberShader() catch unreachable;
-    environment_shader = shaders.createEnvironmentShader();
-    tiltshift_shader = shaders.createTiltshiftShader();
-    finalize_shader = shaders.createFinalizeShader();
+        // load textures, atlases and shaders
+        palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
+        texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
+        heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
+        atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
+        light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
+        light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
+        uber_shader = shaders.createUberShader() catch unreachable;
+        environment_shader = shaders.createEnvironmentShader();
+        tiltshift_shader = shaders.createTiltshiftShader();
+        finalize_shader = shaders.createFinalizeShader();
+    }
 
     world = flecs.World.init();
     world.setTargetFps(60);
-    const design_w = 1280;
-    const design_h = 720;
 
     // register all components
     // only components used in strings (DSL) are required to be registered
@@ -126,10 +129,12 @@ fn init() !void {
     world.system(@import("ecs/systems/time.zig").Callback, .on_update);
 
     // input
-    world.system(@import("ecs/systems/directionalinput.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
+    if (!zia.is_server) {
+        world.system(@import("ecs/systems/directionalinput.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
+        world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
+    }
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
-    world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
     world.system(@import("ecs/systems/use.zig").Callback, .on_update);
 
     // collision
@@ -141,30 +146,35 @@ fn init() !void {
     world.system(@import("ecs/systems/movetotile.zig").Callback, .on_update);
     world.system(@import("ecs/systems/move.zig").Callback, .on_update);
 
-    // animation
-    world.system(@import("ecs/systems/characteranimator.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/characteranimation.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/spriteanimation.zig").Callback, .on_update);
+    if (!zia.is_server) {
+        // animation
+        world.system(@import("ecs/systems/characteranimator.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/characteranimation.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/spriteanimation.zig").Callback, .on_update);
+    }
+
     world.system(@import("ecs/systems/use.zig").Callback, .on_update);
     world.observer(@import("ecs/systems/stack.zig").Callback, .on_set);
     world.system(@import("ecs/systems/stackcount.zig").Callback, .on_update);
 
-    // camera
-    world.system(@import("ecs/systems/camerazoom.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/camerafollow.zig").Callback, .on_update);
+    if (!zia.is_server) {
+        // camera
+        world.system(@import("ecs/systems/camerazoom.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/camerafollow.zig").Callback, .on_update);
 
-    // environment
-    world.system(@import("ecs/systems/environment.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/particles.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/lightflicker.zig").Callback, .on_update);
+        // environment
+        world.system(@import("ecs/systems/environment.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/particles.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/lightflicker.zig").Callback, .on_update);
 
-    // rendering
-    world.system(@import("ecs/systems/renderculling.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/prerender.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderpass0.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderpassend0.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderpass1.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/renderend.zig").Callback, .on_update);
+        // rendering
+        world.system(@import("ecs/systems/renderculling.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/prerender.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/renderpass0.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/renderpassend0.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/renderpass1.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/renderend.zig").Callback, .on_update);
+    }
 
     player = world.newEntityWithName("Player");
     player.add(components.Player);
@@ -197,20 +207,24 @@ fn init() !void {
     player.set(&components.HeadDirection{});
     player.set(&components.Collider{});
 
-    camera = world.newEntityWithName("Camera");
-    camera.set(&components.Camera{
-        .size = .{ .x = design_w, .y = design_h },
-        .pass_0 = zia.gfx.OffscreenPass.initMrt(design_w, design_h, 2),
-        .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
-        .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
-        .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
-        .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
-    });
-    camera.set(&components.Zoom{});
-    camera.set(&components.Position{});
-    camera.set(&components.Velocity{});
-    camera.set(&components.Environment{});
-    camera.set(&components.Follow{ .target = player });
+    if (!zia.is_server) {
+        const design_w = 1280;
+        const design_h = 720;
+        camera = world.newEntityWithName("Camera");
+        camera.set(&components.Camera{
+            .size = .{ .x = design_w, .y = design_h },
+            .pass_0 = zia.gfx.OffscreenPass.initMrt(design_w, design_h, 2),
+            .pass_1 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
+            .pass_2 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .nearest, .clamp),
+            .pass_3 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+            .pass_4 = zia.gfx.OffscreenPass.initWithOptions(design_w, design_h, .linear, .clamp),
+        });
+        camera.set(&components.Zoom{});
+        camera.set(&components.Position{});
+        camera.set(&components.Velocity{});
+        camera.set(&components.Environment{});
+        camera.set(&components.Follow{ .target = player });
+    }
 
     world.setSingleton(&components.Time{});
     world.setSingleton(&components.DirectionalInput{});
@@ -278,19 +292,25 @@ fn init() !void {
     vial.set(&components.Tile{ .x = 1, .y = 5 });
     vial.set(&components.PreviousTile{ .x = 1, .y = 5 });
     vial.set(&components.Position{ .x = 1 * ppu, .y = 5 * ppu });
+
+    if (zia.is_server) {
+        std.log.debug("Server init finished!", .{});
+    }
 }
 
 fn update() !void {
-    if (zia.input.keyPressed(.grave)) {
-        gizmos.enabled = !gizmos.enabled;
+    if (!zia.is_server) {
+        if (zia.input.keyPressed(.grave)) {
+            gizmos.enabled = !gizmos.enabled;
 
-        if (enable_imgui)
-            enable_editor = !enable_editor;
-    }
+            if (zia.enable_imgui)
+                enable_editor = !enable_editor;
+        }
 
-    if (enable_editor) {
-        editor.drawMenuBar();
-        editor.drawDebugWindow();
+        if (enable_editor) {
+            editor.drawMenuBar();
+            editor.drawDebugWindow();
+        }
     }
 
     // run all systems

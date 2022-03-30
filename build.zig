@@ -32,19 +32,24 @@ pub fn build(b: *Builder) !void {
     });
 
     const comple_shaders_step = b.step("compile-shaders", "compiles all shaders");
-    //b.default_step.dependOn(comple_shaders_step);
     comple_shaders_step.dependOn(&res.step);
 
     const assets = ProcessAssetsStep.init(b, "assets", "src/assets.zig", "src/animations.zig");
 
     const process_assets_step = b.step("process-assets", "generates struct for all assets");
-    //b.default_step.dependOn(process_assets_step);
     process_assets_step.dependOn(&assets.step);
 }
 
 fn createExe(b: *Builder, target: std.zig.CrossTarget, name: []const u8, source: []const u8) *std.build.LibExeObjStep {
     var exe = b.addExecutable(name, source);
     exe.setBuildMode(b.standardReleaseOptions());
+
+    // const exe_options = b.addOptions();
+    // exe.addOptions("build_options", exe_options);
+
+    // exe_options.addOption(bool, "enable_imgui", b.option(bool, "imgui", "Sets enable_imgui flag to true.") orelse false);
+    // exe_options.addOption(bool, "is_server", b.option(bool, "server", "Sets server flag to true.") orelse false);
+
 
     zia_build.addZiaToArtifact(b, exe, target, "src/deps/zia/");
 
