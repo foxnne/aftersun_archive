@@ -7,25 +7,35 @@ const assets = game.assets;
 const animations = game.animations;
 
 pub var torch: flecs.Entity = undefined;
+pub var lit_torch: flecs.Entity = undefined;
 pub var ham: flecs.Entity = undefined;
 pub var vial: flecs.Entity = undefined;
 pub var campfire: flecs.Entity = undefined;
 pub var cooked_ham: flecs.Entity = undefined;
 
 pub fn init(world: flecs.World) void {
+    //items
     torch = world.newPrefab("TorchPrefab");
     torch.set(&components.Item{ .id = game.getCounter() });
     torch.setOverride(&components.Tile{});
     torch.setOverride(&components.PreviousTile{});
     torch.setOverride(&components.Position{});
-    torch.setOverride(&components.LightRenderer{ .color = zia.math.Color.orange, .index = assets.lights_atlas.point128_png, .active = false });
     torch.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Torch_0_Layer });
-    torch.setOverride(&components.SpriteAnimator{ .animation = &animations.Torch_Flame_Layer, .state = .pause, .fps = 16 });
-    torch.setOverride(&components.Toggleable{ .state = false });
     torch.add(components.Moveable);
     torch.add(components.Useable);
-    torch.set(&components.UseRecipe{ .primary = world.componentId(components.Fire) });
-    torch.set(&components.ToggleAnimation{ .off_index = assets.aftersun_atlas.Torch_0_Layer });
+
+    lit_torch = world.newPrefab("LitTorchPrefab");
+    lit_torch.set(&components.Item{ .id = game.getCounter() });
+    lit_torch.setOverride(&components.Tile{});
+    lit_torch.setOverride(&components.PreviousTile{});
+    lit_torch.setOverride(&components.Position{});
+    lit_torch.setOverride(&components.LightRenderer{ .color = zia.math.Color.orange, .index = assets.lights_atlas.point128_png, .active = true });
+    lit_torch.setOverride(&components.SpriteRenderer{ .index = assets.aftersun_atlas.Torch_0_Layer });
+    lit_torch.setOverride(&components.SpriteAnimator{ .animation = &animations.Torch_Flame_Layer, .state = .play, .fps = 16 });
+    lit_torch.add(components.Moveable);
+    lit_torch.add(components.Useable);
+    lit_torch.set(&components.UseRecipe{ .primary = world.componentId(components.Player), .produces = torch, .consumes = .self });
+    torch.set(&components.UseRecipe{ .primary = world.componentId(components.Fire), .produces = lit_torch, .consumes = .self});
 
     campfire = world.newPrefab("CampfirePrefab");
     campfire.set(&components.Item{ .id = game.getCounter() });

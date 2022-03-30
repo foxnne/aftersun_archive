@@ -126,60 +126,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                     }
                                 }
                             }
-
-                            if (target.has(components.Useable)) {
-                                if (target.getMut(components.Toggleable)) |toggleable| {
-                                    var meets_required: bool = true;
-                                    
-
-                                    if (target.get(components.UseRecipe)) |recipe| {
-                                        
-
-                                        if (!it.entity().has(recipe.primary))
-                                            meets_required = false;
-
-                                        if (recipe.secondary) |secondary| {
-                                            if (!it.entity().has(secondary))
-                                                meets_required = false;
-                                        }
-
-                                        if (recipe.tertiary) |tertiary| {
-                                            if (!it.entity().has(tertiary))
-                                                meets_required = false;
-                                        }
-
-                                        if (recipe.not) |not| {
-                                            if (it.entity().has(not))
-                                                meets_required = false;
-                                        }
-
-                                        
-                                    }
-
-                                    if (meets_required) {
-                                        toggleable.state = !toggleable.state;
-                                            if (target.get(components.ToggleAnimation)) |toggle_animation| {
-                                                if (target.getMut(components.SpriteAnimator)) |animator| {
-                                                    if (toggleable.state == false) {
-                                                        animator.state = .pause;
-                                                    } else {
-                                                        animator.state = .play;
-                                                    }
-                                                }
-
-                                                if (target.getMut(components.SpriteRenderer)) |renderer| {
-                                                    if (toggleable.state == false) {
-                                                        renderer.index = toggle_animation.off_index;
-                                                    }
-                                                }
-
-                                                if (target.getMut(components.LightRenderer)) |renderer| {
-                                                    renderer.active = toggleable.state;
-                                                }
-                                            }
-                                        }
-                                }
-                            }
                         }
                     }
                 }
