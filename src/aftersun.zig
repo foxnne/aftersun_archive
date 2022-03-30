@@ -7,6 +7,11 @@ const zenet = @import("zenet");
 
 pub const build_options = @import("build_options");
 
+pub var address: zenet.Address = std.mem.zeroes(zenet.Address);
+pub var client: *zenet.Host = undefined;
+pub var peer: *zenet.Peer = undefined;
+pub var event: zenet.Event = std.mem.zeroes(zenet.Event);
+
 //TODO: remove this and fix the reflection data
 pub const disable_reflection = true;
 
@@ -94,6 +99,28 @@ pub fn main() !void {
     });
 }
 fn init() !void {
+
+    // initialize networking
+    try zenet.initialize();
+
+    if (zia.is_server) {
+        address.host = zenet.HOST_ANY; //localhost
+        address.port = 7777;
+        client = try zenet.Host.create(address, 100, 1, 0, 0);
+    } else {
+        client = try zenet.Host.create(null, 1, 1, 0, 0);
+        try address.set_host("127.0.0.1");
+        address.port = 7777;
+
+        peer = try client.connect(address, 1, 0);
+
+        if (try client.service(&event, 5000)) {
+            if (event.type == zenet.EventType.connect) {
+                std.log.debug("Connection to 127.0.0.1:7777 succeeded!", .{});
+            }
+        }
+    }
+
     if (!zia.is_server) {
         cursors = Cursors.init();
 

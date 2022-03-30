@@ -44,13 +44,6 @@ fn createExe(b: *Builder, target: std.zig.CrossTarget, name: []const u8, source:
     var exe = b.addExecutable(name, source);
     exe.setBuildMode(b.standardReleaseOptions());
 
-    // const exe_options = b.addOptions();
-    // exe.addOptions("build_options", exe_options);
-
-    // exe_options.addOption(bool, "enable_imgui", b.option(bool, "imgui", "Sets enable_imgui flag to true.") orelse false);
-    // exe_options.addOption(bool, "is_server", b.option(bool, "server", "Sets server flag to true.") orelse false);
-
-
     zia_build.addZiaToArtifact(b, exe, target, "src/deps/zia/");
 
     if (b.is_release) {
