@@ -14,7 +14,6 @@ pub const Callback = struct {
 
     pub const name = "RenderCullingSystem";
     pub const run = progress;
-    pub const expr = "[out] Visible()";
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
@@ -58,7 +57,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                 if (visible(cam_tl, cam_br, tl, br)) {
                     it.entity().add(components.Visible);
-
                     continue;
                 }
 
@@ -75,7 +73,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                 if (visible(cam_tl, cam_br, tl, br)) {
                     it.entity().add(components.Visible);
-
                     continue;
                 } else {
                     it.entity().remove(components.Visible);

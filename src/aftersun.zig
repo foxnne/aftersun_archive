@@ -100,26 +100,27 @@ pub fn main() !void {
 }
 fn init() !void {
 
+    // below gives a strange compiler crash
+
     // initialize networking
-    try zenet.initialize();
+    // try zenet.initialize();
 
-    if (zia.is_server) {
-        address.host = zenet.HOST_ANY; //localhost
-        address.port = 7777;
-        client = try zenet.Host.create(address, 100, 1, 0, 0);
-    } else {
-        client = try zenet.Host.create(null, 1, 1, 0, 0);
-        try address.set_host("127.0.0.1");
-        address.port = 7777;
+    // if (zia.is_server) {
+    //     address.host = zenet.HOST_ANY; //localhost
+    //     address.port = 7777;
+    //     client = try zenet.Host.create(address, 100, 1, 0, 0);
+    // } else {
+    //     client = try zenet.Host.create(null, 1, 1, 0, 0);
+    //     try address.set_host("127.0.0.1");
+    //     address.port = 7777;
 
-        peer = try client.connect(address, 1, 0);
+    //     peer = try client.connect(address, 1, 0);
 
-        if (try client.service(&event, 5000)) {
-            if (event.type == zenet.EventType.connect) {
-                std.log.debug("Connection to 127.0.0.1:7777 succeeded!", .{});
-            }
-        }
-    }
+    //     const rc = zenet.raw.enet_host_service(client, event, 5000);
+    //     if (rc < 0) return error.ENetError;
+    //     return rc > 0;
+            
+    // }
 
     if (!zia.is_server) {
         cursors = Cursors.init();

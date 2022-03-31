@@ -9,7 +9,7 @@ pub const Callback = struct {
 
     pub const name = "MouseDragSystem";
     pub const run = progress;
-    pub const expr = "[out] MoveRequest()";
+    //pub const expr = "[out] MoveRequest()";
 };
 
 fn progress(it: *flecs.Iterator(Callback)) void {
