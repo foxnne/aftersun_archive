@@ -44,6 +44,17 @@ pub fn drawDebugWindow() void {
 
         var player = true;
         if (imgui.igCollapsingHeaderBoolPtr("Player", &player, imgui.ImGuiTreeNodeFlags_None)) {
+
+            
+            if (game.player.getMut(components.Position)) |position| {
+
+                if (imgui.igSliderInt("Height", &position.z, 0, 256, "", imgui.ImGuiSliderFlags_None)) {
+                
+                }
+
+            }
+
+
             const CellCallback = struct {
                 cell: *const components.Cell,
             };
