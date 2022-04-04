@@ -286,6 +286,7 @@ fn init() !void {
         } else {
             e.set(&components.SpriteRenderer{
                 .index = assets.aftersun_atlas.Reeds_0_Layer,
+                .vert_mode = .sway,
             });
         }
     }
