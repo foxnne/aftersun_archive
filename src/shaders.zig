@@ -24,19 +24,11 @@ pub fn createTiltshiftShader() TiltshiftShader {
 }
 
 pub fn createUberShader() !gfx.Shader {
-    const vert = @embedFile("../assets/shaders/sprite_vs.glsl");
+    const vert = @embedFile("../assets/shaders/uber_vs.glsl");
     const frag = @embedFile("../assets/shaders/uber_fs.glsl");
-    return try gfx.Shader.initWithVertFrag(VertexParams, struct { pub const metadata = .{ .images = .{ "main_tex", "height_tex", "palette_tex" } }; }, .{ .frag = frag, .vert = vert });
+    return try gfx.Shader.initWithVertFrag(UberVertexParams, struct { pub const metadata = .{ .images = .{ "main_tex", "height_tex", "palette_tex" } }; }, .{ .frag = frag, .vert = vert });
 }
 
-
-pub const VertexParams = extern struct {
-    pub const metadata = .{
-        .uniforms = .{ .VertexParams = .{ .type = .float4, .array_count = 2 } },
-    };
-
-    transform_matrix: [8]f32 = [_]f32{0} ** 8,
-};
 
 pub const LightParams = extern struct {
     pub const metadata = .{
@@ -54,14 +46,12 @@ pub const LightParams = extern struct {
     shadow_steps: f32 = 0,
 };
 
-pub const TiltshiftParams = extern struct {
+pub const UberVertexParams = extern struct {
     pub const metadata = .{
-        .images = .{ "main_tex" },
-        .uniforms = .{ .TiltshiftParams = .{ .type = .float4, .array_count = 1 } },
+        .uniforms = .{ .UberVertexParams = .{ .type = .float4, .array_count = 3 } },
     };
 
-    blur_amount: f32 = 0,
-    _pad4_0_: [12]u8 = [_]u8{0} ** 12,
+    transform_matrix: [12]f32 = [_]f32{0} ** 12,
 };
 
 pub const FinalizeParams = extern struct {
@@ -74,5 +64,23 @@ pub const FinalizeParams = extern struct {
     tex_size_x: f32 = 0,
     tex_size_y: f32 = 0,
     _pad12_0_: [4]u8 = [_]u8{0} ** 4,
+};
+
+pub const VertexParams = extern struct {
+    pub const metadata = .{
+        .uniforms = .{ .VertexParams = .{ .type = .float4, .array_count = 3 } },
+    };
+
+    transform_matrix: [12]f32 = [_]f32{0} ** 12,
+};
+
+pub const TiltshiftParams = extern struct {
+    pub const metadata = .{
+        .images = .{ "main_tex" },
+        .uniforms = .{ .TiltshiftParams = .{ .type = .float4, .array_count = 1 } },
+    };
+
+    blur_amount: f32 = 0,
+    _pad4_0_: [12]u8 = [_]u8{0} ** 12,
 };
 

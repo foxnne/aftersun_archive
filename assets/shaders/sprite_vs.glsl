@@ -1,11 +1,12 @@
 #version 330
 
-uniform vec4 VertexParams[2];
+uniform vec4 VertexParams[3];
 out vec2 uv_out;
 layout(location = 1) in vec2 uv_in;
 out vec4 color_out;
 layout(location = 2) in vec4 color_in;
 layout(location = 0) in vec2 pos_in;
+layout(location = 3) in vec4 options_in;
 
 void main()
 {

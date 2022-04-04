@@ -45,9 +45,9 @@ fn createExe(b: *Builder, target: std.zig.CrossTarget, name: []const u8, source:
     exe.setBuildMode(b.standardReleaseOptions());
 
     zia_build.addZiaToArtifact(b, exe, target, "src/deps/zia/");
-
+    exe.want_lto = false; 
     if (b.is_release) {
-        exe.want_lto = false; //workaround until this is supported
+        //workaround until this is supported
 
         if (target.isWindows()) {
             exe.subsystem = .Windows;

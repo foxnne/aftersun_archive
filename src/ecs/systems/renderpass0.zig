@@ -22,60 +22,73 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         if (comps.sprite_renderer) |renderer| {
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.index], game.texture, .{
                 .x = comps.position.x,
-                .y = comps.position.y - @intToFloat(f32, comps.position.z),
+                .y = comps.position.y - comps.position.z,
             }, .{
                 .color = renderer.color,
                 .flipX = renderer.flipX,
                 .flipY = renderer.flipY,
+                .height = comps.position.z,
             });
         }
 
         if (comps.character_renderer) |renderer| {
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.bodyIndex], game.texture, .{
                 .x = comps.position.x,
-                .y = comps.position.y - @intToFloat(f32, comps.position.z),
+                .y = comps.position.y - comps.position.z,
             }, .{
                 .color = renderer.headColor,
                 .flipX = renderer.flipBody,
+                .height = comps.position.z,
+                .frag_mode = 1,
             });
 
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.headIndex], game.texture, .{
                 .x = comps.position.x,
-                .y = comps.position.y - @intToFloat(f32, comps.position.z),
+                .y = comps.position.y - comps.position.z,
             }, .{
                 .color = renderer.bodyColor,
                 .flipX = renderer.flipHead,
+                .height = comps.position.z,
+                .frag_mode = 1,
             });
 
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.bottomIndex], game.texture, .{
                 .x = comps.position.x,
-                .y = comps.position.y - @intToFloat(f32, comps.position.z),
+                .y = comps.position.y - comps.position.z,
             }, .{
                 .color = renderer.bottomColor,
                 .flipX = renderer.flipBody,
+                .height = comps.position.z,
+                .frag_mode = 1,
             });
 
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.topIndex], game.texture, .{
                 .x = comps.position.x,
-                .y = comps.position.y - @intToFloat(f32, comps.position.z),
+                .y = comps.position.y - comps.position.z,
             }, .{
                 .color = renderer.topColor,
                 .flipX = renderer.flipBody,
+                .height = comps.position.z,
+                .frag_mode = 1,
             });
 
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.hairIndex], game.texture, .{
                 .x = comps.position.x,
-                .y = comps.position.y - @intToFloat(f32, comps.position.z),
+                .y = comps.position.y - comps.position.z,
             }, .{
                 .color = renderer.hairColor,
                 .flipX = renderer.flipHead,
+                .height = comps.position.z,
+                .frag_mode = 1,
             });
         }
 
         if (comps.particle_renderer) |renderer| {
             for (renderer.particles) |particle| {
                 if (particle.alive) {
-                    zia.gfx.draw.sprite(game.atlas.sprites[particle.sprite_index], game.texture, particle.position, .{ .color = particle.color });
+                    zia.gfx.draw.sprite(game.atlas.sprites[particle.sprite_index], game.texture, particle.position, .{
+                        .color = particle.color,
+                    });
                 }
             }
         }

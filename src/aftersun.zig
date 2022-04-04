@@ -217,11 +217,11 @@ fn init() !void {
         .bottomIndex = assets.aftersun_atlas.Idle_SE_0_BottomF02,
         .topIndex = assets.aftersun_atlas.Idle_SE_0_TopF02,
         .hairIndex = assets.aftersun_atlas.Idle_S_0_HairF01,
-        .bodyColor = zia.math.Color.fromBytes(5, 0, 0, 1),
-        .headColor = zia.math.Color.fromBytes(5, 0, 0, 1),
-        .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 1),
-        .topColor = zia.math.Color.fromBytes(12, 0, 0, 1),
-        .hairColor = zia.math.Color.fromBytes(1, 0, 0, 1),
+        .bodyColor = zia.math.Color.fromBytes(5, 0, 0, 255),
+        .headColor = zia.math.Color.fromBytes(5, 0, 0, 255),
+        .bottomColor = zia.math.Color.fromBytes(13, 0, 0, 255),
+        .topColor = zia.math.Color.fromBytes(12, 0, 0, 255),
+        .hairColor = zia.math.Color.fromBytes(1, 0, 0, 255),
     });
     player.set(&components.CharacterAnimator{
         .bodyAnimation = &animations.Idle_SE_Body,

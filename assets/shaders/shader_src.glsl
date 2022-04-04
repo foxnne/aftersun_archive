@@ -1,11 +1,12 @@
 @vs sprite_vs
 uniform VertexParams {
-	vec4 transform_matrix[2];
+	vec4 transform_matrix[3];
 };
 
 layout(location = 0) in vec2 pos_in;
 layout(location = 1) in vec2 uv_in;
 layout(location = 2) in vec4 color_in;
+layout(location = 3) in vec4 options_in;
 
 out vec2 uv_out;
 out vec4 color_out;
@@ -43,29 +44,58 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @end
 @program sprite sprite_vs sprite_fs
 
-@block sprite_height_fs_main
+@vs uber_vs
+uniform UberVertexParams {
+	vec4 transform_matrix[3];
+};
+
+layout(location = 0) in vec2 pos_in;
+layout(location = 1) in vec2 uv_in;
+layout(location = 2) in vec4 color_in;
+layout(location = 3) in vec4 options_in;
+
+out vec2 uv_out;
+out vec4 color_out;
+out vec4 options_out;
+
+void main() {
+	uv_out = uv_in;
+	color_out = color_in;
+	options_out = options_in;
+	mat3x2 transMat = mat3x2(transform_matrix[0].x, transform_matrix[0].y, transform_matrix[0].z, transform_matrix[0].w, transform_matrix[1].x, transform_matrix[1].y);
+
+	vec2 pos = pos_in;
+	if (options_in.z == 1) {
+		pos.x += (sin(options_in.w) * 20) * (1 - uv_in.y);
+	}
+	gl_Position = vec4(transMat * vec3(pos, 1), 0, 1);
+}
+@end
+
+@block uber_fs_main
 uniform sampler2D main_tex;
 uniform sampler2D height_tex;
 
 in vec2 uv_out;
 in vec4 color_out;
+in vec4 options_out;
 
 layout(location = 0) out vec4 frag_color_0;
 layout(location = 1) out vec4 frag_color_1;
 
-vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color);
-vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color);
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color, float frag_mode);
+vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height);
 
 void main() {
-	frag_color_0 = effect(main_tex, uv_out.st, color_out);
-	frag_color_1 = height(height_tex, uv_out.st, color_out);
+	frag_color_0 = effect(main_tex, uv_out.st, color_out, options_out.y);
+	frag_color_1 = height(height_tex, uv_out.st, color_out, options_out.x);
 }
 @end
 
 
 // UBER SHADER
 @fs uber_fs
-@include_block sprite_height_fs_main
+@include_block uber_fs_main
 uniform sampler2D palette_tex;
 
 int max3 (vec3 channels) {
@@ -87,9 +117,9 @@ vec2 paletteCoord (vec3 base, vec3 vert) {
 
 	return vec2(base.brgb[index], vert.brgb[index]);
 }
-vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
+vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color, float frag_mode) {
 
-	int mode = int(vert_color.a * 255);
+	int mode = int(frag_mode);
 
 	vec4 base_color = texture(tex, tex_coord);
 
@@ -101,11 +131,15 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 
 	return base_color;
 }
-vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
-	return texture(tex, tex_coord);
+vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height) {
+	vec4 sample_height = texture(tex, tex_coord);
+	float true_height = sample_height.r * 255 + height;
+	float b_height = floor(true_height / 255) / 255;
+	float r_height = (true_height - (b_height * 255)) / 255;
+	return vec4(r_height, b_height, 0, sample_height.a);
 }
 @end
-@program uber sprite_vs uber_fs
+@program uber uber_vs uber_fs
 
 // RENDERS INDEXED SPRITES USING A PALETTE, SPLITTING THE THREE
 // CHANNELS INTO "LAYERS", PALETTE INDEX IS CHANNEL COLOR (0-255)
@@ -179,10 +213,12 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
 	float height;
 	float other_height;
 	float trace_height;
-	height = texture(height_tex, tex_coord).r;
+	vec4 height_sample = texture(height_tex, tex_coord);
+	height = height_sample.r + height_sample.b * 255;
 
 	for(int i = 0; i < int(shadow_steps); ++i) {
-		other_height = texture(height_tex, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i))).r;
+		vec4 other_height_sample = texture(height_tex, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
+		other_height = other_height_sample.r + other_height_sample.b * 255;
 
 		float dist = distance(tex_coord, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
 

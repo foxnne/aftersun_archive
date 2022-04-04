@@ -22,23 +22,23 @@ bool approx(float a, float b)
 vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shadow_steps, float tex_step_x, float tex_step_y, vec4 shadow_color, vec4 vert_color)
 {
     vec4 _92 = texture(height_tex, tex_coord);
-    float _95 = _92.x;
+    float _103 = _92.x + (_92.z * 255.0);
     for (int i = 0; i < int(shadow_steps); i++)
     {
         float param = tex_step_x;
         float param_1 = tex_step_y;
         float param_2 = xy_angle;
         float param_3 = float(i);
-        vec4 _123 = texture(height_tex, tex_coord + getTargetTexCoords(param, param_1, param_2, param_3));
-        float _124 = _123.x;
+        vec4 _131 = texture(height_tex, tex_coord + getTargetTexCoords(param, param_1, param_2, param_3));
+        float _138 = _131.x + (_131.z * 255.0);
         float param_4 = tex_step_x;
         float param_5 = tex_step_y;
         float param_6 = xy_angle;
         float param_7 = float(i);
-        if (_124 > _95)
+        if (_138 > _103)
         {
-            float param_8 = (distance(tex_coord, tex_coord + getTargetTexCoords(param_4, param_5, param_6, param_7)) * tan(radians(z_angle))) + _95;
-            float param_9 = _124;
+            float param_8 = (distance(tex_coord, tex_coord + getTargetTexCoords(param_4, param_5, param_6, param_7)) * tan(radians(z_angle))) + _103;
+            float param_9 = _138;
             if (approx(param_8, param_9))
             {
                 return shadow_color * vert_color;
@@ -50,15 +50,15 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
 {
-    float _178 = 1.0 / LightParams[0].x;
-    float _182 = 1.0 / LightParams[0].y;
+    float _192 = 1.0 / LightParams[0].x;
+    float _196 = 1.0 / LightParams[0].y;
     float param = LightParams[0].z;
     float param_1 = LightParams[0].w;
     vec2 param_2 = tex_coord;
-    float param_3 = sqrt((_178 * _178) + (_182 * _182));
+    float param_3 = sqrt((_192 * _192) + (_196 * _196));
     float param_4 = LightParams[1].w;
-    float param_5 = _178;
-    float param_6 = _182;
+    float param_5 = _192;
+    float param_6 = _196;
     vec4 param_7 = vec4(LightParams[1].x, LightParams[1].y, LightParams[1].z, 1.0);
     vec4 param_8 = vert_color;
     return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8) + texture(light_tex, tex_coord);

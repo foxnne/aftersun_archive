@@ -48,7 +48,7 @@ pub fn drawDebugWindow() void {
             
             if (game.player.getMut(components.Position)) |position| {
 
-                if (imgui.igSliderInt("Height", &position.z, 0, 256, "", imgui.ImGuiSliderFlags_None)) {
+                if (imgui.igSliderFloat("Height", &position.z, 0, 256, "", imgui.ImGuiSliderFlags_None)) {
                 
                 }
 

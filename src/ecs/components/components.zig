@@ -22,7 +22,7 @@ pub usingnamespace @import("light.zig");
 pub usingnamespace @import("particles.zig");
 
 // generic
-pub const Position = struct { x: f32 = 0, y: f32 = 0, z: i32 = 0 };
+pub const Position = struct { x: f32 = 0, y: f32 = 0, z: f32 = 0 };
 pub const Tile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0, counter: u64 = 0};
 pub const PreviousTile = struct { x: i32 = 0, y: i32 = 0, z: i32 = 0 };
 pub const Velocity = struct { x: f32 = 0, y: f32 = 0 };
