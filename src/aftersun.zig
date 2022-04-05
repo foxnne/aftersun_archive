@@ -126,15 +126,15 @@ fn init() !void {
         cursors = Cursors.init();
 
         // initialize gizmos
-        gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.testing.allocator) };
+        gizmos = Gizmos{ .gizmos = std.ArrayList(Gizmo).init(std.heap.c_allocator) };
 
         // load textures, atlases and shaders
-        palette = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
-        texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_png.path, .nearest) catch unreachable;
-        heightmap = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
-        atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.aftersun_atlas.path) catch unreachable;
-        light_texture = zia.gfx.Texture.initFromFile(std.testing.allocator, assets.lights_png.path, .nearest) catch unreachable;
-        light_atlas = zia.gfx.Atlas.initFromFile(std.testing.allocator, assets.lights_atlas.path) catch unreachable;
+        palette = zia.gfx.Texture.initFromFile(std.heap.c_allocator, assets.aftersunpalette_png.path, .nearest) catch unreachable;
+        texture = zia.gfx.Texture.initFromFile(std.heap.c_allocator, assets.aftersun_png.path, .nearest) catch unreachable;
+        heightmap = zia.gfx.Texture.initFromFile(std.heap.c_allocator, assets.aftersun_h_png.path, .nearest) catch unreachable;
+        atlas = zia.gfx.Atlas.initFromFile(std.heap.c_allocator, assets.aftersun_atlas.path) catch unreachable;
+        light_texture = zia.gfx.Texture.initFromFile(std.heap.c_allocator, assets.lights_png.path, .nearest) catch unreachable;
+        light_atlas = zia.gfx.Atlas.initFromFile(std.heap.c_allocator, assets.lights_atlas.path) catch unreachable;
         uber_shader = shaders.createUberShader() catch unreachable;
         environment_shader = shaders.createEnvironmentShader();
         tiltshift_shader = shaders.createTiltshiftShader();
