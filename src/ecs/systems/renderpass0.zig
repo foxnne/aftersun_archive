@@ -19,8 +19,6 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        const time = @floatCast(f32, zia.time.toSeconds(zia.time.now()));
-
         if (comps.sprite_renderer) |renderer| {
             zia.gfx.draw.sprite(game.atlas.sprites[renderer.index], game.texture, .{
                 .x = comps.position.x,
@@ -32,7 +30,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .height = comps.position.z,
                 .frag_mode = @intToFloat(f32, @enumToInt(renderer.frag_mode)),
                 .vert_mode = @intToFloat(f32, @enumToInt(renderer.vert_mode)),
-                .time = time,
+                .time = @intToFloat(f32, it.index) + @floatCast(f32, zia.time.toSeconds(zia.time.now())),
             });
         }
 
