@@ -31,15 +31,19 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color, float frag_mode)
         vec3 param_1 = (vert_color.xyz * 255.0) / vec3(float(textureSize(palette_tex, 0).y - 1));
         base_color = texture(palette_tex, paletteCoord(param, param_1)) * base_color.w;
     }
+    else
+    {
+        base_color *= vert_color;
+    }
     return base_color;
 }
 
 vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height_1)
 {
-    vec4 _181 = texture(tex, tex_coord);
-    float _187 = (_181.x * 255.0) + height_1;
-    float _191 = floor(_187 * 0.0039215688593685626983642578125);
-    return vec4((_187 - _191) * 0.0039215688593685626983642578125, _191 * 0.0039215688593685626983642578125, 0.0, _181.w);
+    vec4 _185 = texture(tex, tex_coord);
+    float _191 = (_185.x * 255.0) + height_1;
+    float _195 = floor(_191 * 0.0039215688593685626983642578125);
+    return vec4((_191 - _195) * 0.0039215688593685626983642578125, _195 * 0.0039215688593685626983642578125, 0.0, _185.w);
 }
 
 void main()

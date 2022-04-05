@@ -66,7 +66,7 @@ void main() {
 
 	vec2 pos = pos_in;
 	if (options_in.z == 1) {
-		pos.x += (sin(options_in.w) * 5) * (0.75 - uv_in.y);
+		pos.x += (sin(options_in.w) * 20) * (1 - uv_in.y);
 	}
 	gl_Position = vec4(transMat * vec3(pos, 1), 0, 1);
 }
@@ -127,6 +127,8 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color, float frag_mode) {
 		ivec2 palette_size = textureSize(palette_tex, 0);
 		vec2 palette_coord = paletteCoord(base_color.rgb, (vert_color.rgb * 255) / (palette_size.y - 1));
 		base_color = texture(palette_tex, palette_coord) * base_color.a;
+	} else {
+		base_color = base_color * vert_color;
 	}
 
 	return base_color;
@@ -140,45 +142,6 @@ vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height) {
 }
 @end
 @program uber uber_vs uber_fs
-
-// RENDERS INDEXED SPRITES USING A PALETTE, SPLITTING THE THREE
-// CHANNELS INTO "LAYERS", PALETTE INDEX IS CHANNEL COLOR (0-255)
-// @fs spritePalette_fs
-// @include_block sprite_fs_main
-// uniform sampler2D palette_tex;
-
-
-// int max3 (vec3 channels) {
-// 	return int(max(channels.z, max (channels.y, channels.x)));
-// }
-// vec2 paletteCoord (vec3 base, vec3 vert) {
-// 	// blue overwrites green which overwrites red
-// 	// arranged such that if all are 0, order is respected
-// 	vec3 channels = vec3(
-// 		//r
-// 		clamp(base.x * vert.x * 65025, 0.0, 1.0),
-// 		//g
-// 		clamp(base.y * vert.y * 65025, 0.0, 1.0) * 2,
-// 		//b
-// 		clamp(base.z * vert.z * 65025, 0.0, 1.0) * 3
-// 	);
-
-// 	int index = max3(channels);
-
-// 	return vec2(base.brgb[index], vert.brgb[index]);
-// }
-// vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
-// 	vec4 base_color = texture(tex, tex_coord);
-// 	ivec2 palette_size = textureSize(palette_tex, 0);
-// 	vec2 palette_coord = paletteCoord(base_color.rgb, (vert_color.rgb * 255) / (palette_size.y - 1));
-// 	vec4 palette_color = texture(palette_tex, palette_coord);
-
-// 	return palette_color * base_color.a * vert_color.a;
-// }
-// @end
-// @program spritePalette sprite_vs spritePalette_fs
-
-
 
 @fs environment_fs
 @include_block sprite_fs_main
