@@ -40,6 +40,10 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                     var tile_it = tile_filter.iterator(TileCallback);
                     while (tile_it.next()) |tiles| {
+
+                        if (tile_it.entity().id == it.entity().id)
+                            continue;
+
                         if (self_tile.x + comps.move_request.x == tiles.tile.x and self_tile.y + comps.move_request.y == tiles.tile.y) {
                             if (tiles.collider) |target_collider| {
                                 if (target_collider.trigger) {
@@ -47,7 +51,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                         .x = tiles.tile.x,
                                         .y = tiles.tile.y,
                                     });
-                                    continue;
+                                    //continue;
                                 } else {
                                     //collision
                                     comps.move_request.x = 0;
@@ -80,6 +84,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                                         if (other_count.value != 0) {
                                                             it.entity().set(&components.StackRequest{
                                                                 .count = @intCast(i32, other_count.value),
+                                                                .other = target_entity,
                                                             });
 
                                                             target_entity.set(&components.StackRequest{

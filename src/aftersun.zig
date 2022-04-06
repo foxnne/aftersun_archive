@@ -33,8 +33,6 @@ const Gizmo = @import("gizmos/gizmos.zig").Gizmo;
 const Gizmos = @import("gizmos/gizmos.zig").Gizmos;
 pub var gizmos: Gizmos = undefined;
 
-// pub const enable_imgui = true;
-
 pub const editor = @import("editor/editor.zig");
 pub var enable_editor = false;
 

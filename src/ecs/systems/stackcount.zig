@@ -17,6 +17,12 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
+
+        if (comps.request.other) |other| {
+            if (other.id == it.entity().id)
+                continue;
+        }
+        
         if (it.entity().get(components.MovementCooldown)) |cooldown| {
             if (cooldown.current < cooldown.end) {
                 continue;

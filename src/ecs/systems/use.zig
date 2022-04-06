@@ -119,6 +119,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                         if (target.get(components.Position)) |position|
                                             new.set(position);
 
+                                        new.set(&components.MoveRequest{});
+
                                         new.set(&components.MovementCooldown{
                                             .current = 0,
                                             .end = 0.2,
