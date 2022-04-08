@@ -117,7 +117,7 @@ fn init() !void {
     //     const rc = zenet.raw.enet_host_service(client, event, 5000);
     //     if (rc < 0) return error.ENetError;
     //     return rc > 0;
-            
+
     // }
 
     if (!zia.is_server) {
@@ -277,15 +277,24 @@ fn init() !void {
         e.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
 
         if (@mod(x, 2) != 0) {
-            e.set(&components.SpriteRenderer{
-                .index = assets.aftersun_atlas.TX_Plant_0_Layer_0,
-            });
+            if (@mod(i, 5) != 0) {
+                e.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Oak_0_Trace,
+                    //.vert_mode = .sway,
+                });
+            } else {
+                e.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Oak_0_Trunk,
+                    //.vert_mode = .sway,
+                });
+            }
             e.set(&components.Collider{});
         } else {
             e.set(&components.SpriteRenderer{
-                .index = assets.aftersun_atlas.Reeds_0_Layer,
-                .vert_mode = .sway,
+                .index = assets.aftersun_atlas.Pine_0_Trunk,
+                //.vert_mode = .sway,
             });
+            e.set(&components.Collider{});
         }
     }
 

@@ -50,7 +50,7 @@ pub fn init(world: flecs.World) void {
         .lifetime = 2.5,
         .rate = 5,
         .start_color = zia.math.Color.gray,
-        .end_color = zia.math.Color.fromBytes(255, 255, 255, 80),
+        .end_color = zia.math.Color.fromBytes(255, 255, 255, 128),
         .particles = std.testing.allocator.alloc(components.Particle, 100) catch unreachable,
         .animation = &animations.Smoke_Layer,
         .callback = components.ParticleRenderer.campfireSmokeCallback,

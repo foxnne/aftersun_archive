@@ -57,6 +57,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         zia.gfx.draw.bindTexture(game.palette, 2);
 
         // render the camera to the render texture
-        zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(70, 84, 72), .pass = comps.camera.pass_0, .trans_mat = comps.camera.transform, .shader = &game.uber_shader });
+        zia.gfx.beginPass(.{ .color = zia.math.Color.fromRgbBytes(80, 84, 42), .pass = comps.camera.pass_0, .trans_mat = comps.camera.transform, .shader = &game.uber_shader });
     }
 }

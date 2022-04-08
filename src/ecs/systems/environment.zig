@@ -22,9 +22,9 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             if (comps.environment.ambient_xy_angle > 360)
                 comps.environment.ambient_xy_angle = 0;
 
-            const ambient_morning_color = zia.math.Color.fromBytes(150, 140, 150, 255).asArray();
-            const ambient_noon_color = zia.math.Color.fromBytes(255, 255, 255, 255).asArray();
-            const ambient_night_color = zia.math.Color.fromBytes(150, 140, 150, 255).asArray();
+            const ambient_morning_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
+            const ambient_noon_color = zia.math.Color.fromBytes(245, 245, 255, 255).asArray();
+            const ambient_night_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
             const ambient_midnight_color = zia.math.Color.fromBytes(70, 70, 120, 255).asArray();
 
             // between morning and noon

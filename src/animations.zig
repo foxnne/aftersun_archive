@@ -2,6 +2,15 @@
 const std = @import("std");
 const assets = @import("assets.zig");
 
+pub var Oak_Trunk = [_]usize {
+    assets.aftersun_atlas.Oak_0_Trunk,
+};
+pub var Oak_Trace = [_]usize {
+    assets.aftersun_atlas.Oak_0_Trace,
+};
+pub var Pine_Trunk = [_]usize {
+    assets.aftersun_atlas.Pine_0_Trunk,
+};
 pub var Idle_N_HairF01 = [_]usize {
     assets.aftersun_atlas.Idle_N_0_HairF01,
     assets.aftersun_atlas.Idle_N_1_HairF01,
@@ -608,16 +617,6 @@ pub var Walk_S_Body = [_]usize {
     assets.aftersun_atlas.Walk_S_5_Body,
     assets.aftersun_atlas.Walk_S_6_Body,
     assets.aftersun_atlas.Walk_S_7_Body,
-};
-pub var PineWind_Layer_0 = [_]usize {
-    assets.aftersun_atlas.PineWind_0_Layer_0,
-    assets.aftersun_atlas.PineWind_1_Layer_0,
-    assets.aftersun_atlas.PineWind_2_Layer_0,
-    assets.aftersun_atlas.PineWind_3_Layer_0,
-    assets.aftersun_atlas.PineWind_4_Layer_0,
-    assets.aftersun_atlas.PineWind_5_Layer_0,
-    assets.aftersun_atlas.PineWind_6_Layer_0,
-    assets.aftersun_atlas.PineWind_7_Layer_0,
 };
 pub var Campfire_Layer_0 = [_]usize {
     assets.aftersun_atlas.Campfire_0_Layer_0,
