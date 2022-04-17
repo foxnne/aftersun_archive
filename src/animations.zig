@@ -2,14 +2,36 @@
 const std = @import("std");
 const assets = @import("assets.zig");
 
+pub var Oak_Leaves01 = [_]usize {
+    assets.aftersun_atlas.Oak_0_Leaves01,
+};
+pub var Oak_Leaves02 = [_]usize {
+    assets.aftersun_atlas.Oak_0_Leaves02,
+};
+pub var Oak_Leaves03 = [_]usize {
+    assets.aftersun_atlas.Oak_0_Leaves03,
+};
+pub var Oak_Leaves04 = [_]usize {
+    assets.aftersun_atlas.Oak_0_Leaves04,
+};
 pub var Oak_Trunk = [_]usize {
     assets.aftersun_atlas.Oak_0_Trunk,
 };
-pub var Oak_Trace = [_]usize {
-    assets.aftersun_atlas.Oak_0_Trace,
+pub var Pine_Leaves01 = [_]usize {
+    assets.aftersun_atlas.Pine_0_Leaves01,
 };
 pub var Pine_Trunk = [_]usize {
     assets.aftersun_atlas.Pine_0_Trunk,
+};
+pub var Campfire_Layer_0 = [_]usize {
+    assets.aftersun_atlas.Campfire_0_Layer_0,
+    assets.aftersun_atlas.Campfire_1_Layer_0,
+    assets.aftersun_atlas.Campfire_2_Layer_0,
+    assets.aftersun_atlas.Campfire_3_Layer_0,
+    assets.aftersun_atlas.Campfire_4_Layer_0,
+    assets.aftersun_atlas.Campfire_5_Layer_0,
+    assets.aftersun_atlas.Campfire_6_Layer_0,
+    assets.aftersun_atlas.Campfire_7_Layer_0,
 };
 pub var Idle_N_HairF01 = [_]usize {
     assets.aftersun_atlas.Idle_N_0_HairF01,
@@ -617,16 +639,6 @@ pub var Walk_S_Body = [_]usize {
     assets.aftersun_atlas.Walk_S_5_Body,
     assets.aftersun_atlas.Walk_S_6_Body,
     assets.aftersun_atlas.Walk_S_7_Body,
-};
-pub var Campfire_Layer_0 = [_]usize {
-    assets.aftersun_atlas.Campfire_0_Layer_0,
-    assets.aftersun_atlas.Campfire_1_Layer_0,
-    assets.aftersun_atlas.Campfire_2_Layer_0,
-    assets.aftersun_atlas.Campfire_3_Layer_0,
-    assets.aftersun_atlas.Campfire_4_Layer_0,
-    assets.aftersun_atlas.Campfire_5_Layer_0,
-    assets.aftersun_atlas.Campfire_6_Layer_0,
-    assets.aftersun_atlas.Campfire_7_Layer_0,
 };
 pub var Smoke_Layer = [_]usize {
     assets.aftersun_atlas.Smoke_0_Layer,

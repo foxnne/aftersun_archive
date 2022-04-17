@@ -259,7 +259,7 @@ fn init() !void {
 
     const treeSpawnWidth = 220;
     const treeSpawnHeight = 220;
-    const treeSpawnCount = 6000;
+    const treeSpawnCount = 4000;
     world.dim(treeSpawnCount);
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = 123456789900;
@@ -272,31 +272,66 @@ fn init() !void {
         var x = rand.intRangeAtMost(i32, -@divTrunc(treeSpawnWidth, 2), @divTrunc(treeSpawnWidth, 2));
         var y = rand.intRangeAtMost(i32, -@divTrunc(treeSpawnHeight, 2), @divTrunc(treeSpawnHeight, 2));
         var e = world.newEntity();
+        var e1 = world.newEntity();
+        e1.childOf(e);
+        var e2 = world.newEntity();
+        e2.childOf(e);
+        var e3 = world.newEntity();
+        e3.childOf(e);
+        var e4 = world.newEntity();
+        e4.childOf(e);
 
         e.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
         e.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
 
-        if (@mod(x, 2) != 0) {
+        e1.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
+        e1.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
+
+        e2.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
+        e2.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
+
+        e3.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
+        e3.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
+
+        e4.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
+        e4.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
+
+        
             if (@mod(i, 5) != 0) {
-                e.set(&components.SpriteRenderer{
-                    .index = assets.aftersun_atlas.Oak_0_Trace,
-                    //.vert_mode = .sway,
-                });
-            } else {
                 e.set(&components.SpriteRenderer{
                     .index = assets.aftersun_atlas.Oak_0_Trunk,
                     //.vert_mode = .sway,
                 });
+                e1.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Oak_0_Leaves01,
+                    .vert_mode = .sway,
+                });
+                e2.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Oak_0_Leaves02,
+                    .vert_mode = .sway,
+                });
+                e3.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Oak_0_Leaves04,
+                    .vert_mode = .sway,
+                });
+
+                e4.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Oak_0_Leaves03,
+                    .vert_mode = .sway,
+                });
+            } else {
+                e.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Pine_0_Trunk,
+                    //.vert_mode = .sway,
+                });
+                e1.set(&components.SpriteRenderer{
+                    .index = assets.aftersun_atlas.Pine_0_Leaves01,
+                    //.vert_mode = .sway,
+                });
             }
             e.set(&components.Collider{});
-        } else {
-            e.set(&components.SpriteRenderer{
-                .index = assets.aftersun_atlas.Pine_0_Trunk,
-                //.vert_mode = .sway,
-            });
-            e.set(&components.Collider{});
-        }
-    }
+        } 
+    
 
     var campfire = world.newEntityWithName("Campfire");
     campfire.isA(relations.campfire);

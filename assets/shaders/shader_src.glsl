@@ -68,6 +68,7 @@ void main() {
 	if (options_in.z == 1) {
 		pos.x += (sin(options_in.w) * 10) * (0.5 - uv_in.y);
 	}
+
 	gl_Position = vec4(transMat * vec3(pos, 1), 0, 1);
 }
 @end
@@ -172,21 +173,17 @@ vec2 getTargetTexCoords (float x_step, float y_step, float xy_angle, float h) {
 }
 
 vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shadow_steps, float tex_step_x, float tex_step_y, vec4 shadow_color, vec4 vert_color) {
-	float dist;
-	float height;
-	float other_height;
-	float trace_height;
 	vec4 height_sample = texture(height_tex, tex_coord);
-	height = height_sample.r + height_sample.b * 255;
+	float height = height_sample.r + height_sample.b * 255;
 
 	for(int i = 0; i < int(shadow_steps); ++i) {
 		vec4 other_height_sample = texture(height_tex, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
-		other_height = other_height_sample.r + other_height_sample.b * 255;
+		float other_height = other_height_sample.r + other_height_sample.b * 255;
 
 		float dist = distance(tex_coord, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
 
 		if(other_height > height) {
-			trace_height = dist * tan(radians(z_angle)) + height;
+			float trace_height = dist * tan(radians(z_angle)) + height * 255;
 			if(approx(trace_height, other_height)) {
 				//return clamp(shadow_color + vec4(vec3(dist * shadow_fade), dist * shadow_fade), 0, 1) * vert_color;
 				return shadow_color * vert_color;

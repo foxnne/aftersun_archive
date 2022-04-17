@@ -5,9 +5,13 @@ const imgui = @import("imgui");
 const zia = @import("zia");
 const components = game.components;
 
+const ambient_morning_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
+const ambient_noon_color = zia.math.Color.fromBytes(245, 245, 255, 255).asArray();
+const ambient_night_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
+const ambient_midnight_color = zia.math.Color.fromBytes(70, 70, 120, 255).asArray();
+
 pub const Callback = struct {
     environment: *components.Environment,
-    //time: *const components.Time,
 
     pub const name = "EnvironmentSystem";
     pub const run = progress;
@@ -21,11 +25,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             comps.environment.ambient_xy_angle = (time.time / components.Time.day) * 360;
             if (comps.environment.ambient_xy_angle > 360)
                 comps.environment.ambient_xy_angle = 0;
-
-            const ambient_morning_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
-            const ambient_noon_color = zia.math.Color.fromBytes(245, 245, 255, 255).asArray();
-            const ambient_night_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
-            const ambient_midnight_color = zia.math.Color.fromBytes(70, 70, 120, 255).asArray();
 
             // between morning and noon
             if (comps.environment.ambient_xy_angle > 0 and comps.environment.ambient_xy_angle <= 90) {

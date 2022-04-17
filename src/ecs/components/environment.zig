@@ -5,7 +5,7 @@ pub const Environment = struct {
     ambient_xy_angle: f32 = 0,
     ambient_z_angle: f32 = 82, //82 is magic
     ambient_color: zia.math.Color = zia.math.Color.white,
-    shadow_color: zia.math.Color = zia.math.Color.fromBytes(200, 200, 220, 255),
+    shadow_color: zia.math.Color = zia.math.Color.fromBytes(180, 180, 255, 255),
     shadow_steps: f32 = 150,
 };
 

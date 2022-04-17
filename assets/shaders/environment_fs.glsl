@@ -37,7 +37,7 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
         float param_7 = float(i);
         if (_138 > _103)
         {
-            float param_8 = (distance(tex_coord, tex_coord + getTargetTexCoords(param_4, param_5, param_6, param_7)) * tan(radians(z_angle))) + _103;
+            float param_8 = (distance(tex_coord, tex_coord + getTargetTexCoords(param_4, param_5, param_6, param_7)) * tan(radians(z_angle))) + (_103 * 255.0);
             float param_9 = _138;
             if (approx(param_8, param_9))
             {
@@ -50,15 +50,15 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
 
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
 {
-    float _192 = 1.0 / LightParams[0].x;
-    float _196 = 1.0 / LightParams[0].y;
+    float _193 = 1.0 / LightParams[0].x;
+    float _197 = 1.0 / LightParams[0].y;
     float param = LightParams[0].z;
     float param_1 = LightParams[0].w;
     vec2 param_2 = tex_coord;
-    float param_3 = sqrt((_192 * _192) + (_196 * _196));
+    float param_3 = sqrt((_193 * _193) + (_197 * _197));
     float param_4 = LightParams[1].w;
-    float param_5 = _192;
-    float param_6 = _196;
+    float param_5 = _193;
+    float param_6 = _197;
     vec4 param_7 = vec4(LightParams[1].x, LightParams[1].y, LightParams[1].z, 1.0);
     vec4 param_8 = vert_color;
     return shadow(param, param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8) + texture(light_tex, tex_coord);
