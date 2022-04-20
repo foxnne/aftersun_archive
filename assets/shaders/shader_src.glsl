@@ -65,7 +65,7 @@ void main() {
 	mat3x2 transMat = mat3x2(transform_matrix[0].x, transform_matrix[0].y, transform_matrix[0].z, transform_matrix[0].w, transform_matrix[1].x, transform_matrix[1].y);
 
 	vec2 pos = pos_in;
-	if (options_in.z == 1) {
+	if (options_in.z < 2) {
 		pos.x += (sin(options_in.w) * 10) * (0.5 - uv_in.y);
 	}
 
@@ -183,7 +183,7 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
 		float dist = distance(tex_coord, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
 
 		if(other_height > height) {
-			float trace_height = dist * tan(radians(z_angle)) + height * 255;
+			float trace_height = dist * tan(radians(z_angle)) + height;
 			if(approx(trace_height, other_height)) {
 				//return clamp(shadow_color + vec4(vec3(dist * shadow_fade), dist * shadow_fade), 0, 1) * vert_color;
 				return shadow_color * vert_color;
