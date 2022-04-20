@@ -272,6 +272,8 @@ fn init() !void {
         var x = rand.intRangeAtMost(i32, -@divTrunc(treeSpawnWidth, 2), @divTrunc(treeSpawnWidth, 2));
         var y = rand.intRangeAtMost(i32, -@divTrunc(treeSpawnHeight, 2), @divTrunc(treeSpawnHeight, 2));
         var e = world.newEntity();
+        var e0 = world.newEntity();
+        e0.childOf(e);
         var e1 = world.newEntity();
         e1.childOf(e);
         var e2 = world.newEntity();
@@ -280,6 +282,9 @@ fn init() !void {
         e3.childOf(e);
         var e4 = world.newEntity();
         e4.childOf(e);
+
+        e0.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
+        e0.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
 
         e.set(&components.Position{ .x = @intToFloat(f32, x * ppu), .y = @intToFloat(f32, y * ppu) });
         e.set(&components.Tile{ .x = x, .y = y, .counter = getCounter() });
@@ -299,6 +304,12 @@ fn init() !void {
         if (@mod(i, 5) != 0) {
             var palette_color = zia.math.Color.fromBytes(rand.intRangeAtMost(u8, 14, 17), 0, 0, 255);
 
+            e0.set(&components.SpriteRenderer{
+                .index = assets.aftersun_atlas.Oak_0_Ground,
+                //.vert_mode = .sway,
+                .frag_mode = .palette,
+                .color = palette_color,
+            });
             e.set(&components.SpriteRenderer{
                 .index = assets.aftersun_atlas.Oak_0_Trunk,
                 //.vert_mode = .sway,

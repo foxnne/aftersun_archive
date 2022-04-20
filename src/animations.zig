@@ -2,11 +2,11 @@
 const std = @import("std");
 const assets = @import("assets.zig");
 
-pub var Oak_Leaves03 = [_]usize {
-    assets.aftersun_atlas.Oak_0_Leaves03,
-};
 pub var Oak_Leaves04 = [_]usize {
     assets.aftersun_atlas.Oak_0_Leaves04,
+};
+pub var Oak_Leaves03 = [_]usize {
+    assets.aftersun_atlas.Oak_0_Leaves03,
 };
 pub var Oak_Leaves01 = [_]usize {
     assets.aftersun_atlas.Oak_0_Leaves01,
@@ -16,6 +16,9 @@ pub var Oak_Leaves02 = [_]usize {
 };
 pub var Oak_Trunk = [_]usize {
     assets.aftersun_atlas.Oak_0_Trunk,
+};
+pub var Oak_Ground = [_]usize {
+    assets.aftersun_atlas.Oak_0_Ground,
 };
 pub var Pine_Needles = [_]usize {
     assets.aftersun_atlas.Pine_0_Needles,

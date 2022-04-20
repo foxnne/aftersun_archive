@@ -30,7 +30,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                 .height = comps.position.z,
                 .frag_mode = @intToFloat(f32, @enumToInt(renderer.frag_mode)),
                 .vert_mode = @intToFloat(f32, @enumToInt(renderer.vert_mode)),
-                .time = @intToFloat(f32, it.index) + @floatCast(f32, zia.time.toSeconds(zia.time.now())),
+                .time = comps.position.y + @intToFloat(f32, it.index) + @floatCast(f32, zia.time.toSeconds(zia.time.now())),
             });
         }
 
