@@ -185,7 +185,6 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
 		if(other_height > height) {
 			float trace_height = dist * tan(radians(z_angle)) + height;
 			if(approx(trace_height, other_height)) {
-				//return clamp(shadow_color + vec4(vec3(dist * shadow_fade), dist * shadow_fade), 0, 1) * vert_color;
 				return shadow_color * vert_color;
 			}
 		}
@@ -286,8 +285,8 @@ uniform TiltshiftParams {
 vec4 effect (sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const float bluramount  = blur_amount;
 	const float center      = 1;
-	const float stepSize    = 0.003;
-	const float steps       = 3.0;
+	const float stepSize    = 0.004;
+	const float steps       = 4.0;
 
 	const float minOffs     = (float(steps-1.0)) / -2.0;
 	const float maxOffs     = (float(steps-1.0)) / +2.0;

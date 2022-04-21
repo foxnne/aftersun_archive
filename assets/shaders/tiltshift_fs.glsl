@@ -11,21 +11,21 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color)
 {
     float _55 = pow((tex_coord.y * 2.0) - 1.0, 2.0) * TiltshiftParams[0].x;
     vec4 blurred = vec4(0.0, 0.0, 0.0, 1.0);
-    for (float offsX = -1.0; offsX <= 1.0; offsX += 1.0)
+    for (float offsX = -1.5; offsX <= 1.5; offsX += 1.0)
     {
-        for (float offsY = -1.0; offsY <= 1.0; offsY += 1.0)
+        for (float offsY = -1.5; offsY <= 1.5; offsY += 1.0)
         {
-            vec2 _114 = tex_coord;
-            _114.x = tex_coord.x + ((offsX * _55) * 0.0030000000260770320892333984375);
-            vec2 _117 = _114;
-            _117.y = tex_coord.y + ((offsY * _55) * 0.0030000000260770320892333984375);
-            blurred += texture(tex, _117);
+            vec2 _115 = tex_coord;
+            _115.x = tex_coord.x + ((offsX * _55) * 0.0040000001899898052215576171875);
+            vec2 _118 = _115;
+            _118.y = tex_coord.y + ((offsY * _55) * 0.0040000001899898052215576171875);
+            blurred += texture(tex, _118);
         }
     }
-    vec4 _107 = blurred;
-    vec4 _109 = _107 * vec4(0.111111111938953399658203125);
-    blurred = _109;
-    return _109;
+    vec4 _108 = blurred;
+    vec4 _110 = _108 * vec4(0.0625);
+    blurred = _110;
+    return _110;
 }
 
 void main()
