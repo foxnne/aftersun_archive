@@ -66,7 +66,7 @@ void main() {
 
 	vec2 pos = pos_in;
 	if (options_in.z < 2) {
-		pos.x += (sin(options_in.w) * 10) * (0.5 - uv_in.y);
+		pos.x += (sin(options_in.w) * 5);
 	}
 
 	gl_Position = vec4(transMat * vec3(pos, 1), 0, 1);

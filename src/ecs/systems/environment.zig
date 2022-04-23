@@ -8,7 +8,7 @@ const components = game.components;
 const ambient_morning_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
 const ambient_noon_color = zia.math.Color.fromBytes(245, 245, 255, 255).asArray();
 const ambient_night_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
-const ambient_midnight_color = zia.math.Color.fromBytes(70, 70, 120, 255).asArray();
+const ambient_midnight_color = zia.math.Color.fromBytes(50, 50, 120, 255).asArray();
 
 pub const Callback = struct {
     environment: *components.Environment,

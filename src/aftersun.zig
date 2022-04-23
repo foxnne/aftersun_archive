@@ -321,13 +321,13 @@ fn init() !void {
                 .color = palette_color,
             });
             e2.set(&components.SpriteRenderer{
-                .index = assets.aftersun_atlas.Oak_0_Leaves02,
+                .index = assets.aftersun_atlas.Oak_0_Leaves04,
                 .vert_mode = .sway,
                 .frag_mode = .palette,
                 .color = palette_color,
             });
             e3.set(&components.SpriteRenderer{
-                .index = assets.aftersun_atlas.Oak_0_Leaves04,
+                .index = assets.aftersun_atlas.Oak_0_Leaves02,
                 .vert_mode = .sway,
                 .frag_mode = .palette,
                 .color = palette_color,

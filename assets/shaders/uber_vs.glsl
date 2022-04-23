@@ -17,9 +17,9 @@ void main()
     vec2 pos = pos_in;
     if (options_in.z < 2.0)
     {
-        vec2 _104 = pos;
-        _104.x = pos.x + ((sin(options_in.w) * 10.0) * (0.5 - uv_in.y));
-        pos = _104;
+        vec2 _99 = pos;
+        _99.x = pos.x + (sin(options_in.w) * 5.0);
+        pos = _99;
     }
     gl_Position = vec4(mat3x2(vec2(UberVertexParams[0].x, UberVertexParams[0].y), vec2(UberVertexParams[0].z, UberVertexParams[0].w), vec2(UberVertexParams[1].x, UberVertexParams[1].y)) * vec3(pos, 1.0), 0.0, 1.0);
 }
