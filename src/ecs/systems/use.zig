@@ -83,19 +83,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                 }
 
                                 if (meets_required) {
-                                    if (recipe.consumes == .self or recipe.consumes == .both) {
-                                        if (target.getMut(components.Count)) |count| {
-                                            if (count.value > 1) {
-                                                count.value -= 1;
-                                                target.setModified(components.Count);
-                                            } else {
-                                                target.delete();
-                                            }
-                                        } else {
-                                            target.delete();
-                                        }
-                                    }
-
                                     if (recipe.produces) |result| {
                                         var new = it.world().newEntity();
                                         new.isA(result);
@@ -126,6 +113,21 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                                             .end = 0.2,
                                         });
                                     }
+
+                                    if (recipe.consumes == .self or recipe.consumes == .both) {
+                                        if (target.getMut(components.Count)) |count| {
+                                            if (count.value > 1) {
+                                                count.value -= 1;
+                                                target.setModified(components.Count);
+                                            } else {
+                                                target.delete();
+                                            }
+                                        } else {
+                                            target.delete();
+                                        }
+                                    }
+
+                                    
                                 }
                             }
                         }

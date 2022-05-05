@@ -14,6 +14,9 @@ fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         if (comps.cooldown.current < comps.cooldown.end) {
             comps.cooldown.current += it.iter.delta_time;
+
+            if (comps.cooldown.current > comps.cooldown.end)
+                comps.cooldown.current = comps.cooldown.end;
         }
     }
 }

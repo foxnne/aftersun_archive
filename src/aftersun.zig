@@ -169,8 +169,8 @@ fn init() !void {
 
     // movement
     world.system(@import("ecs/systems/movementcooldown.zig").Callback, .on_update);
-    world.system(@import("ecs/systems/movetotile.zig").Callback, .on_update);
     world.system(@import("ecs/systems/move.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/movetotile.zig").Callback, .on_update);
 
     if (!zia.is_server) {
         // animation
