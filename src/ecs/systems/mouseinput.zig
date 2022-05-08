@@ -78,7 +78,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
 
                     // draw the hovered tile
                     if (game.enable_editor) {
-                        game.gizmos.box(.{ .x = @intToFloat(f32, tile.x * game.ppu), .y = @intToFloat(f32, tile.y * game.ppu) }, game.ppu, game.ppu, zia.math.Color.gray, 1);
+                        game.gizmos.box(.{ .x = @intToFloat(f32, tile.x * game.ppu), .y = @intToFloat(f32, tile.y * game.ppu) }, game.ppu, game.ppu, zia.math.Color.fromBytes(255, 255, 255, 200), 1);
                     }
                 }
             }
