@@ -33,7 +33,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
             vel.y = velocity.y;
         } else {
             //toss
-            comps.position.z =  std.math.sin(std.math.pi * f) * 10;
+            comps.position.z =  @sin(std.math.pi * f) * 10;
         }
 
         // lerp towards final position

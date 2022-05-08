@@ -98,8 +98,10 @@ fn progress(it: *flecs.Iterator(Callback)) void {
     }
 }
 
+
+
 fn orderBy(id1: flecs.EntityId, c1: *const components.Position, id2: flecs.EntityId, c2: *const components.Position) c_int {
-    if (std.math.absFloat(c1.y - c2.y) <= 5) {
+    if (@fabs(c1.y - c2.y) <= 5) {
         var e1 = flecs.Entity.init(game.world.world, id1);
         var e2 = flecs.Entity.init(game.world.world, id2);
 
