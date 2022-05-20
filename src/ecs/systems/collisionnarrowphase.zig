@@ -14,11 +14,6 @@ pub const Callback = struct {
 
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
-        if (it.entity().get(components.Collider)) |self_collider| {
-            if (self_collider.trigger)
-                continue;
-        }
-
         if (it.entity().getMut(components.Tile)) |self_tile| {
             const target_cell = components.Cell{ .x = @divTrunc(self_tile.x + comps.move_request.x, game.cell_size), .y = @divTrunc(self_tile.y + comps.move_request.y, game.cell_size) };
 
@@ -47,9 +42,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                         if (self_tile.x + comps.move_request.x == tiles.tile.x and self_tile.y + comps.move_request.y == tiles.tile.y) {
                             if (tiles.collider) |target_collider| {
                                 if (target_collider.trigger) {
-                                    tile_it.entity().set(&components.UseRequest{
-                                        .x = tiles.tile.x,
-                                        .y = tiles.tile.y,
+                                    it.entity().set(&components.UseRequest{
+                                        .target = tile_it.entity().id,
                                     });
                                     //continue;
                                 } else {

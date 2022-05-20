@@ -26,12 +26,14 @@ pub const MouseTile = struct {
     y: i32 = 0,
 };
 
-pub const MouseDown = struct {
+pub const MouseAction = struct {
     x: i32 = 0,
     y: i32 = 0,
     button: Button = .left,
+    action: Action = .down,
 
     pub const Button = enum { left, right };
+    pub const Action = enum { up, down };
 };
 
 pub const MouseDrag = struct {
@@ -48,6 +50,15 @@ pub const MouseDrag = struct {
 };
 
 pub const UseRequest = struct {
-    x: i32 = 0,
-    y: i32 = 0,
+    target: flecs.EntityId,
+};
+
+pub const UseTarget = struct {
+    x: i32,
+    y: i32,
+};
+
+pub const UseCooldown = struct {
+    current: f32 = 0,
+    end: f32 = 0,
 };

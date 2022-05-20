@@ -38,16 +38,7 @@ pub const Fire = struct{};
 pub const Item = struct {
     id: u64,
 };
-pub const Toggleable = struct{
-    state: bool,
-};
-pub const ToggleAnimation = struct {
-    off_index: usize,
-};
-pub const ToggleTag = struct {
-    on_tag: type,
-    off_tag: type,
-};
+
 pub const Stackable = struct{
     indices: []usize = undefined,
 };

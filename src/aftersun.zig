@@ -159,6 +159,7 @@ fn init() !void {
         world.system(@import("ecs/systems/directionalinput.zig").Callback, .on_update);
         world.system(@import("ecs/systems/mouseinput.zig").Callback, .on_update);
         world.observer(@import("ecs/systems/mousedrag.zig").Callback, .on_set);
+        world.observer(@import("ecs/systems/mouseuse.zig").Callback, .on_set);
     }
     world.system(@import("ecs/systems/moverequest.zig").Callback, .on_update);
     world.system(@import("ecs/systems/use.zig").Callback, .on_update);
@@ -168,7 +169,7 @@ fn init() !void {
     world.observer(@import("ecs/systems/collisionnarrowphase.zig").Callback, .on_set);
 
     // movement
-    world.system(@import("ecs/systems/movementcooldown.zig").Callback, .on_update);
+    world.system(@import("ecs/systems/cooldown.zig").Callback, .on_update);
     world.system(@import("ecs/systems/move.zig").Callback, .on_update);
     world.system(@import("ecs/systems/movetotile.zig").Callback, .on_update);
 

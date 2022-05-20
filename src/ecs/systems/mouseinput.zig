@@ -34,22 +34,29 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     tile.y = @floatToInt(i32, @round(position.y / @intToFloat(f32, game.ppu)));
 
                     if (zia.input.mousePressed(.left)) {
-                        world.setSingleton(&components.MouseDown{
+                        world.setSingleton(&components.MouseAction{
                             .x = tile.x,
                             .y = tile.y,
                             .button = .left,
+                            .action = .down,
                         });
                     }
 
                     if (zia.input.mousePressed(.right)) {
-                        world.setSingleton(&components.MouseDown{
+                        world.setSingleton(&components.MouseAction{
                             .x = tile.x,
                             .y = tile.y,
                             .button = .right,
+                            .action = .down,
                         });
-                        it.entity().set(&components.UseRequest{
+                    }
+
+                    if (zia.input.mouseUp(.right)) {
+                        world.setSingleton(&components.MouseAction{
                             .x = tile.x,
                             .y = tile.y,
+                            .button = .right,
+                            .action = .up,
                         });
                     }
 
@@ -58,22 +65,19 @@ fn progress(it: *flecs.Iterator(Callback)) void {
                     }
 
                     if (zia.input.mouseUp(.left)) {
-                        if (world.getSingleton(components.MouseDown)) |mouse_down| {
-                            if (mouse_down.x != tile.x or mouse_down.y != tile.y) {
-                                //drag
-                                var modifier: components.MouseDrag.Modifier = if (zia.input.keyDown(.lshift) or zia.input.keyDown(.rshift)) .shift else .none;
-
+                        if (world.getSingleton(components.MouseAction)) |mouse_action| {
+                            if (mouse_action.x != tile.x or mouse_action.y != tile.y) {
                                 world.setSingleton(&components.MouseDrag{
-                                    .start_x = mouse_down.x,
-                                    .start_y = mouse_down.y,
+                                    .start_x = mouse_action.x,
+                                    .start_y = mouse_action.y,
                                     .end_x = tile.x,
                                     .end_y = tile.y,
-                                    .modifier = modifier,
+                                    .modifier = if (zia.input.keyDown(.lshift) or zia.input.keyDown(.rshift)) .shift else .none,
                                 });
                             }
                         }
                         sdl.SDL_SetCursor(game.cursors.normal);
-                        world.removeSingleton(components.MouseDown);
+                        world.removeSingleton(components.MouseAction);
                     }
 
                     // draw the hovered tile
