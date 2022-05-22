@@ -18,6 +18,12 @@ pub fn createFinalizeShader() FinalizeShader {
     return FinalizeShader.init(.{ .frag = frag, .onPostBind = FinalizeShader.onPostBind });
 }
 
+pub fn createHeightShader() !gfx.Shader {
+    const vert = @embedFile("../assets/shaders/uber_vs.glsl");
+    const frag = @embedFile("../assets/shaders/height_fs.glsl");
+    return try gfx.Shader.initWithVertFrag(UberVertexParams, struct { pub const metadata = .{ .images = .{ "main_tex" } }; }, .{ .frag = frag, .vert = vert });
+}
+
 pub fn createTiltshiftShader() TiltshiftShader {
     const frag = @embedFile("../assets/shaders/tiltshift_fs.glsl");
     return TiltshiftShader.init(.{ .frag = frag, .onPostBind = TiltshiftShader.onPostBind });
@@ -30,9 +36,27 @@ pub fn createUberShader() !gfx.Shader {
 }
 
 
+pub const TiltshiftParams = extern struct {
+    pub const metadata = .{
+        .images = .{ "main_tex" },
+        .uniforms = .{ .TiltshiftParams = .{ .type = .float4, .array_count = 1 } },
+    };
+
+    blur_amount: f32 = 0,
+    _pad4_0_: [12]u8 = [_]u8{0} ** 12,
+};
+
+pub const UberVertexParams = extern struct {
+    pub const metadata = .{
+        .uniforms = .{ .UberVertexParams = .{ .type = .float4, .array_count = 3 } },
+    };
+
+    transform_matrix: [12]f32 = [_]f32{0} ** 12,
+};
+
 pub const LightParams = extern struct {
     pub const metadata = .{
-        .images = .{ "main_tex", "height_tex", "light_tex" },
+        .images = .{ "main_tex", "height_tex", "reordered_height_tex", "light_tex" },
         .uniforms = .{ .LightParams = .{ .type = .float4, .array_count = 2 } },
     };
 
@@ -46,9 +70,9 @@ pub const LightParams = extern struct {
     shadow_steps: f32 = 0,
 };
 
-pub const UberVertexParams = extern struct {
+pub const VertexParams = extern struct {
     pub const metadata = .{
-        .uniforms = .{ .UberVertexParams = .{ .type = .float4, .array_count = 3 } },
+        .uniforms = .{ .VertexParams = .{ .type = .float4, .array_count = 3 } },
     };
 
     transform_matrix: [12]f32 = [_]f32{0} ** 12,
@@ -64,23 +88,5 @@ pub const FinalizeParams = extern struct {
     tex_size_x: f32 = 0,
     tex_size_y: f32 = 0,
     _pad12_0_: [4]u8 = [_]u8{0} ** 4,
-};
-
-pub const VertexParams = extern struct {
-    pub const metadata = .{
-        .uniforms = .{ .VertexParams = .{ .type = .float4, .array_count = 3 } },
-    };
-
-    transform_matrix: [12]f32 = [_]f32{0} ** 12,
-};
-
-pub const TiltshiftParams = extern struct {
-    pub const metadata = .{
-        .images = .{ "main_tex" },
-        .uniforms = .{ .TiltshiftParams = .{ .type = .float4, .array_count = 1 } },
-    };
-
-    blur_amount: f32 = 0,
-    _pad4_0_: [12]u8 = [_]u8{0} ** 12,
 };
 

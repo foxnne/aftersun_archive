@@ -35,7 +35,6 @@ void main() {
 }
 @end
 
-
 @fs sprite_fs
 @include_block sprite_fs_main
 vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
@@ -70,6 +69,22 @@ void main() {
 	}
 
 	gl_Position = vec4(transMat * vec3(pos, 1), 0, 1);
+}
+@end
+
+
+@block height_fs_main
+uniform sampler2D main_tex;
+
+in vec2 uv_out;
+in vec4 color_out;
+in vec4 options_out;
+out vec4 frag_color;
+
+vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height);
+
+void main() {
+	frag_color = height(main_tex, uv_out.st, color_out, options_out.x);
 }
 @end
 
@@ -144,11 +159,25 @@ vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height) {
 @end
 @program uber uber_vs uber_fs
 
+@fs height_fs
+@include_block height_fs_main
+vec4 height(sampler2D tex, vec2 tex_coord, vec4 vert_color, float height) {
+	vec4 sample_height = texture(tex, tex_coord);
+	float true_height = sample_height.r * 255 + height;
+	float b_height = floor(true_height / 255) / 255;
+	float r_height = (true_height - (b_height * 255)) / 255;
+	return vec4(r_height, b_height, 0, sample_height.a);
+}
+@end
+@program height uber_vs height_fs
+
 @fs environment_fs
 @include_block sprite_fs_main
 
 uniform sampler2D height_tex;
+uniform sampler2D reordered_height_tex;
 uniform sampler2D light_tex;
+
 uniform LightParams {
 	float tex_width;
 	float tex_height;
@@ -172,13 +201,13 @@ vec2 getTargetTexCoords (float x_step, float y_step, float xy_angle, float h) {
 	return vec2(x_steps, y_steps);
 }
 
-vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shadow_steps, float tex_step_x, float tex_step_y, vec4 shadow_color, vec4 vert_color) {
+vec4 find_shadow(sampler2D height_texture, float xy_angle, float z_angle, vec2 tex_coord, float stp, float shadow_steps, float tex_step_x, float tex_step_y, vec4 shadow_color, vec4 vert_color) {
 	vec4 height_sample = texture(height_tex, tex_coord);
-	float height = height_sample.r + height_sample.b * 255;
+	float height = height_sample.r + (height_sample.b * 255);
 
 	for(int i = 0; i < int(shadow_steps); ++i) {
-		vec4 other_height_sample = texture(height_tex, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
-		float other_height = other_height_sample.r + other_height_sample.b * 255;
+		vec4 other_height_sample = texture(height_texture, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
+		float other_height = other_height_sample.r + (other_height_sample.b * 255);
 
 		float dist = distance(tex_coord, tex_coord + getTargetTexCoords(tex_step_x, tex_step_y, xy_angle, float(i)));
 
@@ -187,7 +216,7 @@ vec4 shadow(float xy_angle, float z_angle, vec2 tex_coord, float stp, float shad
 			if(approx(trace_height, other_height)) {
 				return shadow_color * vert_color;
 			}
-		}
+		} 
 	}
 	return vert_color;
 }
@@ -197,13 +226,14 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const float tex_step_x = float(1) / float(tex_width);
 	const float tex_step_y = float(1) / float(tex_height );
 
-	
-
 	const float tex_step =  sqrt(tex_step_x * tex_step_x + tex_step_y * tex_step_y);
-	//const float tex_step = tex_step_y;
 	const vec4 shadow_color = vec4( shadow_r, shadow_g, shadow_b, 1);
 
-	vec4 shadow = shadow(ambient_xy_angle, ambient_z_angle, tex_coord, tex_step, shadow_steps, tex_step_x, tex_step_y,shadow_color, vert_color);
+	vec4 shadow = find_shadow(height_tex, ambient_xy_angle, ambient_z_angle, tex_coord, tex_step, shadow_steps, tex_step_x, tex_step_y,shadow_color, vert_color);
+
+	if (shadow == vert_color) {
+		shadow = find_shadow(reordered_height_tex, ambient_xy_angle, ambient_z_angle, tex_coord, tex_step, shadow_steps, tex_step_x, tex_step_y,shadow_color, vert_color);
+	}
 	vec4 light = texture(light_tex, tex_coord);
 	
 	return shadow + light;

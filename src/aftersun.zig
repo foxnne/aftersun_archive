@@ -53,6 +53,7 @@ pub var atlas: zia.gfx.Atlas = undefined;
 pub var light_texture: zia.gfx.Texture = undefined;
 pub var light_atlas: zia.gfx.Atlas = undefined;
 pub var uber_shader: zia.gfx.Shader = undefined;
+pub var height_shader: zia.gfx.Shader = undefined;
 pub var environment_shader: shaders.EnvironmentShader = undefined;
 pub var tiltshift_shader: shaders.TiltshiftShader = undefined;
 pub var finalize_shader: shaders.FinalizeShader = undefined;
@@ -134,6 +135,7 @@ fn init() !void {
         light_texture = zia.gfx.Texture.initFromFile(std.heap.c_allocator, assets.lights_png.path, .nearest) catch unreachable;
         light_atlas = zia.gfx.Atlas.initFromFile(std.heap.c_allocator, assets.lights_atlas.path) catch unreachable;
         uber_shader = shaders.createUberShader() catch unreachable;
+        height_shader = shaders.createHeightShader() catch unreachable;
         environment_shader = shaders.createEnvironmentShader();
         tiltshift_shader = shaders.createTiltshiftShader();
         finalize_shader = shaders.createFinalizeShader();
@@ -200,6 +202,8 @@ fn init() !void {
         world.system(@import("ecs/systems/renderpass0.zig").Callback, .on_update);
         world.system(@import("ecs/systems/renderpassend0.zig").Callback, .on_update);
         world.system(@import("ecs/systems/renderpass1.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/renderpassend1.zig").Callback, .on_update);
+        world.system(@import("ecs/systems/renderpass2.zig").Callback, .on_update);
         world.system(@import("ecs/systems/renderend.zig").Callback, .on_update);
     }
 
