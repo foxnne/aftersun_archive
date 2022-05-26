@@ -43,4 +43,23 @@ pub const ParticleRenderer = struct {
         particle.velocity = .{ .x = @intToFloat(f32, vel_x), .y = @intToFloat(f32, vel_y) };
         particle.color = self.start_color;
     }
+
+    pub fn rainCallback(self: *const ParticleRenderer, particle: *Particle) void {
+        _ = self;
+
+        var prng = std.rand.DefaultPrng.init(blk: {
+            var seed: u64 = undefined;
+            std.os.getrandom(std.mem.asBytes(&seed)) catch unreachable;
+            break :blk seed;
+        });
+        const rand = &prng.random();
+        const vel_x = 3;
+        const vel_y = 10;
+        
+
+        particle.sprite_index = assets.aftersun_atlas.Drop_0_Layer_0;
+        particle.lifetime = self.lifetime * rand.floatNorm(f32);
+        particle.velocity = .{ .x = @intToFloat(f32, vel_x), .y = @intToFloat(f32, vel_y) };
+        particle.color = self.start_color;
+    }
 };

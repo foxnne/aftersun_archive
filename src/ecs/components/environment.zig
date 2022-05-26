@@ -1,5 +1,6 @@
 const zia = @import("zia");
 const shaders = @import("../../shaders.zig");
+const components = @import("components.zig");
 
 pub const Environment = struct {
     ambient_xy_angle: f32 = 0,
@@ -7,6 +8,7 @@ pub const Environment = struct {
     ambient_color: zia.math.Color = zia.math.Color.white,
     shadow_color: zia.math.Color = zia.math.Color.fromBytes(180, 180, 255, 255),
     shadow_steps: f32 = 150,
+    weather: components.Weather = components.Weather.sunny(),
 };
 
 pub const Time = struct {

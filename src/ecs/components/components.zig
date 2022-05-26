@@ -20,6 +20,7 @@ pub usingnamespace @import("collision.zig");
 pub usingnamespace @import("environment.zig");
 pub usingnamespace @import("light.zig");
 pub usingnamespace @import("particles.zig");
+pub usingnamespace @import("weather.zig");
 
 // generic
 pub const Position = struct { x: f32 = 0, y: f32 = 0, z: f32 = 0 };

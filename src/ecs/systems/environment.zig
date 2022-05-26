@@ -5,11 +5,6 @@ const imgui = @import("imgui");
 const zia = @import("zia");
 const components = game.components;
 
-const ambient_morning_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
-const ambient_noon_color = zia.math.Color.fromBytes(245, 245, 255, 255).asArray();
-const ambient_night_color = zia.math.Color.fromBytes(130, 140, 150, 255).asArray();
-const ambient_midnight_color = zia.math.Color.fromBytes(50, 50, 120, 255).asArray();
-
 pub const Callback = struct {
     environment: *components.Environment,
 
@@ -20,6 +15,10 @@ pub const Callback = struct {
 fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         if (it.world().getSingleton(components.Time)) |time| {
+            const ambient_morning_color = comps.environment.weather.ambient_morning_color.asArray();
+            const ambient_noon_color = comps.environment.weather.ambient_noon_color.asArray();
+            const ambient_night_color = comps.environment.weather.ambient_night_color.asArray();
+            const ambient_midnight_color = comps.environment.weather.ambient_midnight_color.asArray();
 
             //advance the ambient angle
             comps.environment.ambient_xy_angle = (time.time / components.Time.day) * 360;

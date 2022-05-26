@@ -253,11 +253,23 @@ fn init() !void {
         camera.set(&components.Zoom{});
         camera.set(&components.Position{});
         camera.set(&components.Velocity{});
-        camera.set(&components.Environment{});
         camera.set(&components.Follow{ .target = player });
+        camera.set(&components.ParticleRenderer{
+            .position_offset = .{ .x = 0, .y = 0 },
+            .worldspace = true,
+            .active = true,
+            .lifetime = 2.5,
+            .rate = 5,
+            .start_color = zia.math.Color.white,
+            .end_color = zia.math.Color.fromBytes(255, 255, 255, 128),
+            .particles = std.testing.allocator.alloc(components.Particle, 1000) catch unreachable,
+            .animation = &animations.Drop_Layer_0,
+            .callback = components.ParticleRenderer.rainCallback,
+        });
     }
 
     world.setSingleton(&components.Time{});
+    world.setSingleton(&components.Environment{ .weather = components.Weather.sunny() });
     world.setSingleton(&components.DirectionalInput{});
     world.setSingleton(&components.MousePosition{});
     world.setSingleton(&components.MouseTile{}); //mouse input tile

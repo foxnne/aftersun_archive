@@ -6,7 +6,6 @@ const components = game.components;
 
 pub const Callback = struct {
     camera: *const components.Camera,
-    environment: *const components.Environment,
 
     pub const name = "RenderEndSystem";
     pub const run = progress;
@@ -16,6 +15,8 @@ fn progress(it: *flecs.Iterator(Callback)) void {
     while (it.next()) |comps| {
         zia.gfx.endPass();
 
+        const ambient_color = if (it.world().getSingleton(components.Environment)) |environment| environment.ambient_color else zia.math.Color.white;
+
         game.environment_shader.frag_uniform.tex_width = comps.camera.size.x;
         game.environment_shader.frag_uniform.tex_height = comps.camera.size.y;
 
@@ -24,7 +25,7 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         zia.gfx.draw.bindTexture(comps.camera.pass_0.color_texture2.?, 1);
         zia.gfx.draw.bindTexture(comps.camera.pass_2.color_texture, 2);
         zia.gfx.draw.bindTexture(comps.camera.pass_1.color_texture, 3);
-        zia.gfx.draw.texture(comps.camera.pass_0.color_texture, .{}, .{ .color = comps.environment.ambient_color });
+        zia.gfx.draw.texture(comps.camera.pass_0.color_texture, .{}, .{ .color = ambient_color });
         zia.gfx.endPass();
         zia.gfx.draw.unbindTexture(1);
         zia.gfx.draw.unbindTexture(2);
