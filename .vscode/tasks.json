@@ -107,7 +107,7 @@
         {
             "label": "Build and Run Project (release-fast)",
             "type": "shell",
-            "command": "zig build run -Drelease-fast",
+            "command": "zig build run -Drelease-fast -Denable_imgui=true",
             "problemMatcher": [
                 "$gcc"
             ],

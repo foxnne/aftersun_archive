@@ -43,7 +43,7 @@ pub const shaders = @import("shaders.zig");
 // manual
 pub const animations = @import("animations.zig");
 pub const components = @import("ecs/components/components.zig");
-pub const relations = @import("ecs/relations/relations.zig");
+pub const prefabs = @import("ecs/prefabs/prefabs.zig");
 
 // shaders and textures
 pub var palette: zia.gfx.Texture = undefined;
@@ -151,7 +151,7 @@ fn init() !void {
         components.Visible,
     });
 
-    relations.init(world);
+    prefabs.init(world);
 
     // time
     world.system(@import("ecs/systems/time.zig").Callback, .on_update);
@@ -358,32 +358,32 @@ fn init() !void {
     }
 
     var campfire = world.newEntity();
-    campfire.isA(relations.campfire);
+    campfire.isA(prefabs.campfire);
     campfire.set(&components.Tile{ .x = 0, .y = 1 });
     campfire.set(&components.PreviousTile{ .x = 0, .y = 1 });
     campfire.set(&components.Position{ .x = 0, .y = 1 * ppu });
 
     var torch = world.newEntity();
-    torch.isA(relations.torch);
+    torch.isA(prefabs.torch);
     torch.set(&components.Tile{ .x = 0, .y = 4 });
     torch.set(&components.PreviousTile{ .x = 0, .y = 4 });
     torch.set(&components.Position{ .x = 0, .y = 4 * ppu });
 
     var ham = world.newEntity();
-    ham.isA(relations.ham);
+    ham.isA(prefabs.ham);
     ham.set(&components.Tile{ .x = 1, .y = 4 });
     ham.set(&components.PreviousTile{ .x = 1, .y = 4 });
     ham.set(&components.Position{ .x = 1 * ppu, .y = 4 * ppu });
 
     var ham2 = world.newEntity();
-    ham2.isA(relations.ham);
+    ham2.isA(prefabs.ham);
     ham2.set(&components.Tile{ .x = 2, .y = 4 });
     ham2.set(&components.PreviousTile{ .x = 2, .y = 4 });
     ham2.set(&components.Position{ .x = 2 * ppu, .y = 4 * ppu });
     ham2.set(&components.Count{ .value = 3 });
 
     var vial = world.newEntity();
-    vial.isA(relations.vial);
+    vial.isA(prefabs.vial);
     vial.set(&components.Tile{ .x = 1, .y = 5 });
     vial.set(&components.PreviousTile{ .x = 1, .y = 5 });
     vial.set(&components.Position{ .x = 1 * ppu, .y = 5 * ppu });

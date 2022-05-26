@@ -306,11 +306,10 @@ vec4 effect(sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 @fs tiltshift_fs
 @include_block sprite_fs_main
 
-
+//uniform sampler2D height_tex;
 uniform TiltshiftParams {
 	float blur_amount;
 };
-
 
 vec4 effect (sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const float bluramount  = blur_amount;
@@ -321,39 +320,41 @@ vec4 effect (sampler2D tex, vec2 tex_coord, vec4 vert_color) {
 	const float minOffs     = (float(steps-1.0)) / -2.0;
 	const float maxOffs     = (float(steps-1.0)) / +2.0;
 
-	float amount;
-    vec4 blurred;
+	// ivec2 tex_size = textureSize(height_tex, 0);
+	// float tex_y = float(tex_size.y);
+
+	// vec4 height_sample = texture(height_tex, tex_coord);
+	// float height = height_sample.r + (height_sample.b * 255);
+	// float y = ((tex_coord.y * tex_y) - height) / tex_y;
         
-        //Work out how much to blur based on the mid point 
-    amount = pow((tex_coord.y * center) * 2.0 - 1.0, 2.0) * bluramount;
+    // Work out how much to blur based on the mid point 
+    float amount = pow((tex_coord.y * center) * 2.0 - 1.0, 2.0) * bluramount;
         
-        //This is the accumulation of color from the surrounding pixels in the texture
-    blurred = vec4(0.0, 0.0, 0.0, 1.0);
+    // This is the accumulation of color from the surrounding pixels in the texture
+    vec4 blurred = vec4(0.0, 0.0, 0.0, 1.0);
         
-        //From minimum offset to maximum offset
+    // From minimum offset to maximum offset
     for (float offsX = minOffs; offsX <= maxOffs; ++offsX) {
         for (float offsY = minOffs; offsY <= maxOffs; ++offsY) {
 
-                //copy the coord so we can mess with it
+            // copy the coord so we can mess with it
             vec2 temp_tcoord = tex_coord.xy;
 
-                //work out which uv we want to sample now
+            // work out which uv we want to sample now
             temp_tcoord.x += offsX * amount * stepSize;
             temp_tcoord.y += offsY * amount * stepSize;
 
-                //accumulate the sample 
+            // accumulate the sample 
             blurred += texture(tex, temp_tcoord);
         
-        } //for y
-    } //for x 
+        } // for y
+    } // for x 
         
-        //because we are doing an average, we divide by the amount (x AND y, hence steps * steps)
+    // because we are doing an average, we divide by the amount (x AND y, hence steps * steps)
     return blurred /= float(steps * steps);
       
 }
-
 @end
-
 @program tiltshift sprite_vs tiltshift_fs
 
 

@@ -41,10 +41,12 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         zia.gfx.draw.unbindTexture(1);
 
         game.tiltshift_shader.frag_uniform.blur_amount = 1;
-
+        
         zia.gfx.beginPass(.{ .pass = comps.camera.pass_1, .shader = &game.tiltshift_shader.shader });
+        //zia.gfx.draw.bindTexture(comps.camera.pass_0.color_texture2.?, 1);
         zia.gfx.draw.texture(comps.camera.pass_4.color_texture, .{}, .{});
         zia.gfx.endPass();
+        //zia.gfx.draw.unbindTexture(1);
 
         if (game.gizmos.enabled) {
             zia.gfx.beginPass(.{ .color = zia.math.Color.transparent, .pass = comps.camera.pass_2, .trans_mat = comps.camera.transform });

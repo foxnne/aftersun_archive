@@ -19,12 +19,6 @@ fn progress(it: *flecs.Iterator(Callback)) void {
         // end pass_0, begin the next pass
         zia.gfx.endPass();
 
-        // unbind the heightmap and palette
-        //zia.gfx.draw.unbindTexture(1);
-        //zia.gfx.draw.unbindTexture(2);
-
-        //zia.gfx.draw.bindTexture(game.palette, 1);
-
         // render the reversed heightmap order
         zia.gfx.beginPass(.{ .color = zia.math.Color.black, .pass = comps.camera.pass_2, .trans_mat = comps.camera.transform, .shader = &game.height_shader });
     }
