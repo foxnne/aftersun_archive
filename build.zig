@@ -60,7 +60,7 @@ fn createExe(b: *Builder, target: std.zig.CrossTarget, name: []const u8, source:
 
     const aftersun_package = std.build.Pkg {
         .name = "game",
-        .path = .{ .path = "src/aftersun.zig"},
+        .source = .{ .path = "src/aftersun.zig"},
     };
 
     exe.install();
